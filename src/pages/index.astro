@@ -1,11 +1,11 @@
 ---
+import MapLink from '../components/MapLink.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CompanyCard from '../components/CompanyCard.astro';
 import {companies} from '../data/companies';
 import {projects, featuredProjectIds} from '../data/projects';
 import {news} from '../data/news';
 import {arenaPhotos} from '../data/arena';
-import MapLink from '../components/MapLink.astro';
 const featuredProjects = featuredProjectIds.flatMap(id => {
   const project = projects.find(item => item.id === id);
   return project ? [project] : [];

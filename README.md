@@ -45,11 +45,11 @@ Engångsinställning innan första publiceringen:
 - `/verksamheter/` och `/verksamheter/[slug]/` – Dynamiskt genererade verksamhetssidor
 - `/projekt/` – Dokumenterade anläggningar, inklusive Huvudstadens arena
 - `/arena/` – Huvudstadens arena med tre bilder: exteriör, läktare och interiör
-- `/karta/` – BlueMap-inbäddning och länk till den separata 3D-serverkartan
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Satiriska exempelannonser, inte faktiska lediga jobb
 - `/nyheter/` – Konceptartiklar med undersidor
 - `/kontakt/` – Kontakt och lokalisering
+- `/karta/` – BlueMap-inbäddning och länk till den separata 3D-serverkartan
 
 ### Redigera innehåll
 
@@ -61,19 +61,6 @@ Engångsinställning innan första publiceringen:
 - `public/logos/` – Enkla digitala WE-emblem som SVG
 - `public/images/` – Optimerade WebP-versioner av bilderna från Minecraft
 - `sitemap-index.xml` + `robots.txt` – Genereras automatiskt vid build via `@astrojs/sitemap`
-
-### BlueMap
-
-3D-kartan finns på [karta.weab.nu](https://karta.weab.nu/) och visas som
-lazy-loadad iframe på `/karta/`. Externa länkar finns i navigationen, foten,
-på startsidan, projektsidan, arenan, kontaktsidan och verksamhetssidorna.
-Besökaren kan alltid öppna kartan direkt om webbläsaren eller BlueMaps
-säkerhetsinställningar blockerar inbäddningen.
-
-Länkarna öppnar kartans startsida: det används **inga spekulativa**
-koordinatankare eller hårdkodade kart-ID:n, eftersom sådana URL:er måste
-verifieras mot den aktuella BlueMap-installationen. Webbplatsen är helt statisk
-och fungerar även om den externa kartservern är otillgänglig.
 
 ### Pixelart-logotyper (endast kod)
 
@@ -107,6 +94,19 @@ npm run build
 ```
 
 Valideringen kontrollerar unika identifierare, korrekta verksamhetsreferenser och att alla refererade lokala bild- och logotypfiler finns. PR:er kör samma kontroller automatiskt. Innehållslistor och accentfärger ska härledas från `src/data/` i stället för att kopieras mellan sidor. Dekorativa element ska inte efterlikna länkar eller påhittade datapunkter.
+
+### BlueMap
+
+3D-kartan finns på [karta.weab.nu](https://karta.weab.nu/) och visas som
+lazy-loadad iframe på `/karta/`. Externa länkar finns i navigationen, foten,
+på startsidan, projektsidan, arenan, kontaktsidan och verksamhetssidorna.
+Besökaren kan alltid öppna kartan direkt om webbläsaren eller BlueMaps
+säkerhetsinställningar blockerar inbäddningen.
+
+Länkarna öppnar kartans startsida: det används **inga spekulativa**
+koordinatankare eller hårdkodade kart-ID:n, eftersom sådana URL:er måste
+verifieras mot den aktuella BlueMap-installationen. Webbplatsen är helt statisk
+och fungerar även om den externa kartservern är otillgänglig.
 
 ## Licens
 

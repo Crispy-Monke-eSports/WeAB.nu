@@ -1,8 +1,8 @@
 ---
+import MapLink from '../../components/MapLink.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import {companies} from '../../data/companies';
 import {projects} from '../../data/projects';
-import MapLink from '../../components/MapLink.astro';
 export function getStaticPaths(){return companies.map(company=>({params:{slug:company.slug},props:{company}}));}
 const {company}=Astro.props;
 const relatedProjects = projects.filter(project => project.division === company.name);

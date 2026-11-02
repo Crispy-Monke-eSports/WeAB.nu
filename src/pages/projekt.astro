@@ -1,8 +1,8 @@
 ---
+import MapLink from '../components/MapLink.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {projects} from '../data/projects';
 import {companies} from '../data/companies';
-import MapLink from '../components/MapLink.astro';
 const companySlugByName = Object.fromEntries(companies.map(company => [company.name, company.slug]));
 ---
 <BaseLayout title="Projekt & anläggningar | WeAB Group" description="Dokumenterade byggnader, farmer och transportsystem från WeAB:s Minecraft-verksamhet.">
