@@ -45,6 +45,8 @@ for (const photo of arenaPhotos) {
 
 const divisions = new Set(['WeAB', ...companies.map(({ name }) => name)]);
 for (const company of companies) {
+  assert.ok(company.name.startsWith('We') && company.name.length > 2,
+    `Verksamhetsnamn måste kunna kombineras med WE-logotypen: ${company.name}`);
   asset(`/logos/${company.slug}.svg`, company.name);
   if (company.image) {
     assert.ok(company.imageAlt?.trim(), `Bildtext saknas för ${company.name}`);
@@ -56,6 +58,8 @@ for (const company of companies) {
   }
 }
 asset('/logos/weab.svg', 'WeAB');
+assert.ok(existsSync(join('src', 'assets', 'we-logo.svg')),
+  'Den officiella WE-SVG-förlagan saknas');
 
 for (const project of projects) {
   assert.ok(divisions.has(project.division), `Okänd verksamhet i projekt ${project.id}`);

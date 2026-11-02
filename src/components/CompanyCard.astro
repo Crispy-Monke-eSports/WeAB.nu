@@ -1,16 +1,16 @@
 ---
 import type { Company } from '../data/companies';
+import BrandMark from './BrandMark.astro';
 
 interface Props { company: Company; }
 const { company } = Astro.props;
 ---
 <a class="company-card" href={`/verksamheter/${company.slug}/`} style={`--company-color:${company.accent}`}>
   <span class="company-card__top">
-    <img class="company-card__logo" src={`/logos/${company.slug}.svg`} alt="" aria-hidden="true" width="174" height="97" />
+    <BrandMark slug={company.slug} name={company.name} size="card" />
     <span class="company-card__status">{company.status}</span>
   </span>
   <span class="company-card__kicker">{company.kicker}</span>
-  <strong>{company.name}</strong>
   <span class="company-card__overview">{company.overview}</span>
   <span class="company-card__bottom">Öppna verksamhetsbladet <span aria-hidden="true">↗</span></span>
 </a>
@@ -18,10 +18,10 @@ const { company } = Astro.props;
   .company-card{display:flex;flex-direction:column;background:#15222c;border:1px solid #30414b;border-left:4px solid var(--company-color);padding:1.5rem;color:#f5f8f9;text-decoration:none;min-height:295px;transition:border-color .18s,background .18s}
   .company-card:hover,.company-card:focus-visible{background:#1b2c36;border-color:var(--company-color)}
   .company-card__top{display:flex;justify-content:space-between;align-items:start;gap:1rem}
-  .company-card__logo{height:auto;width:4.9rem;aspect-ratio:174/97;object-fit:contain;image-rendering:pixelated}
+  
   .company-card__status{color:#afc2cc;font-size:.68rem;text-align:right;max-width:10rem}
   .company-card__kicker{color:#a2b6c0;letter-spacing:.12em;font-weight:700;font-size:.64rem;margin-top:1.55rem}
-  .company-card strong{font-size:1.45rem;letter-spacing:-.045em;margin-top:.3rem}
+  
   .company-card__overview{font-size:.86rem;line-height:1.55;color:#bdcbd3;margin:.75rem 0 1.2rem}
   .company-card__bottom{border-top:1px solid #31414b;padding-top:.85rem;margin-top:auto;color:#8edce7;font-size:.78rem;font-weight:700;display:flex;justify-content:space-between}
 </style>
