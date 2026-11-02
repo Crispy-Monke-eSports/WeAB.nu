@@ -1,16 +1,17 @@
 ---
 import Logo from './Logo.astro';
+const currentSection = Astro.url.pathname.split('/')[1];
 const links=[{href:'/koncernen/',label:'Koncernen'},{href:'/verksamheter/',label:'Verksamheter'},{href:'/projekt/',label:'Projekt'},{href:'/nyheter/',label:'Nyheter'},{href:'/investerare/',label:'Investerare'},{href:'/karriar/',label:'Karriär'}];
 ---
 <header class="site-header">
   <div class="shell topbar">
     <Logo />
     <nav class="desktop-links" aria-label="Huvudmeny">
-      {links.map(item=><a href={item.href}>{item.label}</a>)}
+      {links.map(item=><a href={item.href} class:list={{ active: currentSection === item.href.split('/')[1] }} aria-current={Astro.url.pathname === item.href ? 'page' : undefined}>{item.label}</a>)}
     </nav>
     <a href="/kontakt/" class="nav-contact">Kontakt <span aria-hidden="true">↗</span></a>
     <details class="mobile-menu">
-      <summary aria-label="Öppna meny"><span></span><span></span><span></span></summary>
+      <summary><span class="sr-only">Meny</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></summary>
       <nav aria-label="Mobilmeny">{links.map(item=><a href={item.href}>{item.label}</a>)}<a href="/kontakt/">Kontakt</a></nav>
     </details>
   </div>
@@ -19,7 +20,7 @@ const links=[{href:'/koncernen/',label:'Koncernen'},{href:'/verksamheter/',label
   .site-header{position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(208,237,243,.12);background:rgba(10,18,24,.90);backdrop-filter:blur(20px)}
   .topbar{display:flex;align-items:center;gap:1.8rem;min-height:77px}
   .desktop-links{display:flex;align-items:center;gap:1.45rem;margin-left:auto}
-  .desktop-links a{font-size:.86rem;color:#b1bec8;text-decoration:none;transition:color .2s}.desktop-links a:hover,.desktop-links a:focus{color:white}
+  .desktop-links a{font-size:.86rem;color:#b1bec8;text-decoration:none;transition:color .2s}.desktop-links a:hover,.desktop-links a:focus-visible,.desktop-links a.active{color:white}
   .nav-contact{white-space:nowrap;color:#06181e;background:var(--cyan);font-weight:800;font-size:.8rem;padding:.79rem 1.05rem;text-decoration:none;border-radius:.18rem}
   .mobile-menu{display:none;position:relative;margin-left:auto}
   .mobile-menu summary{cursor:pointer;list-style:none;width:38px;display:grid;gap:5px;padding:10px 6px}.mobile-menu summary::-webkit-details-marker{display:none}

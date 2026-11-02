@@ -19,3 +19,5 @@ export const projects: Project[] = [
   {id:'welivelaughlove-compound',name:'Samhällsharmoniskt boendedistrikt',division:'WeLiveLaughLove',category:'Boende',description:'En trygg och välavgränsad tillvaro. Rörelsefriheten är lika stor för alla: tillräcklig.',image:'/images/welivelaughlove-compound.webp',alt:'Inhägnat villager-område med WE-skylt',stage:'Aktiv'},
   {id:'welivelaughlove-village',name:'Stabiliserat bostadsområde',division:'WeLiveLaughLove',category:'Samhällsservice',description:'Invånarna har återfunnit lugnet. Alternativa tolkningar av ordet lugn undanbedes.',image:'/images/welivelaughlove-village.webp',alt:'Minecraft-by med villagers och järngolem',stage:'Aktiv'}
 ];
+
+export const featuredProjectIds = ['wegamble-island', 'wekill-hq', 'welivelaughlove-compound'] as const;

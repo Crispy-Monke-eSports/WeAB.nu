@@ -1,20 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { jobs } from '../data/jobs';
+import { companies } from '../data/companies';
 
-const divisions = ['WeAB', 'WeKill', 'WeSort', 'WeBox', 'WeLiveLaughLove', 'WeTravel', 'WeGamble'];
-const divisionColors: Record<string, string> = {
-  WeAB: '#00BCD4', WeKill: '#C62828', WeSort: '#E66A00', WeBox: '#8E44AD',
-  WeLiveLaughLove: '#79A83B', WeTravel: '#2563EB', WeGamble: '#D4A017'
-};
+// The company registry is the source of truth for names and brand colours.
+const divisions = [{ name: 'WeAB', accent: '#00BCD4' }, ...companies.map(({ name, accent }) => ({ name, accent }))];
+const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [name, accent]));
 ---
-<BaseLayout title="Karriär hos WeAB | Din framtid är vår tillgång" description="Sök en karriär i WeAB-koncernen. Diamanter, tillväxt och obegränsade förväntningar.">
+<BaseLayout title="Karriär hos WeAB | Din framtid är vår tillgång" description="Fiktiva, satiriska platsannonser från WeAB:s Minecraft-koncern.">
   <section class="careers-hero">
     <div class="shell careers-intro">
       <div class="eyebrow">WEAB HUMAN CAPITAL</div>
       <h1>Din framtid.<br/><em>Vår tillgång.</em></h1>
       <p class="lead">Det finns jobb. Det finns karriärer. Och så finns möjligheten att ägna hela ditt yrkesliv åt att göra vår aktiekurs lycklig.</p>
-      <a class="btn" href="#lediga-tjanster">Se lediga tjänster <span aria-hidden="true">↓</span></a>
+      <a class="btn" href="#lediga-tjanster">Se exempelannonserna <span aria-hidden="true">↓</span></a>
     </div>
   </section>
 
@@ -35,17 +34,18 @@ const divisionColors: Record<string, string> = {
   <section class="section section--dark" id="lediga-tjanster">
     <div class="shell">
       <div class="section-heading vacancies-heading">
-        <div><div class="eyebrow">KONCERNENS MEST EFTERTRAKTADE RESURS</div><h2>Du.</h2></div>
+        <div><div class="eyebrow">FIKTIVA PLATSANNONSER</div><h2>Du. På pappret.</h2></div>
         <p>Vi söker initiativrika personer med lagom mycket självständighet. Övriga egenskaper kan justeras under introduktionen.</p>
       </div>
-      <div class="job-tools" role="search" aria-label="Filtrera lediga tjänster">
+      <p class="jobs-disclaimer"><strong>Påhittade tjänster:</strong> Annonserna är en del av Minecraft-satiren, inte verkliga lediga jobb. Inga ansökningar tas emot via sidan.</p>
+      <div class="job-tools" role="search" aria-label="Filtrera exempelannonser">
         <label class="job-field" for="job-search"><span>SÖK TJÄNST</span><input id="job-search" type="search" placeholder="Titel, kompetens eller ort" autocomplete="off" /></label>
-        <label class="job-field" for="job-division"><span>AFFÄRSOMRÅDE</span><select id="job-division"><option value="all">Alla verksamheter</option>{divisions.map(division => <option value={division}>{division}</option>)}</select></label>
-        <output id="job-count" class="job-count" aria-live="polite">{jobs.length} tjänster</output>
+        <label class="job-field" for="job-division"><span>AFFÄRSOMRÅDE</span><select id="job-division"><option value="all">Alla verksamheter</option>{divisions.map(division => <option value={division.name}>{division.name}</option>)}</select></label>
+        <output id="job-count" class="job-count" aria-live="polite">{jobs.length} exempelannonser</output>
       </div>
       <div class="job-list" id="job-list">
         {jobs.map(job => (
-          <details class="job" data-division={job.division} data-search={[job.title, job.division, job.location, job.pitch, ...job.responsibilities, ...job.requirements].join(' ').toLocaleLowerCase('sv')} style={'--division-color:' + divisionColors[job.division]}>
+          <details class="job" data-division={job.division} data-search={[job.title, job.division, job.location, job.pitch, ...job.responsibilities, ...job.requirements].join(' ').toLocaleLowerCase('sv')} style={'--division-color:' + (colorByDivision[job.division] ?? '#00BCD4')}>
             <summary>
               <span class="job-main"><span class="job-division">{job.division} <span aria-hidden="true">/</span> {job.id}</span><span class="job-title">{job.title}</span><span class="job-pitch">{job.pitch}</span></span>
               <span class="job-side"><span>{job.location}</span><span>{job.type}</span><strong>Visa tjänst <span class="toggle-mark" aria-hidden="true"></span></strong></span>
@@ -53,7 +53,7 @@ const divisionColors: Record<string, string> = {
             <div class="job-detail">
               <div><h3>Din arbetsdag</h3><ul>{job.responsibilities.map(item => <li>{item}</li>)}</ul></div>
               <div><h3>Våra anspråkslösa krav</h3><ul>{job.requirements.map(item => <li>{item}</li>)}</ul></div>
-              <div class="job-terms"><div><span>ERSÄTTNING</span><p>{job.compensation}</p></div><div><span>PERSONALFÖRMÅN</span><p>{job.perk}</p></div><a class="btn btn-sm" href="/kontakt/">Anmäl ditt intresse <span aria-hidden="true">↗</span></a></div>
+              <div class="job-terms"><div><span>ERSÄTTNING</span><p>{job.compensation}</p></div><div><span>PERSONALFÖRMÅN</span><p>{job.perk}</p></div><a class="btn btn-sm" href="#rekrytering">Se den fiktiva processen <span aria-hidden="true">↓</span></a></div>
             </div>
           </details>
         ))}
@@ -62,7 +62,7 @@ const divisionColors: Record<string, string> = {
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="rekrytering">
     <div class="shell recruitment">
       <div><div class="eyebrow">REKRYTERINGSPROCESSEN</div><h2>Tre enkla steg.<br/>Ett livslångt åtagande.</h2><p>Vi har effektiviserat rekryteringen så att du kan fokusera mindre på val och mer på resultat.</p></div>
       <ol class="recruitment-steps">
@@ -72,7 +72,7 @@ const divisionColors: Record<string, string> = {
       </ol>
     </div>
   </section>
-  <section class="careers-closing"><div class="shell"><div class="eyebrow">WEAB · PERSONALAVDELNINGEN</div><h2>Vi ser fram emot<br/>att äga din potential.</h2><a class="btn btn-outline" href="/kontakt/">Kontakta HR <span aria-hidden="true">↗</span></a></div></section>
+  <section class="careers-closing"><div class="shell"><div class="eyebrow">WEAB · PERSONALAVDELNINGEN</div><h2>Vi ser fram emot<br/>att äga din potential.</h2><a class="btn btn-outline" href="/kontakt/">Koncernens kontaktpolicy <span aria-hidden="true">↗</span></a></div></section>
 </BaseLayout>
 <script>
   const search = document.querySelector<HTMLInputElement>('#job-search');
@@ -91,7 +91,7 @@ const divisionColors: Record<string, string> = {
       listing.hidden = !matches;
       if (matches) visible++;
     }
-    if (count) count.textContent = visible + ' ' + (visible === 1 ? 'tjänst' : 'tjänster');
+    if (count) count.textContent = visible + ' ' + (visible === 1 ? 'exempelannons' : 'exempelannonser');
     if (empty) empty.hidden = visible !== 0;
   }
 
@@ -102,7 +102,7 @@ const divisionColors: Record<string, string> = {
   .careers-hero{min-height:620px;display:flex;align-items:center;background:linear-gradient(90deg,#08141bf5 0%,#08141bd9 42%,#08141b59 100%),url('/images/wesort-interior.webp') center/cover;border-bottom:1px solid #2b3e48}
   .careers-intro{padding:6.5rem 0}.careers-hero h1{margin:0;max-width:980px}.careers-hero h1 em{font-style:normal;color:#70dbeb}.careers-hero p{max-width:650px;margin:1.6rem 0 2rem}
   .benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.benefits article{border:1px solid #334851;padding:1.6rem;background:#182832}.benefits article>span,.job-field>span,.job-terms span{font-size:.62rem;font-weight:800;letter-spacing:.15em;color:#89a8b6}.benefits h3{margin:1.1rem 0 .65rem}.benefits p{font-size:.86rem;margin:0}
-  .vacancies-heading{align-items:end}.job-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.6fr) auto;align-items:end;gap:1rem;padding:1.4rem;background:#172832;border:1px solid #344651;margin:2rem 0 1.2rem}.job-field{display:grid;gap:.55rem}.job-field input,.job-field select{background:#0b1720;border:1px solid #425662;color:var(--text);font:inherit;font-size:.92rem;min-height:48px;padding:.8rem .9rem;width:100%;border-radius:0}.job-field input:focus-visible,.job-field select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.job-count{white-space:nowrap;font-size:.8rem;color:#c4d6dd;padding:0 .2rem .95rem}
+  .jobs-disclaimer{border-left:3px solid var(--cyan);padding:.8rem 1.2rem;margin:0 0 1.5rem;background:#11212b;color:#c4d3db;font-size:.9rem}.jobs-disclaimer strong{color:#fff}.vacancies-heading{align-items:end}.job-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.6fr) auto;align-items:end;gap:1rem;padding:1.4rem;background:#172832;border:1px solid #344651;margin:2rem 0 1.2rem}.job-field{display:grid;gap:.55rem}.job-field input,.job-field select{background:#0b1720;border:1px solid #425662;color:var(--text);font:inherit;font-size:.92rem;min-height:48px;padding:.8rem .9rem;width:100%;border-radius:0}.job-field input:focus-visible,.job-field select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.job-count{white-space:nowrap;font-size:.8rem;color:#c4d6dd;padding:0 .2rem .95rem}
   .job-list{border-top:1px solid #35454f}.job{border-bottom:1px solid #35454f;border-left:3px solid var(--division-color);background:#10202a}.job[hidden],.no-results[hidden]{display:none}.job[open]{background:#152832}.job summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:2rem;padding:1.8rem 1.6rem;align-items:center}.job summary::-webkit-details-marker{display:none}.job summary:hover{background:#ffffff06}.job summary:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}.job-main{display:grid;gap:.6rem;min-width:0}.job-division{font-size:.65rem;text-transform:uppercase;color:var(--division-color);font-weight:850;letter-spacing:.15em}.job-division span{color:#92a6b1;margin:0 .35rem}.job-title{font-size:clamp(1.15rem,2.3vw,1.65rem);font-weight:800;letter-spacing:-.035em}.job-pitch{font-size:.89rem;color:#aabcc6;line-height:1.5;max-width:740px}.job-side{flex:none;display:grid;justify-items:end;gap:.35rem;font-size:.75rem;color:#95abb6}.job-side strong{color:#85dfeb;margin-top:.55rem;white-space:nowrap}.toggle-mark::after{content:'+';display:inline-block;font-size:1.15rem;margin-left:.45rem;vertical-align:middle}.job[open] .toggle-mark::after{content:'−'}
   .job-detail{display:grid;grid-template-columns:1fr 1fr;gap:2rem;padding:1.7rem 1.7rem 2rem;border-top:1px solid #304651}.job-detail h3{font-size:1rem;color:#f0f7fa;margin:0 0 .8rem}.job-detail ul{margin:0;padding-left:1.15rem;color:#afc0c9;font-size:.85rem;line-height:1.75}.job-detail li+li{margin-top:.35rem}.job-terms{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr auto;align-items:center;gap:1.3rem;border-top:1px solid #334752;padding-top:1.5rem}.job-terms p{font-size:.83rem;margin:.4rem 0 0}.job-terms .btn{white-space:nowrap}.no-results{padding:2rem 1.2rem;border:1px solid #38505c}
   .recruitment{display:grid;grid-template-columns:.85fr 1.15fr;gap:4rem}.recruitment>div>p{max-width:480px}.recruitment-steps{margin:0;padding:0;list-style:none}.recruitment-steps li{border-top:1px solid #354650;display:flex;gap:1.2rem;padding:1.45rem 0}.recruitment-steps li:last-child{border-bottom:1px solid #354650}.recruitment-steps li>span{color:var(--cyan);font-size:.78rem;font-weight:800;padding-top:.15rem}.recruitment-steps h3{font-size:1.1rem;margin:0 0 .45rem}.recruitment-steps p{font-size:.87rem;margin:0}.careers-closing{padding:5.7rem 0;background:radial-gradient(circle at 86% 10%,#174756,#0c1a23 62%);border-top:1px solid #35505b}.careers-closing h2{max-width:840px}.careers-closing .btn{margin-top:1rem}
