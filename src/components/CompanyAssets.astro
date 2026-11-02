@@ -18,14 +18,14 @@ const projectById = new Map(projects.map(project => [project.id, project]));
       <p class="lead">{editorial.introduction}</p>
     </div>
     {editorial.connections && <div class="company-connections">
-      <div class="company-connections__intro"><h3>{editorial.connections.heading}</h3><p>{editorial.connections.introduction}</p></div>
+      <div class="company-connections__intro"><h3>{editorial.connections.heading}</h3></div>
       <ol>{editorial.connections.steps.map(step => <li>
-        <a href={step.href}><strong>{step.name} <span aria-hidden="true">↗</span></strong><span>{step.description}</span></a>
+        <a href={step.href}><strong>{step.name} <span aria-hidden="true">↗</span></strong></a>
       </li>)}</ol>
     </div>}
     <div class="company-groups">
       {editorial.groups.map((group, groupIndex) => <div class="company-group">
-        <div class="company-group__heading"><h3>{group.title}</h3><p>{group.description}</p></div>
+        <div class="company-group__heading"><h3>{group.title}</h3></div>
         <div class="company-project-grid">
           {group.ids.map((id, projectIndex) => {
             const project = projectById.get(id);
@@ -56,9 +56,8 @@ const projectById = new Map(projects.map(project => [project.id, project]));
   .company-projects__intro p { margin: 0; }
   .company-groups { display: grid; gap: clamp(3.5rem,6vw,6rem); }
   .company-group { min-width: 0; }
-  .company-group__heading { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; border-top: 1px solid color-mix(in srgb,var(--company-accent) 60%,#52636b); padding-top: 1.3rem; margin-bottom: 1.5rem; }
-  .company-group__heading h3 { font-size: clamp(1.4rem,2.6vw,2.2rem); margin: 0; max-width: 22ch; }
-  .company-group__heading p { margin: 0; max-width: 45ch; font-size: .88rem; }
+  .company-group__heading { border-top: 1px solid color-mix(in srgb,var(--company-accent) 60%,#52636b); padding-top: 1.3rem; margin-bottom: 1.5rem; }
+  .company-group__heading h3 { font-size: clamp(1.4rem,2.6vw,2.2rem); margin: 0; }
   .company-project-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.25rem; }
   .company-asset { min-width: 0; background: #172832; border: 1px solid #324750; scroll-margin-top: 100px; }
   .company-asset--featured { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,.75fr); }
@@ -86,8 +85,6 @@ const projectById = new Map(projects.map(project => [project.id, project]));
     .company-project-grid { grid-template-columns: 1fr; }
     .company-asset--featured { grid-column: auto; display: block; }
     .company-asset--featured .company-asset__image { height: auto; min-height: 0; }
-    .company-group__heading { display: block; }
-    .company-group__heading p { margin-top: .65rem; }
     .company-connections { padding: 1.5rem; }
     .company-connections ol { grid-template-columns: 1fr; }
   }
