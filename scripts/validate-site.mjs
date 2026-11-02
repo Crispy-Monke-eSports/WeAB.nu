@@ -15,7 +15,7 @@ function scan(dir) {
 }
 scan(dist);
 
-const required = ['index.html', 'koncernen/index.html', 'projekt/index.html', 'verksamheter/wegamble/index.html'];
+const required = ['index.html', 'koncernen/index.html', 'projekt/index.html', 'arena/index.html', 'verksamheter/wegamble/index.html'];
 const missing = required.filter(path => !existsSync(join(dist, path)));
 const broken = [];
 

@@ -43,7 +43,8 @@ Engångsinställning innan första publiceringen:
 - `/` – Startsida
 - `/koncernen/` – Om WeAB, ledningsmodell, företagsvärderingar, koncernstruktur
 - `/verksamheter/` och `/verksamheter/[slug]/` – Dynamiskt genererade verksamhetssidor
-- `/projekt/` – Dokumenterade anläggningar
+- `/projekt/` – Dokumenterade anläggningar, inklusive Huvudstadens arena
+- `/arena/` – Huvudstadens arena med tre bilder: exteriör, läktare och interiör
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Satiriska exempelannonser, inte faktiska lediga jobb
 - `/nyheter/` – Konceptartiklar med undersidor
@@ -53,6 +54,7 @@ Engångsinställning innan första publiceringen:
 
 - `src/data/companies.ts` – Företagsbeskrivningar, namn, accentfärger, bilder och status
 - `src/data/projects.ts` – Bilder och bildtexter i projektgalleriet
+- `src/data/arena.ts` – Arenagalleriets tre foton, alt-texter och bildbeskrivningar
 - `src/data/news.ts` – Nyhetsutkast
 - `src/styles/global.css` – Global grafisk profil
 - `public/logos/` – Enkla digitala WE-emblem som SVG
@@ -75,15 +77,11 @@ Kodversionen är därför en ren, frontvänd pixelart-tolkning av samma symbol.
 
 ### Innehåll
 
-WeTrade samlar samtliga enchantments under ett tak. WeLove ansvarar för
-koncernens villager breeding och personalförsörjning. Båda har egna
-verksamhetssidor, kodgenererade WE-logotyper i sina profilfärger och fotografier
-från servern. Sex WebP-bilder för de två bolagen finns i `public/images/` och
-används av verksamhetssidorna, projektgalleriet och nyhetsrummet.
+WeTrade och WeLove har egna verksamhetssidor och sex Minecraft-skärmbilder i WebP-format. Bilderna återfinns i verksamhetsbeskrivningar, nyheter och projektgalleriet.
 
 Webbplatsen är satir, inte en verklig företags- eller rekryteringssida. Platsannonserna är fiktiva exempel och nyhetstexterna påhittade. Den avsiktliga bolagsparodin ska vara tydlig utan att besökaren behöver läsa källkoden.
 
-Kustbygget hör till WeGamble Island. Bybilderna hör till WeLiveLaughLove.
+Kustbygget hör till WeGamble Island. Bybilderna hör till WeLiveLaughLove. Arenabilderna visar Huvudstadens arena, där bybor från olika distrikt tävlar om ära till sin hemby. Tre användarlevererade skärmbilder har konverterats till WebP (1440 × 810) i `public/images/`.
 De finansiella diagrammen är fiktiva och ska inte misstolkas som faktiska
 börskurser.
 

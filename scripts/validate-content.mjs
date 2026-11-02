@@ -5,6 +5,7 @@ import { companies } from '../src/data/companies.ts';
 import { jobs } from '../src/data/jobs.ts';
 import { news } from '../src/data/news.ts';
 import { projects, featuredProjectIds } from '../src/data/projects.ts';
+import { arenaPhotos } from '../src/data/arena.ts';
 
 function unique(values, description) {
   assert.equal(new Set(values).size, values.length, `Dubbletter bland ${description}`);
@@ -20,6 +21,13 @@ unique(companies.map(({ name }) => name), 'verksamhetsnamn');
 unique(projects.map(({ id }) => id), 'projekt-id');
 unique(news.map(({ slug }) => slug), 'nyhetsslugs');
 unique(jobs.map(({ id }) => id), 'annons-id');
+unique(arenaPhotos.map(({ src }) => src), 'arenabilder');
+
+assert.equal(arenaPhotos.length, 3, 'Arenagalleriet ska ha tre bilder');
+for (const photo of arenaPhotos) {
+  assert.ok(photo.alt.trim() && photo.title.trim() && photo.caption.trim(), 'Arena-bilder behöver tillgängliga texter');
+  asset(photo.src, photo.title);
+}
 
 const divisions = new Set(['WeAB', ...companies.map(({ name }) => name)]);
 for (const company of companies) {
