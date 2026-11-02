@@ -1,3 +1,5 @@
+import { arenaPhotos } from './arena.ts';
+
 export interface Project {
   id: string;
   name: string;
@@ -7,8 +9,20 @@ export interface Project {
   image: string;
   alt: string;
   stage: string;
+  detailUrl?: string;
 }
 export const projects: Project[] = [
+  {
+    id: 'huvudstadens-arena',
+    name: 'Huvudstadens arena',
+    division: 'WeAB',
+    category: 'Tävling & samlingsplats',
+    description: 'Här möts bybor från olika distrikt och tävlar om att vinna ära till sin egen by. Den blåvita arenan ligger i huvudstaden.',
+    image: arenaPhotos[0].src,
+    alt: arenaPhotos[0].alt,
+    stage: 'Dokumenterad',
+    detailUrl: '/arena/'
+  },
   {id:'wesort-facility', name:'WeSort-anläggningen',division:'WeSort', category:'Logistik', description:'En byggnad vars fasad utstrålar ordning och vars lager rymmer alldeles för många ambitioner.',image:'/images/wesort-exterior.webp',alt:'WeSort exteriör',stage:'Dokumenterad'},
   {id:'wesort-hall',name:'Sorteringshallen',division:'WeSort',category:'Lager',description:'Långa förvaringsrader och effektivt planerade interna flöden.',image:'/images/wesort-interior.webp',alt:'WeSort interiör',stage:'Dokumenterad'},
   {id:'webox',name:'WeBox-anslutningen',division:'WeBox',category:'Lagersystem',description:'Varje shulkerbox har en plats. Varje plats har en ägare.',image:'/images/webox-terminal.webp',alt:'WeBox terminal',stage:'Dokumenterad'},

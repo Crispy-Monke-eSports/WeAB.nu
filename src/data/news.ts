@@ -1,5 +1,19 @@
+import { arenaPhotos } from './arena.ts';
+
 export interface NewsItem {slug:string;type:string;title:string;summary:string;body:string[];image:string;alt:string;}
 export const news: NewsItem[] = [
+ {
+   slug: 'huvudstadens-arena',
+   type: 'HUVUDSTADEN',
+   title: 'Distrikten möts i Huvudstadens arena',
+   summary: 'Bybor från olika distrikt tävlar om att vinna ära till sin hemby i huvudstadens stora blåvita arena.',
+   body: [
+     'I Huvudstadens arena samlas bybor från distrikten för att representera sina hembyar. Tävlingens mål är enkelt: att vinna ära åt den egna byn. WeAB ser med tillförsikt på varje tillfälle då lojaliteten kan mätas inför publik.',
+     'Anläggningen har stora läktare och belysta passager. Själva äran tillfaller vinnarnas by; den institutionella stoltheten bokförs som vanligt centralt.'
+   ],
+   image: arenaPhotos[0].src,
+   alt: arenaPhotos[0].alt
+ },
  {slug:'webox-lagerkontroll',type:'LOGISTIK',title:'WeBox: 27 platser. Ett godkänt ägarskap.',summary:'Koncernen förstärker sin filosofi om total ordning, även i de minsta lådorna.',body:['Shulkerboxen är ett tekniskt underverk: 27 platser, oändliga möjligheter att arkivera någon annans tillhörigheter. WeBox förvaltar denna potential med den omsorg som endast en centraliserad organisation kan erbjuda.','I samarbete med WeSort säkerställer vi att det som har en etikett också har en ägare. Och att ägaren, när det är lämpligt, heter WeAB.'],image:'/images/webox-terminal.webp',alt:'WeBox-systemets anslutning i Sektion 1'},
  {slug:'wetravel-forbindelser',type:'INFRASTRUKTUR',title:'WeTravel gör fri rörlighet mer lätthanterlig',summary:'Räls och isbåtsleder förenar koncernens tillgångar. Resten kan vänta på anslutning.',body:['Med räls och isbåtsleder knyter WeTravel samman koncernens viktiga områden och anläggningar. Resan är effektiv, förutsägbar och omsorgsfullt anpassad till de destinationer vi anser relevanta.','Vår ambition är att varje invånare ska kunna ta sig dit den behöver. Vilka behov som är godkända beslutas av behörig ledning.'],image:'/images/wetravel-station.webp',alt:'WeTravels station med räls och avgångstavlor'},
 
