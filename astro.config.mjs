@@ -8,5 +8,7 @@ export default defineConfig({
   base: '/',
   output: 'static',
   trailingSlash: 'always',
-  integrations: [sitemap()],
+  integrations: [sitemap({
+    filter: (page) => !/^\/404\/?$/.test(new URL(page).pathname),
+  })],
 });
