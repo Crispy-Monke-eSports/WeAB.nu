@@ -46,7 +46,7 @@ Engångsinställning innan första publiceringen:
 - `/arena/` – Huvudstadens arena med tre bilder och platsmarkeringen Hungerspelsarenan
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Platsannonser inom rollspelet; inga ansökningar via webbplatsen
-- `/nyheter/` – Konceptartiklar med undersidor
+- `/nyheter/` – WeAB Tidningen: pressmeddelanden, insändare, ledare, reportage och andra genrer
 - `/kontakt/` – Kontakt via Minecraft-servern
 
 ### Redigera innehåll
@@ -57,7 +57,9 @@ Engångsinställning innan första publiceringen:
 - `src/data/arena.ts` – Arenagalleriets tre foton och alt-texter
 - `src/assets/we-logo.svg` – Den bifogade officiella WE-logotypen (gemensam för alla bolag)
 - `src/data/locations.ts` – Internt referensmaterial från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-farmer); visas inte på webbplatsen
-- `src/data/news.ts` – Nyhetsutkast
+- `src/data/news.ts` – 16 längre fiktiva pressmeddelanden (nio omskrivna och sju nya)
+- `src/data/editorial.ts` – Tio fiktiva tidningstexter i åtta redaktionella genrer
+- `src/data/publications.ts` – Gemensamt, datumordnat tidningsarkiv med skribent- och formatmetadata
 - `src/styles/global.css` – Global grafisk profil
 - `public/logos/` – Tio SVG-varianter genererade från den officiella WE-logotypen
 - `public/images/` – Optimerade WebP-versioner av bilderna från Minecraft
@@ -116,6 +118,30 @@ npm run build
 CI verifierar att samtliga genererade SVG-filer överensstämmer med
 originalet och de aktuella företagsfärgerna; en manuell redigering av
 en genererad fil ska inte kunna överleva utan att upptäckas.
+
+### WeAB Tidningen
+
+Nyhetsrummet omfattar 26 texter: **16 längre pressmeddelanden** och
+**tio redaktionella texter**. Insändare, ledare, krönikor, reportage,
+intervjuer, ekonomi, kultur och guider har skilda skribenter och former
+men delar en genomgående koncernvänlig världsbild.
+
+Innehållet är **fiktivt rollspelsmaterial från Minecraft-servern**. De nya
+tidningstexternas signaturer är påhittade. Publiceringsdatumen hör till
+den fiktiva tidningens arkiv. Ingen av artiklarna utger sig för att
+dokumentera verkliga händelser utanför den spelvärlden.
+
+Arkivet på `/nyheter/` visar en förstasidesartikel, en egen avdelning
+för insändare, artikelkort och klientbaserad sökning och filtrering efter
+genrer. Artiklarna visar **rubrik först** och därefter kategori, datum och
+skribent. Vi använder inte små etiketter över rubrikerna i tidningens
+sidor. På varje artikelsida ligger `Innehållet är satir.` som liten,
+nedtonad text **allra längst ned**, efter artikel och navigation.
+
+Befintliga artikel-slugs är bevarade. Redigera nyheterna i
+`src/data/news.ts`, nya tidningstexter i `src/data/editorial.ts` och
+formatnamn i `src/data/publications.ts`. CI kontrollerar datumordning,
+unika adresser, artiklarnas längd, genretäckning och bildreferenser.
 
 ### Innehåll
 

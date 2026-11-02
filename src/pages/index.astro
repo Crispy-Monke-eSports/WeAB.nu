@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CompanyCard from '../components/CompanyCard.astro';
 import {companies} from '../data/companies';
 import {projects, featuredProjectIds} from '../data/projects';
-import {news} from '../data/news';
+import { publications, publicationFormatLabels } from '../data/publications.ts';
 import {arenaPhotos} from '../data/arena';
 const featuredProjects = featuredProjectIds.flatMap(id => {
   const project = projects.find(item => item.id === id);
@@ -72,7 +72,7 @@ const companySlugByName = Object.fromEntries(companies.map(company => [company.n
   <section class="values-banner"><div class="shell"><h2>Valfrihet är bra.<br/><em>Samordning är bättre.</em></h2><p>Vissa kallar det monopol. Vi kallar det kundförenkling.</p><a href="/investerare/" class="btn btn-outline">Investerarrelationer ↗</a></div></section>
 
   <section class="section"><div class="shell"><div class="section-heading"><div><h2>Senaste från koncernen</h2></div><a href="/nyheter/" class="link-arrow">Alla nyheter ↗</a></div>
-    <div class="news-grid">{news.slice(0,3).map(article=><a href={`/nyheter/${article.slug}/`} class="news-card"><div class="image-frame"><img src={article.image} alt={article.alt} loading="lazy"/></div><span class="small-caps">{article.type}</span><h3>{article.title}</h3><p>{article.summary}</p><span class="news-more">Läs artikeln ↗</span></a>)}</div>
+    <div class="news-grid">{publications.slice(0,3).map(article=><a href={`/nyheter/${article.slug}/`} class="news-card"><div class="image-frame"><img src={article.image} alt={article.alt} loading="lazy"/></div><h3>{article.title}</h3><span class="small-caps">{publicationFormatLabels[article.format]}</span><p>{article.summary}</p><span class="news-more">Läs artikeln ↗</span></a>)}</div>
   </div></section>
 </BaseLayout>
 <style>
