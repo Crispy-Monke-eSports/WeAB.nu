@@ -103,7 +103,7 @@ export const companies: Company[] = [
     location: 'WeLoves personalanläggning',
     status: 'Kontinuerlig drift',
     services: ['Villager breeding', 'Långsiktig personalplanering', 'Generationsväxling', 'Arbetskraftsproduktion', 'Kapacitetsoptimering', 'Rekrytering från födseln'],
-    facts: [{label: 'Affärsområde', value: 'Personalproduktion'}, {label: 'Leveransmodell', value: 'Kontinuerlig'}, {label: 'Karriärstart', value: 'Så tidigt som möjligt'}]
+    facts: [{label: 'Driftansvarig', value: 'Haapalainen'}, {label: 'Affärsområde', value: 'Personalproduktion'}, {label: 'Leveransmodell', value: 'Kontinuerlig'}, {label: 'Karriärstart', value: 'Så tidigt som möjligt'}]
   }
 
 ];
