@@ -10,12 +10,13 @@ const companySlugByName = Object.fromEntries(companies.map(company => [company.n
   <div class="projects-filter-header"><div class="eyebrow">VÄLJ VERKSAMHET</div><output id="project-count" aria-live="polite">{projects.length} anläggningar</output></div>
   <div class="projects-filters" role="group" aria-label="Filtrera anläggningar">
     <button type="button" data-filter="all" aria-pressed="true">Alla</button>
+    <button type="button" data-filter="WeAB" aria-pressed="false">WeAB</button>
     {companies.map(company => <button type="button" data-filter={company.name} aria-pressed="false">{company.name}</button>)}
   </div>
   <div class="projects-grid">{projects.map(project => <article class="project-card" data-company={project.division} id={project.id}>
     <div class="image-frame"><img src={project.image} alt={project.alt} loading="lazy" /></div>
     <div class="project-inner"><div class="project-label"><span>{project.division} / {project.category}</span><span>{project.stage}</span></div><h2>{project.name}</h2><p>{project.description}</p>
-      {companySlugByName[project.division] && <a class="project-company-link" href={`/verksamheter/${companySlugByName[project.division]}/`}>Utforska {project.division} ↗</a>}
+      {project.detailUrl ? <a class="project-company-link" href={project.detailUrl}>Se arenans bildgalleri ↗</a> : companySlugByName[project.division] && <a class="project-company-link" href={`/verksamheter/${companySlugByName[project.division]}/`}>Utforska {project.division} ↗</a>}
     </div>
   </article>)}</div>
 </div></section>

@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { arenaPhotos } from '../data/arena';
+---
+
+<BaseLayout
+  title="Huvudstadens arena | WeAB Group"
+  description="Upptäck Huvudstadens arena i Minecraft, där bybor från olika distrikt tävlar om att vinna ära till sin by."
+>
+  <section class="arena-hero" aria-labelledby="arena-heading">
+    <img
+      class="arena-hero__image"
+      src={arenaPhotos[0].src}
+      alt={arenaPhotos[0].alt}
+      width="1440"
+      height="810"
+      fetchpriority="high"
+    />
+    <div class="arena-hero__shade" aria-hidden="true"></div>
+    <div class="shell arena-hero__content">
+      <p class="eyebrow">HUVUDSTADEN / ARENAN</p>
+      <h1 id="arena-heading">Äran till byn.<br /><em>Scenen till huvudstaden.</em></h1>
+      <p class="lead">Bybor från koncernens olika distrikt möts för att tävla om ära till sin hemby. När distrikten gör upp finns det bara en sak som är säker: huvudstaden får uppmärksamheten.</p>
+      <a class="btn" href="#bildgalleri">Utforska arenan <span aria-hidden="true">↓</span></a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="arena-about">
+    <div class="shell arena-intro">
+      <div>
+        <p class="eyebrow">DISTRIKTENS MÖTESPLATS</p>
+        <h2 id="arena-about">En arena.<br />Många byar.</h2>
+      </div>
+      <div>
+        <p class="lead">Huvudstadens arena samlar deltagare från distrikten på samma plats. Här representerar byborna sina byar och tävlar om något som inte kan staplas i en kista: ära.</p>
+        <p>Den stora blåvita anläggningen har läktare, belysta passager och en interiör byggd för att göra intryck. Vem som vinner avgörs i tävlingen. Vem som tar åt sig äran i årsredovisningen är redan bestämt.</p>
+        <dl class="arena-facts">
+          <div><dt>Plats</dt><dd>Huvudstaden</dd></div>
+          <div><dt>Deltagare</dt><dd>Bybor från olika distrikt</dd></div>
+          <div><dt>Det står på spel</dt><dd>Äran till den egna byn</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark" id="bildgalleri" aria-labelledby="gallery-heading">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">DOKUMENTERAT I MINECRAFT</p>
+          <h2 id="gallery-heading">Tre perspektiv på arenan.</h2>
+        </div>
+        <p>Från byggnadens yttre silhuett till läktarna och den upplysta interiören.</p>
+      </div>
+      <div class="arena-gallery">
+        {arenaPhotos.map((photo, index) => (
+          <figure class:list={['arena-gallery__item', { 'arena-gallery__item--wide': index === 0 }]}>
+            <img src={photo.src} alt={photo.alt} width="1440" height="810" loading="lazy" decoding="async" />
+            <figcaption><strong>{photo.title}</strong><span>{photo.caption}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="arena-bottom">
+    <div class="shell arena-bottom__inner">
+      <div>
+        <p class="eyebrow">WEAB / HUVUDSTADEN</p>
+        <h2>Ära kan inte köpas.<br />Detta har ännu inte prövats av ekonomiavdelningen.</h2>
+      </div>
+      <a href="/projekt/#huvudstadens-arena" class="btn btn-outline">Arenan i projektregistret <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .arena-hero{position:relative;min-height:clamp(570px,70svh,790px);display:flex;align-items:end;overflow:hidden;background:#101d28}
+  .arena-hero__image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+  .arena-hero__shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,14,22,.94),rgba(4,14,22,.72) 46%,rgba(4,14,22,.18) 100%),linear-gradient(0deg,rgba(4,14,22,.8),transparent 68%)}
+  .arena-hero__content{position:relative;z-index:1;padding-top:8rem;padding-bottom:5rem}
+  .arena-hero h1{max-width:920px;margin:.4rem 0 1.6rem;font-size:clamp(2.8rem,6.4vw,6.2rem)}
+  .arena-hero h1 em{font-style:normal;color:#83e0ed}
+  .arena-hero .lead{max-width:670px;color:#e2edf1;margin:0 0 2rem}
+  .arena-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5rem}
+  .arena-intro h2{max-width:520px}
+  .arena-facts{margin:2rem 0 0;border-top:1px solid #334753}
+  .arena-facts div{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px solid #334753}
+  .arena-facts dt{color:#9fb4bf}
+  .arena-facts dd{margin:0;text-align:right;font-weight:700}
+  #bildgalleri{scroll-margin-top:90px}
+  .arena-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}
+  .arena-gallery__item{margin:0;min-width:0;border-top:2px solid #397584;background:#101e27}
+  .arena-gallery__item--wide{grid-column:1 / -1}
+  .arena-gallery__item img{width:100%;height:clamp(230px,28vw,410px);object-fit:cover}
+  .arena-gallery__item--wide img{height:clamp(290px,45vw,570px)}
+  .arena-gallery__item figcaption{display:grid;gap:.35rem;padding:1.2rem 1.3rem 1.4rem}
+  .arena-gallery__item figcaption strong{font-size:1.05rem}
+  .arena-gallery__item figcaption span{font-size:.85rem;color:#afc4cd;line-height:1.6}
+  .arena-bottom{padding:5rem 0;border-top:1px solid #314b59}
+  .arena-bottom__inner{display:flex;justify-content:space-between;align-items:end;gap:2rem}
+  .arena-bottom h2{font-size:clamp(1.75rem,3vw,2.8rem);max-width:770px;margin:0}
+  .arena-bottom .btn{flex-shrink:0}
+  @media(max-width:800px){.arena-intro{gap:2rem}.arena-bottom__inner{align-items:start;flex-direction:column}}
+  @media(max-width:650px){.arena-hero__content{padding:6rem 0 3.5rem}.arena-hero__shade{background:linear-gradient(90deg,rgba(4,14,22,.88),rgba(4,14,22,.5)),linear-gradient(0deg,#04101c,transparent 75%)}.arena-intro,.arena-gallery{grid-template-columns:1fr}.arena-gallery__item--wide{grid-column:auto}.arena-gallery__item img,.arena-gallery__item--wide img{height:auto;aspect-ratio:16/9}.arena-facts div{align-items:baseline}}
+</style>
