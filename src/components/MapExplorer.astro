@@ -1,0 +1,237 @@
+---
+import { locations, locationGroups } from '../data/locations';
+import { blueMapUrl, explorerUrl } from '../data/bluemap';
+
+const initial = locations.find(place => place.name === 'Huvudstaden') ?? locations[0];
+const dimensionLabels = {
+  overworld: 'Overworld',
+  the_nether: 'Nether',
+  the_end: 'End'
+};
+---
+<section class="explorer" data-explorer aria-label="Utforska serverns platser på BlueMap">
+  <aside class="explorer-sidebar">
+    <div class="explorer-sidebar-header">
+      <div class="eyebrow">DIREKTNAVIGERING</div>
+      <h2>Hitta en plats.</h2>
+      <p>Sök bland {locations.length} waypoint-positioner. Välj en plats så flyttas kartan till dess blockkoordinater.</p>
+    </div>
+    <div class="explorer-search">
+      <label for="map-search">Sök efter plats</label>
+      <input id="map-search" type="search" autocomplete="off" placeholder="Exempel: Järnfarmen" data-search />
+    </div>
+    <div class="explorer-filters">
+      <label for="map-category">Kategori
+        <select id="map-category" data-group>
+          <option value="">Alla kategorier</option>
+          {locationGroups.map(group => <option value={group}>{group}</option>)}
+        </select>
+      </label>
+      <label for="map-world">Dimension
+        <select id="map-world" data-dimension>
+          <option value="">Alla</option>
+          <option value="overworld">Overworld</option>
+          <option value="the_nether">Nether</option>
+          <option value="the_end">End</option>
+        </select>
+      </label>
+    </div>
+    <div class="explorer-list-header"><span>PLATSER</span><output aria-live="polite" data-count>{locations.length} träffar</output></div>
+    <ul class="explorer-places" data-list>
+      {locations.map(place => (
+        <li data-entry data-search-text={`${place.name} ${place.group} ${place.owner ?? ''}`.toLocaleLowerCase('sv')}
+            data-group-name={place.group} data-dimension-name={place.dimension}>
+          <button type="button" class="explorer-place" data-place
+              data-id={place.id} data-name={place.name} data-group={place.group}
+              data-dimension={place.dimension} data-owner={place.owner ?? ''}
+              data-coordinates={`${place.x} ${place.y} ${place.z}`}
+              data-related={place.relatedPage ?? ''}
+              data-perspective-url={blueMapUrl(place, 'perspective')}
+              data-flat-url={blueMapUrl(place, 'flat')}
+              aria-pressed={place.id === initial.id ? 'true' : 'false'}>
+            <span class="place-copy"><strong>{place.name}</strong><small>{place.owner ? `${place.owner} · ` : ''}{place.group} · {dimensionLabels[place.dimension]}</small></span>
+            <span class="place-arrow" aria-hidden="true">↗</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+    <p class="empty-results" data-empty hidden>Inga platser matchar filtren.</p>
+  </aside>
+  <div class="explorer-stage">
+    <div class="explorer-toolbar">
+      <div class="view-modes" role="group" aria-label="Kameravy">
+        <button type="button" data-mode="perspective" aria-pressed="true">3D-perspektiv</button>
+        <button type="button" data-mode="flat" aria-pressed="false">2D ovanifrån</button>
+      </div>
+      <a href={blueMapUrl(initial)} class="full-map" data-open-map target="_blank" rel="noopener noreferrer">
+        Öppna i BlueMap <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <div class="explorer-frame">
+      <iframe data-map-frame
+        src={blueMapUrl(initial)}
+        title="BlueMap med Huvudstaden som startpunkt"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+    </div>
+    <div class="explorer-selection" aria-live="polite" aria-atomic="true">
+      <div class="selection-description">
+        <span class="eyebrow">VALD POSITION</span>
+        <h3 data-selected-name>{initial.name}</h3>
+        <p data-selected-context>{initial.group} · Overworld</p>
+      </div>
+      <div class="selection-details">
+        <span class="coordinate-label">BLOCKKOORDINATER · X / Y / Z</span>
+        <strong data-selected-coordinates>{initial.x} / {initial.y} / {initial.z}</strong>
+        <div class="selection-actions">
+          <button type="button" data-copy> Kopiera /tp </button>
+          <a href={explorerUrl(initial.id)} data-share>Direktlänk till platsen <span aria-hidden="true">↗</span></a>
+          <a href="/" data-related-link hidden>Om verksamheten <span aria-hidden="true">↗</span></a>
+        </div>
+        <small data-copy-status aria-live="polite"></small>
+      </div>
+    </div>
+    <p class="explorer-hint">BlueMap styr kartbilden. Kameralänkarna använder BlueMaps URL-format och konfigurerade kart-ID:n; dessa kan behöva justeras efter serverns faktiska BlueMap-konfiguration. Om inbäddning blockeras öppnas samma position med länken ovan.</p>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-explorer]');
+  if (root) {
+    const placeButtons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-place]'));
+    const entries = Array.from(root.querySelectorAll<HTMLElement>('[data-entry]'));
+    const search = root.querySelector<HTMLInputElement>('[data-search]');
+    const group = root.querySelector<HTMLSelectElement>('[data-group]');
+    const dimension = root.querySelector<HTMLSelectElement>('[data-dimension]');
+    const counter = root.querySelector<HTMLOutputElement>('[data-count]');
+    const empty = root.querySelector<HTMLElement>('[data-empty]');
+    const frame = root.querySelector<HTMLIFrameElement>('[data-map-frame]');
+    const openMap = root.querySelector<HTMLAnchorElement>('[data-open-map]');
+    const share = root.querySelector<HTMLAnchorElement>('[data-share]');
+    const relatedLink = root.querySelector<HTMLAnchorElement>('[data-related-link]');
+    const selectedName = root.querySelector<HTMLElement>('[data-selected-name]');
+    const selectedContext = root.querySelector<HTMLElement>('[data-selected-context]');
+    const selectedCoordinates = root.querySelector<HTMLElement>('[data-selected-coordinates]');
+    const copy = root.querySelector<HTMLButtonElement>('[data-copy]');
+    const copyStatus = root.querySelector<HTMLElement>('[data-copy-status]');
+    const modes = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-mode]'));
+    const params = new URLSearchParams(window.location.search);
+    let selected = placeButtons.find(button => button.dataset.id === params.get('plats'))
+      ?? placeButtons.find(button => button.getAttribute('aria-pressed') === 'true')
+      ?? placeButtons[0];
+    let mode: 'perspective' | 'flat' = 'perspective';
+
+    function selectPlace(button: HTMLButtonElement, updateQuery = true) {
+      selected = button;
+      for (const current of placeButtons) {
+        current.setAttribute('aria-pressed', String(current === button));
+      }
+      const address = mode === 'flat' ? button.dataset.flatUrl : button.dataset.perspectiveUrl;
+      if (address) {
+        if (frame && frame.getAttribute('src') !== address) frame.setAttribute('src', address);
+        if (openMap) openMap.href = address;
+      }
+      if (frame) frame.title = `BlueMap – ${button.dataset.name}, ${mode === 'flat' ? '2D' : '3D'}`;
+      if (selectedName) selectedName.textContent = button.dataset.name ?? '';
+      if (selectedContext) selectedContext.textContent = [
+        button.dataset.owner ? `Ägare: ${button.dataset.owner}` : null,
+        button.dataset.group,
+        button.dataset.dimension === 'the_nether' ? 'Nether' : button.dataset.dimension === 'the_end' ? 'End' : 'Overworld'
+      ].filter(Boolean).join(' · ');
+      if (selectedCoordinates) selectedCoordinates.textContent = (button.dataset.coordinates ?? '').replaceAll(' ', ' / ');
+      if (relatedLink) {
+        const url = button.dataset.related ?? '';
+        relatedLink.hidden = !url;
+        if (url) relatedLink.href = url;
+      }
+      if (share) share.href = `/karta/?plats=${encodeURIComponent(button.dataset.id ?? '')}`;
+      if (copyStatus) copyStatus.textContent = '';
+      if (updateQuery && button.dataset.id) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('plats', button.dataset.id);
+        window.history.replaceState(null, '', url);
+      }
+    }
+
+    function filterPlaces() {
+      const term = (search?.value ?? '').trim().toLocaleLowerCase('sv');
+      let count = 0;
+      for (const entry of entries) {
+        const show = (!group?.value || entry.dataset.groupName === group.value)
+          && (!dimension?.value || entry.dataset.dimensionName === dimension.value)
+          && (entry.dataset.searchText ?? '').includes(term);
+        entry.hidden = !show;
+        if (show) count++;
+      }
+      if (counter) counter.textContent = count + ' ' + (count === 1 ? 'träff' : 'träffar');
+      if (empty) empty.hidden = count !== 0;
+    }
+
+    const initialGroup = params.get('kategori');
+    if (group && initialGroup && [...group.options].some(option => option.value === initialGroup)) group.value = initialGroup;
+    const initialDimension = params.get('dimension');
+    if (dimension && initialDimension && [...dimension.options].some(option => option.value === initialDimension)) dimension.value = initialDimension;
+    for (const button of placeButtons) button.addEventListener('click', () => selectPlace(button));
+    for (const input of [search, group, dimension]) {
+      input?.addEventListener('input', filterPlaces);
+      input?.addEventListener('change', filterPlaces);
+    }
+    for (const button of modes) button.addEventListener('click', () => {
+      if (button.dataset.mode !== 'flat' && button.dataset.mode !== 'perspective') return;
+      mode = button.dataset.mode;
+      for (const candidate of modes) candidate.setAttribute('aria-pressed', String(candidate === button));
+      selectPlace(selected, false);
+    });
+    copy?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(`/tp ${selected.dataset.coordinates ?? ''}`);
+        if (copyStatus) copyStatus.textContent = 'Teleportkommandot kopierat.';
+      } catch {
+        if (copyStatus) copyStatus.textContent = 'Kopiering misslyckades. Använd koordinaterna ovan.';
+      }
+    });
+    if (selected) selectPlace(selected, false);
+    filterPlaces();
+  }
+</script>
+
+<style>
+  .explorer{display:grid;grid-template-columns:minmax(270px,345px) minmax(0,1fr);border:1px solid #334b58;background:#0c1a24;min-height:720px}
+  .explorer-sidebar{display:flex;flex-direction:column;border-right:1px solid #334b58;min-height:0}
+  .explorer-sidebar-header{padding:1.4rem 1.3rem 1rem}.explorer-sidebar-header h2{font-size:1.8rem;margin:.3rem 0 .7rem}.explorer-sidebar-header p{font-size:.81rem;line-height:1.55;margin:0}
+  .explorer-search{display:grid;gap:.4rem;padding:0 1.3rem 1rem}
+  .explorer-search label,.explorer-filters label{font-size:.7rem;letter-spacing:.03em;color:#b2c8d1;font-weight:700}
+  .explorer-search input,.explorer-filters select{min-width:0;width:100%;background:#0c1820;border:1px solid #45616c;color:#f4fafb;font:inherit;font-size:.84rem;min-height:44px;padding:.65rem .7rem}
+  .explorer-filters{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;padding:0 1.3rem 1.2rem}
+  .explorer-filters label{display:grid;gap:.35rem}
+  .explorer-list-header{display:flex;justify-content:space-between;gap:.5rem;align-items:center;padding:.7rem 1.3rem;border-block:1px solid #334b58;color:#98afbc;font-size:.67rem;font-weight:800;letter-spacing:.1em}
+  .explorer-places{list-style:none;flex:1;max-height:650px;min-height:290px;overflow-y:auto;overscroll-behavior:contain;margin:0;padding:0}
+  .explorer-places li[hidden],.empty-results[hidden]{display:none}
+  .explorer-place{width:100%;background:transparent;border:0;border-bottom:1px solid #253945;color:inherit;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.96rem 1.3rem;cursor:pointer;font:inherit}
+  .explorer-place:hover,.explorer-place:focus-visible{background:#20343e;outline-offset:-3px}
+  .explorer-place[aria-pressed="true"]{background:#183e49;border-left:3px solid #67d6e8;padding-left:calc(1.3rem - 3px)}
+  .place-copy{display:grid;gap:.34rem}.place-copy strong{font-size:.86rem;line-height:1.2}.place-copy small{font-size:.67rem;color:#9db4c0;line-height:1.4}
+  .place-arrow{color:#80dcea}.empty-results{padding:1.3rem;font-size:.8rem}
+  .explorer-stage{display:flex;flex-direction:column;min-width:0}
+  .explorer-toolbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem 1rem;border-bottom:1px solid #334b58;background:#10232e;flex-wrap:wrap}
+  .view-modes{display:flex;gap:.4rem}.view-modes button{background:transparent;color:#c6d9e1;border:1px solid #486470;font:inherit;font-weight:700;font-size:.76rem;padding:.56rem .8rem;cursor:pointer}
+  .view-modes button[aria-pressed="true"]{background:#1b4854;color:#a4eef7;border-color:#55bbcb}
+  .full-map{color:#8ce8f2;font-weight:800;font-size:.82rem;text-decoration:none}
+  .explorer-frame{min-height:530px;flex:1;position:relative;background:#071218}
+  .explorer-frame iframe{position:absolute;width:100%;height:100%;inset:0;border:0}
+  .explorer-selection{display:flex;justify-content:space-between;gap:2rem;padding:1.4rem;border-top:1px solid #334b58}
+  .selection-description h3{font-size:1.3rem;margin:.25rem 0 .4rem}.selection-description p{font-size:.76rem;margin:0;color:#a9c1cc}
+  .selection-details{text-align:right}
+  .coordinate-label{font-size:.6rem;color:#8da8b6;display:block;letter-spacing:.12em;font-weight:700}
+  .selection-details strong{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.97rem;display:block;margin:.4rem 0}
+  .selection-actions{display:flex;gap:.8rem;justify-content:flex-end;flex-wrap:wrap}
+  .selection-actions button{cursor:pointer;font:inherit;color:#9ce6ef;background:none;border:1px solid #446371;padding:.3rem .5rem;font-size:.75rem}
+  .selection-actions a{color:#9ce6ef;font-size:.75rem;align-self:center;font-weight:700}
+  .selection-actions a[hidden]{display:none}
+  .selection-details small{display:block;font-size:.68rem;color:#9ecece;margin-top:.5rem}
+  .explorer-hint{padding:0 1.3rem 1rem;font-size:.73rem;color:#9eb3be;line-height:1.5;margin:0}
+  @media(max-width:1050px){.explorer{grid-template-columns:minmax(235px,285px) 1fr}.explorer-selection{display:block}.selection-details{text-align:left;margin-top:1rem}.selection-actions{justify-content:flex-start}}
+  @media(max-width:760px){.explorer{grid-template-columns:1fr}.explorer-sidebar{border-right:0;border-bottom:1px solid #334b58}.explorer-places{flex:initial;max-height:235px;min-height:0}.explorer-frame{height:480px;flex:initial}.explorer-selection{display:flex}.selection-details{text-align:right;margin:0}.selection-actions{justify-content:flex-end}}
+  @media(max-width:550px){.explorer-frame{height:380px}.explorer-selection{display:block}.selection-details{text-align:left;margin-top:1rem}.selection-actions{justify-content:flex-start}.explorer-toolbar{gap:.75rem}}
+</style>
