@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import {news} from '../../data/news';
 ---
 <BaseLayout title="Nyhetsrum | WeAB Group">
-<section class="page-hero"><div class="shell"><div class="eyebrow">NYHETSRUM</div><h1>Koncernens notiser.</h1><p class="lead">Här får du nyheterna precis som ledningen vill att du ska läsa dem. Faktaavdelningen arbetar direkt under styrelsen.</p></div></section>
+<section class="page-hero"><div class="shell"><h1>Koncernens notiser.</h1><p class="lead">Här får du nyheterna precis som ledningen vill att du ska läsa dem. Faktaavdelningen arbetar direkt under styrelsen.</p></div></section>
 <section class="section"><div class="shell"><div class="news-grid">{news.map(item=><a href={`/nyheter/${item.slug}/`} class="news-card"><div class="image-frame"><img src={item.image} alt={item.alt} loading="lazy" /></div><div class="small-caps">{item.type}</div><h2>{item.title}</h2><p>{item.summary}</p><span>Läs mer ↗</span></a>)}</div></div></section>
 </BaseLayout>
 <style>.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}.news-card{text-decoration:none}.news-card .image-frame{height:210px;margin-bottom:1.2rem}.news-card:hover .image-frame,.news-card:focus-visible .image-frame{border-color:#80dfed}.news-card img{height:100%}.news-card h2{font-size:1.4rem;margin:.8rem 0}.news-card:hover h2{text-decoration:underline;text-decoration-color:#80dfed;text-underline-offset:.2em}.news-card p{font-size:.85rem}.news-card>span{font-size:.83rem;color:var(--cyan);font-weight:800}@media(max-width:800px){.news-grid{grid-template-columns:1fr 1fr}}@media(max-width:550px){.news-grid{grid-template-columns:1fr}}</style>

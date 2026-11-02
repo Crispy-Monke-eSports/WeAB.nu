@@ -5,7 +5,7 @@ export function getStaticPaths(){return news.map(article=>({params:{slug:article
 const {article}=Astro.props;
 ---
 <BaseLayout title={`${article.title} | WeAB Nyhetsrum`} description={article.summary}>
-<section class="page-hero"><div class="shell article-shell"><a class="back" href="/nyheter/">← Till nyhetsrummet</a><div class="eyebrow">{article.type}</div><h1>{article.title}</h1><p class="lead">{article.summary}</p></div></section>
+<section class="page-hero"><div class="shell article-shell"><a class="back" href="/nyheter/">← Till nyhetsrummet</a><h1>{article.title}</h1><p class="lead">{article.summary}</p></div></section>
 <article class="section"><div class="shell article-shell"><div class="image-frame article-photo"><img src={article.image} alt={article.alt}/></div>{article.body.map(p=><p>{p}</p>)}<div class="article-end"><a class="btn btn-outline" href="/nyheter/">Alla nyheter ↗</a></div></div></article>
 </BaseLayout>
 <style>.article-shell{max-width:850px}.article-shell h1{overflow-wrap:anywhere}.article-photo{height:390px;margin-bottom:2rem}.article-photo img{height:100%}.article-shell>p{font-size:1.06rem}.article-end{border-top:1px solid #344551;margin-top:3rem;padding-top:1.5rem}.back{display:block;margin-bottom:2rem;color:#9fc4d0;text-decoration:none;font-size:.86rem}@media(max-width:650px){.article-photo{height:260px}}</style>
