@@ -45,7 +45,6 @@ Engångsinställning innan första publiceringen:
 - `/verksamheter/` och `/verksamheter/[slug]/` – Dynamiskt genererade verksamhetssidor
 - `/projekt/` – Dokumenterade anläggningar, inklusive Huvudstadens arena
 - `/arena/` – Huvudstadens arena med tre bilder och sammanhang kring waypointen i huvudstaden
-- `/karta/` – BlueMap-inbäddning och länk till den separata 3D-serverkartan
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Satiriska exempelannonser, inte faktiska lediga jobb
 - `/nyheter/` – Konceptartiklar med undersidor
@@ -74,19 +73,6 @@ Platserna presenteras i rätt sammanhang: de 14 farmer som WeKill äger under We
 koncernlokaler på respektive verksamhetssida, samt städer, butiker,
 sevärdheter och spelarbaser på koncernsidan. Det finns ingen separat waypoint-katalog.
 Koordinaterna är en ögonblicksbild och uppdateras inte automatiskt.
-
-### BlueMap
-
-3D-kartan finns på [karta.weab.nu](https://karta.weab.nu/) och visas som
-lazy-loadad iframe på `/karta/`. Externa länkar finns i navigationen, foten,
-på startsidan, projektsidan, arenan, kontaktsidan och verksamhetssidorna.
-Besökaren kan alltid öppna kartan direkt om webbläsaren eller BlueMaps
-säkerhetsinställningar blockerar inbäddningen.
-
-Länkarna öppnar kartans startsida: det används **inga spekulativa**
-koordinatankare eller hårdkodade kart-ID:n, eftersom sådana URL:er måste
-verifieras mot den aktuella BlueMap-installationen. Webbplatsen är helt statisk
-och fungerar även om den externa kartservern är otillgänglig.
 
 ### Pixelart-logotyper (endast kod)
 

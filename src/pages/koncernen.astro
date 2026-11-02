@@ -1,5 +1,4 @@
 ---
-import MapLink from '../components/MapLink.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {companies} from '../data/companies';
 import {locations} from '../data/locations';
@@ -11,7 +10,7 @@ const landmarks = locations.filter(place => place.group === 'Sevärdheter');
 const playerBases = locations.filter(place => place.group === 'Spelarbaser');
 ---
 <BaseLayout title="Om WeAB | WeAB Group" description="WeAB:s företagsvision, ledningsmodell och koncernstruktur.">
-  <section class="page-hero"><div class="shell"><div class="eyebrow">OM WEAB</div><h1>Vi organiserar framtiden.</h1><p class="lead">WeAB producerar resurser, föder upp arbetskraft, säljer kunskap, förvarar ägodelar och erbjuder begränsad frihet inom en obruten kedja av koncernkontrollerad service. Alla vägar leder till oss. Alla diamanter likaså.</p><MapLink label="Utforska hela servern i BlueMap" /></div></section>
+  <section class="page-hero"><div class="shell"><div class="eyebrow">OM WEAB</div><h1>Vi organiserar framtiden.</h1><p class="lead">WeAB producerar resurser, föder upp arbetskraft, säljer kunskap, förvarar ägodelar och erbjuder begränsad frihet inom en obruten kedja av koncernkontrollerad service. Alla vägar leder till oss. Alla diamanter likaså.</p></div></section>
   <section class="section"><div class="shell split-layout"><div><div class="eyebrow">STYRNING & LEDARSKAP</div><h2>Ledda av resultat.<br/>Styrda av avkastning.</h2><p>WeAB leds av ett antal ledande ledamöter med ett gemensamt mandat: att skydda koncernens intressen och driva aktiekursen uppåt. Andra överväganden vägs omsorgsfullt mot sitt bidrag till den långsiktiga avkastningen.</p><p>Grundarens identitet ingår inte i koncernens offentliga historieskrivning. Transparens är viktigt. Selektiv transparens är effektivare.</p></div><div class="image-frame"><img src="/images/weab-cyan-building.webp" alt="Cyanprofilerad byggnad med staty"/></div></div></section>
   <section class="section weab-history" id="historia"><div class="shell">
     <div class="section-heading"><div><div class="eyebrow">KONCERNENS HISTORIA</div><h2>Från en idé till<br/>ett ofrånkomligt faktum.</h2></div><p>Våra arkiv är omfattande. Vissa kapitel är mer tillgängliga än andra.</p></div>
