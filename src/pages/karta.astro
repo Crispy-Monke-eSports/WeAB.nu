@@ -1,57 +1,53 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import MapExplorer from '../components/MapExplorer.astro';
 import MapLink from '../components/MapLink.astro';
+import { locations } from '../data/locations';
+
+const farms = locations.filter(place => place.owner === 'WeKill').length;
+const city = locations.find(place => place.name === 'Huvudstaden');
 ---
-<BaseLayout
-  title="Serverkarta | WeAB Group"
-  description="Utforska WeAB-serverns Minecraft-värld i den interaktiva BlueMap-kartan."
->
-  <section class="page-hero">
+<BaseLayout title="Interaktiv serverkarta | WeAB Group"
+  description="Utforska WeAB-serverns 35 dokumenterade platser i BlueMap. Sök farmer, koncernlokaler och distrikt och flytta kameran till rätt Minecraft-koordinater.">
+  <section class="page-hero map-hero">
     <div class="shell">
-      <div class="eyebrow">BLUEMAP / SERVERNS VÄRLD</div>
-      <h1>Se världen.<br />Inte bara vår version.</h1>
-      <p class="lead">Med BlueMap kan du utforska Minecraft-serverns landskap och anläggningar i en interaktiv 3D-karta. Byggnader förändras; kartans innehåll kan ligga efter serverns senaste ändringar.</p>
-      <div class="map-actions"><MapLink variant="button" label="Öppna hela kartan" /><a class="btn btn-outline" href="/projekt/">Våra anläggningar <span aria-hidden="true">↗</span></a></div>
+      <div class="eyebrow">WEAB / BLUEMAP</div>
+      <h1>Hitta platsen.<br />Se den i 3D.</h1>
+      <p class="lead">Bläddra bland {locations.length} platser från serverns waypoints. {farms} farmer tillhör WeKill. Välj en plats, byt mellan 3D och 2D, och öppna precis samma vy i BlueMap.</p>
+      <div class="map-hero-actions">
+        <a class="btn" href="#utforska">Utforska kartan <span aria-hidden="true">↓</span></a>
+        <MapLink variant="button" label="BlueMap i helskärm" place={city} />
+      </div>
     </div>
   </section>
-  <section class="section section--dark">
+  <section class="map-explorer-section" id="utforska">
     <div class="shell">
-      <div class="map-heading">
-        <div><p class="eyebrow">INTERAKTIV 3D-VY</p><h2>Servern i BlueMap.</h2></div>
-        <p>Kartan laddas från vår separata kartserver. Om inbäddningen inte visas i din webbläsare kan du öppna BlueMap direkt i en ny flik.</p>
+      <div class="map-explorer-heading">
+        <div><span class="eyebrow">INTERAKTIV VÄRLDSKARTA</span><h2>En server. Många platser.</h2></div>
+        <p>Välj i platslistan för att rikta kameran. BlueMap körs på en separat server, medan platsnamn, koordinater och ägarskap hämtas från WeAB:s innehåll.</p>
       </div>
-      <div class="map-frame">
-        <iframe
-          src="https://karta.weab.nu/"
-          title="BlueMap – interaktiv 3D-karta över WeAB:s Minecraft-server"
-          loading="lazy"
-          referrerpolicy="no-referrer"
-          allowfullscreen
-        ></iframe>
-      </div>
-      <div class="map-fallback">
-        <p>Fungerar inte kartvyn? BlueMap kan kräva WebGL eller förhindra inbäddning på andra domäner.</p>
-        <MapLink label="Öppna kartan direkt" />
-      </div>
+      <MapExplorer />
     </div>
   </section>
   <section class="section">
-    <div class="shell map-explore">
-      <div><p class="eyebrow">UTFORSKA MER</p><h2>Från servern till verksamheten.</h2></div>
-      <div><p>På verksamhetssidorna finns information om WeAB:s anläggningar, och i projektgalleriet kan du se dokumenterade byggnader. Kartan är en kompletterande vy, inte en ersättning för Minecraft-koordinater.</p>
-      <a class="link-arrow" href="/verksamheter/">Till verksamheterna <span aria-hidden="true">↗</span></a></div>
+    <div class="shell map-other">
+      <div>
+        <div class="eyebrow">VERKSAMHETER & ANLÄGGNINGAR</div>
+        <h2>En karta är ingen årsredovisning.</h2>
+      </div>
+      <div>
+        <p>Kartan visar registrerade blockpositioner, inte exakta byggnadsentréer. Farmer i Nether och End förutsätter att dessa dimensioner är publicerade i BlueMap. Det kan också dröja innan nybyggnationer syns i kartans rendering.</p>
+        <p><a class="link-arrow" href="/verksamheter/wekill/#platser-pa-servern">Utforska WeKills farmer <span aria-hidden="true">↗</span></a></p>
+        <p><a class="link-arrow" href="/projekt/">Se projekt och anläggningar <span aria-hidden="true">↗</span></a></p>
+      </div>
     </div>
   </section>
 </BaseLayout>
 <style>
-  .map-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.7rem}
-  .map-heading{display:flex;justify-content:space-between;align-items:end;gap:3rem;margin-bottom:1.4rem}
-  .map-heading h2{margin:0}.map-heading>p{max-width:520px;margin:0}
-  .map-frame{border:1px solid #425865;background:#0b1820;min-height:520px;overflow:hidden}
-  .map-frame iframe{display:block;width:100%;height:clamp(520px,75vh,840px);border:0;background:#0b1820}
-  .map-fallback{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:1.1rem 0}
-  .map-fallback p{font-size:.8rem;margin:0;max-width:750px}
-  .map-explore{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
-  @media(max-width:800px){.map-heading{display:block}.map-heading>p{margin-top:1rem}.map-explore{grid-template-columns:1fr;gap:1.5rem}}
-  @media(max-width:600px){.map-frame{min-height:350px}.map-frame iframe{height:65vh;min-height:350px}.map-fallback{flex-direction:column}.map-heading h2{font-size:2rem}}
+  .map-hero{background:#111f2a}.map-hero-actions{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-top:2rem}
+  .map-explorer-section{padding:4rem 0;background:#0b1720;scroll-margin-top:80px}
+  .map-explorer-heading{display:flex;justify-content:space-between;align-items:end;gap:3rem;margin:0 0 1.4rem}
+  .map-explorer-heading h2{margin:.4rem 0 0;font-size:clamp(1.7rem,3.5vw,3.1rem)}.map-explorer-heading p{max-width:510px;font-size:.9rem;margin:0}
+  .map-other{display:grid;grid-template-columns:1fr 1fr;gap:3rem}.map-other h2{max-width:550px}.map-other p{margin:0 0 1.2rem}
+  @media(max-width:800px){.map-explorer-heading{display:block}.map-explorer-heading p{margin-top:1rem}.map-other{grid-template-columns:1fr;gap:1rem}}
 </style>
