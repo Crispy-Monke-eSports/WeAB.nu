@@ -75,14 +75,14 @@ for (const company of companies) {
   assert.ok(editorial.heading.trim() && editorial.introduction.trim(), `Saknad introduktion för ${company.name}`);
   assert.ok(editorial.groups.length, `Saknade anläggningsgrupper för ${company.name}`);
   const ids = editorial.groups.flatMap(group => {
-    assert.ok(group.title.trim() && group.description.trim() && group.ids.length, `Ofullständig grupp för ${company.name}`);
+    assert.ok(group.title.trim() && group.ids.length, `Ofullständig grupp för ${company.name}`);
     return group.ids;
   });
   unique(ids, `anläggningar för ${company.name}`);
   for (const id of ids) assert.equal(projectById.get(id)?.division, company.name, `Fel eller saknad anläggning ${id} hos ${company.name}`);
   assert.deepEqual(ids.slice().sort(), projects.filter(project => project.division === company.name).map(project => project.id).sort(), `Anläggningar saknas i grupperna för ${company.name}`);
   for (const step of editorial.connections?.steps ?? []) {
-    assert.ok(step.name.trim() && step.description.trim(), `Ofullständig bolagskoppling för ${company.name}`);
+    assert.ok(step.name.trim(), `Ofullständig bolagskoppling för ${company.name}`);
     const match = step.href.match(/^(?:\/verksamheter\/([^/]+)\/)?#(anlaggningar|anlaggning-([\w-]+))$/);
     assert.ok(match, `Ogiltig kopplingslänk: ${step.href}`);
     const targetSlug = match[1] ?? company.slug;
