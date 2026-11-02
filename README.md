@@ -42,7 +42,7 @@ Engångsinställning innan första publiceringen:
 
 - `/` – Startsida
 - `/koncernen/` – Om WeAB, ledningsmodell, företagsvärderingar, koncernstruktur
-- `/verksamheter/` och `/verksamheter/[slug]/` – Sex verksamheter
+- `/verksamheter/` och `/verksamheter/[slug]/` – Dynamiskt genererade verksamhetssidor
 - `/projekt/` – Dokumenterade anläggningar
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Satiriska exempelannonser, inte faktiska lediga jobb
@@ -63,7 +63,7 @@ Engångsinställning innan första publiceringen:
 
 WE-symbolen är uppbyggd av en redigerbar blockmatris i `scripts/generate-logos.mjs`.
 Varje `#` i matrisen ritas som en fyrkantig SVG-pixel; ingen bildgenerering,
-font-rendering eller extern bildresurs används. Alla sju färgvarianterna
+font-rendering eller extern bildresurs används. Alla nio färgvarianterna
 uppdateras genom:
 
 ```bash
@@ -74,6 +74,11 @@ Originalets Minecraft-block har olika ljussättning och perspektiv i skärmbilde
 Kodversionen är därför en ren, frontvänd pixelart-tolkning av samma symbol.
 
 ### Innehåll
+
+WeTrade samlar samtliga enchantments under ett tak. WeLove ansvarar för
+koncernens villager breeding och personalförsörjning. Båda har egna
+verksamhetssidor och kodgenererade WE-logotyper i sina profilfärger.
+
 
 Webbplatsen är satir, inte en verklig företags- eller rekryteringssida. Platsannonserna är fiktiva exempel och nyhetstexterna påhittade. Den avsiktliga bolagsparodin ska vara tydlig utan att besökaren behöver läsa källkoden.
 

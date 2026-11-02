@@ -38,7 +38,7 @@ const featuredProjects = featuredProjectIds.flatMap(id => {
   </div></section>
 
   <section class="section section--dark"><div class="shell">
-    <div class="section-heading"><div><div class="eyebrow">VÅRA AFFÄRSOMRÅDEN</div><h2>Ett ekosystem.<br/>Ett ägarskap.</h2></div><p>Åtta verksamheter. En och samma ägare. Fråga oss gärna om alternativen.</p></div>
+    <div class="section-heading"><div><div class="eyebrow">VÅRA AFFÄRSOMRÅDEN</div><h2>Ett ekosystem.<br/>Ett ägarskap.</h2></div><p>{companies.length} verksamheter. En och samma ägare. Fråga oss gärna om alternativen.</p></div>
     <div class="card-grid">{companies.map(company=><CompanyCard company={company}/>)}</div>
   </div></section>
 
