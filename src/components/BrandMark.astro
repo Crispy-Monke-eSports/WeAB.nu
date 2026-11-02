@@ -1,0 +1,72 @@
+---
+interface Props {
+  slug: string;
+  name: string;
+  size?: 'header' | 'card' | 'hero' | 'org' | 'parent';
+}
+
+const { slug, name, size = 'card' } = Astro.props;
+const suffix = name.startsWith('We') ? name.slice(2) : name;
+const long = suffix.length >= 11;
+const medium = suffix.length >= 8 && !long;
+---
+<span
+  class:list={['brand-mark', `brand-mark--${size}`, { 'brand-mark--long': long, 'brand-mark--medium': medium }]}
+  role="img"
+  aria-label={name}
+>
+  <img
+    class="brand-mark__sign"
+    src={`/logos/${slug}.svg`}
+    alt=""
+    aria-hidden="true"
+    width="1200"
+    height="830"
+    loading={size === 'header' ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+  <span class="brand-mark__suffix" aria-hidden="true">{suffix}</span>
+</span>
+<style>
+  .brand-mark {
+    --mark-width: 8.5rem;
+    --mark-font-size: .84rem;
+    display: inline-flex;
+    flex: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: var(--mark-width);
+    max-width: 100%;
+    vertical-align: middle;
+    color: #f5f7fa;
+    text-align: center;
+  }
+  .brand-mark__sign {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1200 / 830;
+    object-fit: contain;
+  }
+  .brand-mark__suffix {
+    display: block;
+    max-width: 100%;
+    margin-top: .32em;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: var(--mark-font-size);
+    font-weight: 400;
+    line-height: 1.65;
+    white-space: nowrap;
+    letter-spacing: 0;
+    text-transform: none;
+    text-shadow: 0 2px 5px #0009;
+  }
+  .brand-mark--medium .brand-mark__suffix { font-size: calc(var(--mark-font-size) * .76); }
+  .brand-mark--long .brand-mark__suffix { font-size: calc(var(--mark-font-size) * .58); }
+  .brand-mark--header { --mark-width: 3.15rem; --mark-font-size: .5rem; }
+  .brand-mark--card { --mark-width: 8.5rem; --mark-font-size: .85rem; }
+  .brand-mark--hero { --mark-width: 11rem; --mark-font-size: 1.06rem; }
+  .brand-mark--org { --mark-width: 7.1rem; --mark-font-size: .7rem; }
+  .brand-mark--parent { --mark-width: 11rem; --mark-font-size: 1.05rem; }
+</style>

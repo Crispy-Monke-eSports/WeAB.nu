@@ -55,10 +55,11 @@ Engångsinställning innan första publiceringen:
 - `src/data/companies.ts` – Företagsbeskrivningar, namn, accentfärger, bilder och status
 - `src/data/projects.ts` – Bilder och bildtexter i projektgalleriet
 - `src/data/arena.ts` – Arenagalleriets tre foton, alt-texter och bildbeskrivningar
+- `src/assets/we-logo.svg` – Den bifogade officiella WE-logotypen (gemensam för alla bolag)
 - `src/data/locations.ts` – Utvald servergeografi från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-farmer)
 - `src/data/news.ts` – Nyhetsutkast
 - `src/styles/global.css` – Global grafisk profil
-- `public/logos/` – Enkla digitala WE-emblem som SVG
+- `public/logos/` – Nio SVG-varianter genererade från den officiella WE-logotypen
 - `public/images/` – Optimerade WebP-versioner av bilderna från Minecraft
 - `sitemap-index.xml` + `robots.txt` – Genereras automatiskt vid build via `@astrojs/sitemap`
 
@@ -74,19 +75,47 @@ koncernlokaler på respektive verksamhetssida, samt städer, butiker,
 sevärdheter och spelarbaser på koncernsidan. Det finns ingen separat waypoint-katalog.
 Koordinaterna är en ögonblicksbild och uppdateras inte automatiskt.
 
-### Pixelart-logotyper (endast kod)
+### WE:s officiella logotyp och företagsspecifik typografi
 
-WE-symbolen är uppbyggd av en redigerbar blockmatris i `scripts/generate-logos.mjs`.
-Varje `#` i matrisen ritas som en fyrkantig SVG-pixel; ingen bildgenerering,
-font-rendering eller extern bildresurs används. Alla nio färgvarianterna
-uppdateras genom:
+Den ursprungliga logotypen från koncernen ligger i `src/assets/we-logo.svg`.
+Den är **den enda källan** för WE-symbolen. Ingen egen pixelmatris eller
+AI-genererad tolkning används längre.
+
+Vid generering anpassar `scripts/generate-logos.mjs` följande lager utan att
+ändra symbolens geometri:
+
+- `brand-color`: färgad bakgrund enligt accentfärgerna i `src/data/companies.ts`,
+  med cyan som moderbolaget WeAB:s färg.
+- `brand-corners`: samtliga åtta opaka, grå stenhörn; förvaltningsbar färg
+  i generatorns `defaults.corners` och `overrides`.
+- `brand-shadow`: skyltens halvtransparenta skugga med separat färg
+  och opacitet i `defaults.shadow` och `defaults.shadowOpacity`.
+
+Alla nio varianter i `public/logos/` (WeAB och åtta dotterbolag) är
+genererade från originalfilen. Samma filer används som logotyper i
+huvudmenyn, sidfoten, verksamhetskorten, koncernstrukturen, respektive
+verksamhetssida och moderbolagets favicon.
+
+`BrandMark.astro` visar WE-symbolen **över** resten av företagsnamnet:
+**AB**, **Kill**, **Sort**, **Box**, **LiveLaughLove**, **Gamble**,
+**Travel**, **Trade** och **Love**. Resten av namnet sätts med
+[Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) via
+Google Fonts med monospace-reservtypsnitt. De längre namnen skalas ned
+för att passa även på små skärmar. Referensbilden med logotyp och
+företagsnamn har inte lagts in i repot.
+
+Bygg om och verifiera varianterna:
 
 ```bash
-node scripts/generate-logos.mjs
+npm run logos:generate
+npm run logos:check
+npm run validate:content
+npm run build
 ```
 
-Originalets Minecraft-block har olika ljussättning och perspektiv i skärmbilden.
-Kodversionen är därför en ren, frontvänd pixelart-tolkning av samma symbol.
+CI verifierar att samtliga genererade SVG-filer överensstämmer med
+originalet och de aktuella företagsfärgerna; en manuell redigering av
+en genererad fil ska inte kunna överleva utan att upptäckas.
 
 ### Innehåll
 
@@ -105,7 +134,7 @@ npm run validate:content
 npm run build
 ```
 
-Valideringen kontrollerar unika identifierare, korrekta verksamhetsreferenser och att alla refererade lokala bild- och logotypfiler finns. PR:er kör samma kontroller automatiskt. Innehållslistor och accentfärger ska härledas från `src/data/` i stället för att kopieras mellan sidor. Dekorativa element ska inte efterlikna länkar eller påhittade datapunkter.
+Valideringen kontrollerar unika identifierare, korrekta verksamhetsreferenser, att alla refererade lokala bild- och logotypfiler finns och att de nio logotyperna är synkroniserade med den officiella SVG-förlagan. PR:er kör samma kontroller automatiskt. Innehållslistor och accentfärger ska härledas från `src/data/` i stället för att kopieras mellan sidor. Dekorativa element ska inte efterlikna länkar eller påhittade datapunkter.
 
 ## Licens
 
