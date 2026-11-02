@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="404 | WeAB Informationskontroll" description="WeAB har granskat din förfrågan. Någon sida på den här adressen har aldrig existerat.">
+  <section class="not-found" aria-labelledby="not-found-heading">
+    <div class="not-found-image" aria-hidden="true"></div>
+    <div class="shell not-found-content">
+      <div class="eyebrow">WEAB · DEPARTEMENTET FÖR INFORMATIONSKONTROLL</div>
+      <div class="error-code" aria-hidden="true">404</div>
+      <h1 id="not-found-heading">Den här sidan har<br/><em>aldrig existerat.</em></h1>
+      <p>Våra register är ofelbara. Om du minns en sida på den här adressen ber vi dig upphöra med det. Fortsatta minnesbilder kan medföra administrativa åtgärder.</p>
+      <div class="not-found-actions"><a class="btn" href="/">Återvänd till godkänd verklighet <span aria-hidden="true">↗</span></a><a class="btn btn-outline" href="/verksamheter/">Se våra verksamheter</a></div>
+      <div class="not-found-footer"><span>ÄRENDE 404 · AVSLUTAT UTAN ÖVERKLAGANDE</span><span>WEAB INFORMATION ASSURANCE</span></div>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .not-found{position:relative;min-height:min(850px,calc(100svh - 80px));display:flex;align-items:center;overflow:hidden;background:#0b1922;border-bottom:1px solid #2e4854}
+  .not-found-image{position:absolute;inset:0;background:linear-gradient(90deg,#08141bf5 0%,#08141be8 44%,#08141b88 100%),linear-gradient(0deg,#08141be8,transparent 55%),url('/images/weab-cyan-building.webp') center/cover;filter:saturate(.7)}
+  .not-found-content{position:relative;z-index:1;padding:6rem 0 3rem}.error-code{font-size:clamp(7rem,19vw,16rem);line-height:.8;letter-spacing:-.09em;font-weight:900;color:transparent;-webkit-text-stroke:2px #4ac5d54a;margin:2.4rem 0 1rem;user-select:none}
+  .not-found h1{font-size:clamp(2.6rem,5.4vw,5.5rem);max-width:950px;margin:0}.not-found h1 em{font-style:normal;color:#78dfea}.not-found p{max-width:680px;font-size:1.04rem;margin:1.8rem 0 2rem;color:#cfdae0}.not-found-actions{display:flex;gap:.8rem;flex-wrap:wrap}.not-found-footer{margin-top:6rem;border-top:1px solid #ffffff35;padding-top:1.3rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.6rem;letter-spacing:.15em;color:#a3b9c3;font-weight:800}
+  @media(max-width:650px){.not-found{min-height:760px}.not-found-image{background:linear-gradient(90deg,#08141bf0,#08141bd6),url('/images/weab-cyan-building.webp') 60% center/cover}.not-found-content{padding:4.8rem 0 2rem}.error-code{font-size:clamp(6.5rem,28vw,10rem);margin:1.8rem 0 1.4rem}.not-found-footer{margin-top:4rem;display:grid}.not-found p{font-size:.95rem}}
+</style>
