@@ -85,7 +85,7 @@ const waypointIntroduction = company.slug === 'wekill'
 <style>
   .company-theme { --cyan: var(--company-accent); }
   .company-theme .company-btn { background: var(--company-accent); color: var(--company-on-accent); }
-  .company-hero { position: relative; isolation: isolate; overflow: hidden; min-height: clamp(660px, 85svh, 840px); background: #0d1922; border-bottom: 1px solid #32424d; }
+  .company-hero { position: relative; isolation: isolate; overflow: hidden; min-height: max(660px, calc(100svh - 78px)); background: #0d1922; border-bottom: 1px solid #32424d; }
   .company-hero__image { position: absolute; inset: 0 0 0 auto; z-index: -2; width: 75%; height: 100%; object-fit: cover; object-position: center; }
   .company-hero__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg,#0c1821 0%,#0c1821f5 27%,#0c1821ca 48%,#0c18217d 75%,#0c18218f 100%),linear-gradient(0deg,#0c1821 0%,transparent 32%),linear-gradient(150deg,color-mix(in srgb,var(--company-accent) 18%,transparent),transparent 50%); }
   .company-hero__content { min-height: inherit; display: flex; flex-direction: column; padding-block: 2rem 2.5rem; }
@@ -93,8 +93,7 @@ const waypointIntroduction = company.slug === 'wekill'
   .company-crumb a { color: #dbe8ed; text-decoration: none; }
   .company-crumb a:hover { text-decoration: underline; }
   .company-hero__main { margin-block: auto; padding-block: 3.25rem; max-width: min(750px, 100%); }
-  .company-hero__main :global(.brand-mark) { align-items: flex-start; margin-bottom: 2.25rem; }
-  .company-hero__main :global(.brand-mark__suffix) { margin-left: .12rem; }
+  .company-hero__main :global(.brand-mark) { margin-bottom: 2.25rem; }
   .company-hero h1 { max-width: 12ch; font-size: clamp(2.8rem, 6.1vw, 5.7rem); margin-bottom: 1.35rem; }
   .company-hero .lead { color: #e0e9ec; max-width: 620px; margin-bottom: 0; }
   .hero-tools { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
@@ -118,7 +117,7 @@ const waypointIntroduction = company.slug === 'wekill'
     .company-hero__shade { background: linear-gradient(90deg,#0c1821ee 0%,#0c1821ba 70%,#0c182199 100%),linear-gradient(0deg,#0c1821,transparent 60%); }
   }
   @media (max-width: 700px) {
-    .company-hero { min-height: 690px; }
+    .company-hero { min-height: max(690px, calc(100svh - 78px)); }
     .company-hero__content { padding-block: 1.5rem 2rem; }
     .company-hero__main { padding-block: 2.5rem; }
     .company-hero__main :global(.brand-mark) { margin-bottom: 1.75rem; }
