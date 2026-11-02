@@ -2,6 +2,7 @@
 import MapLink from '../components/MapLink.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { arenaPhotos } from '../data/arena';
+const cityWaypoint = locations.find(place => place.name === 'Huvudstaden');
 import { locations } from '../data/locations';
 import WaypointSection from '../components/WaypointSection.astro';
 const cityAndGameArena = locations.filter(place => place.name === 'Huvudstaden' || place.name === 'Hungerspelsarenan');
@@ -25,7 +26,7 @@ const cityAndGameArena = locations.filter(place => place.name === 'Huvudstaden' 
       <p class="eyebrow">HUVUDSTADEN / ARENAN</p>
       <h1 id="arena-heading">Äran till byn.<br /><em>Scenen till huvudstaden.</em></h1>
       <p class="lead">Bybor från koncernens olika distrikt möts för att tävla om ära till sin hemby. När distrikten gör upp finns det bara en sak som är säker: huvudstaden får uppmärksamheten.</p>
-      <div class="arena-hero__actions"><a class="btn" href="#bildgalleri">Utforska arenan <span aria-hidden="true">↓</span></a><MapLink variant="button" label="Öppna serverkartan" /></div>
+      <div class="arena-hero__actions"><a class="btn" href="#bildgalleri">Utforska arenan <span aria-hidden="true">↓</span></a><MapLink variant="button" label="Visa Huvudstaden i BlueMap" place={cityWaypoint} /></div>
     </div>
   </section>
 

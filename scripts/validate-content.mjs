@@ -7,6 +7,7 @@ import { news } from '../src/data/news.ts';
 import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { arenaPhotos } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
+import { blueMapUrl, blueMapIds, explorerUrl } from '../src/data/bluemap.ts';
 
 function unique(values, description) {
   assert.equal(new Set(values).size, values.length, `Dubbletter bland ${description}`);
@@ -27,7 +28,16 @@ unique(locations.map(({ id }) => id), 'waypoint-identifierare');
 unique(locations.map(({ name, dimension, x, y, z }) => [name, dimension, x, y, z].join('|')), 'waypoint-positioner');
 assert.equal(locations.length, 35, 'Importen ska innehålla 35 unika platser');
 assert.equal(locations.filter(place => place.group === 'Farmer').length, 14, 'Det ska finnas 14 farmer');
+for (const dimension of ['overworld', 'the_nether', 'the_end']) {
+  assert.match(blueMapIds[dimension], /^[a-zA-Z0-9_-]+$/, `Ogiltigt kart-ID för ${dimension}`);
+}
 for (const place of locations) {
+  const view3D = blueMapUrl(place, 'perspective');
+  const view2D = blueMapUrl(place, 'flat');
+  assert.ok(view3D.includes(`#${blueMapIds[place.dimension]}:${place.x}:${place.y}:${place.z}:`), `Felaktig BlueMap-länk: ${place.name}`);
+  assert.ok(view3D.endsWith(':perspective'), `3D-länk saknas: ${place.name}`);
+  assert.ok(view2D.endsWith(':flat'), `2D-länk saknas: ${place.name}`);
+  assert.equal(explorerUrl(place.id), `/karta/?plats=${encodeURIComponent(place.id)}`);
   assert.ok(locationGroups.includes(place.group), `Okänd platskategori: ${place.group}`);
   assert.ok(['overworld', 'the_nether', 'the_end'].includes(place.dimension), `Ogiltig dimension: ${place.name}`);
   for (const coordinate of [place.x, place.y, place.z]) assert.ok(Number.isInteger(coordinate), `Ogiltig koordinat för ${place.name}`);

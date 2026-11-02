@@ -75,18 +75,36 @@ koncernlokaler på respektive verksamhetssida, samt städer, butiker,
 sevärdheter och spelarbaser på koncernsidan. Det finns ingen separat waypoint-katalog.
 Koordinaterna är en ögonblicksbild och uppdateras inte automatiskt.
 
-### BlueMap
+### BlueMap: interaktiv platsnavigering
 
-3D-kartan finns på [karta.weab.nu](https://karta.weab.nu/) och visas som
-lazy-loadad iframe på `/karta/`. Externa länkar finns i navigationen, foten,
-på startsidan, projektsidan, arenan, kontaktsidan och verksamhetssidorna.
-Besökaren kan alltid öppna kartan direkt om webbläsaren eller BlueMaps
-säkerhetsinställningar blockerar inbäddningen.
+`/karta/` innehåller nu en **platsstyrd kartutforskare** där besökaren kan söka bland
+35 registrerade waypoints, filtrera kategori och dimension (Overworld/Nether/End),
+växla mellan 3D/2D och öppna samma position i [BlueMap](https://karta.weab.nu/).
+Platslänkar, koncernlokaler och WeKills farmer har direkta BlueMap-kameralänkar
+baserat på X/Y/Z i `src/data/locations.ts`. Samma plats kan delas på
+`/karta/?plats=<id>`, och ett `/tp`-kommando kan kopieras på kartvyn.
 
-Länkarna öppnar kartans startsida: det används **inga spekulativa**
-koordinatankare eller hårdkodade kart-ID:n, eftersom sådana URL:er måste
-verifieras mot den aktuella BlueMap-installationen. Webbplatsen är helt statisk
-och fungerar även om den externa kartservern är otillgänglig.
+**BlueMap-kartornas ID:n är inte verifierade mot er liveinstans.** Standardvärdena
+`world`, `world_nether` och `world_the_end` finns i `src/data/bluemap.ts`.
+Anpassa dem till era riktiga kartnamn och kontrollera att respektive dimension är
+publicerad innan funktionen testas i produktion.
+
+BlueMap har även inbyggda markörlager. Med
+
+```bash
+npm run bluemap:markers
+npm run bluemap:check
+```
+
+genereras tre HOCON-utdrag under `bluemap/markers/` med marker-sets och
+popup-texter för alla platser, uppdelade per dimension och kategori. Dessa filer
+måste **installeras på BlueMap-servern** för att markörerna ska synas inne i
+själva kartan. Läs [bluemap/README.md](bluemap/README.md) för instruktioner.
+Webbplatsens GitHub Pages-publicering ändrar inte BlueMap-serverns inställningar.
+Personliga baser ligger i ett markörlager som är dolt som standard.
+
+Inbäddningen är lazy-loadad och har alltid länk till den fristående kartan vid
+WebGL-problem eller om BlueMap avvisar iframes.
 
 ### Pixelart-logotyper (endast kod)
 
@@ -116,6 +134,7 @@ börskurser.
 
 ```bash
 npm run validate:content
+npm run bluemap:check
 npm run build
 ```
 

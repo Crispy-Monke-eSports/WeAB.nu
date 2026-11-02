@@ -193,6 +193,11 @@ const dimensionLabels = {
     });
     if (selected) selectPlace(selected, false);
     filterPlaces();
+    if (!params.has('plats') && (initialGroup || initialDimension)) {
+      const firstVisible = entries.find(entry => !entry.hidden)
+        ?.querySelector<HTMLButtonElement>('[data-place]');
+      if (firstVisible) selectPlace(firstVisible, false);
+    }
   }
 </script>
 

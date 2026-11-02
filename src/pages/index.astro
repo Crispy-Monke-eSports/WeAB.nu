@@ -1,5 +1,4 @@
 ---
-import MapLink from '../components/MapLink.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CompanyCard from '../components/CompanyCard.astro';
 import {companies} from '../data/companies';
@@ -77,7 +76,7 @@ const featuredProjects = featuredProjectIds.flatMap(id => {
     <div class="shell map-teaser__inner">
       <div><p class="eyebrow">VÅR MINECRAFT-VÄRLD</p><h2 id="map-teaser-heading">Se servern i tre dimensioner.</h2>
         <p>Från Huvudstaden och sektionernas anläggningar till världen bortom koncernen. BlueMap visar serverns värld på en separat kartserver.</p></div>
-      <div class="map-teaser__links"><a class="btn" href="/karta/">Utforska serverkartan <span aria-hidden="true">↗</span></a><MapLink label="Öppna BlueMap direkt" /></div>
+      <div class="map-teaser__links"><a class="btn" href="/karta/">Utforska serverkartan <span aria-hidden="true">↗</span></a><a class="link-arrow" href={`/karta/?plats=${locations.find(place => place.name === 'Huvudstaden')?.id ?? ''}`}>Hitta Huvudstaden <span aria-hidden="true">↗</span></a></div>
     </div>
   </section>
   <section class="values-banner"><div class="shell"><span class="eyebrow">VÅRT LÖFTE</span><h2>Valfrihet är bra.<br/><em>Samordning är bättre.</em></h2><p>Vissa kallar det monopol. Vi kallar det kundförenkling.</p><a href="/investerare/" class="btn btn-outline">Investerarrelationer ↗</a></div></section>
