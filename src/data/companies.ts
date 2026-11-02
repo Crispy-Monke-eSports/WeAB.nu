@@ -99,12 +99,12 @@ export const companies: Company[] = [
   },
   {
     slug: 'werule', name: 'WeRule', kicker: 'OFFENTLIG FASTIGHET · PRIVAT ÄGANDE', tagline: 'Statens hus. Vår fastighet.',
-    overview: 'Riksdagshuset i Huvudstaden och Stadshuset i Sektion 1. Offentliga byggnader i WeAB:s värld.',
+    overview: 'Statens byggnader. Koncernens fastigheter. Vi ser inget motsatsförhållande.',
     description: 'WeRule ansvarar för koncernens offentliga byggnader. Riksdagen sammanträder i Huvudstaden i en statlig byggnad som ägs av WeAB. I Sektion 1 ligger WeRules stadshus. Staten står för uppdraget; koncernen har nycklarna.',
     accent: '#00BCD4', image: '/images/werule-riksdagshuset.webp', imageAlt: 'Riksdagshuset i Huvudstaden, vit byggnad med cyan detaljer och WE-symbol på fasaden',
-    location: 'Huvudstaden och Sektion 1', status: 'Två offentliga byggnader',
-    services: ['Riksdagshuset i Huvudstaden', 'Serverns riksdag', 'Stadshuset i Sektion 1', 'Offentliga byggnader'],
-    facts: [{label: 'Riksdagshuset', value: 'Huvudstaden · ägs av WeAB'}, {label: 'Stadshuset', value: 'Sektion 1'}, {label: 'Riksdagens plats', value: 'Riksdagshuset'}]
+    location: 'Huvudstaden och Sektion 1', status: 'Offentligt uppdrag · privat ägande',
+    services: ['Riksdagshuset i Huvudstaden', 'Stadshuset i Sektion 1', 'Offentlig förvaltning', 'Fastighetsdrift'],
+    facts: [{label: 'Riksdagshuset', value: 'Huvudstaden · ägs av WeAB'}, {label: 'Stadshuset', value: 'Sektion 1'}, {label: 'Uppdraget', value: 'Offentligt · i privat regi'}]
   }
 
 ];

@@ -17,7 +17,7 @@ interface CompanyEditorial {
 
 export const companyEditorial: Record<string, CompanyEditorial> = {
   wekill: {
-    heading: 'Produktion i tre dimensioner.',
+    heading: 'Produktionen har vuxit ur kontoret.',
     introduction: 'Ledningen sitter i Sektion 1. Produktionen har sedan länge vuxit ur en enda dimension.',
     groups: [
       { title: 'Ledning och farmkomplex', description: 'Besluten fattas i Sektion 1. Resten sköter produktionen.', ids: ['wekill-hq', 'wekill-farms'] },
@@ -28,7 +28,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
     ]
   },
   wesort: {
-    heading: 'En byggnad. Ett ordnat flöde.',
+    heading: 'Allting på sin plats.',
     introduction: 'I Sektion 1 väntar en sorteringshall där ingenting försvinner. Åtminstone inte ur våra register.',
     groups: [{ title: 'Sorteringsanläggningen', description: 'Kistorna står redo för nästa leverans från WeKill.', ids: ['wesort-facility'] }],
     connections: {
@@ -42,7 +42,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
     }
   },
   webox: {
-    heading: 'Lagersystemet vid WeSort.',
+    heading: 'Varje box får en etikett.',
     introduction: 'WeKill tillverkar shulkerboxarna. Vi registrerar innehållet och förvarar det i Sektion 1, anslutna till WeSort.',
     groups: [{ title: 'WeBox-anslutningen', description: 'Varje box får en plats. Äganderätten prövas vid behov.', ids: ['webox'] }],
     connections: {
@@ -56,7 +56,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
     }
   },
   welivelaughlove: {
-    heading: 'Två avdelningar. Samma bostadsmodell.',
+    heading: 'Ett hem. Ett syfte.',
     introduction: 'Avdelning B ligger i Sektion 1 och Avdelning A i Sektion 3. Boendeformen är densamma: gemenskap på koncernens villkor.',
     groups: [
       { title: 'Sektion 1 · Avdelning B', description: 'Järnvägen går förbi det inhägnade distriktet. De boende stannar.', ids: ['welivelaughlove-compound'] },
@@ -69,7 +69,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
     groups: [{ title: 'WeGamble Island', description: 'Bygget pågår. Huset planerar att vinna från dag ett.', ids: ['wegamble-island'] }]
   },
   wetravel: {
-    heading: 'Stationer på två platser.',
+    heading: 'Avgångar enligt plan.',
     introduction: 'Från Huvudstaden till Sektion 1 håller WeTravel rälsen och isbåtslederna i gång. Valet av destination är naturligtvis fritt inom nätet.',
     groups: [
       { title: 'Huvudstadens centralstation', description: 'Rälsen möter en lila portal under det upplysta taket.', ids: ['wetravel-huvudstaden-centralstation'] },
@@ -78,7 +78,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
     ]
   },
   wetrade: {
-    heading: 'Handeln samlad under ett tak.',
+    heading: 'Kunskap till fast pris.',
     introduction: 'Alla enchantments säljs under ett tak. Handlarna står redo dygnet runt, oavsett vad deras scheman säger.',
     groups: [{ title: 'Handelsanläggningen', description: 'Grön skylt, långa handelsdiskar och ingen konkurrent i sikte.', ids: ['wetrade-exterior'] }]
   },
@@ -88,7 +88,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
     groups: [{ title: 'Personalanläggningen', description: 'Rosa WE-skylt utanför. Personalplanering innanför.', ids: ['welove-headquarters'] }]
   },
   werule: {
-    heading: 'Två hus. Två offentliga roller.',
+    heading: 'Makten har en adress.',
     introduction: 'Riksdagen sammanträder i Huvudstaden. Byggnaden är statlig, men ägs av WeAB. Stadshuset finns i Sektion 1.',
     groups: [
       { title: 'Huvudstaden · Riksdagshuset', description: 'Här beslutas om allmänintresset. Fastigheten står i koncernens namn.', ids: ['werule-riksdagshuset'] },

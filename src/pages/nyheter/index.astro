@@ -1,80 +1,158 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { news } from '../../data/news';
+import { publications, publicationFormatLabels, editorialFormats, opinionFormats } from '../../data/publications.ts';
 
-const [featured, ...archive] = news;
-const displayDate = (date: string) =>
-  new Intl.DateTimeFormat('sv-SE', {
-    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
-  }).format(new Date(`${date}T12:00:00Z`));
+const [featured] = publications;
+const letters = publications.filter(item => item.format === 'insandare').slice(0, 3);
+const formatButtons = ['alla', 'pressmeddelande', ...editorialFormats] as const;
+const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
+  { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }
+).format(new Date(`${iso}T12:00:00Z`));
 ---
 <BaseLayout
-  title="Nyheter och pressmeddelanden | WeAB Group"
-  description="Beslut, investeringar och verksamhetsuppdateringar från WeAB Group och koncernens bolag."
+  title="WeAB Tidningen | Nyheter, insändare och opinion"
+  description="Nyheter, reportage, ledare, krönikor och insändare från WeAB:s Minecraft-koncern."
 >
-  <section class="page-hero">
+  <header class="page-hero newspaper-hero">
     <div class="shell">
-      <div class="eyebrow">WEAB GROUP / PRESS & KOMMUNIKATION</div>
-      <h1>Nyheter från koncernen.</h1>
-      <p class="lead">Här samlar vi beslut, anläggningsprojekt och verksamhetsuppdateringar från hela WeAB Group. Informationen publiceras av koncernens kommunikationsfunktion.</p>
+      <h1>WeAB Tidningen.</h1>
+      <p class="lead">Nyheter, debatt och fördjupning från koncernen och vår omvärld. Här finns plats för flera röster, så länge de har något konstruktivt att säga.</p>
+      <div class="paper-edition"><span>Utgiven av WeAB Group</span><span>{publications.length} publicerade texter</span></div>
     </div>
-  </section>
-  {featured && <section class="featured-section" aria-label="Senaste nyheten">
-    <div class="shell">
-      <div class="featured-label"><span>SENASTE FRÅN KONCERNEN</span><time datetime={featured.publishedAt}>{displayDate(featured.publishedAt)}</time></div>
-      <a href={`/nyheter/${featured.slug}/`} class="featured-story">
-        <div class="featured-image"><img src={featured.image} alt={featured.alt} loading="eager" /></div>
-        <div class="featured-body">
-          <span class="small-caps">{featured.type}</span>
-          <h2>{featured.title}</h2>
-          <p>{featured.summary}</p>
-          <span class="featured-read">Läs pressmeddelandet <span aria-hidden="true">↗</span></span>
-        </div>
-      </a>
+  </header>
+
+  {featured && <section class="frontpage">
+    <div class="shell frontpage-grid">
+      <div class="lead-story">
+        <h2>Senaste publiceringen</h2>
+        <a class="lead-link" href={`/nyheter/${featured.slug}/`}>
+          <img src={featured.image} alt={featured.alt} loading="eager" width="960" height="540" />
+          <span class="lead-copy">
+            <strong>{featured.title}</strong>
+            <span>{featured.summary}</span>
+            <small>{publicationFormatLabels[featured.format]} · {dateLabel(featured.publishedAt)}</small>
+          </span>
+        </a>
+      </div>
+      <aside class="reader-voices" aria-label="Insändare">
+        <h2>Insändare</h2>
+        <p>Tankar och iakttagelser från invånare och kunder.</p>
+        {letters.map(item => <a href={`/nyheter/${item.slug}/`} class="reader-story">
+          <h3>{item.title}</h3>
+          <span>{item.byline} · {dateLabel(item.publishedAt)}</span>
+        </a>)}
+      </aside>
     </div>
   </section>}
-  <section class="section archive">
+
+  <section class="section newspaper-archive" aria-labelledby="archive-title">
     <div class="shell">
-      <div class="section-heading">
-        <div><div class="eyebrow">ARKIV / PRESSMEDDELANDEN</div><h2>Fortsatt utveckling.</h2></div>
-        <p>Nyheter från koncernens verksamheter, projekt och gemensamma funktioner.</p>
+      <div class="archive-heading">
+        <h2 id="archive-title">Alla artiklar och insändare</h2>
+        <p>Bläddra mellan koncernens nyheter och de skribenter som bidrar med perspektiv på en alltmer sammanhållen server.</p>
       </div>
-      <div class="news-grid">
-        {archive.map(item => <a href={`/nyheter/${item.slug}/`} class="news-card">
+      <div class="filter-bar" role="group" aria-label="Filtrera artikeltyp" data-filters>
+        {formatButtons.map(format => <button
+          type="button"
+          data-format={format}
+          aria-pressed={format === 'alla' ? 'true' : 'false'}>
+          {format === 'alla' ? 'Alla' : publicationFormatLabels[format]}
+        </button>)}
+      </div>
+      <div class="archive-search">
+        <label for="news-search">Sök i tidningen</label>
+        <input id="news-search" type="search" placeholder="Sök bland rubriker, ämnen och skribenter" data-search />
+        <output data-count aria-live="polite">{publications.length} texter</output>
+      </div>
+      <div class="news-grid" data-articles>
+        {publications.map(item => <a
+          class="news-card"
+          href={`/nyheter/${item.slug}/`}
+          data-story
+          data-format={item.format}
+          data-searchable={`${item.title} ${item.summary} ${item.byline} ${item.type} ${publicationFormatLabels[item.format]}`.toLocaleLowerCase('sv')}>
           <div class="image-frame"><img src={item.image} alt={item.alt} loading="lazy" /></div>
-          <div class="news-metadata"><span class="small-caps">{item.type}</span><time datetime={item.publishedAt}>{displayDate(item.publishedAt)}</time></div>
           <h3>{item.title}</h3>
+          <div class="card-meta"><span>{publicationFormatLabels[item.format]}</span><time datetime={item.publishedAt}>{dateLabel(item.publishedAt)}</time></div>
           <p>{item.summary}</p>
-          <span class="news-read">Läs pressmeddelandet <span aria-hidden="true">↗</span></span>
+          <span class="story-link">Läs texten <span aria-hidden="true">↗</span></span>
         </a>)}
       </div>
+      <p class="empty-state" data-empty hidden>Inga artiklar matchar sökningen. Prova ett annat ämne eller välj Alla.</p>
     </div>
   </section>
 </BaseLayout>
+<script>
+  const container = document.querySelector<HTMLElement>('[data-articles]');
+  const cards = [...(container?.querySelectorAll<HTMLElement>('[data-story]') ?? [])];
+  const filters = [...document.querySelectorAll<HTMLButtonElement>('[data-filters] button')];
+  const search = document.querySelector<HTMLInputElement>('[data-search]');
+  const count = document.querySelector<HTMLOutputElement>('[data-count]');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+  let activeFormat = 'alla';
+
+  function filterArticles() {
+    const query = (search?.value ?? '').trim().toLocaleLowerCase('sv');
+    let visible = 0;
+    for (const card of cards) {
+      const match = (activeFormat === 'alla' || card.dataset.format === activeFormat)
+        && (card.dataset.searchable ?? '').includes(query);
+      card.hidden = !match;
+      if (match) visible += 1;
+    }
+    if (count) count.textContent = `${visible} ${visible === 1 ? 'text' : 'texter'}`;
+    if (empty) empty.hidden = visible !== 0;
+  }
+  for (const button of filters) button.addEventListener('click', () => {
+    activeFormat = button.dataset.format ?? 'alla';
+    for (const option of filters) option.setAttribute('aria-pressed', String(option === button));
+    filterArticles();
+  });
+  search?.addEventListener('input', filterArticles);
+</script>
 <style>
-  .featured-section{padding:3.5rem 0;background:#101f29;border-bottom:1px solid #344a55}
-  .featured-label{display:flex;justify-content:space-between;gap:1.5rem;color:#a5bdc9;font-size:.73rem;letter-spacing:.13em;font-weight:700;margin-bottom:1rem}
-  .featured-label time{letter-spacing:0;text-transform:none}
-  .featured-story{display:grid;grid-template-columns:1.1fr 1fr;min-height:350px;border:1px solid #3b515d;background:#172832;text-decoration:none}
-  .featured-image{overflow:hidden;min-height:310px}
-  .featured-image img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .25s}
-  .featured-story:hover .featured-image img,.featured-story:focus-visible .featured-image img{transform:scale(1.035)}
-  .featured-body{padding:clamp(1.4rem,3vw,3rem);display:flex;flex-direction:column;align-items:start;justify-content:center}
-  .featured-body h2{font-size:clamp(1.55rem,2.8vw,2.7rem);line-height:1.16;margin:1.2rem 0 1rem}
-  .featured-body p{margin:0 0 1.6rem;line-height:1.6}
-  .featured-read,.news-read{font-size:.8rem;font-weight:800;color:#83dfec}
-  .archive{background:#0b1720}
-  .news-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem 1.4rem}
-  .news-card{color:inherit;text-decoration:none;display:flex;flex-direction:column;align-items:start}
-  .news-card .image-frame{width:100%;height:215px;margin-bottom:1.1rem;overflow:hidden}
+  .newspaper-hero{padding-bottom:3.5rem}
+  .paper-edition{margin-top:2rem;padding-top:1rem;border-top:1px solid #3e515b;display:flex;gap:1.2rem;justify-content:space-between;flex-wrap:wrap;font-size:.78rem;color:#aec4cd}
+  .frontpage{padding:3.5rem 0;background:#101e27;border-bottom:1px solid #324955}
+  .frontpage-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(265px,.65fr);gap:2.5rem}
+  .frontpage h2{font-size:1.55rem;margin:0 0 1.2rem}
+  .lead-link{display:block;color:inherit;text-decoration:none}
+  .lead-link>img{width:100%;height:clamp(240px,29vw,390px);object-fit:cover;border:1px solid #3d5561}
+  .lead-copy{display:grid;gap:.8rem;padding:1.35rem 0}
+  .lead-copy strong{font-size:clamp(1.5rem,3vw,2.3rem);line-height:1.15}
+  .lead-copy>span{font-size:.98rem;line-height:1.65;color:#bdccd4}
+  .lead-copy small{font-size:.76rem;color:#99b5c0}
+  .lead-link:hover strong,.lead-link:focus-visible strong{text-decoration:underline;text-decoration-color:#77d6e6;text-underline-offset:4px}
+  .reader-voices{border-left:1px solid #405660;padding-left:2rem}
+  .reader-voices>p{font-size:.9rem;color:#b5c6d0}
+  .reader-story{display:block;border-top:1px solid #405660;padding:1.2rem 0;text-decoration:none;color:inherit}
+  .reader-story h3{font-size:1.08rem;line-height:1.3;margin:0 0 .6rem}
+  .reader-story:hover h3,.reader-story:focus-visible h3{color:#8ae1ed}
+  .reader-story span{font-size:.7rem;color:#9db2c0}
+  .newspaper-archive{background:#0b1821}
+  .archive-heading{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:1.6rem}
+  .archive-heading h2{font-size:clamp(1.7rem,3.2vw,2.5rem);margin:0}
+  .archive-heading p{font-size:.91rem;line-height:1.6;margin:0}
+  .filter-bar{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1rem}
+  .filter-bar button{font:inherit;font-size:.78rem;font-weight:700;cursor:pointer;border:1px solid #536876;color:#c8d8e0;background:#152936;padding:.65rem .95rem;min-height:40px}
+  .filter-bar button[aria-pressed="true"]{border-color:#74dbe9;color:#06222b;background:#80ddea}
+  .filter-bar button:hover{border-color:#8edfeb}
+  .archive-search{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap;margin-bottom:2.2rem}
+  .archive-search label{font-size:.8rem;font-weight:700}
+  .archive-search input{width:min(440px,100%);min-height:44px;padding:.65rem .8rem;font:inherit;background:#122632;border:1px solid #4c6572;color:#f3f7f9}
+  .archive-search output{font-size:.77rem;color:#a9c1cc}
+  .news-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.65rem 1.4rem}
+  .news-card{display:flex;flex-direction:column;align-items:flex-start;color:inherit;text-decoration:none}
+  .news-card[hidden],.empty-state[hidden]{display:none}
+  .news-card .image-frame{width:100%;height:210px;overflow:hidden;margin-bottom:1rem}
   .news-card .image-frame img{width:100%;height:100%;object-fit:cover}
-  .news-card:hover .image-frame,.news-card:focus-visible .image-frame{border-color:#80dfed}
-  .news-metadata{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;font-size:.73rem;color:#a6b7c2}
-  .news-metadata time{font-size:.73rem}
-  .news-card h3{font-size:clamp(1.13rem,1.8vw,1.45rem);line-height:1.25;margin:.75rem 0}
-  .news-card:hover h3{text-decoration:underline;text-decoration-color:#80dfed;text-underline-offset:.2em}
-  .news-card p{font-size:.88rem;line-height:1.57;margin:0 0 1.2rem}
-  .news-card .news-read{margin-top:auto}
-  @media(max-width:970px){.news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featured-story{grid-template-columns:1fr 1fr}}
-  @media(max-width:690px){.featured-story{grid-template-columns:1fr}.featured-image{min-height:260px;max-height:370px}.news-grid{grid-template-columns:1fr}.news-card .image-frame{height:240px}}
+  .news-card h3{font-size:1.35rem;margin:0 0 .7rem;line-height:1.32}
+  .news-card:hover h3,.news-card:focus-visible h3{text-decoration:underline;text-decoration-color:#7fdae6}
+  .card-meta{display:flex;align-items:baseline;gap:.75rem;flex-wrap:wrap;margin-bottom:.8rem;font-size:.71rem;color:#91aeba}
+  .card-meta span{color:#aadce4;font-weight:800}
+  .news-card p{font-size:.88rem;line-height:1.6;margin:0 0 1.1rem}
+  .story-link{font-size:.78rem;color:#85deea;font-weight:800;margin-top:auto}
+  .empty-state{border-left:3px solid #7adce8;padding:1rem;background:#142833}
+  @media(max-width:1000px){.frontpage-grid{grid-template-columns:1.35fr .65fr;gap:1.5rem}.reader-voices{padding-left:1.5rem}.news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:700px){.frontpage-grid,.archive-heading{grid-template-columns:1fr}.reader-voices{border-left:0;border-top:1px solid #405660;padding:1.4rem 0 0}.news-grid{grid-template-columns:1fr}.news-card .image-frame{height:240px}.archive-search input{flex-basis:100%}}
 </style>

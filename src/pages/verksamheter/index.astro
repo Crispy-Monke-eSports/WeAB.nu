@@ -4,6 +4,6 @@ import CompanyCard from '../../components/CompanyCard.astro';
 import {companies} from '../../data/companies';
 ---
 <BaseLayout title="Våra verksamheter | WeAB Group">
-<section class="page-hero"><div class="shell"><div class="eyebrow">WEAB GROUP</div><h1>{companies.length} verksamheter.<br/>En enda riktning.</h1><p class="lead">Från produktion och sortering till boende, transport och nöje. Se hur WeAB:s verksamheter formar en ekonomi där allt till slut leder tillbaka till oss.</p></div></section>
+<section class="page-hero"><div class="shell"><h1>{companies.length} verksamheter.<br/>En enda riktning.</h1><p class="lead">Från produktion och sortering till boende, transport och nöje. Se hur WeAB:s verksamheter formar en ekonomi där allt till slut leder tillbaka till oss.</p></div></section>
 <section class="section"><div class="shell"><div class="card-grid">{companies.map(company=><CompanyCard company={company}/>)}</div></div></section>
 </BaseLayout>

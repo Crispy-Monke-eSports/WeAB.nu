@@ -10,7 +10,6 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
 <BaseLayout title="Karriär hos WeAB | Din framtid är vår tillgång" description="Platsannonser från WeAB på en privat Minecraft-server. Inga verkliga anställningar.">
   <section class="careers-hero">
     <div class="shell careers-intro">
-      <div class="eyebrow">WEAB HUMAN CAPITAL</div>
       <h1>Din framtid.<br/><em>Vår tillgång.</em></h1>
       <p class="lead">Det finns jobb. Det finns karriärer. Och så finns möjligheten att ägna hela ditt yrkesliv åt att göra vår aktiekurs lycklig.</p>
       <a class="btn" href="#lediga-tjanster">Se platsannonserna <span aria-hidden="true">↓</span></a>
@@ -20,8 +19,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
   <section class="section">
     <div class="shell">
       <div class="section-heading">
-        <div><div class="eyebrow">DINA FÖRMÅNER</div><h2>Vi tar hand om våra medarbetare.<br/>Och deras tid.</h2></div>
-        <p>Våra förmåner har utvecklats i nära samråd med ledningen. Medarbetarnas synpunkter arkiveras omsorgsfullt.</p>
+        <div><h2>Vi tar hand om våra medarbetare.<br/>Och deras tid.</h2></div>
       </div>
       <div class="benefits">
         <article><span>01 / UTVECKLING</span><h3>Obegränsad potential</h3><p>Din kompetens utvecklas kontinuerligt. Ditt inflytande förblir behagligt konstant.</p></article>
@@ -34,8 +32,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
   <section class="section section--dark" id="lediga-tjanster">
     <div class="shell">
       <div class="section-heading vacancies-heading">
-        <div><div class="eyebrow">KARRIÄRMÖJLIGHETER</div><h2>Du. På pappret.</h2></div>
-        <p>Vi söker initiativrika personer med lagom mycket självständighet. Övriga egenskaper kan justeras under introduktionen.</p>
+        <div><h2>Du. På pappret.</h2></div>
       </div>
       <p class="jobs-disclaimer">Ansökningar tas inte emot via webbplatsen.</p>
       <div class="job-tools" role="search" aria-label="Filtrera platsannonser">
@@ -64,7 +61,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
 
   <section class="section" id="rekrytering">
     <div class="shell recruitment">
-      <div><div class="eyebrow">REKRYTERINGSPROCESSEN</div><h2>Tre enkla steg.<br/>Ett livslångt åtagande.</h2><p>Vi har effektiviserat rekryteringen så att du kan fokusera mindre på val och mer på resultat.</p></div>
+      <div><h2>Tre enkla steg.<br/>Ett livslångt åtagande.</h2><p>Vi har effektiviserat rekryteringen så att du kan fokusera mindre på val och mer på resultat.</p></div>
       <ol class="recruitment-steps">
         <li><span>01</span><div><h3>Visa intresse</h3><p>Hitta en koncernrepresentant på servern. Ange önskad tjänst och antalet diamanter du redan kontrollerar.</p></div></li>
         <li><span>02</span><div><h3>Bli granskad</h3><p>Vi kontrollerar din erfarenhet, lojalitet och eventuella kopplingar till fri konkurrens.</p></div></li>
@@ -72,7 +69,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
       </ol>
     </div>
   </section>
-  <section class="careers-closing"><div class="shell"><div class="eyebrow">WEAB · PERSONALAVDELNINGEN</div><h2>Vi ser fram emot<br/>att äga din potential.</h2><a class="btn btn-outline" href="/kontakt/">Koncernens kontaktpolicy <span aria-hidden="true">↗</span></a></div></section>
+  <section class="careers-closing"><div class="shell"><h2>Vi ser fram emot<br/>att äga din potential.</h2><a class="btn btn-outline" href="/kontakt/">Koncernens kontaktpolicy <span aria-hidden="true">↗</span></a></div></section>
 </BaseLayout>
 <script>
   const search = document.querySelector<HTMLInputElement>('#job-search');

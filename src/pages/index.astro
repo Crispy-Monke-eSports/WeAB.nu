@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CompanyCard from '../components/CompanyCard.astro';
 import {companies} from '../data/companies';
 import {projects, featuredProjectIds} from '../data/projects';
-import {news} from '../data/news';
+import { publications, publicationFormatLabels } from '../data/publications.ts';
 import {arenaPhotos} from '../data/arena';
 const featuredProjects = featuredProjectIds.flatMap(id => {
   const project = projects.find(item => item.id === id);
@@ -16,7 +16,6 @@ const companySlugByName = Object.fromEntries(companies.map(company => [company.n
     <img class="hero-image" src="/images/weab-cyan-building.webp" alt="Cyanfärgad företagsbyggnad med monumental vit figur i Minecraft" fetchpriority="high"/>
     <div class="hero-shade"></div>
     <div class="shell hero-content">
-      <div class="eyebrow">WEAB GROUP · SAMMANHÅLLEN FRAMTID</div>
       <h1>En bättre värld.<br/><em>På våra villkor.</em></h1>
       <p>Vi producerar. Du konsumerar. Aktieägarna ler. Konkurrenter kan ansöka om frivillig avveckling innan vi erbjuder dem hjälp.</p>
       <div class="hero-actions"><a href="/verksamheter/" class="btn">Utforska koncernen <span aria-hidden="true">↗</span></a><a href="/koncernen/" class="btn btn-outline">Lär känna WeAB</a></div>
@@ -34,32 +33,31 @@ const companySlugByName = Object.fromEntries(companies.map(company => [company.n
 
   <section class="section"><div class="shell">
     <div class="split-layout intro">
-      <div><div class="eyebrow">OM KONCERNEN</div><h2>Vi tror på en värld utan onödig konkurrens.</h2></div>
+      <div><h2>Vi tror på en värld utan onödig konkurrens.</h2></div>
       <div><p class="lead">WeAB är en vertikalt integrerad företagsgrupp som samlar produktion, infrastruktur och invånarnära tjänster under en och samma vision.</p><p>Aktiekursen ska upp. Om verkligheten inte håller med får verkligheten anpassa sig.</p><a class="link-arrow" href="/koncernen/">Läs om koncernen <span>↗</span></a></div>
     </div>
   </div></section>
 
   <section class="section section--dark"><div class="shell">
-    <div class="section-heading"><div><div class="eyebrow">VÅRA AFFÄRSOMRÅDEN</div><h2>Ett ekosystem.<br/>Ett ägarskap.</h2></div><p>{companies.length} verksamheter i koncernen. WeKills produktion sträcker sig över Overworld, Nether och End.</p></div>
+    <div class="section-heading"><div><h2>Ett ekosystem.<br/>Ett ägarskap.</h2></div></div>
     <div class="card-grid">{companies.map(company=><CompanyCard company={company}/>)}</div>
   </div></section>
 
   <section class="section"><div class="shell split-layout pipeline">
     <div class="image-frame pipeline-image"><img src="/images/section-1-overview.webp" alt="Överblick över Sektion 1 med järnfarm, produktionsbyggnader, mobgrinder och räls" loading="lazy"/></div>
-    <div><div class="eyebrow">DEN INTEGRERADE VÄRDEKEDJAN</div><h2>Från första resurs till sista transaktion.</h2><p>Vi producerar det du behöver, lagrar det du äger och transporterar det du köper. Sedan säljer vi det gärna till dig igen.</p>
+    <div><h2>Från första resurs till sista transaktion.</h2><p>Vi producerar det du behöver, lagrar det du äger och transporterar det du köper. Sedan säljer vi det gärna till dig igen.</p>
       <div class="pipeline-steps"><div><b>01</b><strong>Producera</strong><span>WeKill</span></div><div><b>02</b><strong>Sortera</strong><span>WeSort</span></div><div><b>03</b><strong>Hantera</strong><span>WeBox</span></div><div><b>04</b><strong>Transportera</strong><span>WeTravel</span></div></div>
     </div>
   </div></section>
 
   <section class="section section--dark"><div class="shell">
-    <div class="section-heading"><div><div class="eyebrow">VÅR INFRASTRUKTUR</div><h2>Byggt för att bestå.</h2></div><a href="/verksamheter/" class="link-arrow">Utforska verksamheterna ↗</a></div>
+    <div class="section-heading"><div><h2>Byggt för att bestå.</h2></div><a href="/verksamheter/" class="link-arrow">Utforska verksamheterna ↗</a></div>
     <div class="featured-grid">{featuredProjects.map((project)=><a class="featured" href={`/verksamheter/${companySlugByName[project.division]}/#anlaggning-${project.id}`}><div class="image-frame"><img src={project.image} alt={project.alt} loading="lazy"/></div><div class="featured-info"><span>{project.division} · {project.category}</span><h3>{project.name}</h3><span aria-hidden="true">↗</span></div></a>)}</div>
   </div></section>
 
   <section class="arena-spotlight" aria-labelledby="arena-spotlight-heading">
     <div class="shell arena-spotlight__grid">
       <div class="arena-spotlight__copy">
-        <p class="eyebrow">HUVUDSTADEN / DISTRIKTENS ARENA</p>
         <h2 id="arena-spotlight-heading">Byarnas ära står på spel.</h2>
         <p class="lead">I huvudstadens stora arena möts bybor från olika distrikt. Var och en tävlar för att vinna ära till sin hemby. Koncernen tillhandahåller läktarna – och tar gärna åt sig äran för arrangemanget.</p>
         <a class="btn btn-outline" href="/arena/">Besök arenan <span aria-hidden="true">↗</span></a>
@@ -71,10 +69,10 @@ const companySlugByName = Object.fromEntries(companies.map(company => [company.n
     </div>
   </section>
 
-  <section class="values-banner"><div class="shell"><span class="eyebrow">VÅRT LÖFTE</span><h2>Valfrihet är bra.<br/><em>Samordning är bättre.</em></h2><p>Vissa kallar det monopol. Vi kallar det kundförenkling.</p><a href="/investerare/" class="btn btn-outline">Investerarrelationer ↗</a></div></section>
+  <section class="values-banner"><div class="shell"><h2>Valfrihet är bra.<br/><em>Samordning är bättre.</em></h2><p>Vissa kallar det monopol. Vi kallar det kundförenkling.</p><a href="/investerare/" class="btn btn-outline">Investerarrelationer ↗</a></div></section>
 
-  <section class="section"><div class="shell"><div class="section-heading"><div><div class="eyebrow">KONCERNENS NYHETSRUM</div><h2>Senaste från koncernen</h2></div><a href="/nyheter/" class="link-arrow">Alla nyheter ↗</a></div>
-    <div class="news-grid">{news.slice(0,3).map(article=><a href={`/nyheter/${article.slug}/`} class="news-card"><div class="image-frame"><img src={article.image} alt={article.alt} loading="lazy"/></div><span class="small-caps">{article.type}</span><h3>{article.title}</h3><p>{article.summary}</p><span class="news-more">Läs artikeln ↗</span></a>)}</div>
+  <section class="section"><div class="shell"><div class="section-heading"><div><h2>Senaste från koncernen</h2></div><a href="/nyheter/" class="link-arrow">Alla nyheter ↗</a></div>
+    <div class="news-grid">{publications.slice(0,3).map(article=><a href={`/nyheter/${article.slug}/`} class="news-card"><div class="image-frame"><img src={article.image} alt={article.alt} loading="lazy"/></div><h3>{article.title}</h3><span class="small-caps">{publicationFormatLabels[article.format]}</span><p>{article.summary}</p><span class="news-more">Läs artikeln ↗</span></a>)}</div>
   </div></section>
 </BaseLayout>
 <style>
