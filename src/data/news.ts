@@ -1,4 +1,4 @@
-import { arenaPhotos } from './arena';
+import { arenaPhotos } from './arena.ts';
 
 export interface NewsItem {slug:string;type:string;title:string;summary:string;body:string[];image:string;alt:string;}
 export const news: NewsItem[] = [
