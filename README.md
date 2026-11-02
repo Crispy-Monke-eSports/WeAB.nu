@@ -77,8 +77,9 @@ Kodversionen är därför en ren, frontvänd pixelart-tolkning av samma symbol.
 
 WeTrade samlar samtliga enchantments under ett tak. WeLove ansvarar för
 koncernens villager breeding och personalförsörjning. Båda har egna
-verksamhetssidor och kodgenererade WE-logotyper i sina profilfärger.
-
+verksamhetssidor, kodgenererade WE-logotyper i sina profilfärger och fotografier
+från servern. Sex WebP-bilder för de två bolagen finns i `public/images/` och
+används av verksamhetssidorna, projektgalleriet och nyhetsrummet.
 
 Webbplatsen är satir, inte en verklig företags- eller rekryteringssida. Platsannonserna är fiktiva exempel och nyhetstexterna påhittade. Den avsiktliga bolagsparodin ska vara tydlig utan att besökaren behöver läsa källkoden.
 
