@@ -1,4 +1,4 @@
-import { arenaPhotos } from './arena';
+import { arenaPhotos } from './arena.ts';
 
 export interface Project {
   id: string;
