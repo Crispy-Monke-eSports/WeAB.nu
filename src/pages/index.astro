@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CompanyCard from '../components/CompanyCard.astro';
+import {companies} from '../data/companies';
+import {projects} from '../data/projects';
+import {news} from '../data/news';
+---
+<BaseLayout>
+  <section class="hero">
+    <img class="hero-image" src="/images/weab-cyan-building.webp" alt="Cyanfärgad företagsbyggnad med monumental vit figur i Minecraft" fetchpriority="high"/>
+    <div class="hero-shade"></div>
+    <div class="shell hero-content">
+      <div class="eyebrow">WEAB GROUP · SAMMANHÅLLEN FRAMTID</div>
+      <h1>En bättre värld.<br/><em>På våra villkor.</em></h1>
+      <p>Vi producerar. Du konsumerar. Aktieägarna ler. Konkurrenter kan ansöka om frivillig avveckling innan vi erbjuder dem hjälp.</p>
+      <div class="hero-actions"><a href="/verksamheter/" class="btn">Utforska koncernen <span aria-hidden="true">↗</span></a><a href="/koncernen/" class="btn btn-outline">Lär känna WeAB</a></div>
+    </div>
+    <div class="hero-foot"><span>WEAB · THE WE GROUP</span><span>EN KONCERN. ALLA LÖSNINGAR.</span></div>
+  </section>
+
+  <section class="metrics-section"><div class="shell metrics-grid">
+    <div><strong>06</strong><span>AFFÄRSOMRÅDEN</span></div>
+    <div><strong>01</strong><span>TILLÅTEN RIKTNING</span></div>
+    <div><strong class="metric-word">DIAMANTER</strong><span>ENDA GODKÄNDA VALUTAN</span></div>
+    <div><strong>∞</strong><span>ÄGARNAS APTIT</span></div>
+  </div></section>
+
+  <section class="section"><div class="shell">
+    <div class="split-layout intro">
+      <div><div class="eyebrow">OM KONCERNEN</div><h2>Vi tror på en värld utan onödig konkurrens.</h2></div>
+      <div><p class="lead">WeAB är en vertikalt integrerad företagsgrupp som samlar produktion, infrastruktur och invånarnära tjänster under en och samma vision.</p><p>Aktiekursen ska upp. Om verkligheten inte håller med får verkligheten anpassa sig.</p><a class="link-arrow" href="/koncernen/">Läs om koncernen <span>↗</span></a></div>
+    </div>
+  </div></section>
+
+  <section class="section section--dark"><div class="shell">
+    <div class="section-heading"><div><div class="eyebrow">VÅRA AFFÄRSOMRÅDEN</div><h2>Ett ekosystem.<br/>Ett ägarskap.</h2></div><p>Sex verksamheter. Samma ägare. Fråga oss gärna om alternativen.</p></div>
+    <div class="card-grid">{companies.map(company=><CompanyCard company={company}/>)}</div>
+  </div></section>
+
+  <section class="section"><div class="shell split-layout pipeline">
+    <div class="image-frame pipeline-image"><img src="/images/wesort-interior.webp" alt="Upplyst sorteringshall med långa rader av kistor" loading="lazy"/></div>
+    <div><div class="eyebrow">DEN INTEGRERADE VÄRDEKEDJAN</div><h2>Från första resurs till sista transaktion.</h2><p>Vi producerar det du behöver, lagrar det du äger och transporterar det du köper. Sedan säljer vi det gärna till dig igen.</p>
+      <div class="pipeline-steps"><div><b>01</b><strong>Producera</strong><span>WeKill</span></div><div><b>02</b><strong>Sortera</strong><span>WeSort</span></div><div><b>03</b><strong>Hantera</strong><span>WeBox</span></div><div><b>04</b><strong>Transportera</strong><span>WeTravel</span></div></div>
+    </div>
+  </div></section>
+
+  <section class="section section--dark"><div class="shell">
+    <div class="section-heading"><div><div class="eyebrow">VÅR INFRASTRUKTUR</div><h2>Byggt för att bestå.</h2></div><a href="/projekt/" class="link-arrow">Alla anläggningar ↗</a></div>
+    <div class="featured-grid">{[projects[3],projects[0],projects[5]].map((project)=><a class="featured" href={`/projekt/#${project.id}`}><div class="image-frame"><img src={project.image} alt={project.alt} loading="lazy"/></div><div class="featured-info"><span>{project.division} · {project.category}</span><h3>{project.name}</h3><span aria-hidden="true">↗</span></div></a>)}</div>
+  </div></section>
+
+  <section class="values-banner"><div class="shell"><span class="eyebrow">VÅRT LÖFTE</span><h2>Valfrihet är bra.<br/><em>Samordning är bättre.</em></h2><p>Vissa kallar det monopol. Vi kallar det kundförenkling.</p><a href="/investerare/" class="btn btn-outline">Investerarrelationer ↗</a></div></section>
+
+  <section class="section"><div class="shell"><div class="section-heading"><div><div class="eyebrow">AKTUELLT</div><h2>Från koncernens nyhetsrum</h2></div><a href="/nyheter/" class="link-arrow">Alla nyheter ↗</a></div>
+    <div class="news-grid">{news.map(article=><a href={`/nyheter/${article.slug}/`} class="news-card"><div class="image-frame"><img src={article.image} alt={article.alt} loading="lazy"/></div><span class="small-caps">{article.type}</span><h3>{article.title}</h3><p>{article.summary}</p><span class="news-more">Läs artikeln ↗</span></a>)}</div>
+    
+  </div></section>
+</BaseLayout>
+<style>
+.hero{position:relative;min-height:min(760px,83vh);display:flex;align-items:center;overflow:hidden;background:#13222a}.hero-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%;filter:saturate(.7) brightness(.72)}.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,15,22,.97) 0%,rgba(5,15,22,.86) 33%,rgba(5,15,22,.24) 100%),linear-gradient(0deg,rgba(5,15,22,.8),transparent 45%)}.hero-content{position:relative;z-index:1;padding:6rem 0 8.5rem}.hero-content h1{max-width:980px;margin:0}.hero-content h1 em{font-style:normal;color:#70dbeb}.hero-content p{color:#d0dbe0;max-width:620px;font-size:1.08rem;margin:1.6rem 0 2rem}.hero-actions{display:flex;gap:.75rem;flex-wrap:wrap}.hero-foot{position:absolute;z-index:1;bottom:0;left:0;width:100%;display:flex;justify-content:space-between;padding:1.4rem max(calc((100vw - var(--max))/2),1.7rem);border-top:1px solid #ffffff36;font-size:.63rem;letter-spacing:.17em;color:#c4d0d5;font-weight:700}.metrics-section{background:#0f1d26;border-bottom:1px solid #2b3d47}.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr)}.metrics-grid div{padding:2rem 1.4rem;border-left:1px solid #2b3d47;display:grid;gap:.45rem}.metrics-grid div:last-child{border-right:1px solid #2b3d47}.metrics-grid strong{font-size:2.5rem;letter-spacing:-.07em;color:#f9fcfd}.metrics-grid .metric-word{font-size:clamp(1rem,2vw,1.65rem);letter-spacing:-.04em}.metrics-grid span{font-size:.58rem;letter-spacing:.13em;color:#8aa0ac;font-weight:800}.intro{align-items:start}.pipeline-image{min-height:550px;height:100%}.pipeline-image img{height:100%}.pipeline-steps{border-top:1px solid #33444f;margin-top:2rem}.pipeline-steps>div{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:.8rem;padding:1.05rem 0;border-bottom:1px solid #33444f}.pipeline-steps b{color:var(--cyan);font-size:.7rem}.pipeline-steps strong{font-size:.95rem}.pipeline-steps span{color:#a6b9c3;font-size:.8rem}.featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}.featured{text-decoration:none}.featured .image-frame{height:230px}.featured .image-frame img{height:100%}.featured-info{padding:1.1rem 0;position:relative}.featured-info span:first-child{font-size:.65rem;letter-spacing:.14em;color:#96b0bc;text-transform:uppercase}.featured-info h3{margin:.55rem 0}.featured-info span:last-child{position:absolute;right:0;bottom:1.5rem;color:#79dbe6}.values-banner{background:radial-gradient(circle at 80% 50%,#175767 0%,#102630 38%,#09171f 80%);border-block:1px solid #304954;padding:6.5rem 0}.values-banner h2{font-size:clamp(2.3rem,5vw,5.2rem);margin:.25rem 0 1rem}.values-banner em{font-style:normal;color:#65d8e9}.values-banner p{max-width:550px;margin-bottom:1.8rem}.news-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem}.news-card{text-decoration:none}.news-card .image-frame{height:200px;margin-bottom:1.2rem}.news-card .image-frame img{height:100%}.news-card h3{margin:.7rem 0}.news-card p{font-size:.85rem}.news-more{font-size:.8rem;font-weight:800;color:#7cddea}.news-disclaimer{margin-top:1.5rem}@media(max-width:800px){.hero{min-height:640px}.hero-image{object-position:57% center}.hero-shade{background:linear-gradient(90deg,#07131ae8,#07131a9c),linear-gradient(0deg,#07131ae0,transparent)}.metrics-grid{grid-template-columns:1fr 1fr}.featured-grid,.news-grid{grid-template-columns:1fr 1fr}.pipeline-image{min-height:350px}}@media(max-width:550px){.hero-content{padding:5rem 0 6rem}.hero-content p{font-size:1rem}.hero-foot{font-size:.53rem;gap:1rem}.featured-grid,.news-grid{grid-template-columns:1fr}.metrics-grid strong{font-size:2rem}.metrics-grid div{padding:1.4rem .8rem}}
+</style>

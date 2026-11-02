@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CompanyCard from '../../components/CompanyCard.astro';
+import {companies} from '../../data/companies';
+---
+<BaseLayout title="Våra verksamheter | WeAB Group">
+<section class="page-hero"><div class="shell"><div class="eyebrow">THE WE GROUP</div><h1>Sex verksamheter.<br/>En enda riktning.</h1><p class="lead">Från produktion och sortering till vardag, transport och nöje. Se hur WeAB:s verksamheter formar en fullständigt integrerad ekonomi.</p></div></section>
+<section class="section"><div class="shell"><div class="card-grid">{companies.map(company=><CompanyCard company={company}/>)}</div></div></section>
+</BaseLayout>

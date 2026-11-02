@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://weab.nu/sitemap-index.xml
