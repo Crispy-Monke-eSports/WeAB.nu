@@ -1,6 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {companies} from '../data/companies';
+import {locations} from '../data/locations';
+import WaypointSection from '../components/WaypointSection.astro';
+
+const capitalLocations = locations.filter(place => place.group === 'Städer' || place.group === 'Offentliga byggnader');
+const shopLocations = locations.filter(place => place.group === 'Butiker');
+const landmarks = locations.filter(place => place.group === 'Sevärdheter');
+const playerBases = locations.filter(place => place.group === 'Spelarbaser');
 ---
 <BaseLayout title="Om WeAB | WeAB Group" description="WeAB:s företagsvision, ledningsmodell och koncernstruktur.">
   <section class="page-hero"><div class="shell"><div class="eyebrow">OM WEAB</div><h1>Vi organiserar framtiden.</h1><p class="lead">WeAB producerar resurser, föder upp arbetskraft, säljer kunskap, förvarar ägodelar och erbjuder begränsad frihet inom en obruten kedja av koncernkontrollerad service. Alla vägar leder till oss. Alla diamanter likaså.</p></div></section>
@@ -17,6 +24,35 @@ import {companies} from '../data/companies';
   </div></section>
   <section class="section section--dark"><div class="shell"><div class="section-heading"><div><div class="eyebrow">VÅRA VÄRDERINGAR</div><h2>Principer som skapar värde.</h2></div></div><ol class="value-grid"><li><span>01 /</span><h3>Samordning</h3><p>Det blir enklare att fatta rätt beslut när alla beslut kommer från samma håll.</p></li><li><span>02 /</span><h3>Tillväxt</h3><p>En god avkastning är inte en ambition. Det är en minimiförväntning.</p></li><li><span>03 /</span><h3>Stabilitet</h3><p>Vi ser till att varje samhällsprocess följer en väl definierad riktning.</p></li></ol></div></section>
   <section class="section"><div class="shell"><div class="section-heading"><div><div class="eyebrow">ORGANISATION</div><h2>Koncernens verksamheter</h2></div></div><div class="org-parent"><img class="org-logo" src="/logos/weab.svg" width="174" height="97" alt="WeAB:s blocklogotyp" /><strong>WeAB Group</strong><span>Moderbolag · Huvudkontor i huvudstaden</span></div><div class="org-line"></div><div class="org-grid">{companies.map(c=><a href={`/verksamheter/${c.slug}/`} style={`--c:${c.accent}`}><img class="org-mark" src={`/logos/${c.slug}.svg`} width="174" height="97" alt="" /><strong>{c.name}</strong><small>{c.kicker}</small></a>)}</div></div></section>
+  <section class="section section--dark" aria-label="Runtom i Minecraft-världen">
+    <div class="shell">
+      <div class="section-heading">
+        <div><div class="eyebrow">HUVUDSTADEN OCH OMGIVNINGEN</div><h2>Vår värld är större än koncernen.</h2></div>
+        <p>Waypoint-filen visar hur WeAB:s anläggningar hänger ihop med vanliga delar av servern: staden på halvön, butiker, byggnader, sevärdheter och spelarnas egna baser.</p>
+      </div>
+      <WaypointSection
+        heading="Huvudstaden och offentliga byggnader"
+        introduction="Huvudstaden ligger enligt serverns waypointbeskrivning på en halvö. Stadshuset i Sektion 1 har en egen markerad position. Koordinaterna gäller själva waypointen, inte byggnadernas alla ingångar."
+        places={capitalLocations}
+      />
+      <WaypointSection
+        heading="Handeln vid huvudstaden"
+        introduction="ByggMaxx, McDonald's och tankstationen finns som separata markeringar. Vi listar dem som serverns butiker, utan att påstå att de är WeAB-bolag."
+        places={shopLocations}
+      />
+      <WaypointSection
+        heading="Sevärdheter på servern"
+        introduction="Här finns bland annat Hungerspelsarenan, casinoön, Bedrock-chunken och Noas får-ö. Hungerspelsarenan är en annan waypoint än Huvudstadens arena."
+        places={landmarks}
+      />
+      <WaypointSection
+        heading="Spelarnas egna baser"
+        introduction="Utöver koncernens byggnader finns även privata spelarbaser markerade. De är inte WeAB-verksamheter. Två markeringar heter Simons bas men har olika positioner."
+        places={playerBases}
+      />
+      <p class="caption">Uppgifterna kommer från en exporterad waypoint-lista. Positioner anges som Minecraft-block (X, Y, Z) och kan förändras när servern byggs ut.</p>
+    </div>
+  </section>
   <section class="section section--dark"><div class="shell split-layout"><div><div class="eyebrow">SÄRSKILT MEDDELANDE</div><h2>Ordning är inte alltid populärt. Den är ändå nödvändig.</h2><p>Efter en kort period av oauktoriserad självständighet i byarna har samhällsfreden återställts. De boende har nu samma rättigheter som tidigare, men betydligt färre möjligheter att utöva dem.</p></div><div class="quote-block"><span>”</span><blockquote>Vi ser inte problem. Vi ser områden där vår kontroll ännu inte är tillräckligt utvecklad.</blockquote><small>WEAB · KONCERNENS ARBETSFILOSOFI</small></div></div></section>
 </BaseLayout>
 <style>

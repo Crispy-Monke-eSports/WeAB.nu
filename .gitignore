@@ -3,3 +3,5 @@ dist/
 .astro/
 .env*
 .DS_Store
+# JourneyMap export: do not commit the raw waypoint file.
+global_waypoints.dat
