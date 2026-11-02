@@ -32,7 +32,7 @@ for (const place of locations) {
   assert.ok(['overworld', 'the_nether', 'the_end'].includes(place.dimension), `Ogiltig dimension: ${place.name}`);
   for (const coordinate of [place.x, place.y, place.z]) assert.ok(Number.isInteger(coordinate), `Ogiltig koordinat för ${place.name}`);
   if (place.group === 'Farmer') {
-    assert.equal(place.operator, 'WeKill', `WeKill ska stå som ansvarig för farmen ${place.name}`);
+    assert.equal(place.owner, 'WeKill', `WeKill ska stå som ansvarig för farmen ${place.name}`);
     assert.equal(place.relatedPage, '/verksamheter/wekill/');
   }
 }

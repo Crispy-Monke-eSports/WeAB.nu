@@ -8,7 +8,7 @@ export function getStaticPaths(){return companies.map(company=>({params:{slug:co
 const {company}=Astro.props;
 const relatedProjects = projects.filter(project => project.division === company.name);
 const companyWaypoints = locations.filter(place =>
-  place.operator === company.name
+  place.owner === company.name
   || place.relatedPage === `/verksamheter/${company.slug}/`
   || (company.slug === 'wetravel' && place.group === 'Stationer')
 );
@@ -16,7 +16,7 @@ const waypointHeading = company.slug === 'wekill'
   ? 'WeKills farmer i tre dimensioner'
   : company.slug === 'wetravel' ? 'Transportpunkt i Sektion 1' : `${company.name} på servern`;
 const waypointIntroduction = company.slug === 'wekill'
-  ? `WeKill driver samtliga ${companyWaypoints.length} farmer i waypoint-exporten, inklusive anläggningar i Nether och End. Koordinaterna avser Minecraft-block.`
+  ? `WeKill äger samtliga ${companyWaypoints.length} farmer i waypoint-exporten, inklusive anläggningar i Nether och End. Koordinaterna avser Minecraft-block.`
   : 'Platser med registrerade blockkoordinater från serverns waypoint-export. En waypoint visar en punkt, inte byggnadens alla ingångar.';
 ---
 <BaseLayout title={`${company.name} | WeAB Group`} description={company.overview}>

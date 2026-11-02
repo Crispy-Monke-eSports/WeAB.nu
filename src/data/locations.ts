@@ -1,7 +1,7 @@
 /**
  * Public directory curated from a one-time JourneyMap waypoint export.
  * Only display name, group, dimension, block coordinates and relevant
- * existing WeAB pages are retained; all farms are operated by WeKill. The raw .dat export is not committed.
+ * existing WeAB pages are retained; all farms are owned by WeKill. The raw .dat export is not committed.
  * Duplicate name/dimension/position entries are collapsed.
  */
 export const locationGroups = [
@@ -28,7 +28,7 @@ export interface ServerLocation {
   y: number;
   z: number;
   relatedPage?: string;
-  operator?: 'WeKill';
+  owner?: 'WeKill';
 }
 
 type LocationRow = readonly [
@@ -96,6 +96,6 @@ export const locations: ServerLocation[] = rows.map(
     y,
     z,
     ...(relatedPage ? { relatedPage } : {}),
-    ...(group === 'Farmer' ? { operator: 'WeKill' as const } : {}),
+    ...(group === 'Farmer' ? { owner: 'WeKill' as const } : {}),
   }),
 );

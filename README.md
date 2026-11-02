@@ -69,7 +69,7 @@ En deduplicerad och redigerbar lista med namn, dimensioner och blockkoordinater
 förvaltas i `src/data/locations.ts`. Råfilen, ikoner, GUID:er och användarinställningar
 lagras inte i repot. Två olika positioner med namnet ”Simons bas” är avsiktligt kvar.
 
-Platserna presenteras i rätt sammanhang: WeKills 14 farmer under WeKill,
+Platserna presenteras i rätt sammanhang: de 14 farmer som WeKill äger under WeKill,
 koncernlokaler på respektive verksamhetssida, samt städer, butiker,
 sevärdheter och spelarbaser på koncernsidan. Det finns ingen separat waypoint-katalog.
 Koordinaterna är en ögonblicksbild och uppdateras inte automatiskt.

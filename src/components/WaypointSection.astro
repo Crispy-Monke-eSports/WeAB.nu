@@ -24,7 +24,7 @@ const dimensionNames: Record<Dimension, string> = {
   <ul class="waypoint-list">{places.map(place => <li class="waypoint" id={`waypoint-${place.id}`}>
     <div class="waypoint-name">
       <h3>{place.name}</h3>
-      <span>{place.operator ? `Drift: ${place.operator} · ` : ''}{place.group} · {dimensionNames[place.dimension]}</span>
+      <span>{place.owner ? `Ägare: ${place.owner} · ` : ''}{place.group} · {dimensionNames[place.dimension]}</span>
       {showRelatedLinks && place.relatedPage && <a href={place.relatedPage}>Om verksamheten <span aria-hidden="true">↗</span></a>}
     </div>
     <dl class="waypoint-coordinates" aria-label={`Blockkoordinater för ${place.name}`}>
