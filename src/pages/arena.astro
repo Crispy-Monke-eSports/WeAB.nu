@@ -57,10 +57,9 @@ const cityAndArena = locations.filter(place => place.name === 'Huvudstaden' || p
       </div>
       <div class="arena-gallery">
         {arenaPhotos.map((photo, index) => (
-          <figure class:list={['arena-gallery__item', { 'arena-gallery__item--wide': index === 0 }]}>
+          <div class:list={['arena-gallery__item', { 'arena-gallery__item--wide': index === 0 }]}>
             <img src={photo.src} alt={photo.alt} width="1440" height="810" loading="lazy" decoding="async" />
-            <figcaption><strong>{photo.title}</strong><span>{photo.caption}</span></figcaption>
-          </figure>
+          </div>
         ))}
       </div>
     </div>
@@ -106,9 +105,6 @@ const cityAndArena = locations.filter(place => place.name === 'Huvudstaden' || p
   .arena-gallery__item--wide{grid-column:1 / -1}
   .arena-gallery__item img{width:100%;height:clamp(230px,28vw,410px);object-fit:cover}
   .arena-gallery__item--wide img{height:clamp(290px,45vw,570px)}
-  .arena-gallery__item figcaption{display:grid;gap:.35rem;padding:1.2rem 1.3rem 1.4rem}
-  .arena-gallery__item figcaption strong{font-size:1.05rem}
-  .arena-gallery__item figcaption span{font-size:.85rem;color:#afc4cd;line-height:1.6}
   .arena-bottom{padding:5rem 0;border-top:1px solid #314b59}
   .arena-bottom__inner{display:flex;justify-content:space-between;align-items:end;gap:2rem}
   .arena-bottom h2{font-size:clamp(1.75rem,3vw,2.8rem);max-width:770px;margin:0}

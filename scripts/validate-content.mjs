@@ -39,8 +39,8 @@ for (const place of locations) {
 
 assert.equal(arenaPhotos.length, 3, 'Arenagalleriet ska ha tre bilder');
 for (const photo of arenaPhotos) {
-  assert.ok(photo.alt.trim() && photo.title.trim() && photo.caption.trim(), 'Arena-bilder behöver tillgängliga texter');
-  asset(photo.src, photo.title);
+  assert.ok(photo.alt.trim(), 'Arena-bilder behöver alt-text');
+  asset(photo.src, photo.alt);
 }
 
 const divisions = new Set(['WeAB', ...companies.map(({ name }) => name)]);
@@ -49,11 +49,11 @@ for (const company of companies) {
     `Verksamhetsnamn måste kunna kombineras med WE-logotypen: ${company.name}`);
   asset(`/logos/${company.slug}.svg`, company.name);
   if (company.image) {
-    assert.ok(company.imageAlt?.trim(), `Bildtext saknas för ${company.name}`);
+    assert.ok(company.imageAlt?.trim(), `Alt-text saknas för ${company.name}`);
     asset(company.image, company.name);
   }
   if (company.secondaryImage) {
-    assert.ok(company.secondaryAlt?.trim(), `Sekundär bildtext saknas för ${company.name}`);
+    assert.ok(company.secondaryAlt?.trim(), `Sekundär alt-text saknas för ${company.name}`);
     asset(company.secondaryImage, company.name);
   }
 }
@@ -63,10 +63,10 @@ assert.ok(existsSync(join('src', 'assets', 'we-logo.svg')),
 
 for (const project of projects) {
   assert.ok(divisions.has(project.division), `Okänd verksamhet i projekt ${project.id}`);
-  assert.ok(project.alt.trim(), `Bildtext saknas i projekt ${project.id}`);
+  assert.ok(project.alt.trim(), `Alt-text saknas i projekt ${project.id}`);
   asset(project.image, project.id);
   for (const photo of project.gallery ?? []) {
-    assert.ok(photo.alt.trim() && photo.caption.trim(), `Bildtext saknas i galleriet för ${project.id}`);
+    assert.ok(photo.alt.trim(), `Alt-text saknas i galleriet för ${project.id}`);
     asset(photo.image, project.id);
   }
 }
