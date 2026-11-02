@@ -1,13 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BrandMark from '../../components/BrandMark.astro';
-import {companies} from '../../data/companies';
-import {projects} from '../../data/projects';
-import {locations} from '../../data/locations';
+import { companies } from '../../data/companies';
+import { projects } from '../../data/projects';
+import { locations } from '../../data/locations';
 import WaypointSection from '../../components/WaypointSection.astro';
-export function getStaticPaths(){return companies.map(company=>({params:{slug:company.slug},props:{company}}));}
-const {company}=Astro.props;
+import CompanyAssets from '../../components/CompanyAssets.astro';
+import { companyEditorial } from '../../data/companyEditorial';
+
+export function getStaticPaths() {
+  return companies.map(company => ({ params: { slug: company.slug }, props: { company } }));
+}
+
+const { company } = Astro.props;
 const relatedProjects = projects.filter(project => project.division === company.name);
+const editorial = companyEditorial[company.slug];
+const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegamble'].includes(company.slug);
 const companyWaypoints = locations.filter(place =>
   place.owner === company.name
   || place.relatedPage === `/verksamheter/${company.slug}/`
@@ -19,36 +27,103 @@ const waypointHeading = company.slug === 'wekill'
 const waypointIntroduction = company.slug === 'wekill'
   ? `Här hittar du ${companyWaypoints.length} av WeKills farmer i Overworld, Nether och End. Välj rätt dimension innan du åker.`
   : company.slug === 'werule'
-  ? 'Stadshuset i Sektion 1 har en egen platsmarkering. Huvudstadens markering visar staden, inte Riksdagshusets exakta läge.'
-  : 'Här hittar du verksamhetens platser på servern. Ingången kan ligga en bit från markeringen.';
+    ? 'Stadshuset i Sektion 1 har en egen platsmarkering. Huvudstadens markering visar staden, inte Riksdagshusets exakta läge.'
+    : 'Här hittar du verksamhetens platser på servern. Ingången kan ligga en bit från markeringen.';
 ---
 <BaseLayout title={`${company.name} | WeAB Group`} description={company.overview}>
   <div class="company-theme" style={`--company-accent:${company.accent};--company-on-accent:${company.accent === '#00BCD4' ? '#06212b' : '#fff'}`}>
-  <section class="company-hero"><div class="shell"><div class="company-crumb"><a href="/verksamheter/">Verksamheter</a> <span>/</span> {company.name}</div><div class="company-hero-grid"><div><div class="eyebrow">{company.kicker}</div><h1>{company.tagline}</h1><p class="lead">{company.overview}</p><div class="hero-tools"><a href="#verksamhet" class="btn company-btn">Om verksamheten ↓</a><a href="/kontakt/" class="btn btn-outline">Kontakta koncernen ↗</a></div></div><div class="logo-plate"><BrandMark slug={company.slug} name={company.name} size="hero" /><span>{company.status}</span></div></div></div></section>
-  {company.image && <section class="company-photo"><div class="shell"><div class="photo-box"><img src={company.image} alt={company.imageAlt} /></div></div></section>}
-  <section id="verksamhet" class="section"><div class="shell split-layout"><div><div class="eyebrow">SÅ FUNGERAR DET</div><h2>{company.name} i praktiken.</h2><p class="lead">{company.description}</p></div><div class="facts"><h3>Verksamhetsöversikt</h3><dl>{company.facts.map(f=><div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}<div><dt>Verksamhetsstatus</dt><dd>{company.status}</dd></div><div><dt>Plats</dt><dd>{company.location}</dd></div></dl></div></div></section>
-   <section class="section section--dark"><div class="shell"><div class="eyebrow">VERKSAMHETENS OMRÅDEN</div><h2>Det här hanterar {company.name}.</h2><ol class="service-list">{company.services.map(service=><li>{service}</li>)}</ol></div></section>
-   {company.slug === 'werule' && <section class="section"><div class="shell split-layout"><div class="image-frame secondary-image"><img src="/images/werule-sektion-1-stadshus.webp" alt="WeRules stadshus i Sektion 1, byggt i mörk sten med höga fönster" loading="lazy" /></div><div><h2>Stadshuset i Sektion 1.</h2><p class="lead">Stadshuset är WeRules andra dokumenterade byggnad. Det ligger i Sektion 1, inte i Huvudstaden där serverns riksdag finns. Stenfasaden och de höga fönstren skiljer det från Riksdagshusets cyanvita entré.</p><p>Stadshuset har en egen markering på servern. För Riksdagshuset finns bara en markering för Huvudstaden, inte en exakt koordinat för byggnaden.</p><a href="#platser-pa-servern" class="link-arrow">Hitta Stadshuset på servern ↗</a></div></div></section>}
-  {companyWaypoints.length > 0 && <div class="shell"><WaypointSection
-    heading={waypointHeading}
-    introduction={waypointIntroduction}
-    places={companyWaypoints}
-    showRelatedLinks={false}
-    id="platser-pa-servern"
-  /></div>}
-   {company.secondaryImage && <section class="section"><div class="shell split-layout"><div class="image-frame secondary-image"><img src={company.secondaryImage} alt={company.secondaryAlt} loading="lazy" /></div><div><div class="eyebrow">INNE I VERKSAMHETEN</div><h2>{company.slug === 'wetravel' ? 'Centralstationen i Huvudstaden.' : 'Det finns mer bakom fasaden.'}</h2><p>{company.slug === 'wetravel' ? 'Räls och portal inne på Huvudstadens centralstation. Centralstationen i Sektion 1 ser du utifrån längre upp på sidan och som en egen anläggning i galleriet.' : 'Vad som händer innanför väggarna varierar. Vem som äger väggarna gör det inte.'}</p><a href="/projekt/" class="link-arrow">Se våra anläggningar ↗</a></div></div></section>}
-  {relatedProjects.length > 0 && <section class="section company-projects"><div class="shell">
-    <div class="section-heading"><div><div class="eyebrow">VÅRA ANLÄGGNINGAR</div><h2>Hitta {company.name} på plats.</h2></div><a class="link-arrow" href="/projekt/">Alla anläggningar ↗</a></div>
-    <ul class="company-project-list">{relatedProjects.map(project => <li><a href={`/projekt/#${project.id}`}>
-      <span><span class="small-caps">{project.category}{project.stage && ` · ${project.stage}`}</span><strong>{project.name}</strong></span>
-      <span aria-hidden="true">↗</span>
-    </a></li>)}</ul>
-  </div></section>}
-  <section class="company-cta"><div class="shell"><span class="eyebrow">THE WE GROUP</span><h2>WeAB. Där varje verksamhet räknas.</h2><a class="btn company-btn" href="/verksamheter/">Tillbaka till våra verksamheter ↗</a></div></section>
- </div>
+    <section class="company-hero">
+      {company.image && <img class="company-hero__image" src={company.image} alt="" aria-hidden="true" fetchpriority="high" />}
+      <div class="company-hero__shade" aria-hidden="true"></div>
+      <div class="shell company-hero__content">
+        <nav class="company-crumb" aria-label="Brödsmulor"><a href="/verksamheter/">Verksamheter</a><span aria-hidden="true">/</span><span>{company.name}</span></nav>
+        <div class="company-hero__main">
+          <BrandMark slug={company.slug} name={company.name} size="hero" />
+          <h1>{company.tagline}</h1>
+          <p class="lead">{company.overview}</p>
+          <div class="hero-tools">
+            <a href="#anlaggningar" class="btn company-btn">Se {company.name} på plats ↓</a>
+            <a href="#verksamhet" class="btn btn-outline">Om verksamheten ↓</a>
+          </div>
+        </div>
+        <p class="company-hero__meta">{company.status} <span aria-hidden="true">·</span> {company.location}</p>
+      </div>
+    </section>
+
+    {assetsFirst && <CompanyAssets editorial={editorial} projects={relatedProjects} slug={company.slug} />}
+
+    <section id="verksamhet" class="section company-about">
+      <div class="shell split-layout">
+        <div><h2>{company.name} i praktiken.</h2><p class="lead">{company.description}</p></div>
+        <div class="facts"><h3>Verksamhetsöversikt</h3><dl>
+          {company.facts.map(fact => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}
+          <div><dt>Verksamhetsstatus</dt><dd>{company.status}</dd></div>
+          <div><dt>Plats</dt><dd>{company.location}</dd></div>
+        </dl></div>
+      </div>
+    </section>
+
+    <section class="section section--dark company-services"><div class="shell">
+      <h2>Det här hanterar {company.name}.</h2>
+      <ol class="service-list">{company.services.map(service => <li>{service}</li>)}</ol>
+    </div></section>
+
+    {!assetsFirst && <CompanyAssets editorial={editorial} projects={relatedProjects} slug={company.slug} />}
+
+    {companyWaypoints.length > 0 && <div class="shell"><WaypointSection
+      heading={waypointHeading}
+      introduction={waypointIntroduction}
+      places={companyWaypoints}
+      showRelatedLinks={false}
+      id="platser-pa-servern"
+    /></div>}
+
+    <section class="company-cta"><div class="shell"><h2>WeAB. Där varje verksamhet räknas.</h2><a class="btn company-btn" href="/verksamheter/">Tillbaka till våra verksamheter ↗</a></div></section>
+  </div>
 </BaseLayout>
+
 <style>
-.company-projects{background:#111e27;border-top:1px solid #263944}.company-project-list{list-style:none;padding:0;margin:0;border-top:1px solid #3a5260}.company-project-list li{border-bottom:1px solid #3a5260}.company-project-list a{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.3rem .4rem;text-decoration:none}.company-project-list a:hover,.company-project-list a:focus-visible{background:#1a303b}.company-project-list a>span:first-child{display:grid;gap:.45rem}.company-project-list strong{font-size:1.2rem}.company-project-list a>span:last-child{color:#8ce9f5}.company-theme #verksamhet{scroll-margin-top:90px}
-.company-theme{--cyan:var(--company-accent)}.company-hero{padding:2rem 0 5rem;background:radial-gradient(circle at 95% 40%,color-mix(in srgb,var(--company-accent) 20%,transparent),transparent 40%),#0d1922;border-bottom:1px solid #32424d}.company-crumb{font-size:.77rem;color:#a9bec9;margin-bottom:5rem}.company-crumb a{color:#bfcbd2;text-decoration:none}.company-crumb span{margin:0 .6rem}.company-hero-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,.8fr);align-items:center;gap:3rem}.company-hero h1{font-size:clamp(2.7rem,6vw,5.1rem)}.company-hero .lead{max-width:700px}.company-hero .eyebrow{color:var(--company-accent)}.hero-tools{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2rem}.company-btn{background:var(--company-accent);color:#fff}.logo-plate{background:linear-gradient(145deg,#1a2a33,#111e26);border:1px solid #40515b;aspect-ratio:1;max-width:330px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.8rem;margin-left:auto;width:100%}.logo-plate>span{font-size:.65rem;letter-spacing:.18em;color:#adbfca;text-transform:uppercase}.company-photo{background:#101b23}.photo-box{height:min(53vw,470px);min-height:280px;margin-top:-1px;overflow:hidden}.photo-box img{width:100%;height:100%;object-fit:cover}.facts{background:#182731;border:1px solid #34454f;padding:2rem}.facts h3{margin-bottom:1.7rem}.facts dl{margin:0}.facts div{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0;border-top:1px solid #354651;font-size:.82rem}.facts dt{color:#a7bdc9}.facts dd{font-weight:700;text-align:right;margin:0}.service-list{list-style:decimal-leading-zero;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:3rem;row-gap:0;margin:2rem 0 0;padding-left:2.5rem}.service-list li{padding:1.2rem .75rem;border-top:1px solid #35464e;font-size:1.12rem;font-weight:700;line-height:1.45}.service-list li::marker{color:var(--company-accent);font-size:.8rem;font-weight:800}.secondary-image{position:relative;min-height:450px}.secondary-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.company-cta{padding:5rem 0;background:linear-gradient(90deg,color-mix(in srgb,var(--company-accent) 25%,#0e1a21),#101b23)}.company-cta h2{max-width:750px}.company-cta .eyebrow{color:#efffff}@media(max-width:800px){.secondary-image{min-height:0;aspect-ratio:16/10}.company-hero-grid{grid-template-columns:1fr}.logo-plate{margin-left:0;max-width:210px;aspect-ratio:1}.company-crumb{margin-bottom:2.5rem}.service-list{grid-template-columns:1fr}.photo-box{height:310px}}
- .company-theme .company-btn{color:var(--company-on-accent)}
- </style>
+  .company-theme { --cyan: var(--company-accent); }
+  .company-theme .company-btn { background: var(--company-accent); color: var(--company-on-accent); }
+  .company-hero { position: relative; isolation: isolate; overflow: hidden; min-height: clamp(660px, 85svh, 840px); background: #0d1922; border-bottom: 1px solid #32424d; }
+  .company-hero__image { position: absolute; inset: 0 0 0 auto; z-index: -2; width: 75%; height: 100%; object-fit: cover; object-position: center; }
+  .company-hero__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg,#0c1821 0%,#0c1821f5 27%,#0c1821ca 48%,#0c18217d 75%,#0c18218f 100%),linear-gradient(0deg,#0c1821 0%,transparent 32%),linear-gradient(150deg,color-mix(in srgb,var(--company-accent) 18%,transparent),transparent 50%); }
+  .company-hero__content { min-height: inherit; display: flex; flex-direction: column; padding-block: 2rem 2.5rem; }
+  .company-crumb { display: flex; align-items: center; gap: .7rem; font-size: .77rem; color: #c2d1d9; }
+  .company-crumb a { color: #dbe8ed; text-decoration: none; }
+  .company-crumb a:hover { text-decoration: underline; }
+  .company-hero__main { margin-block: auto; padding-block: 3.25rem; max-width: min(750px, 100%); }
+  .company-hero__main :global(.brand-mark) { align-items: flex-start; margin-bottom: 2.25rem; }
+  .company-hero__main :global(.brand-mark__suffix) { margin-left: .12rem; }
+  .company-hero h1 { max-width: 12ch; font-size: clamp(2.8rem, 6.1vw, 5.7rem); margin-bottom: 1.35rem; }
+  .company-hero .lead { color: #e0e9ec; max-width: 620px; margin-bottom: 0; }
+  .hero-tools { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+  .company-hero__meta { margin: 0; color: #b9cad1; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+  .company-hero__meta span { margin-inline: .5rem; color: var(--company-accent); }
+  #verksamhet { scroll-margin-top: 90px; }
+  .facts { background: #182731; border: 1px solid #34454f; padding: 2rem; }
+  .facts h3 { margin-bottom: 1.7rem; }
+  .facts dl { margin: 0; }
+  .facts dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-top: 1px solid #354651; font-size: .82rem; }
+  .facts dt { color: #a7bdc9; }
+  .facts dd { font-weight: 700; text-align: right; margin: 0; }
+  .service-list { list-style: decimal-leading-zero; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 3rem; margin: 2rem 0 0; padding-left: 2.5rem; }
+  .service-list li { padding: 1.2rem .75rem; border-top: 1px solid #35464e; font-size: 1.12rem; font-weight: 700; line-height: 1.45; }
+  .service-list li::marker { color: var(--company-accent); font-size: .8rem; font-weight: 800; }
+  .company-cta { padding: 6rem 0; background: linear-gradient(115deg,color-mix(in srgb,var(--company-accent) 23%,#0d1e27),#0d1e27); border-top: 1px solid #314c58; }
+  .company-cta h2 { max-width: 780px; }
+  .company-cta .btn { margin-top: 1rem; }
+  @media (max-width: 900px) {
+    .company-hero__image { width: 100%; }
+    .company-hero__shade { background: linear-gradient(90deg,#0c1821ee 0%,#0c1821ba 70%,#0c182199 100%),linear-gradient(0deg,#0c1821,transparent 60%); }
+  }
+  @media (max-width: 700px) {
+    .company-hero { min-height: 690px; }
+    .company-hero__content { padding-block: 1.5rem 2rem; }
+    .company-hero__main { padding-block: 2.5rem; }
+    .company-hero__main :global(.brand-mark) { margin-bottom: 1.75rem; }
+    .company-hero h1 { font-size: clamp(2.6rem,9vw,4rem); }
+    .company-hero__shade { background: linear-gradient(0deg,#0c1821 0%,#0c1821db 40%,#0c1821b3 100%),linear-gradient(90deg,#0c1821bd,transparent); }
+    .service-list { grid-template-columns: 1fr; }
+  }
+</style>

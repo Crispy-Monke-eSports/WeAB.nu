@@ -11,6 +11,7 @@ const featuredProjects = featuredProjectIds.flatMap(id => {
   const project = projects.find(item => item.id === id);
   return project ? [project] : [];
 });
+const companySlugByName = Object.fromEntries(companies.map(company => [company.name, company.slug]));
 ---
 <BaseLayout>
   <section class="hero">
@@ -53,8 +54,8 @@ const featuredProjects = featuredProjectIds.flatMap(id => {
   </div></section>
 
   <section class="section section--dark"><div class="shell">
-    <div class="section-heading"><div><div class="eyebrow">VÅR INFRASTRUKTUR</div><h2>Byggt för att bestå.</h2></div><a href="/projekt/" class="link-arrow">Alla anläggningar ↗</a></div>
-    <div class="featured-grid">{featuredProjects.map((project)=><a class="featured" href={`/projekt/#${project.id}`}><div class="image-frame"><img src={project.image} alt={project.alt} loading="lazy"/></div><div class="featured-info"><span>{project.division} · {project.category}</span><h3>{project.name}</h3><span aria-hidden="true">↗</span></div></a>)}</div>
+    <div class="section-heading"><div><div class="eyebrow">VÅR INFRASTRUKTUR</div><h2>Byggt för att bestå.</h2></div><a href="/verksamheter/" class="link-arrow">Utforska verksamheterna ↗</a></div>
+    <div class="featured-grid">{featuredProjects.map((project)=><a class="featured" href={`/verksamheter/${companySlugByName[project.division]}/#anlaggning-${project.id}`}><div class="image-frame"><img src={project.image} alt={project.alt} loading="lazy"/></div><div class="featured-info"><span>{project.division} · {project.category}</span><h3>{project.name}</h3><span aria-hidden="true">↗</span></div></a>)}</div>
   </div></section>
 
   <section class="arena-spotlight" aria-labelledby="arena-spotlight-heading">

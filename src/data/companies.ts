@@ -8,8 +8,6 @@ export interface Company {
   accent: string;
   image?: string;
   imageAlt?: string;
-  secondaryImage?: string;
-  secondaryAlt?: string;
   location: string;
   status: string;
   services: string[];
@@ -22,7 +20,6 @@ export const companies: Company[] = [
     overview: 'Vår produktion slutar aldrig. Det är inte en metafor.',
     description: 'På WeKill mäts livet i droppfrekvens, effektivitet och marginaler. När produktionen stannar upp ställer vi den enda relevanta frågan: Vem gav den tillåtelse?',
     accent: '#C62828', image: '/images/wekill-headquarters.webp', imageAlt: 'WeKills kontorsbyggnad med röd WE-skylt',
-    secondaryImage: '/images/wekill-farms.webp', secondaryAlt: 'Rader av växthusliknande produktionsanläggningar i Minecraft',
     location: 'Sektion 1', status: 'Aktiv verksamhet',
     services: ['Automatiserad farmdrift', 'Storskalig resursproduktion', 'Produktionseffektivisering', 'Anläggningsutveckling'],
     facts: [{label: 'Huvudkontor',value:'Sektion 1'},{label:'Prioritet',value:'Maximal avkastning'}]
@@ -32,7 +29,6 @@ export const companies: Company[] = [
     overview: 'Sortering, lagring och resursflöden som håller konsumtionen i konstant rörelse.',
     description: 'Vi sorterar allt. Block, varor, arbetskraft och människors ambitioner. En välordnad ekonomi behöver inga överraskningar och absolut inga tomma kistor.',
     accent: '#E66A00', image: '/images/wesort-exterior.webp', imageAlt: 'WeSort-byggnad med orange WE-logotyp och stor SORT-skylt',
-    secondaryImage:'/images/wesort-interior.webp', secondaryAlt:'WeSort-hall med långa rader av förvaringskistor',
     location:'Sektion 1',status:'Aktiv verksamhet',
     services:['Automatiserad sortering','Centrallager','Distributionsflöden','Konsumtionsoptimering'],
     facts:[{label:'Huvudkontor',value:'Sektion 1'},{label:'Integrerat system',value:'WeBox'}]
@@ -50,7 +46,7 @@ export const companies: Company[] = [
     slug:'welivelaughlove', name:'WeLiveLaughLove',kicker:'BOENDE & SAMHÄLLSHARMONI',tagline:'Mer gemenskap per kvadratmeter.',
     overview:'Varje invånare förtjänar ett hem. Vi bestämmer hur mycket hem.',
     description:'En bostad, en arbetsplats, ett syfte. Efter det olyckliga missförståndet om självbestämmande har byarna äntligen återfått lugnet. Invånarna tillfrågades inte; det hade stört mätningen.',
-    accent:'#79A83B', image:'/images/welivelaughlove-compound.webp',imageAlt:'Sektion 1, Avdelning B: inhägnat boendedistrikt med stor WE-skylt',secondaryImage:'/images/welivelaughlove-village.webp',secondaryAlt:'Sektion 3, Avdelning A: bybor och järngolem i bostadsdistriktet',location:'Sektion 1 och Sektion 3',status:'Aktiv verksamhet',
+    accent:'#79A83B', image:'/images/welivelaughlove-compound.webp',imageAlt:'Sektion 1, Avdelning B: inhägnat boendedistrikt med stor WE-skylt',location:'Sektion 1 och Sektion 3',status:'Aktiv verksamhet',
     services:['Kompakt boende','Kapacitetsplanering','Samhällsstabilisering','Standardiserad trivsel'],
     facts:[{label:'Boendeform',value:'Högdensitet'},{label:'Officiell lägesbild',value:'Stabil'}]
   },
@@ -67,7 +63,6 @@ export const companies: Company[] = [
     overview:'Räls och isbåtsleder som förbinder platser, människor och verksamheter.',
     description:'Vi erbjuder järnvägar och isbåtsleder mellan serverns platser. Centralstationerna i Huvudstaden och Sektion 1 visar två sidor av nätet. Destinationerna är godkända. Den fria rörligheten är numera mycket välorganiserad.',
     accent:'#2563EB',image:'/images/wetravel-sektion-1-centralstation.webp',imageAlt:'WeTravels centralstation i Sektion 1 med tegelfasad och turkosa dörrar',
-    secondaryImage:'/images/wetravel-huvudstaden-centralstation.webp',secondaryAlt:'Interiör i Huvudstadens centralstation med räls och lila portal',
     location:'Huvudstaden och Sektion 1',status:'Aktiv infrastruktur',
     services:['Järnvägsförbindelser','Isbåtstransport','Stationsinfrastruktur','Nätverksutveckling'],
     facts:[{label:'Transportmedel',value:'Räls och isbåt'},{label:'Räckvidd',value:'Serverns nätverk'}]
@@ -82,8 +77,6 @@ export const companies: Company[] = [
     accent: '#4DAA27',
     image: '/images/wetrade-exterior.webp',
     imageAlt: 'WeTrades stora byggnad med grön WE-skylt',
-    secondaryImage: '/images/wetrade-hall.webp',
-    secondaryAlt: 'Handelsdiskar inne i WeTrades handelsanläggning',
     location: 'WeTrades handelsanläggning',
     status: 'Öppet dygnet runt',
     services: ['Handel med samtliga enchantments', 'Enchanted books', 'Diamantbaserad prissättning', 'Dygnet-runt-bemanning', 'Centraliserad handelsinfrastruktur', 'Konkurrensbegränsande kundlojalitet'],
@@ -99,8 +92,6 @@ export const companies: Company[] = [
     accent: '#D65A98',
     image: '/images/welove-headquarters.webp',
     imageAlt: 'WeLoves anläggning med rosa WE-skylt i bergsterräng',
-    secondaryImage: '/images/welove-breeder.webp',
-    secondaryAlt: 'Produktionsmiljö inne i WeLoves personalanläggning',
     location: 'WeLoves personalanläggning',
     status: 'Kontinuerlig drift',
     services: ['Villager breeding', 'Långsiktig personalplanering', 'Generationsväxling', 'Arbetskraftsproduktion', 'Kapacitetsoptimering', 'Rekrytering från födseln'],

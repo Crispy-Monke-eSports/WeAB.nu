@@ -41,9 +41,8 @@ Engångsinställning innan första publiceringen:
 ### URL-struktur
 
 - `/` – Startsida
-- `/koncernen/` – Om WeAB, ledningsmodell, företagsvärderingar, koncernstruktur
-- `/verksamheter/` och `/verksamheter/[slug]/` – Dynamiskt genererade verksamhetssidor
-- `/projekt/` – Dokumenterade anläggningar, inklusive Huvudstadens arena
+- `/koncernen/` – Om WeAB, koncernstruktur och moderbolagets anläggningar
+- `/verksamheter/` och `/verksamheter/[slug]/` – Verksamhetssidor med bolagens egna byggnader, bilder och platsmarkeringar
 - `/arena/` – Huvudstadens arena med tre bilder och platsmarkeringen Hungerspelsarenan
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Platsannonser inom rollspelet; inga ansökningar via webbplatsen
@@ -53,7 +52,8 @@ Engångsinställning innan första publiceringen:
 ### Redigera innehåll
 
 - `src/data/companies.ts` – Företagsbeskrivningar, namn, accentfärger, bilder och status
-- `src/data/projects.ts` – Bilder och alt-texter i projektgalleriet
+- `src/data/projects.ts` – Anläggningar, bilder och alt-texter som visas på respektive bolagssida och koncernsidan
+- `src/data/companyEditorial.ts` – Bolagens egna avsnitt, anläggningsgrupper och kopplingar mellan verksamheter
 - `src/data/arena.ts` – Arenagalleriets tre foton och alt-texter
 - `src/assets/we-logo.svg` – Den bifogade officiella WE-logotypen (gemensam för alla bolag)
 - `src/data/locations.ts` – Utvald servergeografi från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-farmer)
@@ -119,15 +119,15 @@ en genererad fil ska inte kunna överleva utan att upptäckas.
 
 ### Innehåll
 
-WeTrade och WeLove har egna verksamhetssidor och sex Minecraft-skärmbilder i WebP-format. Bilderna återfinns i verksamhetsbeskrivningar, nyheter och projektgalleriet.
+WeTrade och WeLove har egna verksamhetssidor och sex Minecraft-skärmbilder i WebP-format. Anläggningarnas bilder och beskrivningar visas på respektive bolagssida, inte i ett separat projektregister.
 
 Webbplatsen är satir, inte en verklig företags- eller rekryteringssida. Platsannonserna är fiktiva exempel och nyhetstexterna påhittade. Den avsiktliga bolagsparodin ska vara tydlig utan att besökaren behöver läsa källkoden.
 
 Kustbygget hör till WeGamble Island. WeLiveLaughLoves bybilder visar Sektion 1 Avdelning B respektive Sektion 3 Avdelning A. WeSort-bilderna visar samma anläggning, liksom WeTrades tre bilder och WeLoves tre bilder. Arenabilderna visar Huvudstadens arena, som på kartan även heter Hungerspelsarenan, där bybor från olika distrikt tävlar om ära till sin hemby. Tre användarlevererade skärmbilder har konverterats till WebP (1440 × 810) i `public/images/`.
 De två nattliga överblicksbilderna från WeLiveLaughLove ligger i respektive avdelnings galleri: Sektion 1 Avdelning B och Sektion 3 Avdelning A. Bilden för Sektion 1 Avdelning B är den rättade vyn utan kartöverlägg.
-WeKills mobgrinder, järnfarm och shulkerfarm har egna bilder i projektregistret. Shulkerfarmen försörjer WeBox med shulkerboxar. Överblicksbilden över Sektion 1 används även på startsidan.
+WeKills mobgrinder, järnfarm och shulkerfarm visas på WeKills sida. Shulkerfarmen försörjer WeBox med shulkerboxar. Överblicksbilden över Sektion 1 används även på startsidan.
 WeRules Riksdagshus ligger i Huvudstaden. Byggnaden är statlig och fungerar som serverns riksdag, men ägs av WeAB. WeRules stadshus ligger i Sektion 1 och har en separat markering i platslistan. Huvudstadens platsmarkering är inte en exakt koordinat för Riksdagshuset.
-Överblicken över Huvudstaden visas på koncernsidan utan att tillskriva WeAB hela staden. WeTravels två centralstationer i Huvudstaden och Sektion 1 har var sin bild i anläggningsgalleriet och visas även på WeTravels verksamhetssida.
+Överblicken över Huvudstaden visas på koncernsidan utan att tillskriva WeAB hela staden. WeTravels två centralstationer i Huvudstaden och Sektion 1 visas på WeTravels verksamhetssida.
 Bedrockhålet är ett WeAB-projekt bredvid WeKills kontor i Sektion 1, med en bild ovanifrån och en från botten. Det är en hel chunk utgrävd till bedrock, dekorerad med guld, järn och smaragder. Ingen exakt koordinat härleds från bilderna.
 De finansiella diagrammen är fiktiva och ska inte misstolkas som faktiska
 börskurser.

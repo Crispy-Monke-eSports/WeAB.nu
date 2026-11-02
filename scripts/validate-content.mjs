@@ -7,6 +7,7 @@ import { news } from '../src/data/news.ts';
 import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { arenaPhotos } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
+import { companyEditorial } from '../src/data/companyEditorial.ts';
 
 function unique(values, description) {
   assert.equal(new Set(values).size, values.length, `Dubbletter bland ${description}`);
@@ -52,10 +53,6 @@ for (const company of companies) {
     assert.ok(company.imageAlt?.trim(), `Alt-text saknas för ${company.name}`);
     asset(company.image, company.name);
   }
-  if (company.secondaryImage) {
-    assert.ok(company.secondaryAlt?.trim(), `Sekundär alt-text saknas för ${company.name}`);
-    asset(company.secondaryImage, company.name);
-  }
 }
 asset('/logos/weab.svg', 'WeAB');
 assert.ok(existsSync(join('src', 'assets', 'we-logo.svg')),
@@ -68,6 +65,32 @@ for (const project of projects) {
   for (const photo of project.gallery ?? []) {
     assert.ok(photo.alt.trim(), `Alt-text saknas i galleriet för ${project.id}`);
     asset(photo.image, project.id);
+  }
+}
+unique(Object.keys(companyEditorial), 'redaktionella verksamhetsslugs');
+assert.deepEqual(Object.keys(companyEditorial).sort(), companies.map(company => company.slug).sort(), 'Alla bolag behöver egna redaktionella avsnitt');
+const projectById = new Map(projects.map(project => [project.id, project]));
+for (const company of companies) {
+  const editorial = companyEditorial[company.slug];
+  assert.ok(editorial.heading.trim() && editorial.introduction.trim(), `Saknad introduktion för ${company.name}`);
+  assert.ok(editorial.groups.length, `Saknade anläggningsgrupper för ${company.name}`);
+  const ids = editorial.groups.flatMap(group => {
+    assert.ok(group.title.trim() && group.description.trim() && group.ids.length, `Ofullständig grupp för ${company.name}`);
+    return group.ids;
+  });
+  unique(ids, `anläggningar för ${company.name}`);
+  for (const id of ids) assert.equal(projectById.get(id)?.division, company.name, `Fel eller saknad anläggning ${id} hos ${company.name}`);
+  assert.deepEqual(ids.slice().sort(), projects.filter(project => project.division === company.name).map(project => project.id).sort(), `Anläggningar saknas i grupperna för ${company.name}`);
+  for (const step of editorial.connections?.steps ?? []) {
+    assert.ok(step.name.trim() && step.description.trim(), `Ofullständig bolagskoppling för ${company.name}`);
+    const match = step.href.match(/^(?:\/verksamheter\/([^/]+)\/)?#(anlaggningar|anlaggning-([\w-]+))$/);
+    assert.ok(match, `Ogiltig kopplingslänk: ${step.href}`);
+    const targetSlug = match[1] ?? company.slug;
+    assert.ok(companies.some(item => item.slug === targetSlug), `Okänt bolag i kopplingslänk: ${step.href}`);
+    if (match[3]) {
+      const targetName = companies.find(item => item.slug === targetSlug).name;
+      assert.equal(projectById.get(match[3])?.division, targetName, `Fel anläggningslänk: ${step.href}`);
+    }
   }
 }
 for (const id of featuredProjectIds) {
