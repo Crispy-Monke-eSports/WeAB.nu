@@ -73,4 +73,3 @@ export const companies: Company[] = [
   }
 ];
 
-export const companyBySlug = Object.fromEntries(companies.map(company => [company.slug,company])) as Record<string,Company>;

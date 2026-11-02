@@ -1,11 +1,8 @@
 ---
-interface Props { name?: string; accent?: string; size?: 'sm'|'md'|'lg'; stacked?: boolean; }
-const { name='WeAB', size='md', stacked=false } = Astro.props;
-const slug = name.toLowerCase();
 ---
-<a class:list={['brand',`brand--${size}`,{'brand--stacked':stacked}]} href={name==='WeAB'?'/':`/verksamheter/${slug}/`} aria-label={`${name} – hemsida`}>
-  <img class="brand__mark" src={`/logos/${slug}.svg`} width="174" height="97" alt="" aria-hidden="true" />
-  <span class="brand__type"><strong>{name}</strong>{name==='WeAB' && <small>THE WE GROUP</small>}</span>
+<a class="brand" href="/" aria-label="WeAB – startsida">
+  <img class="brand__mark" src="/logos/weab.svg" width="174" height="97" alt="" aria-hidden="true" />
+  <span class="brand__type"><strong>WeAB</strong><small>THE WE GROUP</small></span>
 </a>
 <style>
   .brand{display:inline-flex;gap:.72rem;align-items:center;color:inherit;text-decoration:none;min-width:0}
@@ -13,7 +10,4 @@ const slug = name.toLowerCase();
   .brand__type{display:flex;flex-direction:column;gap:.05rem;white-space:nowrap;line-height:1}
   .brand__type strong{font-size:1.19rem;letter-spacing:-.045em;font-weight:800}
   .brand__type small{font-size:.49rem;letter-spacing:.21em;color:#9bb4bd;font-weight:700;margin-top:.3rem}
-  .brand--sm .brand__mark{width:2.55rem}.brand--sm .brand__type strong{font-size:1rem}
-  .brand--lg .brand__mark{width:8.8rem}.brand--lg .brand__type strong{font-size:1.8rem}
-  .brand--stacked{flex-direction:column;text-align:center;gap:1.2rem}.brand--stacked .brand__mark{width:10rem}
 </style>

@@ -75,9 +75,20 @@ Kodversionen är därför en ren, frontvänd pixelart-tolkning av samma symbol.
 
 ### Innehåll
 
+Webbplatsen är satir, inte en verklig företags- eller rekryteringssida. Platsannonserna är fiktiva exempel och nyhetstexterna påhittade. Den avsiktliga bolagsparodin ska vara tydlig utan att besökaren behöver läsa källkoden.
+
 Kustbygget hör till WeGamble Island. Bybilderna hör till WeLiveLaughLove.
 De finansiella diagrammen är fiktiva och ska inte misstolkas som faktiska
 börskurser.
+
+### Kvalitetskontroll
+
+```bash
+npm run validate:content
+npm run build
+```
+
+Valideringen kontrollerar unika identifierare, korrekta verksamhetsreferenser och att alla refererade lokala bild- och logotypfiler finns. PR:er kör samma kontroller automatiskt. Innehållslistor och accentfärger ska härledas från `src/data/` i stället för att kopieras mellan sidor. Dekorativa element ska inte efterlikna länkar eller påhittade datapunkter.
 
 ## Licens
 
