@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { arenaPhotos } from '../data/arena';
+import MapLink from '../components/MapLink.astro';
 ---
 
 <BaseLayout
@@ -21,7 +22,7 @@ import { arenaPhotos } from '../data/arena';
       <p class="eyebrow">HUVUDSTADEN / ARENAN</p>
       <h1 id="arena-heading">Äran till byn.<br /><em>Scenen till huvudstaden.</em></h1>
       <p class="lead">Bybor från koncernens olika distrikt möts för att tävla om ära till sin hemby. När distrikten gör upp finns det bara en sak som är säker: huvudstaden får uppmärksamheten.</p>
-      <a class="btn" href="#bildgalleri">Utforska arenan <span aria-hidden="true">↓</span></a>
+      <div class="arena-hero__actions"><a class="btn" href="#bildgalleri">Utforska arenan <span aria-hidden="true">↓</span></a><MapLink variant="button" label="Öppna serverkartan" /></div>
     </div>
   </section>
 
@@ -75,7 +76,7 @@ import { arenaPhotos } from '../data/arena';
 </BaseLayout>
 
 <style>
-  .arena-hero{position:relative;min-height:clamp(570px,70svh,790px);display:flex;align-items:end;overflow:hidden;background:#101d28}
+  .arena-hero__actions{display:flex;gap:.8rem;flex-wrap:wrap}.arena-hero{position:relative;min-height:clamp(570px,70svh,790px);display:flex;align-items:end;overflow:hidden;background:#101d28}
   .arena-hero__image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
   .arena-hero__shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,14,22,.94),rgba(4,14,22,.72) 46%,rgba(4,14,22,.18) 100%),linear-gradient(0deg,rgba(4,14,22,.8),transparent 68%)}
   .arena-hero__content{position:relative;z-index:1;padding-top:8rem;padding-bottom:5rem}
