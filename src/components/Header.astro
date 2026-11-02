@@ -12,7 +12,7 @@ const links=[{href:'/koncernen/',label:'Koncernen'},{href:'/verksamheter/',label
     <a href="/kontakt/" class="nav-contact">Kontakt <span aria-hidden="true">↗</span></a>
     <details class="mobile-menu">
       <summary><span class="sr-only">Meny</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></summary>
-      <nav aria-label="Mobilmeny">{links.map(item=><a href={item.href}>{item.label}</a>)}<a href="/kontakt/">Kontakt</a></nav>
+      <nav aria-label="Mobilmeny">{links.map(item=><a href={item.href} aria-current={Astro.url.pathname === item.href ? 'page' : undefined}>{item.label}</a>)}<a href="/kontakt/" aria-current={Astro.url.pathname === '/kontakt/' ? 'page' : undefined}>Kontakt</a></nav>
     </details>
   </div>
 </header>
@@ -26,7 +26,7 @@ const links=[{href:'/koncernen/',label:'Koncernen'},{href:'/verksamheter/',label
   .mobile-menu summary{cursor:pointer;list-style:none;width:38px;display:grid;gap:5px;padding:10px 6px}.mobile-menu summary::-webkit-details-marker{display:none}
   .mobile-menu summary span{height:2px;background:white;display:block}
   .mobile-menu nav{position:absolute;right:0;top:51px;width:min(80vw,290px);background:#13212b;border:1px solid #334550;padding:.65rem;box-shadow:0 20px 60px #0009;display:grid}
-  .mobile-menu nav a{padding:12px;color:white;text-decoration:none;border-bottom:1px solid #283841}
+  .mobile-menu nav a{padding:12px;color:white;text-decoration:none;border-bottom:1px solid #283841}.mobile-menu nav a:last-child{border-bottom:0}.mobile-menu nav a[aria-current="page"]{color:#8ce9f5;background:#1a3540}
   @media(max-width:1120px){.desktop-links{gap:.9rem}.desktop-links a{font-size:.78rem}.topbar{gap:1rem}}
   @media(max-width:920px){.desktop-links,.nav-contact{display:none}.mobile-menu{display:block}}
 </style>

@@ -18,7 +18,7 @@ const dimensionNames: Record<Dimension, string> = {
 ---
 {places.length > 0 && <section class:list={['waypoint-section', {'waypoint-section--compact': compact}]} id={id} aria-label={heading}>
   <div class="waypoint-intro">
-    <div><span class="eyebrow">FRÅN SERVERNS WAYPOINTS</span><h2>{heading}</h2></div>
+    <div><span class="eyebrow">HITTA PÅ SERVERN</span><h2>{heading}</h2></div>
     <p>{introduction}</p>
   </div>
   <ul class="waypoint-list">{places.map(place => <li class="waypoint" id={`waypoint-${place.id}`}>

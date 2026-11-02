@@ -73,7 +73,7 @@ const rows: LocationRow[] = [
   ['ByggMaxx', 'Butiker', 'overworld', -663, 65, -132],
   ["McDonald's", 'Butiker', 'overworld', -646, 65, -51],
   ['Tankstationen', 'Butiker', 'overworld', -628, 65, -59],
-  ['Sektion 1 Stadshus', 'Offentliga byggnader', 'overworld', 59, 79, -505],
+  ['Sektion 1 Stadshus', 'Offentliga byggnader', 'overworld', 59, 79, -505, '/verksamheter/werule/'],
   ['Jespers bas', 'Spelarbaser', 'overworld', 13234, 67, 11401],
   ['Sallys bas', 'Spelarbaser', 'overworld', 290, 63, -597],
   ['Simons bas', 'Spelarbaser', 'overworld', 120, 69, -467],

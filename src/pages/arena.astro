@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { arenaPhotos } from '../data/arena';
 import { locations } from '../data/locations';
 import WaypointSection from '../components/WaypointSection.astro';
-const cityAndGameArena = locations.filter(place => place.name === 'Huvudstaden' || place.name === 'Hungerspelsarenan');
+const cityAndArena = locations.filter(place => place.name === 'Huvudstaden' || place.name === 'Hungerspelsarenan');
 ---
 
 <BaseLayout
@@ -35,7 +35,7 @@ const cityAndGameArena = locations.filter(place => place.name === 'Huvudstaden' 
         <h2 id="arena-about">En arena.<br />Många byar.</h2>
       </div>
       <div>
-        <p class="lead">Huvudstadens arena samlar deltagare från distrikten på samma plats. Här representerar byborna sina byar och tävlar om något som inte kan staplas i en kista: ära.</p>
+        <p class="lead">Här representerar byborna sina distrikt och tävlar om något som inte kan staplas i en kista: ära till sin hemby.</p>
         <p>Den stora blåvita anläggningen har läktare, belysta passager och en interiör byggd för att göra intryck. Vem som vinner avgörs i tävlingen. Vem som tar åt sig äran i årsredovisningen är redan bestämt.</p>
         <dl class="arena-facts">
           <div><dt>Plats</dt><dd>Huvudstaden</dd></div>
@@ -50,7 +50,7 @@ const cityAndGameArena = locations.filter(place => place.name === 'Huvudstaden' 
     <div class="shell">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">DOKUMENTERAT I MINECRAFT</p>
+          <p class="eyebrow">ARENAN INIFRÅN OCH UT</p>
           <h2 id="gallery-heading">Tre perspektiv på arenan.</h2>
         </div>
         <p>Från byggnadens yttre silhuett till läktarna och den upplysta interiören.</p>
@@ -69,9 +69,9 @@ const cityAndGameArena = locations.filter(place => place.name === 'Huvudstaden' 
   <section class="section">
     <div class="shell">
       <WaypointSection
-        heading="Huvudstaden och Hungerspelsarenan"
-        introduction="Waypointen Huvudstaden pekar ut själva staden, inte arenans exakta entré. Hungerspelsarenan är en separat sevärdhet med egna koordinater och ska inte förväxlas med den blåvita Huvudstadens arena."
-        places={cityAndGameArena}
+        heading="Hitta Huvudstadens arena"
+        introduction="Arenan är också markerad som Hungerspelsarenan. Huvudstadens markering visar staden; arenans markering visar själva anläggningen."
+        places={cityAndArena}
       />
     </div>
   </section>

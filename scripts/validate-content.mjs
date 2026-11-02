@@ -65,6 +65,10 @@ for (const project of projects) {
   assert.ok(divisions.has(project.division), `Okänd verksamhet i projekt ${project.id}`);
   assert.ok(project.alt.trim(), `Bildtext saknas i projekt ${project.id}`);
   asset(project.image, project.id);
+  for (const photo of project.gallery ?? []) {
+    assert.ok(photo.alt.trim() && photo.caption.trim(), `Bildtext saknas i galleriet för ${project.id}`);
+    asset(photo.image, project.id);
+  }
 }
 for (const id of featuredProjectIds) {
   assert.ok(projects.some(project => project.id === id), `Utvalt projekt saknas: ${id}`);
@@ -77,4 +81,4 @@ for (const job of jobs) {
   assert.ok(divisions.has(job.division), `Okänd verksamhet i annons ${job.id}`);
 }
 
-console.log(`OK: ${companies.length} verksamheter, ${projects.length} projekt, ${news.length} nyheter, ${jobs.length} exempelannonser.`);
+console.log(`OK: ${companies.length} verksamheter, ${projects.length} projekt, ${news.length} nyheter, ${jobs.length} annonser.`);
