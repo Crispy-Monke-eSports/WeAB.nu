@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { arenaPhotos } from '../data/arena';
+import { locations } from '../data/locations';
+import WaypointSection from '../components/WaypointSection.astro';
+const cityAndGameArena = locations.filter(place => place.name === 'Huvudstaden' || place.name === 'Hungerspelsarenan');
 ---
 
 <BaseLayout
@@ -63,6 +66,15 @@ import { arenaPhotos } from '../data/arena';
     </div>
   </section>
 
+  <section class="section">
+    <div class="shell">
+      <WaypointSection
+        heading="Huvudstaden och Hungerspelsarenan"
+        introduction="Waypointen Huvudstaden pekar ut själva staden, inte arenans exakta entré. Hungerspelsarenan är en separat sevärdhet med egna koordinater och ska inte förväxlas med den blåvita Huvudstadens arena."
+        places={cityAndGameArena}
+      />
+    </div>
+  </section>
   <section class="arena-bottom">
     <div class="shell arena-bottom__inner">
       <div>

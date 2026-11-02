@@ -1,0 +1,53 @@
+---
+import type { ServerLocation, Dimension } from '../data/locations';
+
+interface Props {
+  heading: string;
+  introduction: string;
+  places: ServerLocation[];
+  id?: string;
+  compact?: boolean;
+  showRelatedLinks?: boolean;
+}
+const { heading, introduction, places, id, compact = false, showRelatedLinks = true } = Astro.props;
+const dimensionNames: Record<Dimension, string> = {
+  overworld: 'Overworld',
+  the_nether: 'Nether',
+  the_end: 'End'
+};
+---
+{places.length > 0 && <section class:list={['waypoint-section', {'waypoint-section--compact': compact}]} id={id} aria-label={heading}>
+  <div class="waypoint-intro">
+    <div><span class="eyebrow">FRÅN SERVERNS WAYPOINTS</span><h2>{heading}</h2></div>
+    <p>{introduction}</p>
+  </div>
+  <ul class="waypoint-list">{places.map(place => <li class="waypoint" id={`waypoint-${place.id}`}>
+    <div class="waypoint-name">
+      <h3>{place.name}</h3>
+      <span>{place.owner ? `Ägare: ${place.owner} · ` : ''}{place.group} · {dimensionNames[place.dimension]}</span>
+      {showRelatedLinks && place.relatedPage && <a href={place.relatedPage}>Om verksamheten <span aria-hidden="true">↗</span></a>}
+    </div>
+    <dl class="waypoint-coordinates" aria-label={`Blockkoordinater för ${place.name}`}>
+      <div><dt>X</dt><dd>{place.x}</dd></div>
+      <div><dt>Y</dt><dd>{place.y}</dd></div>
+      <div><dt>Z</dt><dd>{place.z}</dd></div>
+    </dl>
+  </li>)}</ul>
+</section>}
+<style>
+  .waypoint-section{margin-block:3.5rem;scroll-margin-top:110px}
+  .waypoint-intro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem;align-items:end;padding-bottom:1.2rem;border-bottom:2px solid #456372}
+  .waypoint-intro h2{font-size:clamp(1.6rem,3.5vw,2.5rem);margin:0}.waypoint-intro p{font-size:.9rem;margin:0;max-width:580px}
+  .waypoint-list{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 2rem}
+  .waypoint{padding:1.1rem 0;border-bottom:1px solid #304651;display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;scroll-margin-top:100px}
+  .waypoint-name{min-width:0}.waypoint-name h3{font-size:.99rem;margin:0 0 .4rem;line-height:1.35}
+  .waypoint-name>span{font-size:.7rem;color:#9ab2be;display:block}
+  .waypoint-name a{font-size:.75rem;color:#8ce0ea;display:inline-block;margin-top:.5rem;font-weight:700}
+  .waypoint-coordinates{display:flex;gap:.55rem;margin:0;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .waypoint-coordinates div{display:flex;align-items:baseline;gap:.18rem}
+  .waypoint-coordinates dt{font-size:.62rem;color:#91a8b5}
+  .waypoint-coordinates dd{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.78rem;margin:0;color:#e1ecf1}
+  .waypoint-section--compact .waypoint-list{grid-template-columns:1fr}
+  @media(max-width:980px){.waypoint-list{grid-template-columns:1fr}.waypoint-intro{grid-template-columns:1fr;gap:.8rem}}
+  @media(max-width:580px){.waypoint{display:block}.waypoint-coordinates{margin-top:.8rem}}
+</style>

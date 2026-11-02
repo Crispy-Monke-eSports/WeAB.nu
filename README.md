@@ -44,7 +44,7 @@ Engångsinställning innan första publiceringen:
 - `/koncernen/` – Om WeAB, ledningsmodell, företagsvärderingar, koncernstruktur
 - `/verksamheter/` och `/verksamheter/[slug]/` – Dynamiskt genererade verksamhetssidor
 - `/projekt/` – Dokumenterade anläggningar, inklusive Huvudstadens arena
-- `/arena/` – Huvudstadens arena med tre bilder: exteriör, läktare och interiör
+- `/arena/` – Huvudstadens arena med tre bilder och sammanhang kring waypointen i huvudstaden
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Satiriska exempelannonser, inte faktiska lediga jobb
 - `/nyheter/` – Konceptartiklar med undersidor
@@ -55,11 +55,24 @@ Engångsinställning innan första publiceringen:
 - `src/data/companies.ts` – Företagsbeskrivningar, namn, accentfärger, bilder och status
 - `src/data/projects.ts` – Bilder och bildtexter i projektgalleriet
 - `src/data/arena.ts` – Arenagalleriets tre foton, alt-texter och bildbeskrivningar
+- `src/data/locations.ts` – Utvald servergeografi från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-farmer)
 - `src/data/news.ts` – Nyhetsutkast
 - `src/styles/global.css` – Global grafisk profil
 - `public/logos/` – Enkla digitala WE-emblem som SVG
 - `public/images/` – Optimerade WebP-versioner av bilderna från Minecraft
 - `sitemap-index.xml` + `robots.txt` – Genereras automatiskt vid build via `@astrojs/sitemap`
+
+### Platsinformation från servern
+
+`global_waypoints.dat` används **endast som indata lokalt** och är ignorerad av Git.
+En deduplicerad och redigerbar lista med namn, dimensioner och blockkoordinater
+förvaltas i `src/data/locations.ts`. Råfilen, ikoner, GUID:er och användarinställningar
+lagras inte i repot. Två olika positioner med namnet ”Simons bas” är avsiktligt kvar.
+
+Platserna presenteras i rätt sammanhang: de 14 farmer som WeKill äger under WeKill,
+koncernlokaler på respektive verksamhetssida, samt städer, butiker,
+sevärdheter och spelarbaser på koncernsidan. Det finns ingen separat waypoint-katalog.
+Koordinaterna är en ögonblicksbild och uppdateras inte automatiskt.
 
 ### Pixelart-logotyper (endast kod)
 
