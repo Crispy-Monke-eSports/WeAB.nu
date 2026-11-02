@@ -47,7 +47,7 @@ function variant(brand) {
   for (const value of [brand.color, corners, shadow]) {
     assert.match(value, /^#[0-9a-f]{6}$/i, 'Invalid brand color');
   }
-  assert.match(shadowOpacity, /^(?:0(?:\.\d+)?|1(?:\.0+)?)$/);
+  assert.match(shadowOpacity, /^(?:0?(?:\.\d+)|0|1(?:\.0+)?)$/);
 
   let svg = replaceExactly(master, /(<title id="logo-title">)[^<]*(<\/title>)/,
     (_m, a, b) => a + 'WE – ' + brand.name + b, 'logo title');
