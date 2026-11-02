@@ -2,8 +2,10 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
-interface Props {title?:string;description?:string;}
-const {title='WeAB Group | En bättre värld. På våra villkor.', description='WeAB är en fiktiv megakoncern på en Minecraft-server, med verksamheter inom produktion, logistik, boende, transport och underhållning.'}=Astro.props;
+interface Props {title?:string;description?:string; noindex?:boolean;}
+const {title='WeAB Group | En bättre värld. På våra villkor.', description='WeAB – produktion, logistik, boende, transport och nöje. En koncern. Alla lösningar.', noindex=false}=Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://weab.nu').toString();
+const socialImage = new URL('/images/weab-cyan-building.webp', Astro.site ?? 'https://weab.nu').toString();
 ---
 <!doctype html>
 <html lang="sv">
@@ -12,9 +14,16 @@ const {title='WeAB Group | En bättre värld. På våra villkor.', description='
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
  <meta name="description" content={description}/>
  <meta name="theme-color" content="#0b141b" />
+ {noindex && <meta name="robots" content="noindex, nofollow" />}
+ <link rel="canonical" href={canonicalUrl} />
+ <link rel="sitemap" href="/sitemap-index.xml" />
  <meta property="og:title" content={title}/>
  <meta property="og:description" content={description}/>
  <meta property="og:type" content="website" />
+ <meta property="og:locale" content="sv_SE" />
+ <meta property="og:url" content={canonicalUrl} />
+ <meta property="og:image" content={socialImage} />
+ <meta name="twitter:card" content="summary_large_image" />
  <link rel="icon" type="image/svg+xml" href="/logos/weab.svg" />
  <title>{title}</title>
 </head>
