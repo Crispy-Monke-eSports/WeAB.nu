@@ -1,4 +1,5 @@
 ---
+import MapLink from '../../components/MapLink.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import {companies} from '../../data/companies';
 import {projects} from '../../data/projects';
@@ -21,7 +22,7 @@ const waypointIntroduction = company.slug === 'wekill'
 ---
 <BaseLayout title={`${company.name} | WeAB Group`} description={company.overview}>
  <div class="company-theme" style={`--company-accent:${company.accent}`}>
-  <section class="company-hero"><div class="shell"><div class="company-crumb"><a href="/verksamheter/">Verksamheter</a> <span>/</span> {company.name}</div><div class="company-hero-grid"><div><div class="eyebrow">{company.kicker}</div><h1>{company.tagline}</h1><p class="lead">{company.overview}</p><div class="hero-tools"><a href="#verksamhet" class="btn company-btn">Om verksamheten ↓</a><a href="/kontakt/" class="btn btn-outline">Kontakta koncernen ↗</a></div></div><div class="logo-plate"><img src={`/logos/${company.slug}.svg`} alt="" aria-hidden="true" width="174" height="97" /><strong>{company.name}</strong><span>{company.status}</span></div></div></div></section>
+  <section class="company-hero"><div class="shell"><div class="company-crumb"><a href="/verksamheter/">Verksamheter</a> <span>/</span> {company.name}</div><div class="company-hero-grid"><div><div class="eyebrow">{company.kicker}</div><h1>{company.tagline}</h1><p class="lead">{company.overview}</p><div class="hero-tools"><a href="#verksamhet" class="btn company-btn">Om verksamheten ↓</a><a href="/kontakt/" class="btn btn-outline">Kontakta koncernen ↗</a><MapLink variant="button" label="Öppna serverkartan" /></div></div><div class="logo-plate"><img src={`/logos/${company.slug}.svg`} alt="" aria-hidden="true" width="174" height="97" /><strong>{company.name}</strong><span>{company.status}</span></div></div></div></section>
   {company.image && <section class="company-photo"><div class="shell"><div class="photo-box"><img src={company.image} alt={company.imageAlt} /></div></div></section>}
   <section id="verksamhet" class="section"><div class="shell split-layout"><div><div class="eyebrow">SÅ FUNGERAR DET</div><h2>{company.name} i praktiken.</h2><p class="lead">{company.description}</p></div><div class="facts"><h3>Verksamhetsöversikt</h3><dl>{company.facts.map(f=><div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}<div><dt>Verksamhetsstatus</dt><dd>{company.status}</dd></div><div><dt>Plats</dt><dd>{company.location}</dd></div></dl></div></div></section>
   <section class="section section--dark"><div class="shell"><div class="eyebrow">VERKSAMHETENS OMRÅDEN</div><h2>Det här hanterar {company.name}.</h2><ol class="service-list">{company.services.map(service=><li>{service}</li>)}</ol></div></section>

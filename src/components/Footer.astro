@@ -5,9 +5,9 @@ import { companies } from '../data/companies';
 <footer class="footer">
   <div class="shell footer-grid">
     <div class="footer-about"><Logo/><p>En bättre värld. På våra villkor.</p><small>Koncernens intressen är alltid dina intressen. Eventuell avvikande uppfattning hanteras internt.</small></div>
-    <div><h3>Koncernen</h3><a href="/koncernen/">Om WeAB</a><a href="/projekt/">Projekt</a><a href="/arena/">Huvudstadens arena</a><a href="/investerare/">Investerare</a><a href="/karriar/">Karriär</a></div>
+    <div><h3>Koncernen</h3><a href="/koncernen/">Om WeAB</a><a href="/projekt/">Projekt</a><a href="/arena/">Huvudstadens arena</a><a href="/karta/">Serverkarta</a><a href="/investerare/">Investerare</a><a href="/karriar/">Karriär</a></div>
     <div><h3>Verksamheter</h3>{companies.map(item=><a href={`/verksamheter/${item.slug}/`}>{item.name}</a>)}</div>
-    <div><h3>Information</h3><a href="/nyheter/">Nyhetsrum</a><a href="/kontakt/">Kontakt</a><span>Valuta: diamanter</span></div>
+    <div><h3>Information</h3><a href="/nyheter/">Nyhetsrum</a><a href="/kontakt/">Kontakt</a><a href="https://karta.weab.nu/" target="_blank" rel="noopener noreferrer">BlueMap ↗</a><span>Valuta: diamanter</span></div>
   </div>
   <div class="shell footer-bottom"><span>© WeAB Group · En koncern. Alla lösningar.</span><span>Alla rättigheter förbehållna. Även dina.</span></div>
   <p class="shell fiction-notice">WeAB är ett påhittat företag på en Minecraft-server. Verksamheter, aktier och jobb på denna webbplats är del av satiren.</p>

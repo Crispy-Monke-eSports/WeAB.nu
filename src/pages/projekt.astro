@@ -1,4 +1,5 @@
 ---
+import MapLink from '../components/MapLink.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {projects} from '../data/projects';
 import {companies} from '../data/companies';
@@ -7,7 +8,7 @@ const farmCount = locations.filter(place => place.owner === 'WeKill').length;
 const companySlugByName = Object.fromEntries(companies.map(company => [company.name, company.slug]));
 ---
 <BaseLayout title="Projekt & anläggningar | WeAB Group" description="Dokumenterade byggnader, farmer och transportsystem från WeAB:s Minecraft-verksamhet.">
-<section class="page-hero"><div class="shell"><div class="eyebrow">ANLÄGGNINGAR & INFRASTRUKTUR</div><h1>Vår värld.<br/>Våra investeringar.</h1><p class="lead">I varje kvarter ser vi nya möjligheter att bygga, expandera och slutligen äga horisonten.</p></div></section>
+<section class="page-hero"><div class="shell"><div class="eyebrow">ANLÄGGNINGAR & INFRASTRUKTUR</div><h1>Vår värld.<br/>Våra investeringar.</h1><p class="lead">I varje kvarter ser vi nya möjligheter att bygga, expandera och slutligen äga horisonten.</p><MapLink label="Utforska servern i BlueMap" /></div></section>
 <section class="section"><div class="shell">
   <p class="lead">Vi visar fotograferade anläggningar här. Vill du även hitta farmerna som saknar egna projektbilder? <a href="/verksamheter/wekill/#platser-pa-servern">WeKill äger {farmCount} registrerade farmer</a>, med blockkoordinater i tre dimensioner.</p>
   <div class="projects-filter-header"><div class="eyebrow">VÄLJ VERKSAMHET</div><output id="project-count" aria-live="polite">{projects.length} anläggningar</output></div>
