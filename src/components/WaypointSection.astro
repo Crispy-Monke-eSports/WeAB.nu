@@ -1,5 +1,7 @@
 ---
 import type { ServerLocation, Dimension } from '../data/locations';
+import MapLink from './MapLink.astro';
+import { explorerUrl } from '../data/bluemap';
 
 interface Props {
   heading: string;
@@ -25,7 +27,11 @@ const dimensionNames: Record<Dimension, string> = {
     <div class="waypoint-name">
       <h3>{place.name}</h3>
       <span>{place.owner ? `Ägare: ${place.owner} · ` : ''}{place.group} · {dimensionNames[place.dimension]}</span>
-      {showRelatedLinks && place.relatedPage && <a href={place.relatedPage}>Om verksamheten <span aria-hidden="true">↗</span></a>}
+      <div class="waypoint-links">
+        <a href={explorerUrl(place.id)}>Utforska på kartan <span aria-hidden="true">↗</span></a>
+        <MapLink label="Direkt till BlueMap" place={place} />
+        {showRelatedLinks && place.relatedPage && <a href={place.relatedPage}>Om verksamheten <span aria-hidden="true">↗</span></a>}
+      </div>
     </div>
     <dl class="waypoint-coordinates" aria-label={`Blockkoordinater för ${place.name}`}>
       <div><dt>X</dt><dd>{place.x}</dd></div>
@@ -42,7 +48,7 @@ const dimensionNames: Record<Dimension, string> = {
   .waypoint{padding:1.1rem 0;border-bottom:1px solid #304651;display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;scroll-margin-top:100px}
   .waypoint-name{min-width:0}.waypoint-name h3{font-size:.99rem;margin:0 0 .4rem;line-height:1.35}
   .waypoint-name>span{font-size:.7rem;color:#9ab2be;display:block}
-  .waypoint-name a{font-size:.75rem;color:#8ce0ea;display:inline-block;margin-top:.5rem;font-weight:700}
+  .waypoint-links{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem 1rem;margin-top:.65rem}.waypoint-links a{font-size:.75rem;color:#8ce0ea;display:inline-block;font-weight:700}
   .waypoint-coordinates{display:flex;gap:.55rem;margin:0;font-variant-numeric:tabular-nums;white-space:nowrap}
   .waypoint-coordinates div{display:flex;align-items:baseline;gap:.18rem}
   .waypoint-coordinates dt{font-size:.62rem;color:#91a8b5}
