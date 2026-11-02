@@ -3,9 +3,22 @@ import MapLink from '../../components/MapLink.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import {companies} from '../../data/companies';
 import {projects} from '../../data/projects';
+import {locations} from '../../data/locations';
+import WaypointSection from '../../components/WaypointSection.astro';
 export function getStaticPaths(){return companies.map(company=>({params:{slug:company.slug},props:{company}}));}
 const {company}=Astro.props;
 const relatedProjects = projects.filter(project => project.division === company.name);
+const companyWaypoints = locations.filter(place =>
+  place.owner === company.name
+  || place.relatedPage === `/verksamheter/${company.slug}/`
+  || (company.slug === 'wetravel' && place.group === 'Stationer')
+);
+const waypointHeading = company.slug === 'wekill'
+  ? 'WeKills farmer i tre dimensioner'
+  : company.slug === 'wetravel' ? 'Transportpunkt i Sektion 1' : `${company.name} på servern`;
+const waypointIntroduction = company.slug === 'wekill'
+  ? `WeKill äger samtliga ${companyWaypoints.length} farmer i waypoint-exporten, inklusive anläggningar i Nether och End. Koordinaterna avser Minecraft-block.`
+  : 'Platser med registrerade blockkoordinater från serverns waypoint-export. En waypoint visar en punkt, inte byggnadens alla ingångar.';
 ---
 <BaseLayout title={`${company.name} | WeAB Group`} description={company.overview}>
  <div class="company-theme" style={`--company-accent:${company.accent}`}>
@@ -13,6 +26,13 @@ const relatedProjects = projects.filter(project => project.division === company.
   {company.image && <section class="company-photo"><div class="shell"><div class="photo-box"><img src={company.image} alt={company.imageAlt} /></div></div></section>}
   <section id="verksamhet" class="section"><div class="shell split-layout"><div><div class="eyebrow">SÅ FUNGERAR DET</div><h2>{company.name} i praktiken.</h2><p class="lead">{company.description}</p></div><div class="facts"><h3>Verksamhetsöversikt</h3><dl>{company.facts.map(f=><div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}<div><dt>Verksamhetsstatus</dt><dd>{company.status}</dd></div><div><dt>Plats</dt><dd>{company.location}</dd></div></dl></div></div></section>
   <section class="section section--dark"><div class="shell"><div class="eyebrow">VERKSAMHETENS OMRÅDEN</div><h2>Det här hanterar {company.name}.</h2><ol class="service-list">{company.services.map(service=><li>{service}</li>)}</ol></div></section>
+  {companyWaypoints.length > 0 && <div class="shell"><WaypointSection
+    heading={waypointHeading}
+    introduction={waypointIntroduction}
+    places={companyWaypoints}
+    showRelatedLinks={false}
+    id="platser-pa-servern"
+  /></div>}
   {company.secondaryImage && <section class="section"><div class="shell split-layout"><div class="image-frame secondary-image"><img src={company.secondaryImage} alt={company.secondaryAlt} loading="lazy" /></div><div><div class="eyebrow">VERKSAMHETEN I BILDER</div><h2>Resultatet talar för sig självt.</h2><p>Vi dokumenterar våra framsteg. Resten omfattas av sekretess.</p><a href="/projekt/" class="link-arrow">Se fler anläggningar ↗</a></div></div></section>}
   {relatedProjects.length > 0 && <section class="section company-projects"><div class="shell">
     <div class="section-heading"><div><div class="eyebrow">VÅRA ANLÄGGNINGAR</div><h2>Det här är vad vi kallar framsteg.</h2></div><a class="link-arrow" href="/projekt/">Alla anläggningar ↗</a></div>

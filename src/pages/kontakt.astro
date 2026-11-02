@@ -1,10 +1,13 @@
 ---
 import MapLink from '../components/MapLink.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { locations } from '../data/locations';
+const capital = locations.find(place => place.name === 'Huvudstaden');
+const station = locations.find(place => place.name === 'Sektion 1 C');
 ---
 <BaseLayout title="Kontakt | WeAB Group">
 <section class="page-hero"><div class="shell"><div class="eyebrow">KONTAKTA KONCERNEN</div><h1>Vi uppskattar din feedback.<br/>I rimlig omfattning.</h1><p class="lead">Har du frågor om våra tjänster, anläggningar eller framtida expansion? Våra representanter återkommer enligt koncernens prioriteringar.</p></div></section>
-<section class="section"><div class="shell contact-grid"><div class="contact-tile"><div class="eyebrow">HUVUDKONTOR</div><h2>Huvudstaden</h2><p>Koncernens hjärta. Härifrån fattas beslut som påverkar alla andra.</p><span>Besök endast vid kallelse.</span></div><div class="contact-tile"><div class="eyebrow">VERKSAMHETSKONTOR</div><h2>Sektion 1</h2><p>WeKill, WeSort och WeBox finns i Sektion 1.</p><span>Obehörig effektivitet undanbedes.</span></div><div class="contact-tile"><div class="eyebrow">DIGITAL KONTAKT</div><h2>Kontaktvägar</h2><p>WeAB är ett fiktivt Minecraft-företag. Här finns varken e-postadress eller kontaktformulär.</p><span>För frågor i rollspelet: tala med en koncernrepresentant på servern.</span></div></div></section>
+<section class="section"><div class="shell contact-grid"><div class="contact-tile"><div class="eyebrow">HUVUDKONTOR</div><h2>Huvudstaden</h2><p>Koncernens hjärta. Härifrån fattas beslut som påverkar alla andra.</p><span>Besök endast vid kallelse. {capital && `Huvudstadens waypoint: X ${capital.x}, Y ${capital.y}, Z ${capital.z}.`}</span></div><div class="contact-tile"><div class="eyebrow">VERKSAMHETSKONTOR</div><h2>Sektion 1</h2><p>WeKill, WeSort och WeBox finns i Sektion 1.</p><span>Obehörig effektivitet undanbedes. {station && `Närmaste dokumenterade tågstations-waypoint är Sektion 1 C: X ${station.x}, Y ${station.y}, Z ${station.z}.`}</span></div><div class="contact-tile"><div class="eyebrow">DIGITAL KONTAKT</div><h2>Kontaktvägar</h2><p>WeAB är ett fiktivt Minecraft-företag. Här finns varken e-postadress eller kontaktformulär.</p><span>För frågor i rollspelet: tala med en koncernrepresentant på servern.</span></div></div></section>
 <section class="section contact-map">
       <div class="shell contact-map__content"><div><div class="eyebrow">HITTA PÅ SERVERN</div><h2>Följ kartan.<br/>Förhåll dig till skyltarna.</h2><p>Se huvudstaden, sektionerna och serverns övriga byggnader med vår BlueMap-karta. Den öppnas på den separata kartservern.</p></div><div><a href="/karta/" class="btn">Visa serverkartan <span aria-hidden="true">↗</span></a><MapLink label="BlueMap i ny flik" /></div></div>
     </section>

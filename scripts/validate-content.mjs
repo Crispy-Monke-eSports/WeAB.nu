@@ -6,6 +6,7 @@ import { jobs } from '../src/data/jobs.ts';
 import { news } from '../src/data/news.ts';
 import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { arenaPhotos } from '../src/data/arena.ts';
+import { locations, locationGroups } from '../src/data/locations.ts';
 
 function unique(values, description) {
   assert.equal(new Set(values).size, values.length, `Dubbletter bland ${description}`);
@@ -22,6 +23,19 @@ unique(projects.map(({ id }) => id), 'projekt-id');
 unique(news.map(({ slug }) => slug), 'nyhetsslugs');
 unique(jobs.map(({ id }) => id), 'annons-id');
 unique(arenaPhotos.map(({ src }) => src), 'arenabilder');
+unique(locations.map(({ id }) => id), 'waypoint-identifierare');
+unique(locations.map(({ name, dimension, x, y, z }) => [name, dimension, x, y, z].join('|')), 'waypoint-positioner');
+assert.equal(locations.length, 35, 'Importen ska innehålla 35 unika platser');
+assert.equal(locations.filter(place => place.group === 'Farmer').length, 14, 'Det ska finnas 14 farmer');
+for (const place of locations) {
+  assert.ok(locationGroups.includes(place.group), `Okänd platskategori: ${place.group}`);
+  assert.ok(['overworld', 'the_nether', 'the_end'].includes(place.dimension), `Ogiltig dimension: ${place.name}`);
+  for (const coordinate of [place.x, place.y, place.z]) assert.ok(Number.isInteger(coordinate), `Ogiltig koordinat för ${place.name}`);
+  if (place.group === 'Farmer') {
+    assert.equal(place.owner, 'WeKill', `WeKill ska stå som ansvarig för farmen ${place.name}`);
+    assert.equal(place.relatedPage, '/verksamheter/wekill/');
+  }
+}
 
 assert.equal(arenaPhotos.length, 3, 'Arenagalleriet ska ha tre bilder');
 for (const photo of arenaPhotos) {

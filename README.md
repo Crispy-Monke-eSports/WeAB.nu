@@ -44,23 +44,49 @@ Engångsinställning innan första publiceringen:
 - `/koncernen/` – Om WeAB, ledningsmodell, företagsvärderingar, koncernstruktur
 - `/verksamheter/` och `/verksamheter/[slug]/` – Dynamiskt genererade verksamhetssidor
 - `/projekt/` – Dokumenterade anläggningar, inklusive Huvudstadens arena
-- `/arena/` – Huvudstadens arena med tre bilder: exteriör, läktare och interiör
+- `/arena/` – Huvudstadens arena med tre bilder och sammanhang kring waypointen i huvudstaden
+- `/karta/` – BlueMap-inbäddning och länk till den separata 3D-serverkartan
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Satiriska exempelannonser, inte faktiska lediga jobb
 - `/nyheter/` – Konceptartiklar med undersidor
 - `/kontakt/` – Kontakt och lokalisering
-- `/karta/` – BlueMap-inbäddning och länk till den separata 3D-serverkartan
 
 ### Redigera innehåll
 
 - `src/data/companies.ts` – Företagsbeskrivningar, namn, accentfärger, bilder och status
 - `src/data/projects.ts` – Bilder och bildtexter i projektgalleriet
 - `src/data/arena.ts` – Arenagalleriets tre foton, alt-texter och bildbeskrivningar
+- `src/data/locations.ts` – Utvald servergeografi från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-farmer)
 - `src/data/news.ts` – Nyhetsutkast
 - `src/styles/global.css` – Global grafisk profil
 - `public/logos/` – Enkla digitala WE-emblem som SVG
 - `public/images/` – Optimerade WebP-versioner av bilderna från Minecraft
 - `sitemap-index.xml` + `robots.txt` – Genereras automatiskt vid build via `@astrojs/sitemap`
+
+### Platsinformation från servern
+
+`global_waypoints.dat` används **endast som indata lokalt** och är ignorerad av Git.
+En deduplicerad och redigerbar lista med namn, dimensioner och blockkoordinater
+förvaltas i `src/data/locations.ts`. Råfilen, ikoner, GUID:er och användarinställningar
+lagras inte i repot. Två olika positioner med namnet ”Simons bas” är avsiktligt kvar.
+
+Platserna presenteras i rätt sammanhang: de 14 farmer som WeKill äger under WeKill,
+koncernlokaler på respektive verksamhetssida, samt städer, butiker,
+sevärdheter och spelarbaser på koncernsidan. Det finns ingen separat waypoint-katalog.
+Koordinaterna är en ögonblicksbild och uppdateras inte automatiskt.
+
+### BlueMap
+
+3D-kartan finns på [karta.weab.nu](https://karta.weab.nu/) och visas som
+lazy-loadad iframe på `/karta/`. Externa länkar finns i navigationen, foten,
+på startsidan, projektsidan, arenan, kontaktsidan och verksamhetssidorna.
+Besökaren kan alltid öppna kartan direkt om webbläsaren eller BlueMaps
+säkerhetsinställningar blockerar inbäddningen.
+
+Länkarna öppnar kartans startsida: det används **inga spekulativa**
+koordinatankare eller hårdkodade kart-ID:n, eftersom sådana URL:er måste
+verifieras mot den aktuella BlueMap-installationen. Webbplatsen är helt statisk
+och fungerar även om den externa kartservern är otillgänglig.
 
 ### Pixelart-logotyper (endast kod)
 
@@ -94,19 +120,6 @@ npm run build
 ```
 
 Valideringen kontrollerar unika identifierare, korrekta verksamhetsreferenser och att alla refererade lokala bild- och logotypfiler finns. PR:er kör samma kontroller automatiskt. Innehållslistor och accentfärger ska härledas från `src/data/` i stället för att kopieras mellan sidor. Dekorativa element ska inte efterlikna länkar eller påhittade datapunkter.
-
-### BlueMap
-
-3D-kartan finns på [karta.weab.nu](https://karta.weab.nu/) och visas som
-lazy-loadad iframe på `/karta/`. Externa länkar finns i navigationen, foten,
-på startsidan, projektsidan, arenan, kontaktsidan och verksamhetssidorna.
-Besökaren kan alltid öppna kartan direkt om webbläsaren eller BlueMaps
-säkerhetsinställningar blockerar inbäddningen.
-
-Länkarna öppnar kartans startsida: det används **inga spekulativa**
-koordinatankare eller hårdkodade kart-ID:n, eftersom sådana URL:er måste
-verifieras mot den aktuella BlueMap-installationen. Webbplatsen är helt statisk
-och fungerar även om den externa kartservern är otillgänglig.
 
 ## Licens
 
