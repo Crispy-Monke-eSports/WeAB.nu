@@ -1,9 +1,80 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import {news} from '../../data/news';
+import { news } from '../../data/news';
+
+const [featured, ...archive] = news;
+const displayDate = (date: string) =>
+  new Intl.DateTimeFormat('sv-SE', {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+  }).format(new Date(`${date}T12:00:00Z`));
 ---
-<BaseLayout title="Nyhetsrum | WeAB Group">
-<section class="page-hero"><div class="shell"><div class="eyebrow">NYHETSRUM</div><h1>Koncernens notiser.</h1><p class="lead">Här får du nyheterna precis som ledningen vill att du ska läsa dem. Faktaavdelningen arbetar direkt under styrelsen.</p></div></section>
-<section class="section"><div class="shell"><div class="news-grid">{news.map(item=><a href={`/nyheter/${item.slug}/`} class="news-card"><div class="image-frame"><img src={item.image} alt={item.alt} loading="lazy" /></div><div class="small-caps">{item.type}</div><h2>{item.title}</h2><p>{item.summary}</p><span>Läs mer ↗</span></a>)}</div></div></section>
+<BaseLayout
+  title="Nyheter och pressmeddelanden | WeAB Group"
+  description="Beslut, investeringar och verksamhetsuppdateringar från WeAB Group och koncernens bolag."
+>
+  <section class="page-hero">
+    <div class="shell">
+      <div class="eyebrow">WEAB GROUP / PRESS & KOMMUNIKATION</div>
+      <h1>Nyheter från koncernen.</h1>
+      <p class="lead">Här samlar vi beslut, anläggningsprojekt och verksamhetsuppdateringar från hela WeAB Group. Informationen publiceras av koncernens kommunikationsfunktion.</p>
+    </div>
+  </section>
+  {featured && <section class="featured-section" aria-label="Senaste nyheten">
+    <div class="shell">
+      <div class="featured-label"><span>SENASTE FRÅN KONCERNEN</span><time datetime={featured.publishedAt}>{displayDate(featured.publishedAt)}</time></div>
+      <a href={`/nyheter/${featured.slug}/`} class="featured-story">
+        <div class="featured-image"><img src={featured.image} alt={featured.alt} loading="eager" /></div>
+        <div class="featured-body">
+          <span class="small-caps">{featured.type}</span>
+          <h2>{featured.title}</h2>
+          <p>{featured.summary}</p>
+          <span class="featured-read">Läs pressmeddelandet <span aria-hidden="true">↗</span></span>
+        </div>
+      </a>
+    </div>
+  </section>}
+  <section class="section archive">
+    <div class="shell">
+      <div class="section-heading">
+        <div><div class="eyebrow">ARKIV / PRESSMEDDELANDEN</div><h2>Fortsatt utveckling.</h2></div>
+        <p>Nyheter från koncernens verksamheter, projekt och gemensamma funktioner.</p>
+      </div>
+      <div class="news-grid">
+        {archive.map(item => <a href={`/nyheter/${item.slug}/`} class="news-card">
+          <div class="image-frame"><img src={item.image} alt={item.alt} loading="lazy" /></div>
+          <div class="news-metadata"><span class="small-caps">{item.type}</span><time datetime={item.publishedAt}>{displayDate(item.publishedAt)}</time></div>
+          <h3>{item.title}</h3>
+          <p>{item.summary}</p>
+          <span class="news-read">Läs pressmeddelandet <span aria-hidden="true">↗</span></span>
+        </a>)}
+      </div>
+    </div>
+  </section>
 </BaseLayout>
-<style>.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}.news-card{text-decoration:none}.news-card .image-frame{height:210px;margin-bottom:1.2rem}.news-card:hover .image-frame,.news-card:focus-visible .image-frame{border-color:#80dfed}.news-card img{height:100%}.news-card h2{font-size:1.4rem;margin:.8rem 0}.news-card:hover h2{text-decoration:underline;text-decoration-color:#80dfed;text-underline-offset:.2em}.news-card p{font-size:.85rem}.news-card>span{font-size:.83rem;color:var(--cyan);font-weight:800}@media(max-width:800px){.news-grid{grid-template-columns:1fr 1fr}}@media(max-width:550px){.news-grid{grid-template-columns:1fr}}</style>
+<style>
+  .featured-section{padding:3.5rem 0;background:#101f29;border-bottom:1px solid #344a55}
+  .featured-label{display:flex;justify-content:space-between;gap:1.5rem;color:#a5bdc9;font-size:.73rem;letter-spacing:.13em;font-weight:700;margin-bottom:1rem}
+  .featured-label time{letter-spacing:0;text-transform:none}
+  .featured-story{display:grid;grid-template-columns:1.1fr 1fr;min-height:350px;border:1px solid #3b515d;background:#172832;text-decoration:none}
+  .featured-image{overflow:hidden;min-height:310px}
+  .featured-image img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .25s}
+  .featured-story:hover .featured-image img,.featured-story:focus-visible .featured-image img{transform:scale(1.035)}
+  .featured-body{padding:clamp(1.4rem,3vw,3rem);display:flex;flex-direction:column;align-items:start;justify-content:center}
+  .featured-body h2{font-size:clamp(1.55rem,2.8vw,2.7rem);line-height:1.16;margin:1.2rem 0 1rem}
+  .featured-body p{margin:0 0 1.6rem;line-height:1.6}
+  .featured-read,.news-read{font-size:.8rem;font-weight:800;color:#83dfec}
+  .archive{background:#0b1720}
+  .news-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem 1.4rem}
+  .news-card{color:inherit;text-decoration:none;display:flex;flex-direction:column;align-items:start}
+  .news-card .image-frame{width:100%;height:215px;margin-bottom:1.1rem;overflow:hidden}
+  .news-card .image-frame img{width:100%;height:100%;object-fit:cover}
+  .news-card:hover .image-frame,.news-card:focus-visible .image-frame{border-color:#80dfed}
+  .news-metadata{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;font-size:.73rem;color:#a6b7c2}
+  .news-metadata time{font-size:.73rem}
+  .news-card h3{font-size:clamp(1.13rem,1.8vw,1.45rem);line-height:1.25;margin:.75rem 0}
+  .news-card:hover h3{text-decoration:underline;text-decoration-color:#80dfed;text-underline-offset:.2em}
+  .news-card p{font-size:.88rem;line-height:1.57;margin:0 0 1.2rem}
+  .news-card .news-read{margin-top:auto}
+  @media(max-width:970px){.news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featured-story{grid-template-columns:1fr 1fr}}
+  @media(max-width:690px){.featured-story{grid-template-columns:1fr}.featured-image{min-height:260px;max-height:370px}.news-grid{grid-template-columns:1fr}.news-card .image-frame{height:240px}}
+</style>

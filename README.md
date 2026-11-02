@@ -46,7 +46,7 @@ Engångsinställning innan första publiceringen:
 - `/arena/` – Huvudstadens arena med tre bilder och platsmarkeringen Hungerspelsarenan
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Platsannonser inom rollspelet; inga ansökningar via webbplatsen
-- `/nyheter/` – Konceptartiklar med undersidor
+- `/nyheter/` – Koncernens fiktiva pressmeddelanden, daterade och med egna artikelsidor
 - `/kontakt/` – Kontakt via Minecraft-servern
 
 ### Redigera innehåll
@@ -57,7 +57,7 @@ Engångsinställning innan första publiceringen:
 - `src/data/arena.ts` – Arenagalleriets tre foton och alt-texter
 - `src/assets/we-logo.svg` – Den bifogade officiella WE-logotypen (gemensam för alla bolag)
 - `src/data/locations.ts` – Internt referensmaterial från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-farmer); visas inte på webbplatsen
-- `src/data/news.ts` – Nyhetsutkast
+- `src/data/news.ts` – 16 längre fiktiva pressmeddelanden med datum, ingress, bilder och fullständiga artikeltexter
 - `src/styles/global.css` – Global grafisk profil
 - `public/logos/` – Tio SVG-varianter genererade från den officiella WE-logotypen
 - `public/images/` – Optimerade WebP-versioner av bilderna från Minecraft
@@ -116,6 +116,20 @@ npm run build
 CI verifierar att samtliga genererade SVG-filer överensstämmer med
 originalet och de aktuella företagsfärgerna; en manuell redigering av
 en genererad fil ska inte kunna överleva utan att upptäckas.
+
+### Nyhetsrum och redaktionell ton
+
+`src/data/news.ts` innehåller nio utbyggda originalartiklar och sju nya
+fiktiva händelser inom serverns Minecraft-rollspel. Publiceringsdatumen är
+redaktionella datum i den fiktiva WeAB-världen, inte dokumentation av verkliga
+händelser. Artikelsidorna visar datum, bolagets pressavsändare och längre
+brödtexter i en saklig koncernkommunikationston. En diskret notis,
+**”Innehållet är satir.”**, placeras längst ned på varje artikel och inte
+i pressmeddelandenas ingress eller brödtext.
+
+Nya artiklar ska ha minst sex utvecklade stycken, trovärdig intern logik,
+korrekta bolagsreferenser och redan befintliga bilder. Datum hålls sorterade
+med det senaste först, så att startsidans tre artiklar är aktuella inom arkivet.
 
 ### Innehåll
 

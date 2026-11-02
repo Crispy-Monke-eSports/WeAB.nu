@@ -96,8 +96,20 @@ for (const company of companies) {
 for (const id of featuredProjectIds) {
   assert.ok(projects.some(project => project.id === id), `Utvalt projekt saknas: ${id}`);
 }
-for (const article of news) {
-  assert.ok(article.alt.trim() && article.body.length > 0, `Ofullständig artikel: ${article.slug}`);
+assert.equal(news.length, 16, 'Nyhetsarkivet ska innehålla nio omarbetade artiklar och sju nya pressmeddelanden');
+for (const [index, article] of news.entries()) {
+  assert.match(article.publishedAt, /^20\d{2}-(0[1-9]|1[0-2])-([0-2]\d|3[01])$/, `Felaktigt publiceringsdatum: ${article.slug}`);
+  assert.equal(new Date(article.publishedAt + 'T12:00:00Z').toISOString().slice(0, 10), article.publishedAt,
+    `Ogiltigt kalenderdatum: ${article.slug}`);
+  if (index > 0) {
+    assert.ok(news[index - 1].publishedAt >= article.publishedAt,
+      'Nyhetsarkivet ska vara sorterat med senaste publiceringsdatum först');
+  }
+  assert.ok(article.title.trim().length >= 25 && article.summary.trim().length >= 70,
+    `För kort rubrik eller ingress: ${article.slug}`);
+  assert.ok(article.type.trim() && article.alt.trim(), `Saknad kategori eller bildtext: ${article.slug}`);
+  assert.ok(article.body.length >= 6 && article.body.every(p => p.trim().length >= 125),
+    `Nyhetsartikeln behöver minst sex utvecklade stycken: ${article.slug}`);
   asset(article.image, article.slug);
 }
 for (const job of jobs) {
