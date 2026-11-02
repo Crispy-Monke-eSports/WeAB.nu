@@ -27,6 +27,8 @@ const palette = {
   welivelaughlove: '#79A83B',
   wegamble: '#D4A017',
   wetravel: '#2563EB',
+  wetrade: '#4DAA27',
+  welove: '#D65A98',
 };
 
 const pixel = 11;
@@ -42,4 +44,4 @@ for (const [name, fill] of Object.entries(palette)) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="logo-title"><title id="logo-title">${name} — WE</title><rect width="${width}" height="${height}" fill="${fill}"/><g fill="#fff" shape-rendering="crispEdges">${blocks}</g></svg>`;
   await writeFile(`public/logos/${name}.svg`, svg + '\n');
 }
-console.log('Generated 7 WE pixel-art SVG logos from code.');
+console.log('Generated 9 WE pixel-art SVG logos from code.');

@@ -70,6 +70,33 @@ export const companies: Company[] = [
     location:'Flera destinationer',status:'Aktiv infrastruktur',
     services:['Järnvägsförbindelser','Isbåtstransport','Stationsinfrastruktur','Nätverksutveckling'],
     facts:[{label:'Transportmedel',value:'Räls och isbåt'},{label:'Räckvidd',value:'Serverns nätverk'}]
+  },
+  {
+    slug: 'wetrade',
+    name: 'WeTrade',
+    kicker: 'HANDEL & KUNSKAPSKONTROLL',
+    tagline: 'Kunskap är makt. Vi säljer båda.',
+    overview: 'Alla enchantments. En enda handelsaktör. Våra handlare väntar på dig dygnet runt. De har inget annat val.',
+    description: 'WeTrade har samlat Minecrafts samtliga enchantments under ett och samma tak. Våra specialistsäljare står prydligt uppradade, redo att erbjuda rätt bok till rätt diamantpris, oavsett tid på dygnet. Vi kallar det kundservice utan öppettider. Arbetsmiljöavdelningen kallar det ett ärende som har avslutats. Kunskap ska vara tillgänglig för alla — förutsatt att de har råd att köpa den av oss.',
+    accent: '#4DAA27',
+    location: 'WeTrades handelsanläggning',
+    status: 'Öppet dygnet runt',
+    services: ['Handel med samtliga enchantments', 'Enchanted books', 'Diamantbaserad prissättning', 'Dygnet-runt-bemanning', 'Centraliserad handelsinfrastruktur', 'Konkurrensbegränsande kundlojalitet'],
+    facts: [{label: 'Sortiment', value: 'Samtliga enchantments'}, {label: 'Öppettider', value: '24/7'}, {label: 'Bemanning', value: 'Permanent'}]
+  },
+  {
+    slug: 'welove',
+    name: 'WeLove',
+    kicker: 'FRAMTIDENS PERSONALFÖRSÖRJNING',
+    tagline: 'Vi älskar tillväxt. Bokstavligen.',
+    overview: 'Framtidens arbetskraft börjar här. Vi planerar varje ny generation med samma omsorg som en kvartalsbudget.',
+    description: 'På WeLove är kärleken organiserad, framtiden schemalagd och rekryteringen ovanligt effektiv. Våra specialutformade familjemiljöer säkerställer ett kontinuerligt tillskott av nya villagers till koncernens arbetsmarknad. Varje ny invånare är ett löfte om en ljusare framtid — särskilt i resultaträkningen. WeLove förenar familjevärderingar med vertikal integration. Föräldraledigheten är under utredning. Utredaren arbetar numera på WeTrade.',
+    accent: '#D65A98',
+    location: 'WeLoves personalanläggning',
+    status: 'Kontinuerlig drift',
+    services: ['Villager breeding', 'Långsiktig personalplanering', 'Generationsväxling', 'Arbetskraftsproduktion', 'Kapacitetsoptimering', 'Rekrytering från födseln'],
+    facts: [{label: 'Affärsområde', value: 'Personalproduktion'}, {label: 'Leveransmodell', value: 'Kontinuerlig'}, {label: 'Karriärstart', value: 'Så tidigt som möjligt'}]
   }
+
 ];
 

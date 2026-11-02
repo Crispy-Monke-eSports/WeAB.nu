@@ -24,8 +24,8 @@ const featuredProjects = featuredProjectIds.flatMap(id => {
 
   <aside class="company-register" aria-label="Koncernregister">
     <div class="shell company-register__inner">
-      <span class="small-caps">KONCERNREGISTER / MINECRAFT</span>
-      <p><strong>{companies.length} verksamheter.</strong> Från mobfarm och sorteringshall till isbåtsled. Allt i samma bokföring.</p>
+      <span class="small-caps">KONCERNREGISTER</span>
+      <p><strong>{companies.length} verksamheter.</strong> Från arbetskraftsproduktion och enchantments till logistik och resor. Allt i samma bokföring.</p>
       <a href="/verksamheter/" class="link-arrow">Bläddra i registret <span aria-hidden="true">↗</span></a>
     </div>
   </aside>
@@ -38,14 +38,14 @@ const featuredProjects = featuredProjectIds.flatMap(id => {
   </div></section>
 
   <section class="section section--dark"><div class="shell">
-    <div class="section-heading"><div><div class="eyebrow">VÅRA AFFÄRSOMRÅDEN</div><h2>Ett ekosystem.<br/>Ett ägarskap.</h2></div><p>Sex verksamheter. Samma ägare. Fråga oss gärna om alternativen.</p></div>
+    <div class="section-heading"><div><div class="eyebrow">VÅRA AFFÄRSOMRÅDEN</div><h2>Ett ekosystem.<br/>Ett ägarskap.</h2></div><p>Åtta verksamheter. En och samma ägare. Fråga oss gärna om alternativen.</p></div>
     <div class="card-grid">{companies.map(company=><CompanyCard company={company}/>)}</div>
   </div></section>
 
   <section class="section"><div class="shell split-layout pipeline">
     <div class="image-frame pipeline-image"><img src="/images/wesort-interior.webp" alt="Upplyst sorteringshall med långa rader av kistor" loading="lazy"/></div>
     <div><div class="eyebrow">DEN INTEGRERADE VÄRDEKEDJAN</div><h2>Från första resurs till sista transaktion.</h2><p>Vi producerar det du behöver, lagrar det du äger och transporterar det du köper. Sedan säljer vi det gärna till dig igen.</p>
-      <div class="pipeline-steps"><div><b>01</b><strong>Producera</strong><span>WeKill</span></div><div><b>02</b><strong>Sortera</strong><span>WeSort</span></div><div><b>03</b><strong>Hantera</strong><span>WeBox</span></div><div><b>04</b><strong>Transportera</strong><span>WeTravel</span></div></div>
+      <div class="pipeline-steps"><div><b>00</b><strong>Bemanna</strong><span>WeLove</span></div><div><b>01</b><strong>Producera</strong><span>WeKill</span></div><div><b>02</b><strong>Sortera</strong><span>WeSort</span></div><div><b>03</b><strong>Hantera</strong><span>WeBox</span></div><div><b>04</b><strong>Transportera</strong><span>WeTravel</span></div><div><b>05</b><strong>Sälj kunskapen</strong><span>WeTrade</span></div></div>
     </div>
   </div></section>
 
@@ -56,7 +56,7 @@ const featuredProjects = featuredProjectIds.flatMap(id => {
 
   <section class="values-banner"><div class="shell"><span class="eyebrow">VÅRT LÖFTE</span><h2>Valfrihet är bra.<br/><em>Samordning är bättre.</em></h2><p>Vissa kallar det monopol. Vi kallar det kundförenkling.</p><a href="/investerare/" class="btn btn-outline">Investerarrelationer ↗</a></div></section>
 
-  <section class="section"><div class="shell"><div class="section-heading"><div><div class="eyebrow">KONCERNENS FIKTIVA NYHETSRUM</div><h2>Från koncernens nyhetsrum</h2></div><a href="/nyheter/" class="link-arrow">Alla nyheter ↗</a></div>
+  <section class="section"><div class="shell"><div class="section-heading"><div><div class="eyebrow">PRESS & MEDDELANDEN</div><h2>Från koncernens nyhetsrum</h2></div><a href="/nyheter/" class="link-arrow">Alla nyheter ↗</a></div>
     <div class="news-grid">{news.slice(0,3).map(article=><a href={`/nyheter/${article.slug}/`} class="news-card"><div class="image-frame"><img src={article.image} alt={article.alt} loading="lazy"/></div><span class="small-caps">{article.type}</span><h3>{article.title}</h3><p>{article.summary}</p><span class="news-more">Läs artikeln ↗</span></a>)}</div>
     
   </div></section>
