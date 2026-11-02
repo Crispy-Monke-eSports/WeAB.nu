@@ -1,12 +1,17 @@
 ---
+import { blueMapUrl } from '../data/bluemap';
+import type { BlueMapView, MapPosition } from '../data/bluemap';
+
 interface Props {
   label?: string;
   variant?: 'text' | 'button';
+  place?: MapPosition;
+  view?: BlueMapView;
 }
-const { label = 'Öppna BlueMap', variant = 'text' } = Astro.props;
+const { label = 'Öppna BlueMap', variant = 'text', place, view = 'perspective' } = Astro.props;
 ---
 <a class:list={['map-link', variant === 'button' ? 'btn btn-outline' : 'link-arrow']}
-   href="https://karta.weab.nu/" target="_blank" rel="noopener noreferrer"
+   href={blueMapUrl(place, view)} target="_blank" rel="noopener noreferrer"
    aria-label={`${label} (öppnas i ny flik)`}>
   {label} <span aria-hidden="true">↗</span>
 </a>
