@@ -1,6 +1,6 @@
 /**
- * Public directory curated from a one-time JourneyMap waypoint export.
- * Only display name, group, dimension, block coordinates and relevant
+ * Internal editorial reference curated from a one-time JourneyMap waypoint export.
+ * Not rendered on the website. Only display name, group, dimension, block coordinates and relevant
  * existing WeAB pages are retained; all farms are owned by WeKill. The raw .dat export is not committed.
  * Duplicate name/dimension/position entries are collapsed.
  */

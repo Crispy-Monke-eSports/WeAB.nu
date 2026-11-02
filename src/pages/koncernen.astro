@@ -2,15 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {companies} from '../data/companies';
 import BrandMark from '../components/BrandMark.astro';
-import {locations} from '../data/locations';
-import WaypointSection from '../components/WaypointSection.astro';
 import { projects } from '../data/projects';
 
 const weabProjects = projects.filter(project => project.division === 'WeAB' && !project.detailUrl);
-const capitalLocations = locations.filter(place => place.group === 'Städer' || place.group === 'Offentliga byggnader');
-const shopLocations = locations.filter(place => place.group === 'Butiker');
-const landmarks = locations.filter(place => place.group === 'Sevärdheter');
-const playerBases = locations.filter(place => place.group === 'Spelarbaser');
 ---
 <BaseLayout title="Om WeAB | WeAB Group" description="WeAB:s företagsvision, ledningsmodell och koncernstruktur.">
   <section class="page-hero"><div class="shell"><div class="eyebrow">OM WEAB</div><h1>Vi organiserar framtiden.</h1><p class="lead">WeAB producerar resurser, föder upp arbetskraft, säljer kunskap, förvarar ägodelar och erbjuder begränsad frihet inom en obruten kedja av koncernkontrollerad service. Alla vägar leder till oss. Alla diamanter likaså.</p></div></section>
@@ -39,30 +33,10 @@ const playerBases = locations.filter(place => place.group === 'Spelarbaser');
   <section class="section section--dark" aria-label="Runtom i Minecraft-världen">
     <div class="shell">
       <div class="section-heading">
-        <div><div class="eyebrow">HUVUDSTADEN OCH OMGIVNINGEN</div><h2>Vår värld är större än koncernen.</h2></div>
-        <p>Huvudstaden har fler invånare än våra dotterbolag. Här finns butiker, sevärdheter och spelarbaser som ännu inte ingår i koncernen.</p>
+        <div><div class="eyebrow">HUVUDSTADEN OCH OMGIVNINGEN</div><h2>Inte ens vi äger allt.</h2></div>
+        <p>Butiker, sevärdheter och privata baser finns fortfarande utanför koncernen. Vi följer utvecklingen.</p>
       </div>
       <div class="capital-overview"><img src="/images/huvudstaden-overview.webp" alt="Överblick över Huvudstaden i solnedgång med byggnader, vatten och en bro" loading="lazy" width="1440" height="810"/></div>
-      <WaypointSection
-        heading="Huvudstaden och offentliga byggnader"
-        introduction="Huvudstaden ligger på en halvö. Stadshuset hittar du i Sektion 1."
-        places={capitalLocations}
-      />
-      <WaypointSection
-        heading="Handeln vid huvudstaden"
-        introduction="ByggMaxx, McDonald's och tankstationen finns som separata markeringar på servern. Än så länge är de inte våra."
-        places={shopLocations}
-      />
-      <WaypointSection
-        heading="Sevärdheter på servern"
-        introduction="Hungerspelsarenan är samma anläggning som Huvudstadens arena. Här finns också casinoön, Bedrock-chunken och Noas får-ö."
-        places={landmarks}
-      />
-      <WaypointSection
-        heading="Spelarnas egna baser"
-        introduction="Här finns också privata spelarbaser utanför koncernens kontroll. Två markeringar heter Simons bas, men ligger på olika platser."
-        places={playerBases}
-      />
     </div>
   </section>
   <section class="section section--dark"><div class="shell split-layout"><div><div class="eyebrow">SÄRSKILT MEDDELANDE</div><h2>Ordning är inte alltid populärt. Den är ändå nödvändig.</h2><p>Efter en kort period av oauktoriserad självständighet i byarna har samhällsfreden återställts. De boende har nu samma rättigheter som tidigare, men betydligt färre möjligheter att utöva dem.</p></div><div class="quote-block"><span>”</span><blockquote>Vi ser inte problem. Vi ser områden där vår kontroll ännu inte är tillräckligt utvecklad.</blockquote><small>WEAB · KONCERNENS ARBETSFILOSOFI</small></div></div></section>

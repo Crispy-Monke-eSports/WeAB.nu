@@ -5,8 +5,6 @@ import {companies} from '../data/companies';
 import {projects, featuredProjectIds} from '../data/projects';
 import {news} from '../data/news';
 import {arenaPhotos} from '../data/arena';
-import {locations} from '../data/locations';
-const farmCount = locations.filter(place => place.owner === 'WeKill').length;
 const featuredProjects = featuredProjectIds.flatMap(id => {
   const project = projects.find(item => item.id === id);
   return project ? [project] : [];
@@ -42,7 +40,7 @@ const companySlugByName = Object.fromEntries(companies.map(company => [company.n
   </div></section>
 
   <section class="section section--dark"><div class="shell">
-    <div class="section-heading"><div><div class="eyebrow">VÅRA AFFÄRSOMRÅDEN</div><h2>Ett ekosystem.<br/>Ett ägarskap.</h2></div><p>{companies.length} verksamheter i koncernen. WeKill har {farmCount} markerade farmer i Overworld, Nether och End.</p></div>
+    <div class="section-heading"><div><div class="eyebrow">VÅRA AFFÄRSOMRÅDEN</div><h2>Ett ekosystem.<br/>Ett ägarskap.</h2></div><p>{companies.length} verksamheter i koncernen. WeKills produktion sträcker sig över Overworld, Nether och End.</p></div>
     <div class="card-grid">{companies.map(company=><CompanyCard company={company}/>)}</div>
   </div></section>
 

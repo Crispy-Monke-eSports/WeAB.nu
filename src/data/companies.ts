@@ -17,7 +17,7 @@ export interface Company {
 export const companies: Company[] = [
   {
     slug: 'wekill', name: 'WeKill', kicker: 'INDUSTRIELL PRODUKTION', tagline: 'Livet är en resurs.',
-    overview: 'Vår produktion slutar aldrig. Det är inte en metafor.',
+    overview: 'Vår produktion slutar aldrig. Produktionsmålen höjs ändå.',
     description: 'På WeKill mäts livet i droppfrekvens, effektivitet och marginaler. När produktionen stannar upp ställer vi den enda relevanta frågan: Vem gav den tillåtelse?',
     accent: '#C62828', image: '/images/wekill-headquarters.webp', imageAlt: 'WeKills kontorsbyggnad med röd WE-skylt',
     location: 'Sektion 1', status: 'Aktiv verksamhet',
@@ -61,7 +61,7 @@ export const companies: Company[] = [
   {
     slug:'wetravel',name:'WeTravel',kicker:'TRANSPORT & INFRASTRUKTUR',tagline:'Alla vägar leder genom oss.',
     overview:'Räls och isbåtsleder som förbinder platser, människor och verksamheter.',
-    description:'Vi erbjuder järnvägar och isbåtsleder mellan serverns platser. Centralstationerna i Huvudstaden och Sektion 1 visar två sidor av nätet. Destinationerna är godkända. Den fria rörligheten är numera mycket välorganiserad.',
+    description:'Vi driver järnvägar och isbåtsleder mellan serverns platser, med centralstationer i Huvudstaden och Sektion 1. Destinationerna är godkända. Den fria rörligheten är numera mycket välorganiserad.',
     accent:'#2563EB',image:'/images/wetravel-sektion-1-centralstation.webp',imageAlt:'WeTravels centralstation i Sektion 1 med tegelfasad och turkosa dörrar',
     location:'Huvudstaden och Sektion 1',status:'Aktiv infrastruktur',
     services:['Järnvägsförbindelser','Isbåtstransport','Stationsinfrastruktur','Nätverksutveckling'],
@@ -100,7 +100,7 @@ export const companies: Company[] = [
   {
     slug: 'werule', name: 'WeRule', kicker: 'OFFENTLIG FASTIGHET · PRIVAT ÄGANDE', tagline: 'Statens hus. Vår fastighet.',
     overview: 'Riksdagshuset i Huvudstaden och Stadshuset i Sektion 1. Offentliga byggnader i WeAB:s värld.',
-    description: 'WeRule är WeAB:s dotterbolag för de offentliga byggnaderna. I Huvudstaden ligger Riksdagshuset, en statlig byggnad där serverns riksdag sammanträder – och som ägs av WeAB. I Sektion 1 finns WeRules stadshus. Två byggnader, två platser. En påminnelse om hur nära den offentliga makten kan ligga ett privat bolag.',
+    description: 'WeRule ansvarar för koncernens offentliga byggnader. Riksdagen sammanträder i Huvudstaden i en statlig byggnad som ägs av WeAB. I Sektion 1 ligger WeRules stadshus. Staten står för uppdraget; koncernen har nycklarna.',
     accent: '#00BCD4', image: '/images/werule-riksdagshuset.webp', imageAlt: 'Riksdagshuset i Huvudstaden, vit byggnad med cyan detaljer och WE-symbol på fasaden',
     location: 'Huvudstaden och Sektion 1', status: 'Två offentliga byggnader',
     services: ['Riksdagshuset i Huvudstaden', 'Serverns riksdag', 'Stadshuset i Sektion 1', 'Offentliga byggnader'],

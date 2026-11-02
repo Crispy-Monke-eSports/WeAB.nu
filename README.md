@@ -47,7 +47,7 @@ Engångsinställning innan första publiceringen:
 - `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
 - `/karriar/` – Platsannonser inom rollspelet; inga ansökningar via webbplatsen
 - `/nyheter/` – Konceptartiklar med undersidor
-- `/kontakt/` – Kontakt och lokalisering
+- `/kontakt/` – Kontakt via Minecraft-servern
 
 ### Redigera innehåll
 
@@ -56,7 +56,7 @@ Engångsinställning innan första publiceringen:
 - `src/data/companyEditorial.ts` – Bolagens egna avsnitt, anläggningsgrupper och kopplingar mellan verksamheter
 - `src/data/arena.ts` – Arenagalleriets tre foton och alt-texter
 - `src/assets/we-logo.svg` – Den bifogade officiella WE-logotypen (gemensam för alla bolag)
-- `src/data/locations.ts` – Utvald servergeografi från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-farmer)
+- `src/data/locations.ts` – Internt referensmaterial från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-farmer); visas inte på webbplatsen
 - `src/data/news.ts` – Nyhetsutkast
 - `src/styles/global.css` – Global grafisk profil
 - `public/logos/` – Tio SVG-varianter genererade från den officiella WE-logotypen
@@ -70,9 +70,9 @@ En deduplicerad och redigerbar lista med namn, dimensioner och blockkoordinater
 förvaltas i `src/data/locations.ts`. Råfilen, ikoner, GUID:er och användarinställningar
 lagras inte i repot. Två olika positioner med namnet ”Simons bas” är avsiktligt kvar.
 
-Platserna presenteras i rätt sammanhang: de 14 farmer som WeKill äger under WeKill,
-koncernlokaler på respektive verksamhetssida, samt städer, butiker,
-sevärdheter och spelarbaser på koncernsidan. Det finns ingen separat waypoint-katalog.
+Listan används som intern hjälp vid gruppering och faktakontroll. Varken
+waypointlistor eller koordinater publiceras på webbplatsen. Byggnader och
+platser presenteras i stället genom bilder och redaktionella beskrivningar.
 Koordinaterna är en ögonblicksbild och uppdateras inte automatiskt.
 
 ### WE:s officiella logotyp och företagsspecifik typografi
@@ -94,7 +94,7 @@ Vid generering anpassar `scripts/generate-logos.mjs` följande lager utan att
 Alla tio varianter i `public/logos/` (WeAB och nio dotterbolag) är
 genererade från originalfilen. Samma filer används som logotyper i
 huvudmenyn, sidfoten, verksamhetskorten, koncernstrukturen, respektive
-verksamhetssida och moderbolagets favicon.
+verksamhetssida och respektive bolags favicon (cyan på övriga sidor).
 
 `BrandMark.astro` visar WE-symbolen **över** resten av företagsnamnet:
 **AB**, **Kill**, **Sort**, **Box**, **LiveLaughLove**, **Gamble**,

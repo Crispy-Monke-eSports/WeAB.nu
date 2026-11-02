@@ -3,8 +3,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import BrandMark from '../../components/BrandMark.astro';
 import { companies } from '../../data/companies';
 import { projects } from '../../data/projects';
-import { locations } from '../../data/locations';
-import WaypointSection from '../../components/WaypointSection.astro';
 import CompanyAssets from '../../components/CompanyAssets.astro';
 import { companyEditorial } from '../../data/companyEditorial';
 
@@ -16,19 +14,6 @@ const { company } = Astro.props;
 const relatedProjects = projects.filter(project => project.division === company.name);
 const editorial = companyEditorial[company.slug];
 const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegamble'].includes(company.slug);
-const companyWaypoints = locations.filter(place =>
-  place.owner === company.name
-  || place.relatedPage === `/verksamheter/${company.slug}/`
-  || (company.slug === 'wetravel' && place.group === 'Stationer')
-);
-const waypointHeading = company.slug === 'wekill'
-  ? 'WeKills farmer i tre dimensioner'
-  : company.slug === 'wetravel' ? 'Transportpunkt i Sektion 1' : `${company.name} på servern`;
-const waypointIntroduction = company.slug === 'wekill'
-  ? `Här hittar du ${companyWaypoints.length} av WeKills farmer i Overworld, Nether och End. Välj rätt dimension innan du åker.`
-  : company.slug === 'werule'
-    ? 'Stadshuset i Sektion 1 har en egen platsmarkering. Huvudstadens markering visar staden, inte Riksdagshusets exakta läge.'
-    : 'Här hittar du verksamhetens platser på servern. Ingången kan ligga en bit från markeringen.';
 ---
 <BaseLayout title={`${company.name} | WeAB Group`} description={company.overview}>
   <div class="company-theme" style={`--company-accent:${company.accent};--company-on-accent:${company.accent === '#00BCD4' ? '#06212b' : '#fff'}`}>
@@ -69,14 +54,6 @@ const waypointIntroduction = company.slug === 'wekill'
     </div></section>
 
     {!assetsFirst && <CompanyAssets editorial={editorial} projects={relatedProjects} slug={company.slug} />}
-
-    {companyWaypoints.length > 0 && <div class="shell"><WaypointSection
-      heading={waypointHeading}
-      introduction={waypointIntroduction}
-      places={companyWaypoints}
-      showRelatedLinks={false}
-      id="platser-pa-servern"
-    /></div>}
 
     <section class="company-cta"><div class="shell"><h2>WeAB. Där varje verksamhet räknas.</h2><a class="btn company-btn" href="/verksamheter/">Tillbaka till våra verksamheter ↗</a></div></section>
   </div>

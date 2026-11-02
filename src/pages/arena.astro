@@ -1,9 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { arenaPhotos } from '../data/arena';
-import { locations } from '../data/locations';
-import WaypointSection from '../components/WaypointSection.astro';
-const cityAndArena = locations.filter(place => place.name === 'Huvudstaden' || place.name === 'Hungerspelsarenan');
 ---
 
 <BaseLayout
@@ -53,7 +50,7 @@ const cityAndArena = locations.filter(place => place.name === 'Huvudstaden' || p
           <p class="eyebrow">ARENAN INIFRÅN OCH UT</p>
           <h2 id="gallery-heading">Tre perspektiv på arenan.</h2>
         </div>
-        <p>Från byggnadens yttre silhuett till läktarna och den upplysta interiören.</p>
+        <p>Läktarna är byggda för publiken. Koncernen räknar med att synas ändå.</p>
       </div>
       <div class="arena-gallery">
         {arenaPhotos.map((photo, index) => (
@@ -65,15 +62,6 @@ const cityAndArena = locations.filter(place => place.name === 'Huvudstaden' || p
     </div>
   </section>
 
-  <section class="section">
-    <div class="shell">
-      <WaypointSection
-        heading="Hitta Huvudstadens arena"
-        introduction="Arenan är också markerad som Hungerspelsarenan. Huvudstadens markering visar staden; arenans markering visar själva anläggningen."
-        places={cityAndArena}
-      />
-    </div>
-  </section>
   <section class="arena-bottom">
     <div class="shell arena-bottom__inner">
       <div>
