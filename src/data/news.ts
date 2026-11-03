@@ -42,8 +42,8 @@ export const news: NewsItem[] = [
     "type": "LOGISTIK",
     "title": "WeSort Colors får en tydligare roll i koncernens varuflöden",
     "summary": "Färgsorteringen knyts närmare centrallagret. Den nya ordningen ska minska osäkerheten om var varje block hör hemma.",
-    "image": "/images/wesort-interior.webp",
-    "alt": "Sorterings- och lagermiljö i WeSort",
+    "image": "/images/wesort-colors-lokal.webp",
+    "alt": "Färgmarkerade förvaringsrader i WeSort Colors egen byggnad",
     "body": [
       "Tre cyanblock, tre olika kistor och två nya beställningar på material som redan fanns i hallen. Det var utgångspunkten för en genomgång inom WeSort som nu leder till en tydligare arbetsfördelning mellan huvudanläggningen och WeSort Colors. Problemet var inte att blocken saknades. De fanns på plats, men de som skulle använda dem kunde inte utan vidare avgöra vilken förvaring som räknades som den aktuella.",
       "Leveransen hade passerat flera händer på sin väg mot lagret. En del material hade placerats efter färg, en annan del efter användningsområde och en tredje del efter den plats som råkade ha ledigt utrymme just då. Alla tre principerna kan fungera var för sig. Tillsammans gjorde de det svårt att avgöra om ett tomt fack betydde att varan var slut eller att den helt enkelt hade lagts någon annanstans.",
@@ -103,8 +103,8 @@ export const news: NewsItem[] = [
     "type": "BOENDE",
     "title": "Sektion 3 får en gemensam standard för boende och samhällsservice",
     "summary": "WeLiveLaughLove har avslutat en intern genomgång av Avdelning A. Nästa steg är att göra vardagen mindre beroende av individuella önskemål.",
-    "image": "/images/welivelaughlove-section-3-a-overview.webp",
-    "alt": "Överblick över WeLiveLaughLove Sektion 3 Avdelning A",
+    "image": "/images/welivelaughlove-section-3-gardens.webp",
+    "alt": "Inhägnade odlingar och bostadsmiljö i Sektion 3, Avdelning A",
     "body": [
       "En dörr i Sektion 3, Avdelning A leder till ett hem. En annan leder till ett gemensamt utrymme. Tidigare har det inte alltid framgått av skyltningen vilken som är vilken, särskilt för den som besöker området för första gången. WeLiveLaughLove inför nu en gemensam standard för gångvägar, gemensamma funktioner och boendeservice. Avsikten är att den som ska till arbetet eller brunnen inte först ska behöva pröva flera dörrar för att hitta rätt.",
       "Den första etappen gäller främst informationen i området. Husen ska inte byggas om för att göra varje vägval mer förutsägbart. I stället markeras passager efter användning: bostad, gemensam service och ytor som tillhör andra verksamheter. Arbetet bygger delvis på erfarenheter från Sektion 1, Avdelning B, där boende och gemensamma funktioner redan har en tydligare uppdelning.",
@@ -223,8 +223,8 @@ export const news: NewsItem[] = [
     "type": "INFRASTRUKTUR",
     "title": "WeTravel utvecklar ett sammanhängande transportnät mellan koncernens anläggningar",
     "summary": "Järnvägar och isbåtsleder knyter samman verksamheterna och ger nya förutsättningar för planerade resor.",
-    "image": "/images/wetravel-station.webp",
-    "alt": "Station med räls och resenärspassager i WeTravels nät",
+    "image": "/images/wetravel-mainland-capital-tunnel-interior.webp",
+    "alt": "Spåren i järnvägstunneln mellan fastlandet och Huvudstaden",
     "body": [
       "Det första rälsblocket är lätt att lägga. Det sista, där spåret ska möta en station som redan används, kräver en plan. WeTravel har därför ritat upp järnvägar och isbåtsleder som ett sammanhängande nät med ansvar för både resväg och byte.",
       "Planen omfattar förbindelser mellan Huvudstaden, Sektion 1 och koncernens anläggningar. En ny hållplats ska prövas mot befintliga sträckor: kan besökare komma fram, kan material transporteras och vem byter ut ett trasigt block när invigningen är över?",
@@ -268,8 +268,8 @@ export const news: NewsItem[] = [
     "type": "PRODUKTION",
     "title": "WeKill fortsätter att utveckla automatiserad resursproduktion",
     "summary": "Tio mörka produktionsplan leder mobsen mot samma fallschakt. Nedanför väntar kistor för krut, benmjöl och tråd.",
-    "image": "/images/wekill-farms.webp",
-    "alt": "WeKills produktionsanläggningar",
+    "image": "/images/wekill-mobgrinder.webp",
+    "alt": "WeKills höga mobgrinder med flera mörka produktionsplan",
     "body": [
       "Högst upp i mobgrindern är det mörkt och gott om plats att dyka upp. Tio produktionsplan ger nya mobs en väg in i anläggningen. De stannar inte länge: deras rörelse samlas mot ett fallschakt som för varje omgång ned mot uppsamlingen.",
       "Fallet gör det arbete som annars skulle kräva personal på varje våning. Vid schaktets slut tas föremålen om hand, och krut, benmjöl och tråd får sina egna platser. Kapaciteten är över 7 000 föremål i timmen. För WeKill är det en ovanligt vacker arbetsfördelning mellan mörker, höjd och kistor.",

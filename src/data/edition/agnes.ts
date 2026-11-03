@@ -39,7 +39,7 @@ export const agnesArticles: MagazineDraft[] = [
     "format": "analys",
     "title": "En offentlig funktion har också fyra väggar",
     "summary": "Det låter självklart att möteslokaler behöver skötas. Ändå försvinner den insikten ofta i samtal om stora uppdrag.",
-    "image": "/images/werule-riksdagshuset.webp",
+    "image": "/images/werule-riksdagssalen.webp",
     "body": [
       "En riksdag kan besluta om stora saker. Den kan inte besluta bort draget från en trasig ruta.",
       "I Huvudstaden sammanträder riksdagen i ett hus som ägs av WeAB. Den kombinationen säger något om hur WeRule blivit en del av det offentliga vardagsmaskineriet: någon annan än ledamöterna behöver hålla reda på lokalerna, även när alla vill tala om vad som sker inne i dem.",
@@ -48,7 +48,7 @@ export const agnesArticles: MagazineDraft[] = [
     ],
     "publishedAt": "2026-10-31",
     "type": "ANALYS",
-    "alt": "Miljö som illustrerar artikeln En offentlig funktion har också fyra väggar",
+    "alt": "Riksdagssalen med sittplatser och talarstol i Huvudstaden",
     "authorId": "agnes-holmgren"
   },
   {
@@ -73,7 +73,7 @@ export const agnesArticles: MagazineDraft[] = [
     "format": "ledare",
     "title": "Oförutsägbarhetens pris syns sällan på kvittot",
     "summary": "En billig spontan lösning kan bli kostsam när någon förväntas ta hand om den långt efter invigningen.",
-    "image": "/images/weab-cyan-building.webp",
+    "image": "/images/wetravel-rail-bridge.webp",
     "body": [
       "Ett nytt stickspår kan se billigt ut på en karta. Några rälsblock, en skylt och sedan är det väl bara att åka? Den som ställer den frågan har förmodligen aldrig kommit tillbaka efter invigningen för att laga en trasig kurva.",
       "WeAB vill att investeringar också ska bära sitt framtida underhåll. Det är rätt prioritering. Ett projekt som binder samman flera anläggningar förtjänar att jämföras med ett som bara gör någons egen väg kortare. Inte för att genvägar är förbjudna, utan för att kostnaden inte upphör när den första vagnen passerat.",
@@ -82,7 +82,7 @@ export const agnesArticles: MagazineDraft[] = [
     ],
     "publishedAt": "2026-10-29",
     "type": "LEDARE",
-    "alt": "Miljö som illustrerar artikeln Oförutsägbarhetens pris syns sällan på kvittot",
+    "alt": "Räls och belysning på en bro som förbinder WeTravels spår med en tunnel",
     "authorId": "agnes-holmgren"
   }
 ];

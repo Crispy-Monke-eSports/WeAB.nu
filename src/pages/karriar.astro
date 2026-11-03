@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { imageAsset } from '../data/imageAssets';
 import { jobs } from '../data/jobs';
 import { companies } from '../data/companies';
 
@@ -8,7 +9,7 @@ const divisions = [{ name: 'WeAB', accent: '#00BCD4' }, ...companies.map(({ name
 const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [name, accent]));
 ---
 <BaseLayout title="Karriär hos WeAB | Din framtid är vår tillgång" description="Platsannonser hos WeAB. Din framtid är vår tillgång.">
-  <section class="careers-hero">
+  <section class="careers-hero" style={`--careers-hero-image: url('${imageAsset('/images/section-1-overview-dusk.webp').src}')`}>
     <div class="shell careers-intro">
       <h1>Din framtid.<br/><em>Vår tillgång.</em></h1>
       <p class="lead">WeAB söker personal till produktion, lager, transporter, handel och förvaltning. Här finns tjänstebeskrivningar och villkor. Ansökningar tas inte emot på webbplatsen.</p>
@@ -102,7 +103,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
 </script>
 <style>
   .careers-culture{background:#101d26}.culture-quote{padding:2.5rem;background:#1c3440;border-top:2px solid #67cce0}.culture-quote blockquote{font-size:clamp(1.4rem,2.5vw,2.1rem);line-height:1.35;letter-spacing:-.03em;font-weight:700;margin:1.2rem 0}.culture-quote small{font-size:.68rem;color:#aec5d0;letter-spacing:.1em}
-  .careers-hero{min-height:620px;display:flex;align-items:center;background:linear-gradient(90deg,#08141bf5 0%,#08141bd9 42%,#08141b59 100%),url('/images/wesort-interior.webp') center/cover;border-bottom:1px solid #2b3e48}
+  .careers-hero{min-height:620px;display:flex;align-items:center;background:linear-gradient(90deg,#08141bf5 0%,#08141bd9 42%,#08141b59 100%),var(--careers-hero-image) center/cover;border-bottom:1px solid #2b3e48}
   .careers-intro{padding:6.5rem 0}.careers-hero h1{margin:0;max-width:980px}.careers-hero h1 em{font-style:normal;color:#70dbeb}.careers-hero p{max-width:650px;margin:1.6rem 0 2rem}
   .benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.benefits article{border:1px solid #334851;padding:1.6rem;background:#182832}.benefits article>span,.job-field>span,.job-terms span{font-size:.62rem;font-weight:800;letter-spacing:.15em;color:#89a8b6}.benefits h3{margin:1.1rem 0 .65rem}.benefits p{font-size:.86rem;margin:0}
   .jobs-disclaimer{margin:0 0 1.5rem;color:#aebfc8;font-size:.8rem}.vacancies-heading{align-items:end}.job-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.6fr) auto;align-items:end;gap:1rem;padding:1.4rem;background:#172832;border:1px solid #344651;margin:2rem 0 1.2rem}.job-field{display:grid;gap:.55rem}.job-field input,.job-field select{background:#0b1720;border:1px solid #425662;color:var(--text);font:inherit;font-size:.92rem;min-height:48px;padding:.8rem .9rem;width:100%;border-radius:0}.job-field input:focus-visible,.job-field select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.job-count{white-space:nowrap;font-size:.8rem;color:#c4d6dd;padding:0 .2rem .95rem}

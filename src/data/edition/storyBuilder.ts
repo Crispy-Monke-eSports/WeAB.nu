@@ -6,6 +6,7 @@ export type StorySeed = {
   title: string;
   summary: string;
   image: string;
+  alt?: string;
   scene: string;
   context: string;
   tension: string;
@@ -37,7 +38,7 @@ export function makeMagazineArticles(authorId: string, startOffset: number, seed
       title: seed.title,
       summary: seed.summary,
       image: seed.image,
-      alt: 'Miljö som illustrerar ' + seed.title.toLowerCase(),
+      alt: seed.alt ?? 'Miljö som illustrerar ' + seed.title.toLowerCase(),
       authorId,
       body
     };

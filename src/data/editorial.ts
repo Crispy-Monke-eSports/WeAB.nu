@@ -18,8 +18,8 @@ export const editorials: EditorialItem[] = [
     "byline": "En nöjd invånare i Sektion 3",
     "title": "Fler staket skulle göra vår vardag enklare",
     "summary": "Den som aldrig har behövt välja väg förstår inte hur mycket trygghet en tydligt avgränsad passage kan ge.",
-    "image": "/images/welivelaughlove-section-3-a-overview.webp",
-    "alt": "Överblick över WeLiveLaughLoves bostadsområde i Sektion 3",
+    "image": "/images/welivelaughlove-section-3-gardens.webp",
+    "alt": "Inhägnad gång och odlingar i Sektion 3, Avdelning A",
     "body": [
       "Till WeLiveLaughLove: tack för grinden vid vår gångväg. Jag menar det. I måndags gick min granne runt den av gammal vana, och vi skrattade båda åt att vi nu vet precis var den gamla stigen brukade ligga.",
       "Men varför sluta där? Mellan brunnen och de nya husen finns en öppen yta där folk ibland stannar och undrar vilken väg de ska ta. Ett litet staket skulle kunna visa var gången börjar. Det behövs inga höga väggar; bara en vänlig påminnelse som inte blåser bort.",
@@ -84,8 +84,8 @@ export const editorials: EditorialItem[] = [
     "byline": "Koncernkrönikören",
     "title": "Den egna genvägen är sällan gratis för någon annan",
     "summary": "Ett par spontant lagda rälsblock kan kännas som frihet. Sedan ska någon underhålla dem.",
-    "image": "/images/wetravel-huvudstaden-centralstation.webp",
-    "alt": "Centralstation i Huvudstaden",
+    "image": "/images/wetravel-station.webp",
+    "alt": "Skyltad korsning där flera av WeTravels rälssträckor möts",
     "body": [
       "En ny räls genom skogen sparar kanske trettio steg. Jag har sett förslaget på kartan och förstår frestelsen. Men kartan visar inte vem som ska ersätta vagnen när den fastnar vid korsningen med huvudlinjen.",
       "För en trafikskribent är det inte genvägen som är intressant utan anslutningen. Har den skyltning åt båda hållen? Kan en resenär hitta tillbaka? Vem märker om ett block försvinner? Där brukar frihetsargumentet gå av tåget och lämna underhållsfrågan på perrongen.",
