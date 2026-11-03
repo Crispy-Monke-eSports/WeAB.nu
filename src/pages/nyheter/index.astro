@@ -3,13 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { publications, publicationFormatLabels, editorialFormats } from '../../data/publications.ts';
 import { authors } from '../../data/authors.ts';
 
-const [featured] = publications;
-const pressCount = publications.filter(item => item.format === 'pressmeddelande').length;
-const issuers = [...new Map(
-  publications.filter(item => item.issuer).map(item => [item.issuer!.name, item.issuer!])
-).values()].sort((a, b) => a.name.localeCompare(b.name, 'sv'));
-const letters = publications.filter(item => item.format === 'insandare').slice(0, 3);
-const formatButtons = ['alla', 'pressmeddelande', ...editorialFormats] as const;
+const newspaperArticles = publications.filter(item => item.format !== 'pressmeddelande');
+const [featured] = newspaperArticles;
+const letters = newspaperArticles.filter(item => item.format === 'insandare').slice(0, 3);
+const formatButtons = ['alla', ...editorialFormats] as const;
 const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }
 ).format(new Date(`${iso}T12:00:00Z`));
@@ -21,9 +18,9 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   <header class="page-hero newspaper-hero">
     <div class="shell">
       <h1>WeAB Tidningen.</h1>
-      <p class="lead">Nyheter, debatt och fördjupning från koncernen och vår omvärld. Här finns plats för flera röster, så länge de har något konstruktivt att säga.</p>
-      <div class="paper-edition"><span>Utgiven av WeAB Group</span><span>{publications.length} publicerade texter · {authors.length} skribenter · {pressCount} officiella pressmeddelanden</span></div>
-      <p class="writer-directory"><a href="/nyheter/skribenter/">Lär känna skribenterna <span aria-hidden="true">↗</span></a></p>
+      <p class="lead">Reportage, debatt, kultur och fördjupning från koncernen och vår omvärld. Här finns plats för flera röster, så länge de har något konstruktivt att säga.</p>
+      <div class="paper-edition"><span>Utgiven av WeAB Group</span><span>{newspaperArticles.length} redaktionella texter · {authors.length} skribenter</span></div>
+      <p class="writer-directory"><a href="/nyheter/skribenter/">Lär känna skribenterna <span aria-hidden="true">↗</span></a> <a href="/press/">Officiellt pressrum <span aria-hidden="true">↗</span></a></p>
     </div>
   </header>
 
@@ -71,18 +68,14 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
         <label for="author-filter">Avsändare</label>
         <select data-author id="author-filter">
           <option value="alla">Alla avsändare</option>
-          <option value="press">Alla officiella pressmeddelanden</option>
-          <optgroup label="Avsändande bolag">
-            {issuers.map(issuer => <option value={`issuer:${issuer.name}`}>{issuer.name}</option>)}
-          </optgroup>
           <optgroup label="Skribenter">
             {authors.map(author => <option value={`author:${author.id}`}>{author.name}</option>)}
           </optgroup>
         </select>
-        <output data-count aria-live="polite">{publications.length} texter</output>
+        <output data-count aria-live="polite">{newspaperArticles.length} texter</output>
       </div>
       <div class="news-grid" data-articles>
-        {publications.map(item => <a
+        {newspaperArticles.map(item => <a
           class="news-card"
           href={`/nyheter/${item.slug}/`}
           data-story
@@ -120,9 +113,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
     for (const card of cards) {
       const selected = authorSelect?.value ?? 'alla';
       const matchesSender = selected === 'alla'
-        || (selected === 'press' && card.dataset.format === 'pressmeddelande')
-        || (selected.startsWith('author:') && card.dataset.author === selected.slice('author:'.length))
-        || (selected.startsWith('issuer:') && card.dataset.issuer === selected.slice('issuer:'.length));
+        || (selected.startsWith('author:') && card.dataset.author === selected.slice('author:'.length));
       const matches = (activeFormat === 'alla' || card.dataset.format === activeFormat)
         && matchesSender && (card.dataset.searchable ?? '').includes(query);
       if (matches) matched += 1;
@@ -145,7 +136,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
 </script>
 <style>
   .newspaper-hero{padding-bottom:3.5rem}
-  .writer-directory{margin:1rem 0 0}.writer-directory a{color:#8fe2ec;font-size:.85rem;font-weight:700}
+  .writer-directory{margin:1rem 0 0;display:flex;flex-wrap:wrap;gap:1.5rem}.writer-directory a{color:#8fe2ec;font-size:.85rem;font-weight:700}
   .paper-edition{margin-top:2rem;padding-top:1rem;border-top:1px solid #3e515b;display:flex;gap:1.2rem;justify-content:space-between;flex-wrap:wrap;font-size:.78rem;color:#aec4cd}
   .frontpage{padding:3.5rem 0;background:#101e27;border-bottom:1px solid #324955}
   .frontpage-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(265px,.65fr);gap:2.5rem}
