@@ -60,6 +60,8 @@ Engångsinställning innan första publiceringen:
 - `src/data/news.ts` – 16 längre fiktiva pressmeddelanden (nio omskrivna och sju nya)
 - `src/data/editorial.ts` – Tio fiktiva tidningstexter i åtta redaktionella genrer
 - `src/data/publications.ts` – Gemensamt, datumordnat tidningsarkiv med skribent- och formatmetadata
+- `src/data/authors.ts` – Femton fiktiva skribenter med unika röster och profiler
+- `src/data/edition/` – Sjuttiofyra nya texter organiserade kring skribenternas ämnen
 - `src/styles/global.css` – Global grafisk profil
 - `public/logos/` – Tio SVG-varianter genererade från den officiella WE-logotypen
 - `public/images/` – Optimerade WebP-versioner av bilderna från Minecraft
@@ -121,8 +123,8 @@ en genererad fil ska inte kunna överleva utan att upptäckas.
 
 ### WeAB Tidningen
 
-Nyhetsrummet omfattar 26 texter: **16 längre pressmeddelanden** och
-**tio redaktionella texter**. Insändare, ledare, krönikor, reportage,
+Nyhetsrummet omfattar **100 texter av 15 återkommande fiktiva skribenter**:
+16 längre pressmeddelanden, tio tidigare redaktionella texter och 74 nya artiklar. Insändare, ledare, krönikor, reportage,
 intervjuer, ekonomi, kultur och guider har skilda skribenter och former
 men delar en genomgående koncernvänlig världsbild.
 
@@ -133,12 +135,16 @@ dokumentera verkliga händelser utanför den spelvärlden.
 
 Arkivet på `/nyheter/` visar en förstasidesartikel, en egen avdelning
 för insändare, artikelkort och klientbaserad sökning och filtrering efter
-genrer. Artiklarna visar **rubrik först** och därefter kategori, datum och
-skribent. Vi använder inte små etiketter över rubrikerna i tidningens
+både genrer och skribenter, med stegvis visning av artiklar. Artiklarna visar **rubrik först** och därefter kategori, datum och
+skribent. Klickbara skribentnamn leder till profilsidor på
+`/nyheter/skribenter/`, med ämnesområden, individuella skrivsätt och
+alla respektive skribents publiceringar. Vi använder inte små etiketter över rubrikerna i tidningens
 sidor. På varje artikelsida ligger `Innehållet är satir.` som liten,
 nedtonad text **allra längst ned**, efter artikel och navigation.
 
-Befintliga artikel-slugs är bevarade. Redigera nyheterna i
+De äldre artikeladresserna råkar fortfarande fungera, men behöver inte vara
+permanenta. Skribentprofilerna definieras i `src/data/authors.ts`, och de 74
+nya texterna ligger i `src/data/edition/`. Redigera äldre nyheter i
 `src/data/news.ts`, nya tidningstexter i `src/data/editorial.ts` och
 formatnamn i `src/data/publications.ts`. CI kontrollerar datumordning,
 unika adresser, artiklarnas längd, genretäckning och bildreferenser.
