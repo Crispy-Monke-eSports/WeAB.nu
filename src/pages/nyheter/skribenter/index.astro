@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { authors } from '../../../data/authors.ts';
+import { authorArticleCounts } from '../../../data/publications.ts';
+---
+<BaseLayout title="Skribenterna | WeAB Tidningen" description="Möt de femton återkommande skribenterna på WeAB Tidningen.">
+  <header class="page-hero">
+    <div class="shell">
+      <h1>Möt skribenterna.</h1>
+      <p class="lead">Femton röster, skilda ämnen och varsin syn på vad som förtjänar att bli en nyhet. Här hittar du deras texter, bevakningsområden och egna sätt att berätta.</p>
+      <a href="/nyheter/" class="back-link">← Till tidningen</a>
+    </div>
+  </header>
+  <section class="section authors-section">
+    <div class="shell">
+      <div class="author-grid">
+        {authors.map(author => <a class="author-card" href={`/nyheter/skribenter/${author.id}/`}>
+          <div class="avatar" aria-hidden="true">{author.name.split(' ').map(part => part[0]).slice(0,2).join('')}</div>
+          <div class="author-details">
+            <h2>{author.name}</h2>
+            <p class="role">{author.role} · {authorArticleCounts[author.id]} artiklar</p>
+            <p class="biography">{author.biography}</p>
+            <span class="read">Läs skribentens texter <span aria-hidden="true">↗</span></span>
+          </div>
+        </a>)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .authors-section{background:#0b1720}
+  .back-link{display:inline-block;margin-top:1.2rem;font-size:.85rem;color:#8fe1ec}
+  .author-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem}
+  .author-card{display:flex;flex-direction:column;gap:1.3rem;text-decoration:none;color:inherit;padding:1.5rem;border:1px solid #405764;background:#152630}
+  .author-card:hover,.author-card:focus-visible{border-color:#85dfec;background:#1a303b}
+  .avatar{display:grid;place-items:center;font-family:ui-monospace,SFMono-Regular,monospace;letter-spacing:.12em;font-weight:700;font-size:1.5rem;background:#2b4552;border:1px solid #5d8798;color:#d0edf2;width:4.6rem;height:4.6rem}
+  .author-details{display:flex;flex-direction:column;flex:1}
+  .author-details h2{font-size:1.3rem;line-height:1.25;margin:0 0 .5rem}
+  .role{font-size:.75rem;color:#9bbfc9;margin:0 0 1rem}
+  .biography{font-size:.87rem;line-height:1.6;margin:0 0 1.4rem}
+  .read{color:#8be2ec;font-size:.8rem;font-weight:700;margin-top:auto}
+  @media(max-width:1000px){.author-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:640px){.author-grid{grid-template-columns:1fr}}
+</style>
