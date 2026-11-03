@@ -123,34 +123,39 @@ en genererad fil ska inte kunna överleva utan att upptäckas.
 
 ### Längre artiklar – en skribent i taget
 
-**36 av 100 artiklar är nu fullängdstexter.** De första 20 färdigställdes
-i två omgångar. Därefter har tre skribentserier omarbetats var för sig:
-**Ruben Kists fem**, **Alva Hedens sex** och **Herr Elskar Weanderssons
-fem** artiklar. Innehållet är konsekvent fördelat på sina författare.
+**41 av 100 artiklar är nu fullängdstexter.** De första 20
+färdigställdes i två blandade omgångar, varefter fyra hela
+skribentserier har omarbetats separat: **Ruben Kist (5)**,
+**Alva Heden (6)**, **Herr Elskar Weandersson (5)** och
+**Dagmar Stenqvist (5)**.
 
-Ruben skriver torrt och detaljrikt om ordning och förvaring. Alva beskriver
-WeKills teknik med försiktig åtskillnad mellan angiven, beräknad och
-faktiskt uppmätt kapacitet. Herr Elskar Weandersson skriver högtidliga,
-överdrivet vördnadsfulla läsarbrev, krönikor och debattartiklar: hans
-fem artiklar har **760–822 ord och nio stycken** vardera. Ämnena
-omfattar skyltning, lager, järnväg, byggplanering och väghållning.
+De fyra rösterna hålls åtskilda. Ruben använder torr humor och
+konkreta lageriakttagelser. Alva arbetar tekniskt med WeKills
+produktionsprocesser och skiljer mellan angiven, beräknad och uppmätt
+kapacitet. Herr Weandersson skriver artiga och närmast vördnadsfulla
+läsarbrev. Dagmar använder ett precist, protokollnära språk med
+tydliga definitioner, ansvarsfördelningar och uppföljningsfrågor.
+Hennes fem texter behandlar WeRules fastighetsförvaltning och
+offentliga lokaler och har **728–818 ord och nio utvecklade stycken**
+vardera; de omfattar analys, reportage, guide och lokalrapport.
 
-De första tio officiella pressmeddelandena är omskrivna direkt i
-`src/data/news.ts`. Senare fullängdstexter finns i
-`src/data/expanded/`, där `bodies.ts` kopplar dem till
-`src/data/publications.ts` utan att ändra artikeladresser, datum,
-bilder, genre, personlig byline eller officiella bolagsavsändare.
+De första tio pressmeddelandena finns i `src/data/news.ts`.
+Övriga fullängdstexter finns i `src/data/expanded/`, där
+`bodies.ts` kopplar dem till `src/data/publications.ts` utan
+att ändra artikeladresser, datum, bilder, genre, skribentsignaturer
+eller officiella bolagsavsändare.
 
-**64 artiklar återstår** i originalutförande. Fortsätt med **en
-skribents samtliga artiklar per omgång**, för att hålla röst och
-karaktär sammanhängande. Alla fullängdstexter har minst 500 ord och
-åtta stycken; Alva och Herr Weandersson kontrolleras dessutom mot
-minst 700 ord och nio stycken per artikel.
+**59 artiklar återstår** i originalutförande. Fortsätt med en
+skribents **samtliga texter** i varje omgång, minst 500 ord och
+åtta stycken per artikel. Alva Heden, Herr Elskar Weandersson
+och Dagmar Stenqvist kontrolleras dessutom mot minst 700 ord
+och nio stycken för varje färdig text.
 
-`src/data/expandedArticleSlugs.ts` listar färdigställda artiklar.
-`completedAuthorIds` listar bara skribenter vars **samtliga artiklar**
-är klara. `npm run check` kontrollerar detta liksom alla 100 artiklar,
-bilder, interna länkar och korrekta avsändare.
+`src/data/expandedArticleSlugs.ts` markerar alla utbyggda texter,
+och `completedAuthorIds` markerar endast författare vars
+**alla** publicerade texter har färdigställts. `npm run check`
+validerar fullängdstexterna, 100-artikelsamlingen,
+författarkopplingarna, bilder och genererade länkar.
 
 ### WeAB Tidningen
 

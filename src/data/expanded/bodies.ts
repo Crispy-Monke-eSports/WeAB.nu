@@ -11,9 +11,12 @@ import { alvaFullLengthPart3 } from './alva-part-3.ts';
 import { elskarFullLengthPart1 } from './elskar-part-1.ts';
 import { elskarFullLengthPart2 } from './elskar-part-2.ts';
 import { elskarFullLengthPart3 } from './elskar-part-3.ts';
+import { dagmarFullLengthPart1 } from './dagmar-part-1.ts';
+import { dagmarFullLengthPart2 } from './dagmar-part-2.ts';
+import { dagmarFullLengthPart3 } from './dagmar-part-3.ts';
 
 /**
- * Fullängdstexter från etapp 2 samt kompletta skribentserier för Ruben Kist, Alva Heden och Herr Elskar Weandersson.
+ * Fullängdstexter från etapp 2 samt kompletta skribentserier för Ruben Kist, Alva Heden, Herr Elskar Weandersson och Dagmar Stenqvist.
  * Originaldata behåller metadata, officiella avsändare och signaturer.
  * Nya redaktionella omgångar läggs till här utan att äldre texter skrivs över.
  */
@@ -31,7 +34,10 @@ for (const article of [
   ...alvaFullLengthPart3,
   ...elskarFullLengthPart1,
   ...elskarFullLengthPart2,
-  ...elskarFullLengthPart3
+  ...elskarFullLengthPart3,
+  ...dagmarFullLengthPart1,
+  ...dagmarFullLengthPart2,
+  ...dagmarFullLengthPart3
 ]) {
   if (expandedArticleBodies.has(article.slug)) {
     throw new Error('Dubbel fullängdstext: ' + article.slug);

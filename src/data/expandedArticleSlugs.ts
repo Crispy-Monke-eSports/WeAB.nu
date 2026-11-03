@@ -41,10 +41,15 @@ export const expandedArticleSlugs = [
   "en-kista-vard-att-beundra",
   "en-hogtidlig-vantan-pa-taget",
   "bygg-med-tacksamhet",
-  "en-koncern-ar-en-god-granne"
+  "en-koncern-ar-en-god-granne",
+  "vad-stadshuset-ansvarar-for",
+  "nar-ett-underhall-far-ett-nummer",
+  "en-tydlig-ordning-for-besok",
+  "riksdagshuset-och-fastighetsfragan",
+  "vem-tar-hand-om-nasta-byggnad"
 ] as const;
 export const expandedMinimumWords = 500;
 export const expandedMinimumParagraphs = 8;
 
 /** Endast skribenter vars samtliga texter redan är fullängdsartiklar. */
-export const completedAuthorIds = ['ruben-kist', 'alva-heden', 'herr-elskar-weandersson'] as const;
+export const completedAuthorIds = ['ruben-kist', 'alva-heden', 'herr-elskar-weandersson', 'dagmar-stenqvist'] as const;

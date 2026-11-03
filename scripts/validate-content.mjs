@@ -111,6 +111,14 @@ for (const authorId of completedAuthorIds) {
   assert.ok(authorArticles.length >= 1, `Skribenten saknar artiklar: ${authorId}`);
   assert.ok(authorArticles.every(article => expandedArticleSlugs.includes(article.slug)),
     `Skribentens samtliga artiklar måste vara fullängdstexter: ${authorId}`);
+  if (authorId === 'dagmar-stenqvist') {
+    assert.equal(authorArticles.length, 5, 'Dagmar Stenqvist ska ha fem artiklar');
+    for (const article of authorArticles) {
+      assert.ok(article.body.length >= 9 &&
+        article.body.join(' ').trim().split(/\s+/u).length >= 700,
+        `Dagmars text har inte fullängd: ${article.slug}`);
+    }
+  }
   if (authorId === 'herr-elskar-weandersson') {
     assert.equal(authorArticles.length, 5, 'Herr Elskar Weandersson ska ha exakt fem artiklar');
     for (const article of authorArticles) {
