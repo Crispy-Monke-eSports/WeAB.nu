@@ -38,8 +38,8 @@ const projectById = new Map(projects.map(project => [project.id, project]));
                 </div>}
               </div>
               <div class="company-asset__copy">
-                <span class="company-asset__category">{project.category}{project.stage && ` · ${project.stage}`}</span>
                 <h4>{project.name}</h4>
+                <span class="company-asset__category">{project.category}{project.stage && ` · ${project.stage}`}</span>
                 <p>{project.description}</p>
               </div>
             </article>;
@@ -69,8 +69,8 @@ const projectById = new Map(projects.map(project => [project.id, project]));
   .company-asset__gallery img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
   .company-asset--featured .company-asset__gallery img { max-height: 160px; }
   .company-asset__copy { padding: clamp(1.5rem,3vw,2.5rem); align-self: end; }
-  .company-asset__category { color: #a6d7df; font-size: .69rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-  .company-asset h4 { margin: 1rem 0 .8rem; font-size: clamp(1.45rem,2.4vw,2.2rem); letter-spacing: -.035em; line-height: 1.1; }
+  .company-asset__category { display: block; margin-bottom: .65rem; color: #a6d7df; font-size: .69rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .company-asset h4 { margin: 0 0 .8rem; font-size: clamp(1.45rem,2.4vw,2.2rem); letter-spacing: -.035em; line-height: 1.1; }
   .company-asset p { margin: 0; max-width: 60ch; font-size: .9rem; }
   .company-connections { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,2fr); gap: 2rem; padding: 2rem; margin-bottom: 4rem; background: color-mix(in srgb,var(--company-accent) 11%,#162630); }
   .company-connections__intro h3 { font-size: clamp(1.5rem,2.6vw,2.2rem); }
