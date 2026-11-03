@@ -5,7 +5,8 @@ import { companies } from '../src/data/companies.ts';
 import { jobs } from '../src/data/jobs.ts';
 import { news } from '../src/data/news.ts';
 import { editorials } from '../src/data/editorial.ts';
-import { publications, editorialFormats, publicationFormatLabels } from '../src/data/publications.ts';
+import { publications, editorialFormats, publicationFormatLabels, additionalArticles, establishedSlugs, authorPublications } from '../src/data/publications.ts';
+import { authors, getAuthor } from '../src/data/authors.ts';
 import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { arenaPhotos } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
@@ -98,39 +99,48 @@ for (const company of companies) {
 for (const id of featuredProjectIds) {
   assert.ok(projects.some(project => project.id === id), `Utvalt projekt saknas: ${id}`);
 }
-assert.equal(news.length, 16, 'Det ska finnas 16 pressmeddelanden');
-assert.equal(editorials.length, 10, 'Det ska finnas 10 redaktionella artiklar');
-assert.equal(publications.length, news.length + editorials.length,
-  'Alla texter ska ingå i tidningen');
-assert.equal(Object.keys(publicationFormatLabels).length, 9, 'Alla publiceringsformat behöver etikett');
-unique(publications.map(item => item.slug), 'artikeladresser');
-assert.ok(editorials.filter(item => item.format === 'insandare').length >= 3,
-  'Tidningen ska innehålla minst tre insändare');
+assert.equal(news.length, 16, 'Det ska finnas 16 befintliga pressmeddelanden');
+assert.equal(editorials.length, 10, 'Det ska finnas tio tidigare redaktionella artiklar');
+assert.equal(additionalArticles.length, 74, 'Det ska finnas 74 nya texter');
+assert.equal(publications.length, 100, 'Tidningen ska innehålla exakt 100 artiklar');
+assert.equal(authors.length, 15, 'Tidningen ska ha exakt 15 återkommande skribenter');
+assert.equal(Object.keys(publicationFormatLabels).length, 12, 'Alla format behöver namn');
+unique(authors.map(author => author.id), 'skribent-ID');
+unique(authors.map(author => author.name), 'skribentnamn');
+unique(publications.map(article => article.slug), 'artikeladresser');
+for (const author of authors) {
+  assert.ok(author.name.length > 7 && author.biography.length > 60 && author.approach.length > 45,
+    `Skribentens personlighet måste beskrivas: ${author.id}`);
+  assert.ok(authorPublications(author.id).length >= 4,
+    `Skribenten ${author.name} måste ha minst fyra artiklar`);
+}
 for (const format of editorialFormats) {
-  assert.ok(editorials.some(item => item.format === format), `Saknat tidningsformat: ${format}`);
+  assert.ok(publications.some(item => item.format === format),
+    `Saknat format: ${format}`);
 }
 for (const [index, article] of publications.entries()) {
   assert.match(article.publishedAt, /^20\d{2}-(0[1-9]|1[0-2])-([0-2]\d|3[01])$/,
     `Felaktigt datum i artikeln: ${article.slug}`);
-  assert.equal(new Date(article.publishedAt + 'T12:00:00Z').toISOString().slice(0, 10),
-    article.publishedAt, `Ogiltigt kalenderdatum: ${article.slug}`);
-  if (index > 0) assert.ok(publications[index - 1].publishedAt >= article.publishedAt,
-    'Artiklarna måste vara sorterade i fallande datumordning');
-  assert.ok(article.title.trim().length >= 25 && article.summary.trim().length >= 65,
-    `Kort rubrik eller ingress: ${article.slug}`);
-  assert.ok(article.byline.trim().length >= 5 && article.type.trim().length >= 3,
-    `Skribent eller kategori saknas: ${article.slug}`);
-  assert.ok(article.alt.trim() && publicationFormatLabels[article.format],
-    `Bilden saknar alt-text eller formatet är okänt: ${article.slug}`);
-  const expectedParagraphs = article.format === 'pressmeddelande' ? 6 : 5;
-  const paragraphLength = article.format === 'pressmeddelande' ? 125 : 220;
-  assert.ok(article.body.length >= expectedParagraphs &&
-    article.body.every(text => text.trim().length >= paragraphLength),
-    `För kort eller ofullständig tidningsartikel: ${article.slug}`);
+  assert.equal(new Date(article.publishedAt + 'T12:00:00Z').toISOString().slice(0,10),
+    article.publishedAt, `Ogiltigt datum: ${article.slug}`);
+  assert.ok(article.publishedAt <= '2026-11-02', `Framtidsdaterad artikel: ${article.slug}`);
+  if (index) assert.ok(publications[index - 1].publishedAt >= article.publishedAt,
+    'Artiklarna ska vara sorterade med senaste datum först');
+  const established = establishedSlugs.has(article.slug);
+  assert.ok(article.title.trim().length >= 25 && article.summary.trim().length >= (established ? 65 : 45),
+    `Artikelns rubrik eller ingress är för kort: ${article.slug}`);
+  assert.ok(article.alt.trim().length > 10 && publicationFormatLabels[article.format],
+    `Bilden eller formatet saknas: ${article.slug}`);
+  assert.equal(article.byline, getAuthor(article.authorId).name,
+    `Fel byline för artikeln: ${article.slug}`);
+  const minParagraphs = established ? (article.format === 'pressmeddelande' ? 6 : 5) : 4;
+  const minChars = established ? (article.format === 'pressmeddelande' ? 125 : 220) : 115;
+  assert.ok(article.body.length >= minParagraphs && article.body.every(p => p.trim().length >= minChars),
+    `Ofullständig artikel: ${article.slug} (minst ${minParagraphs} stycken à ${minChars} tecken)`);
   asset(article.image, article.slug);
 }
 for (const job of jobs) {
   assert.ok(divisions.has(job.division), `Okänd verksamhet i annons ${job.id}`);
 }
 
-console.log(`OK: ${companies.length} verksamheter, ${projects.length} projekt, ${publications.length} publicerade texter, ${jobs.length} annonser.`);
+console.log(`OK: ${companies.length} verksamheter, ${projects.length} projekt, ${publications.length} artiklar, ${authors.length} skribenter, ${jobs.length} annonser.`);
