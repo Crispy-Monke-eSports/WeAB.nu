@@ -4,21 +4,21 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 <BaseLayout title="Rapporter och dokument | WeAB Group" description="WeAB:s verksamhetsöversikter, finansiella principer och riskhantering. Fiktiva koncerndokument.">
   <header class="page-hero"><div class="shell">
     
-    <h1>Rapporter, dokument och värdeskapande.</h1>
-    <p class="lead">Vår rapportering utgår från en långsiktig tilltro till koncernens möjligheter. Vi redovisar verksamheten med den noggrannhet som marknadsläget och styrelsens bedömning medger.</p>
+    <h1>Rapporter och styrdokument</h1>
+    <p class="lead">Här finns koncernens offentliga verksamhetsöversikt, kapitalpolicy och principer för rapportering. Dokumenten innehåller inga reviderade resultat, faktiska aktiekurser eller redovisade avkastningsserier.</p>
   </div></header>
   <section class="section"><div class="shell report-shell">
     <div class="section-heading"><h2>Publikationer</h2><p>Officiella dokument från koncernens investerarkommunikation.</p></div>
-    <div class="report-list">
+    <nav class="report-list" aria-label="Dokumentförteckning">
       <a href="#verksamhetsoversikt"><h3>Verksamhetsöversikt 2026</h3><p>Affärsmodell, verksamheter, strategiska prioriteringar och ledningens kommentarer.</p><strong>Läs rapporten ↗</strong></a>
       <a href="#kapitalpolicy"><h3>Kapitalallokering och riskhantering</h3><p>Hur WeAB prioriterar kapital, avkastning och risker i en integrerad ekonomi.</p><strong>Läs dokumentet ↗</strong></a>
       <a href="#rapportprinciper"><h3>Principer för finansiell kommunikation</h3><p>Om offentliggörande, jämförbarhet och selektiv transparens.</p><strong>Läs dokumentet ↗</strong></a>
-    </div>
+    </nav>
   </div></section>
   <section class="section section--dark" id="verksamhetsoversikt"><div class="shell report-shell">
     <h2>Verksamhetsöversikt 2026</h2>
     <p class="lead">Koncernens nio dotterbolag utgör en sammanhängande värdekedja från produktion och personalförsörjning till förvaring, samhällsservice och distribution.</p>
-    <h3>VD:s kommentar</h3><blockquote>Vi fortsätter att utveckla en ekonomi där ingen kund ska behöva välja mellan konkurrerande leverantörer. Vårt långsiktiga mål är att helt eliminera detta administrativa merarbete.</blockquote><p class="report-signature">Store-W · Verkställande direktör · Uttalandet förmedlat genom huvudkontoret</p>
+    <h3>VD:s kommentar</h3><blockquote>När råvarorna, lagren och transporterna finns inom samma koncern behöver kunderna kontakta färre leverantörer. Vi anser att detta bör vara norm även för de områden som ännu inte ingår i WeAB.</blockquote><p class="report-signature">Store-W · Verkställande direktör · Uttalandet förmedlat genom huvudkontoret</p>
     <h3>Verksamhet och framtidsutsikter</h3><p>WeKill, WeSort och WeBox utvecklar den industriella kedjan. WeLove och WeLiveLaughLove stärker personalförsörjning och boendekapacitet. WeTravel binder samman områdena, WeTrade erbjuder kunskapshandel, WeRule tillhandahåller förvaltningsfastigheter och WeGamble befinner sig i utvecklingsfas.</p>
     <p>Fortsatt integration, ytterligare anläggningskapacitet och minskad extern konkurrens är centrala strategiska prioriteringar.</p>
     <h3>Rapportens omfattning</h3><p>Översikten är en verksamhetsbeskrivning, inte en reviderad årsredovisning. Ingen faktisk omsättning, vinst, aktiekurs eller uppmätt avkastning redovisas.</p>
@@ -26,15 +26,32 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <section class="section" id="kapitalpolicy"><div class="shell report-shell">
     <h2>Kapitalallokering och riskhantering</h2>
     <p>WeAB prioriterar investeringar i produktionskapacitet, koncernintern infrastruktur och strategiska förvärv. Kapital tilldelas projekt efter deras förmåga att stärka koncernens långsiktiga ställning.</p>
-    <div class="policy-list"><div><h3>Investeringsprincip</h3><p>Projekt ska förbättra förutsättningarna för tillväxt. Avvikande uppfattningar kan, efter skälig prövning, klassificeras som projektkostnader.</p></div><div><h3>Riskidentifiering</h3><p>Oberoende leverantörer, alternativa handelsvägar och okontrollerad tillgång till resurser betraktas som strategiska risker.</p></div><div><h3>Valuta</h3><p>Koncernens interna värdebegrepp utgår från diamanter. Någon allmänt handlad WeAB-aktie eller verifierad börskurs finns inte publicerad.</p></div></div>
+    <dl class="policy-list"><div><dt>Investeringsprincip</dt><dd>Projekt ska förbättra tillgången till råvaror, transportvägar och lagringskapacitet eller stärka koncernens fastighetsinnehav. Beslut fattas av ledningen.</dd></div><div><dt>Riskidentifiering</dt><dd>Oberoende leverantörer, alternativa handelsvägar och okontrollerad tillgång till resurser betraktas som strategiska risker.</dd></div><div><dt>Valuta</dt><dd>Koncernens interna värdebegrepp utgår från diamanter. Någon allmänt handlad WeAB-aktie eller verifierad börskurs finns inte publicerad.</dd></div></dl>
   </div></section>
   <section class="section section--dark" id="rapportprinciper"><div class="shell report-shell">
     <h2>Principer för finansiell kommunikation</h2>
     <p>Rapporter ska vara begripliga, konsekventa och lätta att godkänna för styrelsen. Vi strävar efter att undvika onödig osäkerhet genom att presentera tydliga ambitioner där mätresultat ännu inte finns tillgängliga.</p>
     <p>Eventuella framtida illustrationer eller simulerade utvecklingskurvor ska märkas som sådana. Interna bedömningar får inte förväxlas med faktiskt uppmätta resultat.</p>
-    <div class="report-notice">Samtliga dokument på denna webbplats ingår i en fiktiv, satirisk koncernskildring. De utgör inte verklig finansiell rapportering eller ett investeringsunderlag.</div>
+    <div class="report-notice">Dokumenten är verksamhetsbeskrivningar och interna principer. De utgör inte reviderad finansiell rapportering eller ett underlag för att beräkna investeringars avkastning.</div>
   </div></section>
 </BaseLayout>
 <style>
-.report-shell{max-width:940px}.report-list{display:grid;gap:1rem}.report-list a{display:block;text-decoration:none;padding:1.8rem;border:1px solid #40525d;background:#152631}.report-list a:hover{border-color:#84dfeb}.report-list h3{font-size:1.45rem;margin:1rem 0 .6rem}.report-list p{font-size:.86rem;margin:0 0 1rem}.report-list strong{font-size:.8rem;color:#92e2ef}.report-shell>h2{margin:1rem 0 2rem}.report-shell>h3{font-size:1.25rem;margin:2.5rem 0 .8rem}.report-shell blockquote{margin:2rem 0 1rem;padding:1.5rem 2rem;border-left:3px solid #7cdeeb;background:#1a333e;line-height:1.55;font-size:1.4rem}.report-signature{font-size:.8rem}.policy-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:2rem}.policy-list>div{padding:1.4rem;background:#172933;border:1px solid #364e58}.policy-list h3{font-size:1.12rem}.policy-list p{font-size:.84rem;margin:0}.report-notice{font-size:.8rem;line-height:1.7;padding:1.3rem;border:1px solid #435761;margin-top:2.5rem;color:#b5c7cf;scroll-margin-top:90px}section[id]{scroll-margin-top:90px}@media(max-width:700px){.policy-list{grid-template-columns:1fr}.report-shell blockquote{font-size:1.15rem;padding:1rem}}
+.report-shell{max-width:930px}
+.report-list{display:block;border-top:1px solid #455b66}
+.report-list a{display:grid;grid-template-columns:1fr 155px;gap:1.5rem;align-items:center;padding:1.4rem 0;border-bottom:1px solid #455b66;text-decoration:none}
+.report-list h3{font-size:1.3rem;margin:0 0 .45rem;grid-column:1}
+.report-list p{font-size:.87rem;margin:0;grid-column:1}
+.report-list strong{font-size:.78rem;color:#9bdeea;grid-column:2;grid-row:1 / span 2;text-align:right}
+.report-list a:hover h3{text-decoration:underline;text-underline-offset:3px}
+.report-shell>h2{margin:0 0 1.6rem}
+.report-shell>h3{font-size:1.25rem;margin:2rem 0 .7rem}
+.report-shell blockquote{margin:2rem 0 1rem;padding:0 0 0 1.6rem;border-left:2px solid #7dd8e6;line-height:1.55;font-size:clamp(1.2rem,2.6vw,1.6rem)}
+.report-signature{font-size:.8rem}
+.policy-list{display:block;margin:2rem 0 0;border-top:1px solid #445a65}
+.policy-list>div{display:grid;grid-template-columns:180px minmax(0,1fr);gap:1.5rem;padding:1.4rem 0;border-bottom:1px solid #445a65}
+.policy-list dt{font-size:1rem;font-weight:800}
+.policy-list dd{margin:0;font-size:.9rem;line-height:1.7;color:#b6cbd4}
+.report-notice{font-size:.8rem;line-height:1.7;padding:1.3rem 0;border-top:1px solid #435761;margin-top:2.5rem;color:#b5c7cf}
+section[id]{scroll-margin-top:100px}
+@media(max-width:620px){.policy-list>div,.report-list a{grid-template-columns:1fr;gap:.4rem}.report-list strong{grid-column:1;grid-row:auto;text-align:left;margin-top:.6rem}}
 </style>

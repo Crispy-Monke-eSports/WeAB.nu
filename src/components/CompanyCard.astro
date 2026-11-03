@@ -6,22 +6,26 @@ interface Props { company: Company; }
 const { company } = Astro.props;
 ---
 <a class="company-card" href={`/verksamheter/${company.slug}/`} style={`--company-color:${company.accent}`}>
-  <span class="company-card__top">
+  <span class="company-card__identity">
     <BrandMark slug={company.slug} name={company.name} size="card" />
-    <span class="company-card__status">{company.status}</span>
+    <span class="company-card__category">{company.kicker}</span>
   </span>
-  <span class="company-card__kicker">{company.kicker}</span>
-  <span class="company-card__overview">{company.overview}</span>
-  <span class="company-card__bottom">Öppna verksamhetsbladet <span aria-hidden="true">↗</span></span>
+  <span class="company-card__description">{company.overview}</span>
+  <span class="company-card__status">{company.status}</span>
+  <span class="company-card__arrow" aria-hidden="true">↗</span>
 </a>
 <style>
-  .company-card{display:flex;flex-direction:column;background:#15222c;border:1px solid #30414b;border-top:2px solid var(--company-color);padding:1.5rem;color:#f5f8f9;text-decoration:none;min-height:295px;transition:border-color .18s,background .18s}
-  .company-card:hover,.company-card:focus-visible{background:#1b2c36;border-color:var(--company-color)}
-  .company-card__top{display:flex;justify-content:space-between;align-items:start;gap:1rem}
-  
-  .company-card__status{color:#afc2cc;font-size:.68rem;text-align:right;max-width:10rem}
-  .company-card__kicker{color:#a2b6c0;letter-spacing:.12em;font-weight:700;font-size:.64rem;margin-top:1.55rem}
-  
-  .company-card__overview{font-size:.86rem;line-height:1.55;color:#bdcbd3;margin:.75rem 0 1.2rem}
-  .company-card__bottom{border-top:1px solid #31414b;padding-top:.85rem;margin-top:auto;color:#8edce7;font-size:.78rem;font-weight:700;display:flex;justify-content:space-between}
+.company-card{display:grid;grid-template-columns:minmax(130px,180px) minmax(0,1fr) minmax(115px,160px) 22px;align-items:center;gap:1.6rem;padding:1.4rem 0;border-top:1px solid #40535e;color:inherit;text-decoration:none;min-height:125px}
+.company-card:last-child{border-bottom:1px solid #40535e}
+.company-card:hover .company-card__arrow,.company-card:focus-visible .company-card__arrow{color:#a5eaf3;transform:translate(2px,-2px)}
+.company-card:focus-visible{outline-offset:4px}
+.company-card__identity{display:grid;justify-items:start;gap:.6rem;min-width:0}
+.company-card__identity :global(.brand-mark){--mark-width:7rem;--mark-font-size:.72rem}
+.company-card__category{font-size:.7rem;letter-spacing:.06em;color:#a3b9c4;line-height:1.45}
+.company-card__description{font-size:.98rem;line-height:1.6;color:#d0dde2;max-width:60ch}
+.company-card__status{font-size:.78rem;line-height:1.5;color:#a7bac3}
+.company-card__arrow{color:#6ad8e7;font-size:1.25rem;transition:color .15s,transform .15s}
+@media(max-width:750px){.company-card{grid-template-columns:minmax(105px,150px) minmax(0,1fr) 22px;gap:1rem}.company-card__status{grid-column:2;grid-row:2}.company-card__arrow{grid-column:3;grid-row:1}}
+@media(max-width:470px){.company-card{grid-template-columns:1fr 22px;gap:.7rem}.company-card__identity{grid-column:1}.company-card__description{grid-column:1}.company-card__status{grid-column:1;grid-row:auto}.company-card__arrow{grid-column:2;grid-row:1}}
+@media(prefers-reduced-motion:reduce){.company-card__arrow{transition:none}}
 </style>

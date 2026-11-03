@@ -1,38 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../data/imageAssets';
 ---
 <BaseLayout title="Hållbarhet och samhällsansvar | WeAB Group" description="WeAB:s arbete med resurseffektivitet, samhällsansvar, biologiska flöden och långsiktigt värdeskapande.">
   <header class="page-hero sustainability-hero">
     <div class="shell">
       
-      <h1>Vi tar ansvar.<br/>För framtidens resurser.</h1>
-      <p class="lead">Hållbar tillväxt börjar med en enkel insikt: ingenting ska gå till spillo. Därför har vi byggt ett sammanhängande system för att tillvarata naturens möjligheter och omvandla dem till långsiktigt värde.</p>
-      <a class="btn" href="#strategi">Vår hållbarhetsstrategi ↓</a>
+      <h1>Miljö och samhällsansvar</h1>
+      <p class="lead">WeAB samlar resursutvinning, industriella anläggningar, bostäder och transporter under samma ledning. Vår miljöpolicy utgår från att mark och biologiska resurser gör störst nytta när deras användning är planerad.</p>
+      <a class="link-arrow" href="#strategi">Läs vår policy för resursanvändning ↓</a>
     </div>
   </header>
 
   <section class="section" id="strategi"><div class="shell">
-    <div class="section-heading"><h2>Tre perspektiv.<br/>En gemensam riktning.</h2><p>Vår hållbarhetsmodell förenar effektiv resursanvändning, välplanerade samhällen och tydlig uppföljning.</p></div>
-    <div class="sustainability-grid">
-      <article><h3>Vi ger varje resurs ett syfte</h3><p>Våra produktionsanläggningar gör det möjligt att tillvarata värdefulla material från naturligt förekommande livsformer. Outnyttjad natur är en möjlighet som väntar på rätt process.</p><a href="/verksamheter/wekill/">Industriell resursförädling ↗</a></article>
-      <article><h3>Trygga och förutsägbara livsmiljöer</h3><p>Genom samordnad bostadsplanering, befolkningsutveckling och arbetskraftsförsörjning skapar vi social stabilitet. Invånarna slipper belastningen av att behöva planera sina framtida liv själva.</p><a href="/verksamheter/welivelaughlove/">Vårt samhällsarbete ↗</a></article>
-      <article><h3>Ansvarsfulla beslut, centralt fattade</h3><p>Vi ser till att alla verksamheter följer samma hållbarhetsprinciper. De fastställs av koncernen, granskas av koncernen och justeras vid behov av koncernen.</p><a href="/bolagsstyrning/">Bolagsstyrning ↗</a></article>
+    <div class="section-heading"><h2>Vår hållbarhetspolicy</h2><p>Policyn omfattar produktion, invånare och intern kontroll. Koncernen bedömer själv när målen är uppfyllda.</p></div>
+    <div class="sustainability-record">
+      <article><h3>Industriell resursförädling</h3><p>WeKill driver anläggningar där naturligt förekommande livsformer omvandlas till material för koncernens lager. Vi bedömer markens värde efter dess möjlighet att bidra till produktionen.</p><a href="/verksamheter/wekill/">Industriell resursförädling ↗</a></article>
+      <article><h3>Bostäder och arbetskraft</h3><p>WeLove och WeLiveLaughLove sköter befolkningsförsörjning och bostäder. Enhetlig planering minskar variationen i hur invånarna lever och gör det lättare att fördela arbetskraft.</p><a href="/verksamheter/welivelaughlove/">Vårt samhällsarbete ↗</a></article>
+      <article><h3>Gemensamma beslutsvägar</h3><p>Huvudkontoret fastställer riktlinjer för samtliga bolag och avgör vilka avvikelser som ska rapporteras. Fördelen med intern granskning är att verksamheten kan fortsätta medan frågan behandlas.</p><a href="/bolagsstyrning/">Bolagsstyrning ↗</a></article>
     </div>
   </div></section>
 
   <section class="section section--dark"><div class="shell split-layout">
-    <div class="image-frame"><img src="/images/wekill-farms.webp" alt="Sammanhängande industriella produktionsanläggningar" width="1440" height="810" loading="lazy" /></div>
+    <div class="image-frame"><Image src={imageAsset('/images/wekill-farms.webp')} alt="Sammanhängande industriella produktionsanläggningar" layout="constrained" widths={responsiveWidths} sizes="(max-width: 700px) 100vw, 50vw" loading="lazy" /></div>
     <div><h2>Naturen producerar.<br/>Vi effektiviserar.</h2><p class="lead">Vi verkar för en cirkulär ekonomi där varje drop, varje mineral och varje användbar kvadratmeter får en tydlig plats i värdekedjan.</p><p>Vårt synsätt omfattar även oexploaterade landskap. Där andra ser orörd mark ser vi möjlighet att frigöra framtida produktionskapacitet.</p><a class="link-arrow" href="/verksamheter/wekill/">Se våra produktionsanläggningar ↗</a></div>
   </div></section>
 
   <section class="section"><div class="shell">
     <div class="section-heading"><h2>Våra fokusområden</h2><p>Konkreta initiativ för att göra hållbar utveckling till en naturlig del av koncernens affär.</p></div>
-    <div class="initiatives">
-      <article><span>01</span><div><h3>Markåterställning genom nybyggnation</h3><p>Efter avslutad markberedning kan området återgå till produktiv användning. Vi betraktar detta som ett effektivt sätt att ge landskapet en ny funktion.</p></div></article>
-      <article><span>02</span><div><h3>Biologisk mångfald under ordnade former</h3><p>Vi samlar utvalda arter i dedikerade anläggningar för en mer förutsägbar förvaltning av biologiska flöden. Den biologiska mångfalden får därmed en tydligare organisationsstruktur.</p></div></article>
-      <article><span>03</span><div><h3>Korta avstånd inom koncernen</h3><p>Genom att integrera produktion, lagring och transport minskar behovet av externa samarbeten. Oberoende leverantörer kan i många fall helt ersättas av våra egna.</p></div></article>
-      <article><span>04</span><div><h3>Social trygghet med hög beläggning</h3><p>En välutnyttjad bostadsyta ger fler möjlighet att dela samma trygghet. Vi mäter framsteg genom kapacitet, standardisering och minskat behov av individuella avvikelser.</p></div></article>
-    </div>
+    <ol class="initiatives">
+      <li><span>01</span><div><h3>Markåterställning genom nybyggnation</h3><p>Efter avslutad markberedning kan området återgå till produktiv användning. Vi betraktar detta som ett effektivt sätt att ge landskapet en ny funktion.</p></div></li>
+      <li><span>02</span><div><h3>Biologisk mångfald under ordnade former</h3><p>Vi samlar utvalda arter i dedikerade anläggningar för en mer förutsägbar förvaltning av biologiska flöden. Den biologiska mångfalden får därmed en tydligare organisationsstruktur.</p></div></li>
+      <li><span>03</span><div><h3>Korta avstånd inom koncernen</h3><p>Genom att integrera produktion, lagring och transport minskar behovet av externa samarbeten. Oberoende leverantörer kan i många fall helt ersättas av våra egna.</p></div></li>
+      <li><span>04</span><div><h3>Social trygghet med hög beläggning</h3><p>En välutnyttjad bostadsyta ger fler möjlighet att dela samma trygghet. Beläggningsgrad och standardisering ingår i vårt interna arbete, men några verifierade sociala effektmått har inte offentliggjorts.</p></div></li>
+    </ol>
   </div></section>
 
   <section class="section section--dark"><div class="shell split-layout">
@@ -40,8 +42,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="sustainability-panel"><h3>Vad vi följer upp</h3><dl><div><dt>Resurseffektivitet</dt><dd>Strategisk prioritet</dd></div><div><dt>Markanvändning</dt><dd>Fortlöpande expansion</dd></div><div><dt>Social stabilitet</dt><dd>Under central uppföljning</dd></div><div><dt>Oberoende revision</dt><dd>Ej offentliggjord</dd></div></dl><small>Inga uppmätta miljöresultat eller verifierade effektmål publiceras här.</small></div>
   </div></section>
 
-  <section class="sustainability-ending"><div class="shell"><h2>Vi lämnar avtryck.<br/>Vi föredrar att kalla dem framsteg.</h2><a href="/kontakt/" class="btn btn-outline">Kontakta koncernen ↗</a></div></section>
+  <section class="sustainability-ending"><div class="shell"><h2>Uppföljning och ansvar</h2><p>Hållbarhetsfrågor behandlas av huvudkontoret. När granskningen kräver underlag utanför koncernen gör vi en separat bedömning av behovet.</p><a href="/kontakt/" class="link-arrow">Kontakta ansvarig funktion ↗</a></div></section>
 </BaseLayout>
 <style>
-.sustainability-hero{background:linear-gradient(90deg,#081b18f5 0%,#081b18cf 50%,#081b1888),url('/images/huvudstaden-overview.webp') center/cover}.sustainability-hero .small-caps,.sustainability-grid .small-caps{color:#a0d7bd}.sustainability-hero .btn{margin-top:1.2rem;background:#9fe1b1}.sustainability-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.sustainability-grid article{padding:2rem;border:1px solid #36534c;background:#142823;display:flex;flex-direction:column;align-items:flex-start}.sustainability-grid h3{font-size:1.45rem;margin:1.1rem 0 .9rem}.sustainability-grid p{font-size:.92rem}.sustainability-grid a{font-size:.82rem;font-weight:750;color:#a3e7c2;margin-top:auto}.initiatives{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem}.initiatives article{display:flex;gap:1.2rem;padding:1.75rem;border:1px solid #344950;background:#15242d}.initiatives article>span{font-size:.75rem;font-weight:800;color:#9de2bd}.initiatives h3{margin:0 0 .7rem}.initiatives p{font-size:.87rem;margin:0}.sustainability-panel{border-top:3px solid #7bcb9c;background:#152b29;padding:2rem}.sustainability-panel h3{margin:1.2rem 0}.sustainability-panel dl{margin:0}.sustainability-panel dl div{display:flex;justify-content:space-between;gap:1rem;padding:.9rem 0;border-top:1px solid #39534c;font-size:.85rem}.sustainability-panel dt{color:#b8d2c8}.sustainability-panel dd{margin:0;text-align:right;font-weight:700}.sustainability-panel small{display:block;color:#a2bcb3;line-height:1.6;margin-top:1.5rem}.sustainability-ending{padding:6rem 0;background:linear-gradient(120deg,#102720,#0b1720);border-top:1px solid #385248}.sustainability-ending h2{max-width:940px;margin:1rem 0 2rem}@media(max-width:900px){.sustainability-grid{grid-template-columns:1fr 1fr}}@media(max-width:650px){.sustainability-grid,.initiatives{grid-template-columns:1fr}.sustainability-grid article{padding:1.4rem}.sustainability-panel{padding:1.3rem}}
+.sustainability-hero{background:linear-gradient(90deg,#081b18f5 0%,#081b18d8 54%,#081b1888),url('/images/huvudstaden-overview.webp') center / cover}
+.sustainability-hero .link-arrow{margin-top:.8rem}
+.sustainability-record{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.3rem;margin-top:2rem}
+.sustainability-record article{padding-top:1.5rem;border-top:2px solid #46655b;display:flex;flex-direction:column;align-items:flex-start}
+.sustainability-record h3{font-size:1.4rem;line-height:1.2;margin:0 0 1rem}
+.sustainability-record p{font-size:.92rem;flex:1}
+.sustainability-record a{font-size:.83rem;font-weight:750;color:#a4dec3}
+.initiatives{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:3.5rem;row-gap:0;margin:0;padding:0}
+.initiatives li{display:flex;gap:1.4rem;padding:1.6rem 0;border-top:1px solid #3c545c}
+.initiatives li>span{color:#89c9a2;font-size:.8rem;font-weight:800}
+.initiatives h3{font-size:1.18rem;margin:0 0 .7rem}
+.initiatives p{font-size:.9rem;margin:0}
+.sustainability-panel{border-top:1px solid #5c8b71;padding-top:1.5rem}
+.sustainability-panel h3{margin:0 0 1rem;font-size:1.5rem}
+.sustainability-panel dl{margin:0}
+.sustainability-panel dl div{display:grid;grid-template-columns:1fr auto;gap:1rem;padding:1rem 0;border-bottom:1px solid #39534c;font-size:.86rem}
+.sustainability-panel dd{margin:0;text-align:right;font-weight:700}
+.sustainability-panel small{display:block;margin-top:1.6rem;font-size:.8rem;line-height:1.65;color:#afc9bc}
+.sustainability-ending{border-top:1px solid #405d50;padding:4rem 0}
+.sustainability-ending .shell{max-width:1160px}
+.sustainability-ending h2{font-size:clamp(1.65rem,3vw,2.6rem)}
+.sustainability-ending p{max-width:70ch}
+@media(max-width:900px){.sustainability-record{grid-template-columns:1fr;gap:1rem}}
+@media(max-width:680px){.initiatives{grid-template-columns:1fr}.sustainability-panel dl div{grid-template-columns:1fr;gap:.4rem}.sustainability-panel dd{text-align:left}}
 </style>

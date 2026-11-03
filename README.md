@@ -22,6 +22,11 @@ npm run preview
 
 `dist/` innehåller den statiska webbplatsen.
 
+Kör `npm run check` före leverans. Utöver innehåll, logotyper, byggda sidor
+och länkar kör det `astro check` för typ- och Astro-diagnostik; `astro build`
+gör inte den kontrollen. Sidornas WebP-bilder i `src/assets/images/` importeras
+via `src/data/imageAssets.ts` och får responsiva storlekar i Astro-bygget.
+
 ### Publicering på GitHub Pages
 
 Webbplatsen publiceras automatiskt på [weab.nu](https://weab.nu) (även `www.weab.nu`)
@@ -55,6 +60,23 @@ Engångsinställning innan första publiceringen:
 - `/kontakt/` – Koncernens kontaktkatalog med mailto-länkar till huvudkontoret och nio dotterbolag
 - `/leverantorer/` – Inköpsprocess, leverantörskod och vanliga frågor för externa samarbeten
 
+### Design- och textprinciper
+
+WeAB:s visuella och redaktionella regler definieras i [AGENTS.md](AGENTS.md), inklusive
+det absoluta förbudet mot ögonbryn över rubriker och de tio antimall-reglerna:
+ingen standardtema-estetik, inga generiska feature-kort, inga fejkmätvärden,
+inga ornament utan funktion och inga visade kontroller som inte fungerar.
+
+Se [designgranskningen](docs/design-audit.md) för en genomgång av varje
+sidmall, vad som ändrats och vad som medvetet behållits. Webbplatsen använder
+skärmbilder från projektets egna anläggningar. Pressmaterial, kontakter,
+policyer, artiklar och anläggningar presenteras utifrån deras **verkliga
+uppgifter i den fiktiva WeAB-världen**.
+
+Nyhets-, press- och jobbfilter är progressiva: utan JavaScript visas innehållet
+utan inaktiva filtreringskontroller. Den automatiska webbkontrollen verifierar
+att de genererade sidorna behåller detta beteende.
+
 ### Redigera innehåll
 
 - `src/data/companies.ts` – Företagsbeskrivningar, namn, accentfärger, bilder och status
@@ -72,7 +94,8 @@ Engångsinställning innan första publiceringen:
 - `src/data/edition/` – Sjuttiofyra nya texter organiserade kring skribenternas ämnen
 - `src/styles/global.css` – Global grafisk profil
 - `public/logos/` – Tio SVG-varianter genererade från den officiella WE-logotypen
-- `public/images/` – Optimerade WebP-versioner av bilderna från Minecraft
+- `src/assets/images/` – WebP-bilderna som Astro omvandlar till responsiva sidbilder
+- `public/images/` – Original för pressnedladdning, metadata och bakgrundsbilder
 - `public/robots.txt` – Avråder övriga robotar från att hämta webbplatsen. Googlebot och Bingbot får läsa det sidgemensamma `noindex`-direktivet i `src/layouts/BaseLayout.astro`; ingen webbplatskarta publiceras. Instruktionerna är frivilliga och hindrar inte robotar som ignorerar dem.
 
 ### Platsinformation från servern
@@ -225,7 +248,7 @@ WeTrade och WeLove har egna verksamhetssidor och sex Minecraft-skärmbilder i We
 
 Webbplatsen är satir, inte en verklig företags- eller rekryteringssida. Platsannonserna är fiktiva exempel och nyhetstexterna påhittade. Den avsiktliga bolagsparodin ska vara tydlig utan att besökaren behöver läsa källkoden.
 
-Kustbygget hör till WeGamble Island. WeLiveLaughLoves bybilder visar Sektion 1 Avdelning B respektive Sektion 3 Avdelning A. WeSort-bilderna visar samma anläggning, liksom WeTrades tre bilder och WeLoves tre bilder. Arenabilderna visar Huvudstadens arena, som på kartan även heter Hungerspelsarenan, där bybor från olika distrikt tävlar om ära till sin hemby. Tre användarlevererade skärmbilder har konverterats till WebP (1440 × 810) i `public/images/`.
+Kustbygget hör till WeGamble Island. WeLiveLaughLoves bybilder visar Sektion 1 Avdelning B respektive Sektion 3 Avdelning A. WeSort-bilderna visar samma anläggning, liksom WeTrades tre bilder och WeLoves tre bilder. Arenabilderna visar Huvudstadens arena, som på kartan även heter Hungerspelsarenan, där bybor från olika distrikt tävlar om ära till sin hemby. Tre användarlevererade skärmbilder har konverterats till WebP (1440 × 810) i `src/assets/images/`.
 De två nattliga överblicksbilderna från WeLiveLaughLove ligger i respektive avdelnings galleri: Sektion 1 Avdelning B och Sektion 3 Avdelning A. Bilden för Sektion 1 Avdelning B är den rättade vyn utan kartöverlägg.
 WeKills mobgrinder, järnfarm och shulkerfarm visas på WeKills sida. Shulkerfarmen försörjer WeBox med shulkerboxar. Överblicksbilden över Sektion 1 används även på startsidan.
 WeRules Riksdagshus ligger i Huvudstaden. Byggnaden är statlig och fungerar som serverns riksdag, men ägs av WeAB. WeRules stadshus ligger i Sektion 1 och har en separat markering i platslistan. Huvudstadens platsmarkering är inte en exakt koordinat för Riksdagshuset.

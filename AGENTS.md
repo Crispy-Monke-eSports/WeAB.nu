@@ -8,6 +8,36 @@
 - Återinför **aldrig** ögonbryn som grafisk förfining, inte heller vid framtida designarbete. Rena symboler och avatarer som **inte innehåller textetiketter** får däremot finnas vid en rubrik.
 - Projektets innehållsvalidering ska upptäcka och stoppa återfall med etikett- eller spanrader direkt före rubriker.
 
+## Antimall-regler för webb, design och text
+
+Det här är bindande krav för hela WeAB.nu, inte inspiration till nya sektioner. Den tidigare absoluta regeln om **inga ögonbryn ovanför titlar** gäller fortfarande.
+
+1. **Ingen standardtema-estetik.** Inför aldrig orörda Tailwind-, shadcn/ui- eller webbbyggarmönster. Behåll WeAB:s egen cyanprofil, industribilder och typografiska röst. Ändra färg, typsnitt och spacing för en verklig funktion, inte för att följa en trend.
+2. **Ingen automatisk landningssidemall.** Bygg inte återkommande hero → tre fördelar → testimonials → CTA. Utgå från sidans faktiska uppgift: kontaktkatalog, rapport, verksamhetsregister, tidningsarkiv, process eller bildgalleri.
+3. **Inga utfyllnadskort.** Använd kort när objekt verkligen är skilda, exempelvis nio dotterbolag, pressbilder eller lediga tjänster. Policyer och löptext hör normalt hemma i artiklar, listor, tabeller eller avsnitt med enkla avdelare.
+4. **Ingen effektdekor utan syfte.** Undvik glöd, glas, aurora, gradienttext, överdrivna bakgrundsgradienter, neonramar och slentrianmässigt rundade paneler. En mörk toning på en verklig bild är tillåten om den behövs för läsbarheten.
+5. **Begränsa behållare.** En meningsfull informationsgrupp får gärna en ram, men inte varje stycke eller dokument. Låt typografi, sidmarginaler och horisontella linjer ordna innehållet.
+6. **Inga dekorativa badges/ikoner.** Status kan visas som text. Undvik raketer, gnistor, emojis och etiketter utan informationsvärde. Inga ögonbryn/överrubriker får placeras ovanför titlar.
+7. **Ingen uppvisningsanimation.** Använd inte scroll-reveal, parallax, rörliga räknare, svävande kort eller pulserande knappar. Funktionell rörelse ska respektera `prefers-reduced-motion`.
+8. **Inga uppdiktade illustrationer.** Använd de faktiska skärmbilderna från koncernens anläggningar. Visa inte fiktiva dashboards, mätserier eller personporträtt som faktiska bevis. Eventuella exempel ska uttryckligen märkas som exempel.
+9. **Inga falska belägg eller skenkontroller.** Hitta inte på siffror, kunder, recensioner, priser, e-postleverans, investeringar eller ansvarsförhållanden. Länkar, filter, menyer och knappar ska ha verklig funktion på mobil och med tangentbord. En `mailto:`-länk bevisar inte att brevlådan finns.
+10. **Inget generiskt AI-språk.** Stryk ”revolutionera”, ”frigör potentialen”, ”sömlös”, ”i dagens snabbt föränderliga värld”, upprepade trepunktsuppräkningar och ”inte bara X – utan Y”. Skriv konkret om WeKill, WeSort, WeBox, verksamheternas platser, processer och ägarstyrning.
+
+### WeAB:s särdrag
+
+WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i koncernens egna sakliga formuleringar. En seriös ton på en sida om monopol, personalbostäder eller resursutvinning är roligare än en ny punchline i varje rubrik. Bevara den etablerade världen, Store-W:s anonymitet, fyra namngivna ledande ledamöter och de nio dotterbolagen. Koncernen vet inte att den är ett spel. Ingen ny grafik eller personalbild får presenteras som verklig om den inte finns i repo.
+
+**Förbjud motiveringslöshet, inte funktionella komponenter.** Listor, kort, knappar och befintliga bildtoningar får finnas där de löser en identifierad uppgift. Beskriv i PR varför ovanliga visuella val behövs.
+
+### Kontroll före leverans
+
+- Har varje avsnitt en tydlig uppgift? Ta bort upprepade CTA-sektioner, generiska siffror och duplicerad bolagsintroduktion.
+- Är texten konkret och verksamhetsspecifik, utan obelagda påståenden? Kontrollera att siffror är faktiska eller tydligt illustrativa.
+- Kommer alla bilder från rätt anläggning? Har de användbar alt-text eller avsiktligt tom alt-text för rent dekorativa bilder?
+- Kan varje synlig kontroll användas med tangentbord på liten skärm, och fungerar dess åtgärd? Kontrollera filtertillstånd, tomma sökresultat och interna ankarlänkar.
+- Är rubrikerna fria från ögonbryn, och har vi valt sidstruktur utifrån innehållet i stället för en AI-mall?
+- Kör `npm run check` och kontrollera mobil, tangentbord och kontrast inför PR. Var ärlig om tester som inte kunde utföras.
+
 ## Projektet
 
 - Statisk Astro 7-webbplats på svenska. Node.js 22.23.4 eller senare.
@@ -25,7 +55,7 @@
 
 ## Bilder och platser
 
-- Använd befintliga bilder i `public/images/` och skriv beskrivande alt-texter utan hänvisning till spel eller källmaterial. Låt inte en bild av en annan anläggning föreställa en ny farm.
+- Använd befintliga bilder i `src/assets/images/` via `src/data/imageAssets.ts` och Astros `<Image />` med beskrivande alt-texter utan hänvisning till spel eller källmaterial. Några original finns även i `public/images/` för pressnedladdning, metadata och bakgrundsbilder. Låt inte en bild av en annan anläggning föreställa en ny farm.
 - `src/data/locations.ts` är intern waypointreferens. Publicera inte koordinater eller råa waypointfiler. Anta inte att en waypoint ensam bevisar en anläggnings kapacitet eller aktuella skick.
 - WE-logotypen i `src/assets/we-logo.svg` är originalet; varianterna i `public/logos/` genereras med `npm run logos:generate`.
 

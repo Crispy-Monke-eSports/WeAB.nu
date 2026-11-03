@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../../data/imageAssets';
 import { publications, publicationFormatLabels } from '../../data/publications.ts';
 import type { Publication } from '../../data/publications.ts';
 import { getAuthor } from '../../data/authors.ts';
@@ -11,7 +13,8 @@ export function getStaticPaths() {
   }));
 }
 const { article } = Astro.props as { article: Publication };
-const archiveHref = article.format === 'pressmeddelande' ? '/press/' : '/nyheter/';
+const isPressRelease = article.format === 'pressmeddelande';
+const archiveHref = isPressRelease ? '/press/' : '/nyheter/';
 const archiveLabel = article.format === 'pressmeddelande' ? 'Till pressrummet' : 'Till WeAB Tidningen';
 const author = article.authorId ? getAuthor(article.authorId) : null;
 const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
@@ -21,7 +24,7 @@ const related = publications
   .filter(item => item.slug !== article.slug && (item.format === article.format || item.type === article.type))
   .slice(0, 2);
 ---
-<BaseLayout title={`${article.title} | WeAB Tidningen`} description={article.summary}>
+<BaseLayout title={`${article.title} | ${isPressRelease ? 'WeAB Pressrum' : 'WeAB Tidningen'}`} description={article.summary}>
   <header class="page-hero publication-hero">
     <div class="shell article-shell">
       <a class="back-link" href={archiveHref}>← {archiveLabel}</a>
@@ -40,7 +43,7 @@ const related = publications
   <article class="section publication-article">
     <div class="shell article-shell">
       <figure class="publication-image">
-        <img src={article.image} alt={article.alt} loading="eager" decoding="async" />
+        <Image src={imageAsset(article.image)} alt={article.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 900px) 100vw, 900px" loading="eager" />
       </figure>
       <div class="article-body">
         {article.body.map(paragraph => <p>{paragraph}</p>)}
@@ -62,10 +65,9 @@ const related = publications
         <p>Det här meddelandet har publicerats av <strong>{article.issuer.name}</strong> inom WeAB-koncernen.</p>
         <a href={article.issuer.href}>Läs mer om {article.issuer.name} <span aria-hidden="true">↗</span></a>
       </aside>}
-      <nav class="article-end" aria-label="Tillbaka till tidningen">
+      <nav class="article-end" aria-label="Tillbaka till arkivet">
         <a class="btn btn-outline" href={archiveHref}>{archiveLabel} <span aria-hidden="true">↗</span></a>
       </nav>
-      <small class="satire-note">Innehållet är satir.</small>
     </div>
   </article>
 </BaseLayout>
@@ -93,6 +95,5 @@ const related = publications
   .author-info p{font-size:.87rem;line-height:1.7}
   .author-info a{font-size:.8rem;color:#8ddfea;font-weight:700}
   .article-end{border-top:1px solid #344551;margin-top:2.7rem;padding-top:1.5rem}
-  .satire-note{display:block;margin-top:2.4rem;color:#91a3ac;font-size:.65rem;line-height:1.5;letter-spacing:.01em}
   @media(max-width:620px){.related-list{grid-template-columns:1fr}.article-body p{line-height:1.72}.publication-hero h1{font-size:clamp(2.2rem,10vw,4rem)}}
 </style>

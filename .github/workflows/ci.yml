@@ -21,6 +21,8 @@ jobs:
         run: npm ci
       - name: Validate content data
         run: npm run validate:content
+      - name: Check Astro and TypeScript
+        run: npx astro check
       - name: Build static website
         run: npm run build
       - name: Validate output and links

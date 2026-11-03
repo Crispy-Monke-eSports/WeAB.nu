@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../../../data/imageAssets';
 import { authors, type Author } from '../../../data/authors.ts';
 import { authorPublications, publicationFormatLabels } from '../../../data/publications.ts';
 
@@ -20,7 +22,6 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
     <div class="shell author-header">
       <a class="back" href="/nyheter/skribenter/">← Alla skribenter</a>
       <div class="writer">
-        <div class="avatar" aria-hidden="true">{author.name.split(' ').map(part => part[0]).slice(0, 2).join('')}</div>
         <div>
           <h1>{author.name}</h1>
           <p class="writer-role">{author.role} · {stories.length} artiklar</p>
@@ -38,7 +39,7 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
       <h2>Artiklar av {author.name}</h2>
       <div class="story-grid">
         {stories.map(story => <a class="story" href={`/nyheter/${story.slug}/`}>
-          <div class="story-image"><img src={story.image} alt={story.alt} loading="lazy" /></div>
+          <div class="story-image"><Image src={imageAsset(story.image)} alt={story.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 680px) 100vw, 220px" loading="lazy" /></div>
           <h3>{story.title}</h3>
           <p class="meta">{publicationFormatLabels[story.format]} · {dateLabel(story.publishedAt)}</p>
           <p>{story.summary}</p>
@@ -49,26 +50,24 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
   </section>
 </BaseLayout>
 <style>
-  .author-header{max-width:1080px}
-  .back{display:inline-block;margin-bottom:2.5rem;color:#9dddea;text-decoration:none;font-size:.82rem}
-  .writer{display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem}
-  .writer h1{font-size:clamp(2.2rem,5vw,4.4rem);margin:0;overflow-wrap:anywhere}
-  .avatar{display:grid;place-items:center;background:#284753;color:#d6f0f3;border:1px solid #60808e;width:100px;height:100px;flex:none;font-size:1.6rem;letter-spacing:.12em;font-weight:700}
-  .writer-role{color:#a3c3cc;font-size:.87rem;margin:.7rem 0 0}
-  .writer-focus{display:grid;grid-template-columns:1fr 1fr;gap:2.2rem;border-top:1px solid #4b626d;margin-top:2.4rem;padding-top:1.6rem}
-  .writer-focus h2{font-size:1.1rem;margin:0 0 .6rem}
-  .writer-focus p{font-size:.9rem;line-height:1.7;margin:0}
-  .author-articles{background:#0b1720}
-  .author-articles>div>h2{font-size:clamp(1.6rem,3vw,2.6rem);margin:0 0 2rem}
-  .story-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.2rem 1.3rem}
-  .story{display:flex;flex-direction:column;align-items:start;text-decoration:none;color:inherit}
-  .story-image{width:100%;aspect-ratio:16/10;overflow:hidden;border:1px solid #37505c}
-  .story-image img{width:100%;height:100%;object-fit:cover}
-  .story h3{font-size:1.25rem;line-height:1.35;margin:1rem 0 .55rem}
-  .story:hover h3,.story:focus-visible h3{text-decoration:underline;text-decoration-color:#8bdfec}
-  .story p{font-size:.85rem;line-height:1.6;margin:0 0 .9rem}
-  .story .meta{font-size:.72rem;color:#9db6c2}
-  .read{margin-top:auto;font-size:.76rem;color:#91e3ee;font-weight:700}
-  @media(max-width:1000px){.story-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:650px){.writer{align-items:flex-start}.avatar{width:63px;height:63px;font-size:1.1rem}.writer-focus,.story-grid{grid-template-columns:1fr}}
+.author-header{max-width:1050px}
+.back{display:inline-block;margin-bottom:2.4rem;color:#a2dfeb;text-decoration:none;font-size:.82rem}
+.writer{margin-bottom:1.5rem}
+.writer h1{font-size:clamp(2.25rem,5vw,4.5rem);margin:0;overflow-wrap:anywhere}
+.writer-role{color:#aac5ce;font-size:.87rem;margin:.7rem 0 0}
+.writer-focus{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;border-top:1px solid #445b65;margin-top:2.5rem;padding-top:1.6rem}
+.writer-focus h2{font-size:1.1rem;margin:0 0 .6rem}
+.writer-focus p{font-size:.9rem;line-height:1.65;margin:0}
+.author-articles{background:#0b1720}
+.author-articles>div>h2{font-size:clamp(1.7rem,3vw,2.6rem);margin:0 0 1.5rem}
+.story-grid{display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid #415765}
+.story{display:grid;grid-template-columns:220px minmax(0,1fr);gap:.4rem 1.8rem;align-items:start;padding:1.5rem 0;border-bottom:1px solid #415765;text-decoration:none;color:inherit}
+.story-image{grid-column:1;grid-row:1 / span 4;width:100%;aspect-ratio:16/10;overflow:hidden}
+.story-image img{width:100%;height:100%;object-fit:cover}
+.story h3{grid-column:2;font-size:1.3rem;line-height:1.3;margin:0}
+.story:hover h3,.story:focus-visible h3{text-decoration:underline;text-underline-offset:3px}
+.story p{grid-column:2;font-size:.87rem;line-height:1.6;margin:0}
+.story .meta{grid-column:2;font-size:.74rem;color:#a8bdc7}
+.read{grid-column:2;color:#93dfed;font-size:.8rem;font-weight:750}
+@media(max-width:680px){.writer-focus{grid-template-columns:1fr}.story{grid-template-columns:1fr;gap:.65rem}.story-image{grid-column:1;grid-row:auto}.story h3,.story p,.story .meta,.read{grid-column:1}}
 </style>

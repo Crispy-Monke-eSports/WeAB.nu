@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../../data/imageAssets';
 import BrandMark from '../../components/BrandMark.astro';
 import { companies } from '../../data/companies';
 import { projects } from '../../data/projects';
@@ -20,7 +22,7 @@ const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegambl
 <BaseLayout title={`${company.name} | WeAB Group`} description={company.overview}>
   <div class="company-theme" style={`--company-accent:${company.accent};--company-on-accent:${company.accent === '#00BCD4' ? '#06212b' : '#fff'}`}>
     <section class="company-hero">
-      {company.image && <img class="company-hero__image" src={company.image} alt="" aria-hidden="true" fetchpriority="high" />}
+      {company.image && <Image class="company-hero__image" src={imageAsset(company.image)} alt="" layout="full-width" widths={responsiveWidths} sizes="100vw" aria-hidden="true" loading="eager" fetchpriority="high" />}
       <div class="company-hero__shade" aria-hidden="true"></div>
       <div class="shell company-hero__content">
         <nav class="company-crumb" aria-label="Brödsmulor"><a href="/verksamheter/">Verksamheter</a><span aria-hidden="true">/</span><span>{company.name}</span></nav>
@@ -29,8 +31,8 @@ const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegambl
           <h1>{company.tagline}</h1>
           <p class="lead">{company.overview}</p>
           <div class="hero-tools">
-            <a href="#anlaggningar" class="btn company-btn">Se {company.name} på plats ↓</a>
-            <a href="#verksamhet" class="btn btn-outline">Om verksamheten ↓</a>
+            <a href="#anlaggningar" class="btn company-btn">Se anläggningarna ↓</a>
+            <a href="#verksamhet" class="hero-secondary">Läs om verksamheten ↓</a>
           </div>
         </div>
         <p class="company-hero__meta">{company.status} <span aria-hidden="true">·</span> {company.location}</p>
@@ -57,7 +59,7 @@ const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegambl
 
     {!assetsFirst && <CompanyAssets editorial={editorial} projects={relatedProjects} slug={company.slug} />}
 
-    <section class="company-cta"><div class="shell"><h2>WeAB. Där varje verksamhet räknas.</h2><a class="btn company-btn" href="/verksamheter/">Tillbaka till våra verksamheter ↗</a></div></section>
+    <nav class="company-return" aria-label="Tillbaka till koncernens verksamheter"><div class="shell"><a href="/verksamheter/">← Alla koncernbolag</a><a href="/strategi/">Koncernens affärsmodell ↗</a></div></nav>
   </div>
 </BaseLayout>
 
@@ -107,4 +109,4 @@ const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegambl
     .company-hero__shade { background: linear-gradient(0deg,#0c1821 0%,#0c1821db 40%,#0c1821b3 100%),linear-gradient(90deg,#0c1821bd,transparent); }
     .service-list { grid-template-columns: 1fr; }
   }
-</style>
+.hero-secondary{font-size:.86rem;color:#bce6ed;font-weight:700;text-decoration:underline;text-underline-offset:4px}.company-return{padding:2rem 0;border-top:1px solid #344a54;background:#111f27}.company-return .shell{display:flex;gap:2rem;justify-content:space-between;flex-wrap:wrap}.company-return a{color:#a7e2ed;text-decoration:none;font-size:.87rem;font-weight:750}.company-return a:hover{text-decoration:underline}</style>

@@ -30,6 +30,21 @@ for (const page of pages) {
   if (/rel="(?:canonical|sitemap)"/.test(html)) {
     broken.push(`${page.slice(dist.length + 1)} annonserar indexering`);
   }
+  for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
+    if (!/\salt(?:\s|=|>)/.test(tag) || !/\bwidth="\d+"/.test(tag) || !/\bheight="\d+"/.test(tag)) {
+      broken.push(`${page.slice(dist.length + 1)} har en bild utan alt-text eller originalmått`);
+    }
+    if (/\bsrc="\/_astro\/[^\"]+\.webp"/.test(tag) && (!/\bsrcset=/.test(tag) || !/\bsizes=/.test(tag))) {
+      broken.push(`${page.slice(dist.length + 1)} saknar responsiva bildstorlekar`);
+    }
+    const srcset = tag.match(/\bsrcset="([^"]+)"/)?.[1];
+    for (const candidate of srcset?.split(',') ?? []) {
+      const path = candidate.trim().split(/\s+/)[0];
+      if (path.startsWith('/') && !existsSync(join(dist, path.slice(1)))) {
+        broken.push(`${page.slice(dist.length + 1)} saknar bildvariant: ${path}`);
+      }
+    }
+  }
   const references = html.matchAll(/\b(?:href|src)=["'](\/[^"'?#]*)(?:[?#][^"']*)?["']/g);
   for (const [, urlPath] of references) {
     const target = join(dist, decodeURIComponent(urlPath).replace(/^\/+/, ''));
@@ -51,24 +66,41 @@ for (const [file, link] of featuredCorporateLinks) {
   if (!html.includes('href="' + link + '"')) broken.push(file + ' saknar företagets länk: ' + link);
 }
 
-const pagesWithAnchors = [
-  'strategi/index.html',
-  'leverantorer/index.html',
-  'press/index.html',
-  'investerare/index.html',
-  'investerare/rapporter/index.html'
-];
-for (const page of pagesWithAnchors) {
-  const html = readFileSync(join(dist, page), 'utf8');
-  const anchors = [...html.matchAll(new RegExp('href="(/[^"#?]*/)(#[^"]+)"', 'g'))];
-  for (const [, path, fragment] of anchors) {
-    const targetPage = join(dist, path.slice(1), 'index.html');
-    if (!existsSync(targetPage)) continue;
-    const id = decodeURIComponent(fragment.slice(1));
-    const targetHtml = readFileSync(targetPage, 'utf8');
-    if (!targetHtml.includes('id="' + id + '"')) {
-      broken.push(page + ' länkar till ett saknat avsnitt: ' + path + fragment);
+const htmlCache = new Map();
+for (const page of pages) {
+  const path = page.slice(dist.length + 1);
+  const html = readFileSync(page, 'utf8');
+  for (const [, href] of html.matchAll(/\bhref=["']([^"']+)["']/g)) {
+    if (!href.startsWith('/') && !href.startsWith('#')) continue;
+    const url = new URL(href, `https://weab.nu/${path.replace(/index\.html$/, '')}`);
+    if (!url.hash || !url.pathname.endsWith('/')) continue;
+    const targetPage = join(dist, decodeURIComponent(url.pathname).replace(/^\/+/, ''), 'index.html');
+    if (!existsSync(targetPage)) {
+      broken.push(path + ' länkar till en saknad sida: ' + href);
+      continue;
     }
+    const targetHtml = htmlCache.get(targetPage) ?? readFileSync(targetPage, 'utf8');
+    htmlCache.set(targetPage, targetHtml);
+    if (!targetHtml.includes('id="' + decodeURIComponent(url.hash.slice(1)) + '"')) {
+      broken.push(path + ' länkar till ett saknat avsnitt: ' + href);
+    }
+  }
+}
+
+// Filter i tidningen, pressrummet och karriärsidan ska vara progressivt aktiverade.
+// Utan JavaScript visas allt innehåll, men inga synligt verkningslösa filter.
+for (const path of ['nyheter/index.html', 'press/index.html', 'karriar/index.html']) {
+  const html = readFileSync(join(dist, path), 'utf8');
+  const controls = [...html.matchAll(/<[^>]+data-js-control[^>]*>/g)].map(match => match[0]);
+  if (!controls.length) broken.push(path + ' saknar progressivt aktiverade filter');
+  for (const tag of controls) {
+    if (!/\bhidden\b/.test(tag)) broken.push(path + ' har ett filter som visas utan JavaScript');
+  }
+}
+for (const page of pages) {
+  const html = readFileSync(page, 'utf8');
+  if (/\bhref=["']#["']/.test(html)) {
+    broken.push(page.slice(dist.length + 1) + ' har en länk utan mål');
   }
 }
 

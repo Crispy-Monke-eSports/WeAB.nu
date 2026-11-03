@@ -28,7 +28,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
   wesort: {
     heading: 'Allting på sin plats.',
     introduction: 'I Sektion 1 väntar en sorteringshall där ingenting försvinner. Åtminstone inte ur våra register.',
-    groups: [{ title: 'Sorteringsanläggningen', ids: ['wesort-facility'] }],
+    groups: [{ title: 'Sorteringsanläggningen', ids: ['wesort-facility'] }, { title: 'WeSort Colors', ids: ['wesort-colors'] }],
     connections: {
       heading: 'Från farm till förvaring.',
       steps: [
@@ -70,7 +70,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
     groups: [
       { title: 'Huvudstadens centralstation', ids: ['wetravel-huvudstaden-centralstation'] },
       { title: 'Centralstationen i Sektion 1', ids: ['wetravel-sektion-1-centralstation'] },
-      { title: 'Längs nätet', ids: ['wetravel-station'] }
+      { title: 'Längs nätet', ids: ['wetravel-sparnat'] }
     ]
   },
   wetrade: {

@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../../data/imageAssets';
 import { publications, publicationFormatLabels, editorialFormats } from '../../data/publications.ts';
 import { authors } from '../../data/authors.ts';
 
@@ -18,7 +20,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   <header class="page-hero newspaper-hero">
     <div class="shell">
       <h1>WeAB Tidningen.</h1>
-      <p class="lead">Reportage, debatt, kultur och fördjupning från koncernen och vår omvärld. Här finns plats för flera röster, så länge de har något konstruktivt att säga.</p>
+      <p class="lead">Reportage, debatt, kultur och fördjupning från koncernen och vår omvärld. Texterna är skrivna av femton återkommande skribenter. Officiella pressmeddelanden publiceras separat av respektive bolag.</p>
       <div class="paper-edition"><span>Utgiven av WeAB Group</span><span>{newspaperArticles.length} redaktionella texter · {authors.length} skribenter</span></div>
       <p class="writer-directory"><a href="/nyheter/skribenter/">Lär känna skribenterna <span aria-hidden="true">↗</span></a> <a href="/press/">Officiellt pressrum <span aria-hidden="true">↗</span></a></p>
     </div>
@@ -29,7 +31,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
       <div class="lead-story">
         <h2>Senaste publiceringen</h2>
         <a class="lead-link" href={`/nyheter/${featured.slug}/`}>
-          <img src={featured.image} alt={featured.alt} loading="eager" width="960" height="540" />
+          <Image src={imageAsset(featured.image)} alt={featured.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 700px) 100vw, 65vw" loading="eager" />
           <span class="lead-copy">
             <strong>{featured.title}</strong>
             <span>{featured.summary}</span>
@@ -52,9 +54,9 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
     <div class="shell">
       <div class="archive-heading">
         <h2 id="archive-title">Alla artiklar och insändare</h2>
-        <p>Bläddra mellan koncernens nyheter och de skribenter som bidrar med perspektiv på en alltmer sammanhållen värld.</p>
+        <p>Sök bland artiklarna eller välj skribent och format. Alla texter kan också läsas utan att använda filtren.</p>
       </div>
-      <div class="filter-bar" role="group" aria-label="Filtrera artikeltyp" data-filters>
+      <div class="filter-bar" role="group" aria-label="Filtrera artikeltyp" data-filters data-js-control hidden>
         {formatButtons.map(format => <button
           type="button"
           data-format={format}
@@ -62,7 +64,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
           {format === 'alla' ? 'Alla' : publicationFormatLabels[format]}
         </button>)}
       </div>
-      <div class="archive-search">
+      <div class="archive-search" data-js-control hidden>
         <label for="news-search">Sök i tidningen</label>
         <input id="news-search" type="search" placeholder="Sök bland rubriker, ämnen och skribenter" data-search />
         <label for="author-filter">Avsändare</label>
@@ -83,7 +85,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
           data-author={item.authorId}
           data-issuer={item.issuer?.name}
           data-searchable={`${item.title} ${item.summary} ${item.byline} ${item.type} ${publicationFormatLabels[item.format]}`.toLocaleLowerCase('sv')}>
-          <div class="image-frame"><img src={item.image} alt={item.alt} loading="lazy" /></div>
+          <div class="image-frame"><Image src={imageAsset(item.image)} alt={item.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 700px) 100vw, 45vw" loading="lazy" /></div>
           <h3>{item.title}</h3>
           <div class="card-meta"><span>{publicationFormatLabels[item.format]}</span><time datetime={item.publishedAt}>{dateLabel(item.publishedAt)}</time><span>{item.byline}</span></div>
           <p>{item.summary}</p>
@@ -91,7 +93,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
         </a>)}
       </div>
       <p class="empty-state" data-empty hidden>Inga artiklar matchar sökningen. Prova ett annat ämne eller välj Alla.</p>
-      <div class="more-wrap"><button type="button" data-more>Visa fler artiklar</button></div>
+      <div class="more-wrap" data-js-control hidden><button type="button" data-more>Visa fler artiklar</button></div>
     </div>
   </section>
 </BaseLayout>
@@ -132,6 +134,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   search?.addEventListener('input', () => { limit = 24; filterArticles(); });
   authorSelect?.addEventListener('change', () => { limit = 24; filterArticles(); });
   moreButton?.addEventListener('click', () => { limit += 24; filterArticles(); });
+  document.querySelectorAll<HTMLElement>('[data-js-control]').forEach(control => { control.hidden = false; });
   filterArticles();
 </script>
 <style>
@@ -167,10 +170,10 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   .archive-search select{font:inherit;min-height:44px;padding:.65rem .8rem;color:#f0f7f9;background:#122632;border:1px solid #4c6572;min-width:180px}
   .archive-search input{width:min(440px,100%);min-height:44px;padding:.65rem .8rem;font:inherit;background:#122632;border:1px solid #4c6572;color:#f3f7f9}
   .archive-search output{font-size:.77rem;color:#a9c1cc}
-  .news-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.65rem 1.4rem}
-  .news-card{display:flex;flex-direction:column;align-items:flex-start;color:inherit;text-decoration:none}
+  .news-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.4rem 2rem}
+   .news-card{display:flex;flex-direction:column;align-items:flex-start;min-width:0;color:inherit;text-decoration:none}
   .news-card[hidden],.empty-state[hidden]{display:none}
-  .news-card .image-frame{width:100%;height:210px;overflow:hidden;margin-bottom:1rem}
+  .news-card .image-frame{width:100%;aspect-ratio:16/9;overflow:hidden;margin-bottom:1rem}
   .news-card .image-frame img{width:100%;height:100%;object-fit:cover}
   .news-card h3{font-size:1.35rem;margin:0 0 .7rem;line-height:1.32}
   .news-card:hover h3,.news-card:focus-visible h3{text-decoration:underline;text-decoration-color:#7fdae6}
@@ -182,7 +185,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   .more-wrap button{font:inherit;font-weight:700;cursor:pointer;border:1px solid #86dfeb;padding:.85rem 1.6rem;color:#d5f0f4;background:#19404c}
   .more-wrap button:hover{background:#245563}
   .more-wrap button[hidden]{display:none}
-  .empty-state{border-left:3px solid #7adce8;padding:1rem;background:#142833}
+  .empty-state{border-left:2px solid #7adce8;padding:1rem 0 1rem 1rem}
   @media(max-width:1000px){.frontpage-grid{grid-template-columns:1.35fr .65fr;gap:1.5rem}.reader-voices{padding-left:1.5rem}.news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:700px){.frontpage-grid,.archive-heading{grid-template-columns:1fr}.reader-voices{border-left:0;border-top:1px solid #405660;padding:1.4rem 0 0}.news-grid{grid-template-columns:1fr}.news-card .image-frame{height:240px}.archive-search input{flex-basis:100%}}
+   @media(max-width:700px){.frontpage-grid,.archive-heading{grid-template-columns:minmax(0,1fr)}.reader-voices{border-left:0;border-top:1px solid #405660;padding:1.4rem 0 0}.news-grid{grid-template-columns:minmax(0,1fr)}.news-card .image-frame{height:240px}.archive-search input{flex-basis:100%}}
 </style>

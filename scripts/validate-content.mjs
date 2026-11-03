@@ -21,7 +21,15 @@ function unique(values, description) {
 
 function asset(path, description) {
   assert.ok(path.startsWith('/') && !path.includes('..'), `Ogiltig sökväg för ${description}: ${path}`);
-  assert.ok(existsSync(join('public', path.slice(1))), `Saknad fil för ${description}: ${path}`);
+  const source = path.startsWith('/images/') ? join('src/assets', path.slice(1)) : join('public', path.slice(1));
+  assert.ok(existsSync(source), `Saknad fil för ${description}: ${path}`);
+}
+
+for (const name of readdirSync('public/images')) {
+  const original = join('public/images', name);
+  const imported = join('src/assets/images', name);
+  assert.ok(existsSync(imported) && readFileSync(original).equals(readFileSync(imported)),
+    `Publik originalbild och Astro-import skiljer sig åt: ${name}`);
 }
 
 // Designregel från AGENTS.md: inga ögonbryn/överrubriker före rubriker.
