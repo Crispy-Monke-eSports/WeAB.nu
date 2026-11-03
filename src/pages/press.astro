@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { publications, publicationFormatLabels } from '../data/publications.ts';
-import { companies } from '../data/companies';
 
 const releases = publications.filter(article => article.format === 'pressmeddelande');
 const issuers = [...new Set(releases.map(article => article.issuer?.name).filter(Boolean))];
@@ -25,6 +24,28 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE', {day:'numeri
     </article>)}</div>
     <p class="empty-press" id="empty-press" hidden>Inga pressmeddelanden från vald avsändare.</p>
   </div></section>
+
+  <section class="section" id="pressmaterial"><div class="shell">
+    <div class="section-heading">
+      <div><span class="small-caps">PRESS OCH VARUMÄRKE</span><h2>Pressmaterial.</h2></div>
+      <p>Logotyper och anläggningsbilder för redaktionell användning. Materialet visar koncernens egna verksamheter och bör beskrivas i enlighet med sitt sammanhang.</p>
+    </div>
+    <div class="media-grid">
+      <article class="media-card">
+        <div class="media-preview media-preview--logo"><img src="/logos/weab.svg" alt="WeAB:s cyanblå koncernlogotyp" width="180" height="180" loading="lazy" /></div>
+        <div class="media-card__body"><h3>WeAB Group – koncernlogotyp</h3><p>Officiell grafisk symbol, vektorformat (SVG).</p><a href="/logos/weab.svg" download="weab-logo.svg">Hämta logotyp (SVG) ↗</a></div>
+      </article>
+      <article class="media-card">
+        <div class="media-preview"><img src="/images/weab-cyan-building.webp" alt="Cyanprofilerad koncernbyggnad med monumental figur" width="1440" height="810" loading="lazy" /></div>
+        <div class="media-card__body"><h3>Koncernens huvudbyggnad</h3><p>Anläggningsbild från Huvudstaden (WebP).</p><a href="/images/weab-cyan-building.webp" download="weab-huvudbyggnad.webp">Hämta pressbild ↗</a></div>
+      </article>
+      <article class="media-card">
+        <div class="media-preview"><img src="/images/section-1-overview.webp" alt="Översikt över produktion och infrastruktur i Sektion 1" width="1440" height="810" loading="lazy" /></div>
+        <div class="media-card__body"><h3>Industriellt verksamhetsområde</h3><p>Översiktsbild av koncernens anläggningar i Sektion 1 (WebP).</p><a href="/images/section-1-overview.webp" download="weab-sektion-1.webp">Hämta pressbild ↗</a></div>
+      </article>
+    </div>
+    <p class="media-guidance">För bolagsspecifika frågor och kompletterande material: <a href="/kontakt/">kontakta respektive verksamhet</a>. Vi tillhandahåller bilder av anläggningarna, inte en förhandsgranskning av den redaktionella slutsatsen.</p>
+  </div></section>
   <section class="section section--dark"><div class="shell press-bottom">
     <div><span class="small-caps">WEAB TIDNINGEN</span><h2>Fler perspektiv.<br/>Samma värld.</h2><p>För reportage, intervjuer, ledare och insändare hänvisar vi till WeAB Tidningen. Där ges plats åt flera röster inom ramen för ett sammanhållet publicistiskt uppdrag.</p><a class="btn btn-outline" href="/nyheter/">Besök tidningen ↗</a></div>
     <div class="press-contact"><h3>Pressförfrågningar</h3><p>Huvudkontoret samordnar övergripande förfrågningar. För verksamhetsspecifik information finns kontaktvägar till respektive bolag.</p><a href="mailto:huvudkontor@weab.nu">huvudkontor@weab.nu ↗</a><a href="/kontakt/">Kontaktkatalog ↗</a><p class="caption">Publicerade texter representerar koncernens egen framställning. Oberoende granskning beställs inte här.</p></div>
@@ -39,5 +60,6 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE', {day:'numeri
   select?.addEventListener('change',update);
 </script>
 <style>
+.media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.media-card{background:#142832;border:1px solid #3c5663;min-width:0;display:flex;flex-direction:column}.media-preview{aspect-ratio:16/9;background:#182a34;overflow:hidden}.media-preview img{width:100%;height:100%;object-fit:cover}.media-preview--logo{display:grid;place-items:center;background:radial-gradient(circle,#16414d,#0b1720)}.media-preview--logo img{width:auto;max-height:130px;max-width:130px;height:auto;object-fit:contain}.media-card__body{padding:1.4rem;display:flex;flex:1;flex-direction:column;align-items:flex-start}.media-card__body h3{font-size:1.12rem;margin:0 0 .7rem;line-height:1.3}.media-card__body p{font-size:.8rem;margin:0 0 1.2rem}.media-card__body>a{margin-top:auto;font-size:.82rem;font-weight:800;color:#92e1ec}.media-guidance{font-size:.83rem;margin:1.5rem 0 0}.media-guidance a{color:#9fe5ef}@media(max-width:900px){.media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:610px){.media-grid{grid-template-columns:1fr}}
 .press-controls{display:flex;gap:1.1rem;align-items:center;flex-wrap:wrap;padding:1.3rem;background:#172832;border:1px solid #334955;margin:2rem 0}.press-controls label{font-weight:700;font-size:.86rem}.press-controls select{min-height:44px;background:#0b1b25;border:1px solid #526976;color:white;padding:.55rem;font:inherit;max-width:100%}.press-controls output{margin-left:auto;font-size:.8rem;color:#aec6d0}.press-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.press-entry{background:#142530;border:1px solid #344954;padding:1.7rem;display:flex;flex-direction:column;min-width:0}.press-entry[hidden],.empty-press[hidden]{display:none}.press-entry h3{font-size:1.35rem;margin:1rem 0}.press-entry h3 a{text-decoration:none}.press-entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--cyan)}.press-entry p{font-size:.86rem}.press-issuer{display:flex;justify-content:space-between;gap:1rem;align-items:center;border-top:1px solid #364e59;margin-top:auto;padding-top:1rem;font-size:.78rem}.press-issuer span{color:#a7bdc9}.press-issuer a{font-weight:700;color:#93e1ef;text-align:right}.press-bottom{display:grid;grid-template-columns:1.15fr .85fr;gap:4rem}.press-bottom>div:first-child p{max-width:550px}.press-contact{background:#192c37;padding:2rem;border-top:2px solid var(--cyan)}.press-contact a{display:block;margin-top:1rem;font-size:.88rem;font-weight:800;color:#94e2ef;overflow-wrap:anywhere}.press-contact .caption{margin-top:1.5rem}.empty-press{padding:1.5rem}@media(max-width:700px){.press-grid,.press-bottom{grid-template-columns:1fr}.press-controls output{margin-left:0}}
 </style>
