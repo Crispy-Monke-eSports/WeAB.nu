@@ -41,17 +41,23 @@ Engångsinställning innan första publiceringen:
 ### URL-struktur
 
 - `/` – Startsida
-- `/koncernen/` – Om WeAB, koncernstruktur och moderbolagets anläggningar
+- `/koncernen/` – Om WeAB, koncernstruktur, koncernledning och moderbolagets anläggningar
+- `/bolagsstyrning/` – Ledningspresentation med Store-W som anonym VD och de fyra ledande ledamöterna
+- `/hallbarhet/` – Fiktiv hållbarhetssida med avsiktlig greenwashing-satir
+- `/press/` – Officiellt pressrum med enbart bolagens pressmeddelanden
 - `/verksamheter/` och `/verksamheter/[slug]/` – Verksamhetssidor med bolagens egna byggnader, bilder och platsmarkeringar
 - `/arena/` – Huvudstadens arena med tre bilder och platsmarkeringen Hungerspelsarenan
-- `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
+- `/investerare/` – Fiktiv investerarportal utan publicerad börskurs
+- `/investerare/rapporter/` – Verksamhetsöversikt, kapitalpolicy och rapporteringsprinciper
 - `/karriar/` – Platsannonser inom rollspelet; inga ansökningar via webbplatsen
 - `/nyheter/` – WeAB Tidningen: pressmeddelanden, insändare, ledare, reportage och andra genrer
-- `/kontakt/` – Kontakt via Minecraft-servern
+- `/kontakt/` – Koncernens kontaktkatalog med mailto-länkar till huvudkontoret och nio dotterbolag
 
 ### Redigera innehåll
 
 - `src/data/companies.ts` – Företagsbeskrivningar, namn, accentfärger, bilder och status
+- `src/data/contacts.ts` – Officiella @weab.nu-adresser för huvudkontoret och dotterbolagen
+- `src/data/leadership.ts` – Store-W som VD och fyra ledande ledamöter
 - `src/data/projects.ts` – Anläggningar, bilder och alt-texter som visas på respektive bolagssida och koncernsidan
 - `src/data/companyEditorial.ts` – Bolagens egna avsnitt, anläggningsgrupper och kopplingar mellan verksamheter
 - `src/data/arena.ts` – Arenagalleriets tre foton och alt-texter
