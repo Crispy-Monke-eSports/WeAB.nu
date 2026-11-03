@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { companies } from '../src/data/companies.ts';
 import { jobs } from '../src/data/jobs.ts';
 import { news } from '../src/data/news.ts';
+import { expandedArticleSlugs, expandedMinimumWords, expandedMinimumParagraphs } from '../src/data/expandedArticleSlugs.ts';
 import { editorials } from '../src/data/editorial.ts';
 import { publications, editorialFormats, publicationFormatLabels, additionalArticles, establishedSlugs, authorPublications, pressIssuerSlugs } from '../src/data/publications.ts';
 import { authors, getAuthor } from '../src/data/authors.ts';
@@ -103,6 +104,17 @@ assert.equal(news.length, 16, 'Det ska finnas 16 befintliga pressmeddelanden');
 assert.equal(editorials.length, 10, 'Det ska finnas tio tidigare redaktionella artiklar');
 assert.equal(additionalArticles.length, 74, 'Det ska finnas 74 nya texter');
 assert.equal(publications.length, 100, 'Tidningen ska innehålla exakt 100 artiklar');
+unique([...expandedArticleSlugs], 'genomarbetade artikeladresser');
+for (const slug of expandedArticleSlugs) {
+  const article = publications.find(item => item.slug === slug);
+  assert.ok(article, `Genomarbetad artikel saknas: ${slug}`);
+  const words = article.body.join(' ').trim().split(/\s+/u).length;
+  assert.ok(words >= expandedMinimumWords,
+    `Artikeln ${slug} är för kort: ${words} ord (minst ${expandedMinimumWords})`);
+  assert.ok(article.body.length >= expandedMinimumParagraphs,
+    `Artikeln ${slug} behöver minst ${expandedMinimumParagraphs} utvecklade stycken`);
+}
+
 assert.equal(authors.length, 15, 'Tidningen ska ha exakt 15 återkommande skribenter');
 assert.equal(publications.filter(item => item.format === 'pressmeddelande').length, 16,
   'Det ska finnas 16 officiella pressmeddelanden');

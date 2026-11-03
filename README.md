@@ -121,6 +121,21 @@ CI verifierar att samtliga genererade SVG-filer överensstämmer med
 originalet och de aktuella företagsfärgerna; en manuell redigering av
 en genererad fil ska inte kunna överleva utan att upptäckas.
 
+### Längre artiklar – etappvis redaktionell genomgång
+
+**Etapp 1 är slutförd: 10 av 100 artiklar** har skrivits om till längre
+tidningstexter med 591–694 ord och 9–10 utvecklade stycken per artikel.
+Omgången omfattar de tio första officiella pressmeddelandena i
+`src/data/news.ts` – från WeRules fastighetsförvaltning till WeBoxes
+lagerkontroll. De övriga **90 artiklarna är oförändrade** i denna omgång.
+
+`src/data/expandedArticleSlugs.ts` är checklistan för vilka artiklar som
+redan fått en genomarbetad förlängning. Nästa omgång kan lägga till tio
+nya slugs utan att skriva över tidigare publicerat innehåll.
+`npm run check` verifierar att de markerade artiklarna har minst
+500 ord och åtta stycken. Pressmeddelandenas officiella bolagsavsändare
+och de redaktionella skribenternas signaturer hålls fortsatt åtskilda.
+
 ### WeAB Tidningen
 
 Nyhetsrummet omfattar **100 texter totalt**: **16 officiella pressmeddelanden**
