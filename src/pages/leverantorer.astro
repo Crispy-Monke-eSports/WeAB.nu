@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { headquarters } from '../data/contacts';
+---
+<BaseLayout title="Leverantörer och inköp | WeAB Group" description="Information till leverantörer om inköp, upphandling, fakturering och WeAB:s koncerngemensamma leverantörskrav.">
+  <header class="page-hero procurement-hero">
+    <div class="shell">
+      <span class="small-caps">WEAB GROUP / INKÖP OCH LEVERANTÖRER</span>
+      <h1>Tillsammans skapar vi värde.</h1>
+      <p class="lead">WeAB söker långsiktiga leverantörsrelationer som stärker koncernens kapacitet, tillförlitlighet och kontroll över värdekedjan. Vi ser externa samarbeten som ett viktigt steg på vägen mot fullständig integration.</p>
+      <a href="#leverantorsprocess" class="btn">Så arbetar vi med inköp ↓</a>
+    </div>
+  </header>
+
+  <section class="section" id="leverantorsprocess">
+    <div class="shell">
+      <div class="section-heading"><div><span class="small-caps">ATT BLI LEVERANTÖR</span><h2>En tydlig process för långsiktiga samarbeten.</h2></div><p>Vi välkomnar initiativ som bidrar till koncernens övergripande strategi. Vår inköpsprocess är utformad för att värdera erbjudandet utifrån våra behov.</p></div>
+      <ol class="steps">
+        <li><span>01</span><div><h3>Inledande kontakt</h3><p>Beskriv vilka varor eller tjänster din verksamhet erbjuder. Huvudkontoret samordnar inkomna förfrågningar och avgör vilka som behöver en fortsatt bedömning.</p></div></li>
+        <li><span>02</span><div><h3>Leverantörsprövning</h3><p>Vi utvärderar kvalitet, leveransförmåga, risk och hur väl samarbetet passar våra interna processer. Möjligheten till framtida förvärv ses som en särskild strategisk fördel.</p></div></li>
+        <li><span>03</span><div><h3>Godkännande och uppföljning</h3><p>Godkända leverantörer omfattas av koncernens löpande uppföljning. Vårt mål är att relationen med tiden ska bli så nära att gränsen mellan leverantör och dotterbolag förlorar sin betydelse.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="shell">
+      <div class="section-heading"><div><span class="small-caps">LEVERANTÖRSKOD</span><h2>Våra grundläggande förväntningar.</h2></div><p>Gemensamma principer bidrar till bättre kvalitet och mer förutsägbara affärsrelationer.</p></div>
+      <div class="requirements">
+        <article><span class="small-caps">01 / LEVERANS</span><h3>Pålitlighet</h3><p>Varor och tjänster ska levereras i enlighet med överenskommen omfattning. WeAB har rätt att omvärdera överenskommelsen när koncernens behov förändras.</p></article>
+        <article><span class="small-caps">02 / INFORMATION</span><h3>Transparens</h3><p>Vi förväntar oss full insyn i leverantörens processer och kostnader. Ömsesidig insyn regleras separat enligt koncernens bedömning.</p></article>
+        <article><span class="small-caps">03 / ANSVAR</span><h3>Hållbara värdekedjor</h3><p>Leverantörer ska ta ansvar för sin påverkan på omvärlden och aktivt bidra till att koncernens hållbarhetsarbete presenteras på ett sammanhängande sätt.</p></article>
+        <article><span class="small-caps">04 / LOJALITET</span><h3>Långsiktighet</h3><p>Vi uppskattar leverantörer med ett tydligt strategiskt fokus. Att samtidigt arbeta med konkurrerande verksamheter kan vara ett tecken på bristande samordning.</p></article>
+      </div>
+      <p class="policy-link"><a class="link-arrow" href="/hallbarhet/">Läs om våra hållbarhetsprinciper ↗</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell procurement-split">
+      <div><span class="small-caps">PRAKTISK INFORMATION</span><h2>Inköp och fakturering.</h2><p class="lead">För att skapa effektiva flöden har vi samlat informationen till leverantörer på ett ställe.</p></div>
+      <div class="faq-list">
+        <details><summary>Hur kontaktar jag inköpsfunktionen?</summary><p>Kontakta koncernens huvudkontor via <a href={`mailto:${headquarters.email}`}>{headquarters.email}</a> och ange vilket affärsområde ärendet gäller. Förfrågningar fördelas därefter internt.</p></details>
+        <details><summary>Vilken valuta används?</summary><p>Koncernens affärsmodell utgår från diamanter. Faktureringsvillkor, leveransomfattning och betalningsform fastställs för varje avtal; någon offentlig prislista finns inte.</p></details>
+        <details><summary>Finns det öppna upphandlingar?</summary><p>Ingen offentlig upphandlingslista publiceras för närvarande. Det ska inte tolkas som att koncernen saknar inköpsbehov. Behov hanteras främst inom våra befintliga verksamheter.</p></details>
+        <details><summary>Hur blir jag en prioriterad leverantör?</summary><p>Vi prioriterar leverantörer som förenklar koncernens beslutsvägar och accepterar en gemensam strategi. Ett fullständigt samgående är ett särskilt tydligt tecken på engagemang.</p></details>
+        <details><summary>Kan vi garantera ett svar?</summary><p>Vi bekräftar inte generella svarstider. Ärenden som stärker koncernens tillgångar behandlas i enlighet med deras strategiska betydelse.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="supplier-ending">
+    <div class="shell supplier-ending__inner">
+      <div><span class="small-caps">WEAB GROUP / LEVERANTÖRSRELATIONER</span><h2>Är ni redo för ett närmare samarbete?</h2><p>Vi ser gärna nya möjligheter till partnerskap, samordning och andra långsiktiga ägarformer.</p></div>
+      <a href={`mailto:${headquarters.email}?subject=Leverant%C3%B6rsf%C3%B6rfr%C3%A5gan%20%E2%80%93%20WeAB`} class="btn">Kontakta inköp ↗</a>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+.procurement-hero{background:linear-gradient(90deg,#0b1720f8 10%,#0b1720cf 60%,#0b17206e),url('/images/wesort-interior.webp') center / cover}.procurement-hero .btn{margin-top:1rem}.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:2rem 0 0}.steps li{padding:1.8rem;background:#182a35;border:1px solid #38515e}.steps li>span{font-weight:800;color:#84dfed;font-size:.9rem}.steps h3{font-size:1.4rem;margin:1.2rem 0 .7rem}.steps p{font-size:.86rem;margin:0}.requirements{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.requirements article{padding:1.8rem;background:#192e38;border-top:2px solid #68d1e3}.requirements h3{font-size:1.4rem;margin:1rem 0 .8rem}.requirements p{font-size:.86rem;margin:0}.policy-link{margin:2rem 0 0}.procurement-split{display:grid;grid-template-columns:.85fr 1.15fr;gap:4rem}.faq-list{border-top:1px solid #415762}.faq-list details{border-bottom:1px solid #415762}.faq-list summary{font-size:1.08rem;font-weight:750;line-height:1.45;cursor:pointer;list-style:none;padding:1.4rem 2rem 1.4rem 0;position:relative}.faq-list summary::-webkit-details-marker{display:none}.faq-list summary::after{content:'+';position:absolute;right:.3rem;top:1.25rem;color:#8fe0ec;font-size:1.4rem}.faq-list details[open] summary::after{content:'−'}.faq-list details p{font-size:.91rem;padding:0 1rem 1.4rem 0;margin:0}.faq-list details a{color:#9ae8f1}.supplier-ending{padding:5rem 0;background:#10313b;border-top:1px solid #3f6470}.supplier-ending__inner{display:flex;align-items:center;justify-content:space-between;gap:3rem}.supplier-ending__inner>div{max-width:800px}.supplier-ending__inner .btn{flex-shrink:0}@media(max-width:850px){.steps{grid-template-columns:1fr 1fr}.procurement-split{grid-template-columns:1fr;gap:2rem}}@media(max-width:620px){.steps,.requirements{grid-template-columns:1fr}.supplier-ending__inner{align-items:flex-start;flex-direction:column;gap:1rem}}
+</style>
