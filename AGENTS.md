@@ -55,7 +55,7 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 
 ## Bilder och platser
 
-- Använd befintliga bilder i `public/images/` och skriv beskrivande alt-texter utan hänvisning till spel eller källmaterial. Låt inte en bild av en annan anläggning föreställa en ny farm.
+- Använd befintliga bilder i `src/assets/images/` via `src/data/imageAssets.ts` och Astros `<Image />` med beskrivande alt-texter utan hänvisning till spel eller källmaterial. Några original finns även i `public/images/` för pressnedladdning, metadata och bakgrundsbilder. Låt inte en bild av en annan anläggning föreställa en ny farm.
 - `src/data/locations.ts` är intern waypointreferens. Publicera inte koordinater eller råa waypointfiler. Anta inte att en waypoint ensam bevisar en anläggnings kapacitet eller aktuella skick.
 - WE-logotypen i `src/assets/we-logo.svg` är originalet; varianterna i `public/logos/` genereras med `npm run logos:generate`.
 

@@ -31,8 +31,18 @@ for (const page of pages) {
     broken.push(`${page.slice(dist.length + 1)} annonserar indexering`);
   }
   for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
-    if (!/\balt=/.test(tag) || !/\bwidth="\d+"/.test(tag) || !/\bheight="\d+"/.test(tag)) {
+    if (!/\salt(?:\s|=|>)/.test(tag) || !/\bwidth="\d+"/.test(tag) || !/\bheight="\d+"/.test(tag)) {
       broken.push(`${page.slice(dist.length + 1)} har en bild utan alt-text eller originalmått`);
+    }
+    if (/\bsrc="\/_astro\/[^\"]+\.webp"/.test(tag) && (!/\bsrcset=/.test(tag) || !/\bsizes=/.test(tag))) {
+      broken.push(`${page.slice(dist.length + 1)} saknar responsiva bildstorlekar`);
+    }
+    const srcset = tag.match(/\bsrcset="([^"]+)"/)?.[1];
+    for (const candidate of srcset?.split(',') ?? []) {
+      const path = candidate.trim().split(/\s+/)[0];
+      if (path.startsWith('/') && !existsSync(join(dist, path.slice(1)))) {
+        broken.push(`${page.slice(dist.length + 1)} saknar bildvariant: ${path}`);
+      }
     }
   }
   const references = html.matchAll(/\b(?:href|src)=["'](\/[^"'?#]*)(?:[?#][^"']*)?["']/g);

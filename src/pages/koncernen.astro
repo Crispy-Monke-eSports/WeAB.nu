@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { imageDimensions } from '../data/imageDimensions';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../data/imageAssets';
 import {companies} from '../data/companies';
 import BrandMark from '../components/BrandMark.astro';
 import { projects } from '../data/projects';
@@ -10,7 +11,7 @@ const weabProjects = projects.filter(project => project.division === 'WeAB' && !
 ---
 <BaseLayout title="Om WeAB | WeAB Group" description="WeAB:s företagsvision, ledningsmodell och koncernstruktur.">
   <section class="page-hero"><div class="shell"><h1>WeAB Group</h1><p class="lead">Nio bolag arbetar med resurser, lager, transporter, handel, bostäder, befolkningsförsörjning, kommunala fastigheter och nöjen. Varje verksamhet har sin roll. Ägandet delas inte upp i onödan.</p></div></section>
-  <section class="section"><div class="shell split-layout"><div><h2>Moderbolaget och uppdraget.</h2><p>WeAB sätter riktlinjer för verksamheterna och samordnar investeringar. Beslut om ytterligare anläggningar, transporter och fastigheter behandlas inom koncernen innan berörda invånare informeras.</p><p>Grundarens identitet ingår inte i koncernens offentliga historieskrivning. Transparens är viktigt. Selektiv transparens är effektivare.</p><a class="link-arrow" href="/strategi/">Vår strategi och affärsmodell ↗</a></div><div class="image-frame"><img src="/images/weab-cyan-building.webp" alt="Cyanprofilerad byggnad med staty" width="1800" height="1013"/></div></div></section>
+  <section class="section"><div class="shell split-layout"><div><h2>Moderbolaget och uppdraget.</h2><p>WeAB sätter riktlinjer för verksamheterna och samordnar investeringar. Beslut om ytterligare anläggningar, transporter och fastigheter behandlas inom koncernen innan berörda invånare informeras.</p><p>Grundarens identitet ingår inte i koncernens offentliga historieskrivning. Transparens är viktigt. Selektiv transparens är effektivare.</p><a class="link-arrow" href="/strategi/">Vår strategi och affärsmodell ↗</a></div><div class="image-frame"><Image src={imageAsset('/images/weab-cyan-building.webp')} alt="Cyanprofilerad byggnad med staty" layout="constrained" widths={responsiveWidths} sizes="(max-width: 800px) 100vw, 50vw" loading="lazy" /></div></div></section>
   <section class="section section--dark leadership-preview" id="ledning"><div class="shell">
     <div class="section-heading"><h2>Ledning och styrning.</h2><p>En sammanhållen ledningsmodell med tydliga beslutsvägar och fyra ledande ledamöter.</p></div>
     <div class="leadership-feature"><div class="leader-symbol" aria-hidden="true">?</div><div><h3>{chiefExecutive.name}</h3><p>{chiefExecutive.description}</p></div></div>
@@ -20,8 +21,8 @@ const weabProjects = projects.filter(project => project.division === 'WeAB' && !
   <section class="section weab-sites" id="anlaggningar"><div class="shell">
     <div class="section-heading"><div><h2>Byggt av WeAB.</h2></div></div>
     <div class="weab-sites__grid">{weabProjects.map(project => <article class="weab-site" id={`anlaggning-${project.id}`}>
-      <img src={project.image} alt={project.alt} {...imageDimensions(project.image)} loading="lazy" />
-      {project.gallery && <div class="weab-site__gallery" role="group" aria-label={`Fler bilder från ${project.name}`}>{project.gallery.map(photo => <img src={photo.image} alt={photo.alt} {...imageDimensions(photo.image)} loading="lazy" />)}</div>}
+      <Image src={imageAsset(project.image)} alt={project.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 650px) 100vw, 50vw" loading="lazy" />
+      {project.gallery && <div class="weab-site__gallery" role="group" aria-label={`Fler bilder från ${project.name}`}>{project.gallery.map(photo => <Image src={imageAsset(photo.image)} alt={photo.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 650px) 50vw, 25vw" loading="lazy" />)}</div>}
       <div class="weab-site__copy"><h3>{project.name}</h3><p>{project.description}</p></div>
     </article>)}</div>
     <a class="link-arrow" href="/arena/">Besök Huvudstadens arena ↗</a>
@@ -43,7 +44,7 @@ const weabProjects = projects.filter(project => project.division === 'WeAB' && !
       <div class="section-heading">
         <div><h2>Inte ens vi äger allt.</h2></div>
       </div>
-      <div class="capital-overview"><img src="/images/huvudstaden-overview.webp" alt="Överblick över Huvudstaden i solnedgång med byggnader, vatten och en bro" loading="lazy" width="1440" height="810"/></div>
+      <div class="capital-overview"><Image src={imageAsset('/images/huvudstaden-overview.webp')} alt="Överblick över Huvudstaden i solnedgång med byggnader, vatten och en bro" layout="constrained" widths={responsiveWidths} sizes="100vw" loading="lazy" /></div>
     </div>
   </section>
   <section class="section section--dark"><div class="shell split-layout"><div><h2>Förvaltning och invånare</h2><p>Efter en period då delar av byarna agerade utanför koncernens rutiner har ansvarsområdena för boende, infrastruktur och förvaltning förtydligats. WeLiveLaughLove ansvarar för boendemiljöerna. Synpunkter på rörelsefrihet behandlas tillsammans med övriga frågor om kapacitetsutnyttjande.</p></div><div class="quote-block"><span>”</span><blockquote>Vi ser inte problem. Vi ser områden där vår kontroll ännu inte är tillräckligt utvecklad.</blockquote><small>WEAB · KONCERNENS ARBETSFILOSOFI</small></div></div></section>

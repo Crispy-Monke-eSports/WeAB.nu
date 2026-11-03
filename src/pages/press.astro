@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../data/imageAssets';
 import { publications, publicationFormatLabels } from '../data/publications.ts';
 
 const releases = publications.filter(article => article.format === 'pressmeddelande');
@@ -36,11 +38,11 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE', {day:'numeri
         <div class="media-card__body"><h3>WeAB Group – koncernlogotyp</h3><p>Officiell grafisk symbol, vektorformat (SVG).</p><a href="/logos/weab.svg" download="weab-logo.svg">Hämta logotyp (SVG) ↗</a></div>
       </article>
       <article class="media-card">
-        <div class="media-preview"><img src="/images/weab-cyan-building.webp" alt="Cyanprofilerad koncernbyggnad med monumental figur" width="1800" height="1013" loading="lazy" /></div>
+        <div class="media-preview"><Image src={imageAsset('/images/weab-cyan-building.webp')} alt="Cyanprofilerad koncernbyggnad med monumental figur" layout="constrained" widths={responsiveWidths} sizes="(max-width: 600px) 100vw, (max-width: 800px) 50vw, 33vw" loading="lazy" /></div>
         <div class="media-card__body"><h3>Koncernens huvudbyggnad</h3><p>Anläggningsbild från Huvudstaden (WebP).</p><a href="/images/weab-cyan-building.webp" download="weab-huvudbyggnad.webp">Hämta pressbild ↗</a></div>
       </article>
       <article class="media-card">
-        <div class="media-preview"><img src="/images/section-1-overview.webp" alt="Översikt över produktion och infrastruktur i Sektion 1" width="1440" height="810" loading="lazy" /></div>
+        <div class="media-preview"><Image src={imageAsset('/images/section-1-overview.webp')} alt="Översikt över produktion och infrastruktur i Sektion 1" layout="constrained" widths={responsiveWidths} sizes="(max-width: 600px) 100vw, (max-width: 800px) 50vw, 33vw" loading="lazy" /></div>
         <div class="media-card__body"><h3>Industriellt verksamhetsområde</h3><p>Översiktsbild av koncernens anläggningar i Sektion 1 (WebP).</p><a href="/images/section-1-overview.webp" download="weab-sektion-1.webp">Hämta pressbild ↗</a></div>
       </article>
     </div>

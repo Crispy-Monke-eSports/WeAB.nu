@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../data/imageAssets';
 ---
 <BaseLayout title="Hållbarhet och samhällsansvar | WeAB Group" description="WeAB:s arbete med resurseffektivitet, samhällsansvar, biologiska flöden och långsiktigt värdeskapande.">
   <header class="page-hero sustainability-hero">
@@ -21,7 +23,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div></section>
 
   <section class="section section--dark"><div class="shell split-layout">
-    <div class="image-frame"><img src="/images/wekill-farms.webp" alt="Sammanhängande industriella produktionsanläggningar" width="1800" height="1013" loading="lazy" /></div>
+    <div class="image-frame"><Image src={imageAsset('/images/wekill-farms.webp')} alt="Sammanhängande industriella produktionsanläggningar" layout="constrained" widths={responsiveWidths} sizes="(max-width: 700px) 100vw, 50vw" loading="lazy" /></div>
     <div><h2>Naturen producerar.<br/>Vi effektiviserar.</h2><p class="lead">Vi verkar för en cirkulär ekonomi där varje drop, varje mineral och varje användbar kvadratmeter får en tydlig plats i värdekedjan.</p><p>Vårt synsätt omfattar även oexploaterade landskap. Där andra ser orörd mark ser vi möjlighet att frigöra framtida produktionskapacitet.</p><a class="link-arrow" href="/verksamheter/wekill/">Se våra produktionsanläggningar ↗</a></div>
   </div></section>
 

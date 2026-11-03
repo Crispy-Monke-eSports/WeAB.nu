@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { imageDimensions } from '../../../data/imageDimensions';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../../../data/imageAssets';
 import { authors, type Author } from '../../../data/authors.ts';
 import { authorPublications, publicationFormatLabels } from '../../../data/publications.ts';
 
@@ -38,7 +39,7 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
       <h2>Artiklar av {author.name}</h2>
       <div class="story-grid">
         {stories.map(story => <a class="story" href={`/nyheter/${story.slug}/`}>
-          <div class="story-image"><img src={story.image} alt={story.alt} {...imageDimensions(story.image)} loading="lazy" /></div>
+          <div class="story-image"><Image src={imageAsset(story.image)} alt={story.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 680px) 100vw, 220px" loading="lazy" /></div>
           <h3>{story.title}</h3>
           <p class="meta">{publicationFormatLabels[story.format]} · {dateLabel(story.publishedAt)}</p>
           <p>{story.summary}</p>

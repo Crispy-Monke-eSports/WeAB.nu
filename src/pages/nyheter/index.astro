@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { imageDimensions } from '../../data/imageDimensions';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../../data/imageAssets';
 import { publications, publicationFormatLabels, editorialFormats } from '../../data/publications.ts';
 import { authors } from '../../data/authors.ts';
 
@@ -30,7 +31,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
       <div class="lead-story">
         <h2>Senaste publiceringen</h2>
         <a class="lead-link" href={`/nyheter/${featured.slug}/`}>
-          <img src={featured.image} alt={featured.alt} loading="eager" {...imageDimensions(featured.image)} />
+          <Image src={imageAsset(featured.image)} alt={featured.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 700px) 100vw, 65vw" loading="eager" />
           <span class="lead-copy">
             <strong>{featured.title}</strong>
             <span>{featured.summary}</span>
@@ -84,7 +85,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
           data-author={item.authorId}
           data-issuer={item.issuer?.name}
           data-searchable={`${item.title} ${item.summary} ${item.byline} ${item.type} ${publicationFormatLabels[item.format]}`.toLocaleLowerCase('sv')}>
-          <div class="image-frame"><img src={item.image} alt={item.alt} {...imageDimensions(item.image)} loading="lazy" /></div>
+          <div class="image-frame"><Image src={imageAsset(item.image)} alt={item.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 700px) 100vw, 45vw" loading="lazy" /></div>
           <h3>{item.title}</h3>
           <div class="card-meta"><span>{publicationFormatLabels[item.format]}</span><time datetime={item.publishedAt}>{dateLabel(item.publishedAt)}</time><span>{item.byline}</span></div>
           <p>{item.summary}</p>

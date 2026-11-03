@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../data/imageAssets';
 import { arenaPhotos } from '../data/arena';
 ---
 
@@ -8,12 +10,14 @@ import { arenaPhotos } from '../data/arena';
   description="Upptäck Huvudstadens arena, där bybor från olika distrikt tävlar om att vinna ära till sin by."
 >
   <section class="arena-hero" aria-labelledby="arena-heading">
-    <img
+    <Image
       class="arena-hero__image"
-      src={arenaPhotos[0].src}
+      src={imageAsset(arenaPhotos[0].src)}
       alt={arenaPhotos[0].alt}
-      width="1440"
-      height="810"
+      layout="full-width"
+      widths={responsiveWidths}
+      sizes="100vw"
+      loading="eager"
       fetchpriority="high"
     />
     <div class="arena-hero__shade" aria-hidden="true"></div>
@@ -51,7 +55,7 @@ import { arenaPhotos } from '../data/arena';
       <div class="arena-gallery">
         {arenaPhotos.map((photo, index) => (
           <div class:list={['arena-gallery__item', { 'arena-gallery__item--wide': index === 0 }]}>
-            <img src={photo.src} alt={photo.alt} width="1440" height="810" loading="lazy" decoding="async" />
+            <Image src={imageAsset(photo.src)} alt={photo.alt} layout="constrained" widths={responsiveWidths} sizes={index === 0 ? '100vw' : '(max-width: 700px) 100vw, 50vw'} loading="lazy" />
           </div>
         ))}
       </div>

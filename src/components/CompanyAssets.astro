@@ -1,6 +1,7 @@
 ---
 import type { Project } from '../data/projects';
-import { imageDimensions } from '../data/imageDimensions';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../data/imageAssets';
 import type { companyEditorial } from '../data/companyEditorial';
 
 type Editorial = typeof companyEditorial[string];
@@ -33,9 +34,9 @@ const projectById = new Map(projects.map(project => [project.id, project]));
             if (!project) return null;
             return <article class:list={['company-asset', { 'company-asset--featured': projects.length === 1 || (groupIndex === 0 && projectIndex === 0 && projects.length > 2) }]} id={`anlaggning-${project.id}`}>
               <figure class="company-asset__media">
-                <img class="company-asset__image" src={project.image} alt={project.alt} {...imageDimensions(project.image)} loading="lazy" />
+                <Image class="company-asset__image" src={imageAsset(project.image)} alt={project.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 760px) 100vw, 60vw" loading="lazy" />
                 {project.gallery && <div class="company-asset__gallery" role="group" aria-label={`Fler bilder från ${project.name}`}>
-                  {project.gallery.map(photo => <img src={photo.image} alt={photo.alt} {...imageDimensions(photo.image)} loading="lazy" />)}
+                  {project.gallery.map(photo => <Image src={imageAsset(photo.image)} alt={photo.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 760px) 50vw, 30vw" loading="lazy" />)}
                 </div>}
               </figure>
               <div class="company-asset__copy">

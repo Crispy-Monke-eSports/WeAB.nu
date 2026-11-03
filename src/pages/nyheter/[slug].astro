@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { imageDimensions } from '../../data/imageDimensions';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../../data/imageAssets';
 import { publications, publicationFormatLabels } from '../../data/publications.ts';
 import type { Publication } from '../../data/publications.ts';
 import { getAuthor } from '../../data/authors.ts';
@@ -42,7 +43,7 @@ const related = publications
   <article class="section publication-article">
     <div class="shell article-shell">
       <figure class="publication-image">
-        <img src={article.image} alt={article.alt} {...imageDimensions(article.image)} loading="eager" decoding="async" />
+        <Image src={imageAsset(article.image)} alt={article.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 900px) 100vw, 900px" loading="eager" />
       </figure>
       <div class="article-body">
         {article.body.map(paragraph => <p>{paragraph}</p>)}

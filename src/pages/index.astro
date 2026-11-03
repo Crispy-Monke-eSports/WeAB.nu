@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { imageDimensions } from '../data/imageDimensions';
+import { Image } from 'astro:assets';
+import { imageAsset, responsiveWidths } from '../data/imageAssets';
 import {companies} from '../data/companies';
 import {projects, featuredProjectIds} from '../data/projects';
 import { publications, publicationFormatLabels } from '../data/publications.ts';
@@ -16,7 +17,7 @@ const releaseDate = (date: string) => new Intl.DateTimeFormat('sv-SE', {day:'num
 ---
 <BaseLayout>
   <section class="hero">
-    <img class="hero-image" src="/images/weab-cyan-building.webp" alt="Cyanfärgad företagsbyggnad med monumental vit figur" width="1800" height="1013" fetchpriority="high"/>
+    <Image class="hero-image" src={imageAsset('/images/weab-cyan-building.webp')} alt="Cyanfärgad företagsbyggnad med monumental vit figur" layout="full-width" widths={responsiveWidths} sizes="100vw" loading="eager" fetchpriority="high" />
     <div class="hero-shade"></div>
     <div class="shell hero-content">
       <h1>En bättre värld.<br/><em>På våra villkor.</em></h1>
@@ -39,7 +40,7 @@ const releaseDate = (date: string) => new Intl.DateTimeFormat('sv-SE', {day:'num
   </div></section>
 
   <section class="section"><div class="shell split-layout pipeline">
-    <div class="image-frame pipeline-image"><img src="/images/section-1-overview.webp" alt="Överblick över Sektion 1 med järnfarm, produktionsbyggnader, mobgrinder och räls" width="1440" height="810" loading="lazy"/></div>
+    <div class="image-frame pipeline-image"><Image src={imageAsset('/images/section-1-overview.webp')} alt="Överblick över Sektion 1 med järnfarm, produktionsbyggnader, mobgrinder och räls" layout="constrained" widths={responsiveWidths} sizes="(max-width: 800px) 100vw, 50vw" loading="lazy" /></div>
     <div><h2>Fyra led mellan farm och handel.</h2><p>Sektion 1 visar hur WeKill, WeSort och WeBox redan delar materialflöden. WeTravel ansluter området till övriga verksamheter. Kunden behöver sällan veta var ett bolag slutar och nästa börjar.</p>
       <div class="pipeline-steps"><div><b>01</b><strong>Producera</strong><span>WeKill</span></div><div><b>02</b><strong>Sortera</strong><span>WeSort</span></div><div><b>03</b><strong>Hantera</strong><span>WeBox</span></div><div><b>04</b><strong>Transportera</strong><span>WeTravel</span></div></div><a href="/strategi/" class="link-arrow" style="margin-top:1.4rem">Läs om vår affärsmodell ↗</a>
     </div>
@@ -47,12 +48,12 @@ const releaseDate = (date: string) => new Intl.DateTimeFormat('sv-SE', {day:'num
 
   <section class="section section--dark"><div class="shell">
     <div class="section-heading"><h2>Anläggningar i drift och utveckling</h2><a href="/verksamheter/" class="link-arrow">Fler anläggningar ↗</a></div>
-    <div class="featured-grid">{featuredProjects.map((project)=><a class="featured" href={`/verksamheter/${companySlugByName[project.division]}/#anlaggning-${project.id}`}><div class="image-frame"><img src={project.image} alt={project.alt} {...imageDimensions(project.image)} loading="lazy"/></div><div class="featured-info"><h3>{project.name}</h3><span aria-hidden="true">↗</span></div></a>)}</div>
+    <div class="featured-grid">{featuredProjects.map((project)=><a class="featured" href={`/verksamheter/${companySlugByName[project.division]}/#anlaggning-${project.id}`}><div class="image-frame"><Image src={imageAsset(project.image)} alt={project.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 550px) 100vw, (max-width: 950px) 50vw, 33vw" loading="lazy" /></div><div class="featured-info"><h3>{project.name}</h3><span aria-hidden="true">↗</span></div></a>)}</div>
   </div></section>
 
   <section class="section responsible-section"><div class="shell split-layout">
     <div><h2>Vår syn på resursanvändning.</h2><p class="lead">WeKill samlar den industriella produktionen i särskilda anläggningar. Material som tidigare uppstod utan planering kan nu redovisas som en del av koncernens försörjning.</p><p>Vi räknar även exploaterad mark som ett framsteg när den tas i bruk. Några jämförbara miljöresultat har ännu inte publicerats.</p><a href="/hallbarhet/" class="link-arrow">Läs koncernens hållbarhetsredovisning ↗</a></div>
-    <div class="image-frame responsible-image"><img src="/images/wekill-farms.webp" width="1800" height="1013" alt="Sammanhängande produktionsanläggningar med omfattande resursinfrastruktur" loading="lazy" /></div>
+    <div class="image-frame responsible-image"><Image src={imageAsset('/images/wekill-farms.webp')} alt="Sammanhängande produktionsanläggningar med omfattande resursinfrastruktur" layout="constrained" widths={responsiveWidths} sizes="(max-width: 800px) 100vw, 50vw" loading="lazy" /></div>
   </div></section>
 
   <section class="arena-spotlight" aria-labelledby="arena-spotlight-heading">
@@ -63,7 +64,7 @@ const releaseDate = (date: string) => new Intl.DateTimeFormat('sv-SE', {day:'num
         <a class="btn btn-outline" href="/arena/">Besök arenan <span aria-hidden="true">↗</span></a>
       </div>
       <a class="arena-spotlight__image" href="/arena/" aria-label="Se bilder från Huvudstadens arena">
-        <img src={arenaPhotos[0].src} alt={arenaPhotos[0].alt} width="1440" height="810" loading="lazy" decoding="async"/>
+        <Image src={imageAsset(arenaPhotos[0].src)} alt={arenaPhotos[0].alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 950px) 100vw, 55vw" loading="lazy" />
         <span>HUVUDSTADENS ARENA <span aria-hidden="true">↗</span></span>
       </a>
     </div>
