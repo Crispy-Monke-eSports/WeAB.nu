@@ -1,4 +1,5 @@
 import { arenaPhotos } from './arena.ts';
+import { martaEkPressRelease } from './press-marta-ek.ts';
 
 /**
  * Fiktiva pressmeddelanden från WeAB:s Minecraft-rollspel.
@@ -16,6 +17,7 @@ export interface NewsItem {
 }
 
 export const news: NewsItem[] = [
+  martaEkPressRelease,
   {
     "publishedAt": "2026-11-01",
     "slug": "werule-fastighetsforvaltning",
