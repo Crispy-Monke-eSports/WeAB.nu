@@ -11,7 +11,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
   <section class="careers-hero">
     <div class="shell careers-intro">
       <h1>Din framtid.<br/><em>Vår tillgång.</em></h1>
-      <p class="lead">Det finns jobb. Det finns karriärer. Och så finns möjligheten att ägna hela ditt yrkesliv åt att göra vår aktiekurs lycklig.</p>
+      <p class="lead">WeAB söker personal till produktion, lager, transporter, handel och förvaltning. Här finns tjänstebeskrivningar och villkor. Ansökningar tas inte emot på webbplatsen.</p>
       <a class="btn" href="#lediga-tjanster">Se platsannonserna <span aria-hidden="true">↓</span></a>
     </div>
   </section>
@@ -19,18 +19,18 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
   <section class="section">
     <div class="shell">
       <div class="section-heading">
-        <div><h2>Vi tar hand om våra medarbetare.<br/>Och deras tid.</h2></div>
+        <div><h2>Arbetsvillkor i koncernen</h2></div>
       </div>
       <div class="benefits">
-        <article><h3>Obegränsad potential</h3><p>Din kompetens utvecklas kontinuerligt. Ditt inflytande förblir behagligt konstant.</p></article>
-        <article><h3>En stabil arbetsgivare</h3><p>Vi finns inom produktion, transport, boende och nöjen. Att lämna koncernen är därför en logistisk utmaning.</p></article>
-        <article><h3>Diamantbaserade incitament</h3><p>Bonusar utgår efter individuell bedömning. Bedömaren får naturligtvis också en bonus.</p></article>
+        <article><h3>Arbetsuppgifter</h3><p>Tjänsterna omfattar bland annat farmdrift, varusortering och villagertransporter. Uppgifterna finns specificerade i varje annons.</p></article>
+        <article><h3>Placering</h3><p>Arbetsplatsen anges per tjänst. Vissa roller är knutna till Sektion 1; andra kräver arbete vid koncernens vägar eller fastigheter.</p></article>
+        <article><h3>Ersättning</h3><p>Villkor och personalförmåner anges i annonserna. Koncernen förbehåller sig rätten att ompröva förmåner när personalbehovet förändras.</p></article>
       </div>
     </div>
   </section>
 
   <section class="section careers-culture"><div class="shell split-layout">
-    <div><h2>En arbetsplats med långsiktiga relationer.</h2><p class="lead">Vi erbjuder förutsägbara karriärvägar i en koncern där varje medarbetare kan utvecklas inom en och samma organisation.</p><p>Vår medarbetarfilosofi bygger på tydliga mål, hög tillgänglighet och förståelse för att balans mellan arbete och fritid är en fråga som kräver central samordning.</p><a class="link-arrow" href="/bolagsstyrning/">Vår uppförandekod och styrning ↗</a></div>
+    <div><h2>Arbete över bolagsgränserna</h2><p class="lead">En anställd kan komma att arbeta i flera av koncernens verksamheter. Det gäller framför allt när varor, invånare eller beslut måste flyttas mellan anläggningar.</p><p>Schemaläggning och bemanning samordnas efter verksamheternas behov. Frågor om individuell tillgänglighet behandlas i efterhand.</p><a class="link-arrow" href="/bolagsstyrning/">Vår uppförandekod och styrning ↗</a></div>
     <div class="culture-quote"><blockquote>Hos oss är nästa karriärsteg aldrig långt bort. Framför allt eftersom vi ansvarar för nästan alla arbetsplatser i närheten.</blockquote><small>PERSONALAVDELNINGENS ARBETSGIVARLÖFTE</small></div>
   </div></section>
   <section class="section section--dark" id="lediga-tjanster">
@@ -39,7 +39,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
         <div><h2>Du. På pappret.</h2></div>
       </div>
       <p class="jobs-disclaimer">Ansökningar tas inte emot via webbplatsen.</p>
-      <div class="job-tools" role="search" aria-label="Filtrera platsannonser">
+      <div class="job-tools" role="search" aria-label="Filtrera platsannonser" hidden data-js-control>
         <label class="job-field" for="job-search"><span>SÖK TJÄNST</span><input id="job-search" type="search" placeholder="Titel, kompetens eller ort" autocomplete="off" /></label>
         <label class="job-field" for="job-division"><span>AFFÄRSOMRÅDE</span><select id="job-division"><option value="all">Alla verksamheter</option>{divisions.map(division => <option value={division.name}>{division.name}</option>)}</select></label>
         <output id="job-count" class="job-count" aria-live="polite">{jobs.length} annonser</output>
@@ -48,7 +48,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
         {jobs.map(job => (
           <details class="job" data-division={job.division} data-search={[job.title, job.division, job.location, job.pitch, ...job.responsibilities, ...job.requirements].join(' ').toLocaleLowerCase('sv')} style={'--division-color:' + (colorByDivision[job.division] ?? '#00BCD4')}>
             <summary>
-              <span class="job-main"><span class="job-division">{job.division} <span aria-hidden="true">/</span> {job.id}</span><span class="job-title">{job.title}</span><span class="job-pitch">{job.pitch}</span></span>
+              <span class="job-main"><span class="job-title">{job.title}</span><span class="job-division">{job.division} <span aria-hidden="true">/</span> {job.id}</span><span class="job-pitch">{job.pitch}</span></span>
               <span class="job-side"><span>{job.location}</span><span>{job.type}</span><strong>Visa tjänst <span class="toggle-mark" aria-hidden="true"></span></strong></span>
             </summary>
             <div class="job-detail">
@@ -96,6 +96,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
     if (empty) empty.hidden = visible !== 0;
   }
 
+  document.querySelectorAll<HTMLElement>('[data-js-control]').forEach(control => { control.hidden = false; });
   search?.addEventListener('input', filterJobs);
   division?.addEventListener('change', filterJobs);
 </script>
@@ -110,4 +111,4 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
   .recruitment{display:grid;grid-template-columns:.85fr 1.15fr;gap:4rem}.recruitment>div>p{max-width:480px}.recruitment-steps{margin:0;padding:0;list-style:none}.recruitment-steps li{border-top:1px solid #354650;display:flex;gap:1.2rem;padding:1.45rem 0}.recruitment-steps li:last-child{border-bottom:1px solid #354650}.recruitment-steps li>span{color:var(--cyan);font-size:.78rem;font-weight:800;padding-top:.15rem}.recruitment-steps h3{font-size:1.1rem;margin:0 0 .45rem}.recruitment-steps p{font-size:.87rem;margin:0}.careers-closing{padding:5.7rem 0;background:radial-gradient(circle at 86% 10%,#174756,#0c1a23 62%);border-top:1px solid #35505b}.careers-closing h2{max-width:840px}.careers-closing .btn{margin-top:1rem}
   @media(max-width:900px){.benefits{grid-template-columns:1fr}.recruitment{grid-template-columns:1fr;gap:2rem}.job-terms{grid-template-columns:1fr 1fr}.job-terms .btn{justify-self:start}}
   @media(max-width:650px){.careers-hero{min-height:520px;background-position:55% center}.careers-intro{padding:5rem 0}.job-tools{grid-template-columns:1fr}.job-count{padding:0}.job summary{padding:1.25rem 1rem;display:block}.job-side{margin-top:1rem;display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap}.job-side strong{margin-top:0}.job-detail{grid-template-columns:1fr;padding:1.3rem 1rem;gap:1.4rem}.job-terms{grid-template-columns:1fr;gap:.9rem}}
-</style>
+.benefits{display:block;border-top:1px solid #435862}.benefits article{display:grid;grid-template-columns:180px 1fr;align-items:baseline;gap:2rem;padding:1.3rem 0;border:0;border-bottom:1px solid #435862;background:transparent}.benefits h3{font-size:1.14rem;margin:0}.benefits p{font-size:.92rem}.culture-quote{background:transparent;border:0;border-top:1px solid #4d6571;padding:1.5rem 0}.careers-closing{padding:3.5rem 0;background:#101f28}.job{border-top:0}.job-main{gap:.4rem}.job-title{order:0}.job-division{order:1}.job-pitch{order:2}@media(max-width:650px){.benefits article{grid-template-columns:1fr;gap:.5rem}}</style>
