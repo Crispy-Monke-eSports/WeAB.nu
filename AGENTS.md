@@ -43,7 +43,7 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 - Statisk Astro 7-webbplats på svenska. Node.js 22.23.4 eller senare.
 - WeAB är en absurd, fiktiv megakoncern med nio dotterbolag. Webbplatsens texter berättas **inifrån den världen**. Koncernen känner inte till att världen är ett spel.
 - `src/data/companies.ts`, `projects.ts` och `companyEditorial.ts` innehåller verksamheter och anläggningar. `src/data/news.ts` innehåller pressmeddelanden; `editorial.ts` och `edition/` innehåller signerade artiklar. `publications.ts` samlar arkivet.
-- Bevara etablerade bolagsnamn, platser, artikel-sluggar och kopplingar mellan verksamheter om inte användaren ber om en ändring. Tidningen har exakt **100 artiklar**, vilket valideras i `scripts/validate-content.mjs`.
+- Bevara etablerade bolagsnamn, platser, artikel-sluggar och kopplingar mellan verksamheter om inte användaren ber om en ändring. Arkivet innehåller **101 publikationer**: **17 officiella pressmeddelanden** och **84 redaktionella artiklar**, vilket valideras i `scripts/validate-content.mjs`.
 
 ## Röst och innehåll
 
