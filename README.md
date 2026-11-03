@@ -123,11 +123,17 @@ en genererad fil ska inte kunna överleva utan att upptäckas.
 
 ### Längre artiklar – etappvis redaktionell genomgång
 
-**Etapp 1 är slutförd: 10 av 100 artiklar** har skrivits om till längre
-tidningstexter med 591–694 ord och 9–10 utvecklade stycken per artikel.
+**Etapp 1–2 är slutförda: 20 av 100 artiklar** har skrivits om till längre
+tidningstexter med 591–750 ord och 9–10 utvecklade stycken per artikel.
 Omgången omfattar de tio första officiella pressmeddelandena i
 `src/data/news.ts` – från WeRules fastighetsförvaltning till WeBoxes
-lagerkontroll. De övriga **90 artiklarna är oförändrade** i denna omgång.
+lagerkontroll. **Etapp 2** omfattar sex ytterligare pressmeddelanden
+och de fyra första redaktionella texterna: två insändare, en ledare och
+ett reportage. Fullängdstexterna för etapp 2 finns i
+`src/data/expanded/` och kopplas till publiceringen via `bodies.ts`
+och `src/data/publications.ts`. Ursprungliga artikeladresser,
+metadata och avsändare behålls. De övriga **80 artiklarna är
+oförändrade** i denna omgång.
 
 `src/data/expandedArticleSlugs.ts` är checklistan för vilka artiklar som
 redan fått en genomarbetad förlängning. Nästa omgång kan lägga till tio
