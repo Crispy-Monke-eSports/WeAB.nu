@@ -50,7 +50,7 @@ Engångsinställning innan första publiceringen:
 - `/investerare/` – Fiktiv investerarportal utan publicerad börskurs
 - `/investerare/rapporter/` – Verksamhetsöversikt, kapitalpolicy och rapporteringsprinciper
 - `/karriar/` – Platsannonser inom rollspelet; inga ansökningar via webbplatsen
-- `/nyheter/` – WeAB Tidningen: pressmeddelanden, insändare, ledare, reportage och andra genrer
+- `/nyheter/` – WeAB Tidningen: 84 redaktionella texter (insändare, ledare, reportage och andra genrer); officiella pressmeddelanden listas separat i `/press/`
 - `/kontakt/` – Koncernens kontaktkatalog med mailto-länkar till huvudkontoret och nio dotterbolag
 
 ### Redigera innehåll
@@ -176,7 +176,7 @@ tidningstexternas signaturer är påhittade. Publiceringsdatumen hör till
 den fiktiva tidningens arkiv. Ingen av artiklarna utger sig för att
 dokumentera verkliga händelser utanför den spelvärlden.
 
-Arkivet på `/nyheter/` visar en förstasidesartikel, en egen avdelning
+Tidningsarkivet på `/nyheter/` visar en förstasidesartikel, en egen avdelning
 för insändare, artikelkort och klientbaserad sökning och filtrering efter
 både genrer och avsändare (koncern, bolag eller skribent), med stegvis visning
 av artiklar. Artiklarna visar **rubrik först** och därefter kategori, datum och
