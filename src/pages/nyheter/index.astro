@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { imageDimensions } from '../../data/imageDimensions';
 import { publications, publicationFormatLabels, editorialFormats } from '../../data/publications.ts';
 import { authors } from '../../data/authors.ts';
 
@@ -29,7 +30,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
       <div class="lead-story">
         <h2>Senaste publiceringen</h2>
         <a class="lead-link" href={`/nyheter/${featured.slug}/`}>
-          <img src={featured.image} alt={featured.alt} loading="eager" width="960" height="540" />
+          <img src={featured.image} alt={featured.alt} loading="eager" {...imageDimensions(featured.image)} />
           <span class="lead-copy">
             <strong>{featured.title}</strong>
             <span>{featured.summary}</span>
@@ -83,7 +84,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
           data-author={item.authorId}
           data-issuer={item.issuer?.name}
           data-searchable={`${item.title} ${item.summary} ${item.byline} ${item.type} ${publicationFormatLabels[item.format]}`.toLocaleLowerCase('sv')}>
-          <div class="image-frame"><img src={item.image} alt={item.alt} loading="lazy" /></div>
+          <div class="image-frame"><img src={item.image} alt={item.alt} {...imageDimensions(item.image)} loading="lazy" /></div>
           <h3>{item.title}</h3>
           <div class="card-meta"><span>{publicationFormatLabels[item.format]}</span><time datetime={item.publishedAt}>{dateLabel(item.publishedAt)}</time><span>{item.byline}</span></div>
           <p>{item.summary}</p>
@@ -169,7 +170,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   .archive-search input{width:min(440px,100%);min-height:44px;padding:.65rem .8rem;font:inherit;background:#122632;border:1px solid #4c6572;color:#f3f7f9}
   .archive-search output{font-size:.77rem;color:#a9c1cc}
   .news-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.4rem 2rem}
-  .news-card{display:flex;flex-direction:column;align-items:flex-start;color:inherit;text-decoration:none}
+   .news-card{display:flex;flex-direction:column;align-items:flex-start;min-width:0;color:inherit;text-decoration:none}
   .news-card[hidden],.empty-state[hidden]{display:none}
   .news-card .image-frame{width:100%;aspect-ratio:16/9;overflow:hidden;margin-bottom:1rem}
   .news-card .image-frame img{width:100%;height:100%;object-fit:cover}
@@ -185,5 +186,5 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   .more-wrap button[hidden]{display:none}
   .empty-state{border-left:2px solid #7adce8;padding:1rem 0 1rem 1rem}
   @media(max-width:1000px){.frontpage-grid{grid-template-columns:1.35fr .65fr;gap:1.5rem}.reader-voices{padding-left:1.5rem}.news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:700px){.frontpage-grid,.archive-heading{grid-template-columns:1fr}.reader-voices{border-left:0;border-top:1px solid #405660;padding:1.4rem 0 0}.news-grid{grid-template-columns:1fr}.news-card .image-frame{height:240px}.archive-search input{flex-basis:100%}}
+   @media(max-width:700px){.frontpage-grid,.archive-heading{grid-template-columns:minmax(0,1fr)}.reader-voices{border-left:0;border-top:1px solid #405660;padding:1.4rem 0 0}.news-grid{grid-template-columns:minmax(0,1fr)}.news-card .image-frame{height:240px}.archive-search input{flex-basis:100%}}
 </style>

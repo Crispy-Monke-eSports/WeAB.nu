@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { imageDimensions } from '../../data/imageDimensions';
 import { publications, publicationFormatLabels } from '../../data/publications.ts';
 import type { Publication } from '../../data/publications.ts';
 import { getAuthor } from '../../data/authors.ts';
@@ -41,7 +42,7 @@ const related = publications
   <article class="section publication-article">
     <div class="shell article-shell">
       <figure class="publication-image">
-        <img src={article.image} alt={article.alt} loading="eager" decoding="async" />
+        <img src={article.image} alt={article.alt} {...imageDimensions(article.image)} loading="eager" decoding="async" />
       </figure>
       <div class="article-body">
         {article.body.map(paragraph => <p>{paragraph}</p>)}

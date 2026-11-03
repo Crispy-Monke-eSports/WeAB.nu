@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { imageDimensions } from '../../../data/imageDimensions';
 import { authors, type Author } from '../../../data/authors.ts';
 import { authorPublications, publicationFormatLabels } from '../../../data/publications.ts';
 
@@ -14,7 +15,7 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
 ---
 <BaseLayout
   title={`${author.name} | WeAB Tidningen`}
-  description={`Läs ${author.name}s artiklar och lär känna skribentens ämnesområde och stil.`}
+  description={`Läs ${author.name}s artiklar och lär känna skribentens bakgrund och bevakningsområde.`}
 >
   <header class="page-hero">
     <div class="shell author-header">
@@ -28,7 +29,7 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
       <p class="lead">{author.biography}</p>
       <div class="writer-focus">
         <div><h2>Bevakar</h2><p>{author.beat}</p></div>
-        <div><h2>Skriver så här</h2><p>{author.approach}</p></div>
+        <div><h2>Bakgrund</h2><p>{author.background}</p></div>
       </div>
     </div>
   </header>
@@ -37,7 +38,7 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
       <h2>Artiklar av {author.name}</h2>
       <div class="story-grid">
         {stories.map(story => <a class="story" href={`/nyheter/${story.slug}/`}>
-          <div class="story-image"><img src={story.image} alt={story.alt} loading="lazy" /></div>
+          <div class="story-image"><img src={story.image} alt={story.alt} {...imageDimensions(story.image)} loading="lazy" /></div>
           <h3>{story.title}</h3>
           <p class="meta">{publicationFormatLabels[story.format]} · {dateLabel(story.publishedAt)}</p>
           <p>{story.summary}</p>

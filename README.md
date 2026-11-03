@@ -22,6 +22,11 @@ npm run preview
 
 `dist/` innehåller den statiska webbplatsen.
 
+Kör `npm run check` före leverans. Utöver innehåll, logotyper, byggda sidor
+och länkar kör det `astro check` för typ- och Astro-diagnostik; `astro build`
+gör inte den kontrollen. Originalmåtten för bilder i `public/images/` finns i
+`src/data/imageDimensions.ts` och används där bilderna återges dynamiskt.
+
 ### Publicering på GitHub Pages
 
 Webbplatsen publiceras automatiskt på [weab.nu](https://weab.nu) (även `www.weab.nu`)

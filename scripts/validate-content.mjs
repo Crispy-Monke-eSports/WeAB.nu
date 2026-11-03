@@ -205,8 +205,8 @@ unique(authors.map(author => author.id), 'skribent-ID');
 unique(authors.map(author => author.name), 'skribentnamn');
 unique(publications.map(article => article.slug), 'artikeladresser');
 for (const author of authors) {
-  assert.ok(author.name.length > 7 && author.biography.length > 60 && author.approach.length > 45,
-    `Skribentens personlighet måste beskrivas: ${author.id}`);
+  assert.ok(author.name.length > 7 && author.biography.length > 60 && author.background.length > 45,
+    `Skribentens bakgrund måste beskrivas: ${author.id}`);
   assert.ok(authorPublications(author.id).length >= 4,
     `Skribenten ${author.name} måste ha minst fyra artiklar`);
 }

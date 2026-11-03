@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { imageDimensions } from '../../data/imageDimensions';
 import BrandMark from '../../components/BrandMark.astro';
 import { companies } from '../../data/companies';
 import { projects } from '../../data/projects';
@@ -20,7 +21,7 @@ const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegambl
 <BaseLayout title={`${company.name} | WeAB Group`} description={company.overview}>
   <div class="company-theme" style={`--company-accent:${company.accent};--company-on-accent:${company.accent === '#00BCD4' ? '#06212b' : '#fff'}`}>
     <section class="company-hero">
-      {company.image && <img class="company-hero__image" src={company.image} alt="" aria-hidden="true" fetchpriority="high" />}
+      {company.image && <img class="company-hero__image" src={company.image} alt="" {...imageDimensions(company.image)} aria-hidden="true" fetchpriority="high" />}
       <div class="company-hero__shade" aria-hidden="true"></div>
       <div class="shell company-hero__content">
         <nav class="company-crumb" aria-label="Brödsmulor"><a href="/verksamheter/">Verksamheter</a><span aria-hidden="true">/</span><span>{company.name}</span></nav>

@@ -11,11 +11,15 @@
     "build": "astro build",
     "preview": "astro preview --host 0.0.0.0",
     "validate:content": "node --experimental-strip-types scripts/validate-content.mjs && npm run logos:check",
-    "check": "npm run validate:content && npm run build && node scripts/validate-site.mjs",
+    "check": "npm run validate:content && astro check && npm run build && node scripts/validate-site.mjs",
     "logos:generate": "node --experimental-strip-types scripts/generate-logos.mjs",
     "logos:check": "node --experimental-strip-types scripts/generate-logos.mjs --check"
   },
   "dependencies": {
     "astro": "7.4.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^6.0.3"
   }
 }

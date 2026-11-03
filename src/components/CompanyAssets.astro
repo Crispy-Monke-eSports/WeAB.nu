@@ -1,5 +1,6 @@
 ---
 import type { Project } from '../data/projects';
+import { imageDimensions } from '../data/imageDimensions';
 import type { companyEditorial } from '../data/companyEditorial';
 
 type Editorial = typeof companyEditorial[string];
@@ -32,9 +33,9 @@ const projectById = new Map(projects.map(project => [project.id, project]));
             if (!project) return null;
             return <article class:list={['company-asset', { 'company-asset--featured': projects.length === 1 || (groupIndex === 0 && projectIndex === 0 && projects.length > 2) }]} id={`anlaggning-${project.id}`}>
               <figure class="company-asset__media">
-                <img class="company-asset__image" src={project.image} alt={project.alt} loading="lazy" />
+                <img class="company-asset__image" src={project.image} alt={project.alt} {...imageDimensions(project.image)} loading="lazy" />
                 {project.gallery && <div class="company-asset__gallery" role="group" aria-label={`Fler bilder från ${project.name}`}>
-                  {project.gallery.map(photo => <img src={photo.image} alt={photo.alt} loading="lazy" />)}
+                  {project.gallery.map(photo => <img src={photo.image} alt={photo.alt} {...imageDimensions(photo.image)} loading="lazy" />)}
                 </div>}
               </figure>
               <div class="company-asset__copy">

@@ -30,6 +30,11 @@ for (const page of pages) {
   if (/rel="(?:canonical|sitemap)"/.test(html)) {
     broken.push(`${page.slice(dist.length + 1)} annonserar indexering`);
   }
+  for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
+    if (!/\balt=/.test(tag) || !/\bwidth="\d+"/.test(tag) || !/\bheight="\d+"/.test(tag)) {
+      broken.push(`${page.slice(dist.length + 1)} har en bild utan alt-text eller originalmått`);
+    }
+  }
   const references = html.matchAll(/\b(?:href|src)=["'](\/[^"'?#]*)(?:[?#][^"']*)?["']/g);
   for (const [, urlPath] of references) {
     const target = join(dist, decodeURIComponent(urlPath).replace(/^\/+/, ''));
