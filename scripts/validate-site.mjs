@@ -21,6 +21,12 @@ const broken = [];
 
 for (const page of pages) {
   const html = readFileSync(page, 'utf8');
+  if (!/<meta\s+name="robots"\s+content="noindex, nofollow, noimageindex"\s*\/?\s*>/.test(html)) {
+    broken.push(`${page.slice(dist.length + 1)} saknar noindex-direktiv`);
+  }
+  if (/rel="(?:canonical|sitemap)"/.test(html)) {
+    broken.push(`${page.slice(dist.length + 1)} annonserar indexering`);
+  }
   const references = html.matchAll(/\b(?:href|src)=["'](\/[^"'?#]*)(?:[?#][^"']*)?["']/g);
   for (const [, urlPath] of references) {
     const target = join(dist, decodeURIComponent(urlPath).replace(/^\/+/, ''));
@@ -30,7 +36,15 @@ for (const page of pages) {
   }
 }
 
-if (!existsSync(join(dist, 'sitemap-index.xml'))) missing.push('sitemap-index.xml');
+const robots = readFileSync(join(dist, 'robots.txt'), 'utf8');
+if (!/User-agent: Googlebot\s+Allow: \//.test(robots) ||
+    !/User-agent: Bingbot\s+Allow: \//.test(robots) ||
+    !/User-agent: \*\s+Disallow: \//.test(robots)) {
+  broken.push('robots.txt saknar avsedda krypinstruktioner');
+}
+if (readdirSync(dist).some(name => /^sitemap.*\.xml$/.test(name))) {
+  broken.push('Webbplatskartan ska inte publiceras');
+}
 if (broken.length || missing.length) {
   console.error('Saknade byggfiler:', missing);
   console.error('Trasiga interna länkar och resurser:', broken.slice(0, 30));

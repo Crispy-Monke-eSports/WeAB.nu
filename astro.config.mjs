@@ -1,14 +1,9 @@
 import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
-
 export default defineConfig({
-  // Canonical URL — used for sitemap, canonical links and SEO metadata.
+  // Används för sociala metadata, inte för indexering.
   site: 'https://weab.nu',
   // Custom domain, so the site is served from the root path.
   base: '/',
   output: 'static',
   trailingSlash: 'always',
-  integrations: [sitemap({
-    filter: (page) => !/^\/404\/?$/.test(new URL(page).pathname),
-  })],
 });

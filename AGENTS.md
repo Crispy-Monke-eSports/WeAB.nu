@@ -25,3 +25,4 @@
 
 - Kör `npm run check` efter innehålls- eller kodändringar. Det validerar innehåll och logotyper, bygger webbplatsen och kontrollerar genererade sidor och lokala resurser.
 - `dist/` är byggutdata och ska inte redigeras för hand. Publicering sker från `main` via GitHub Actions; pusha bara när användaren ber om det.
+- Alla sidor har `noindex` i `BaseLayout.astro`. Googlebot och Bingbot måste få läsa det direktivet; blockera dem inte i `robots.txt`. Övriga följsamma robotar avråds från att hämta sidan. Skapa inte en webbplatskarta eller canonical-länkar av misstag.

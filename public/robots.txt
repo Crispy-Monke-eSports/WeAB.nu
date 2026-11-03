@@ -1,4 +1,9 @@
-User-agent: *
+# Sökmotorer måste kunna läsa sidornas noindex-direktiv.
+User-agent: Googlebot
 Allow: /
 
-Sitemap: https://weab.nu/sitemap-index.xml
+User-agent: Bingbot
+Allow: /
+
+User-agent: *
+Disallow: /

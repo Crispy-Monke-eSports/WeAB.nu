@@ -65,7 +65,7 @@ Engångsinställning innan första publiceringen:
 - `src/styles/global.css` – Global grafisk profil
 - `public/logos/` – Tio SVG-varianter genererade från den officiella WE-logotypen
 - `public/images/` – Optimerade WebP-versioner av bilderna från Minecraft
-- `sitemap-index.xml` + `robots.txt` – Genereras automatiskt vid build via `@astrojs/sitemap`
+- `public/robots.txt` – Avråder övriga robotar från att hämta webbplatsen. Googlebot och Bingbot får läsa det sidgemensamma `noindex`-direktivet i `src/layouts/BaseLayout.astro`; ingen webbplatskarta publiceras. Instruktionerna är frivilliga och hindrar inte robotar som ignorerar dem.
 
 ### Platsinformation från servern
 
