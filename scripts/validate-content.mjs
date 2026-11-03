@@ -12,6 +12,8 @@ import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { arenaPhotos } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
 import { companyEditorial } from '../src/data/companyEditorial.ts';
+import { companyContacts, headquarters, emailForCompany } from '../src/data/contacts.ts';
+import { chiefExecutive, leadingMembers } from '../src/data/leadership.ts';
 
 function unique(values, description) {
   assert.equal(new Set(values).size, values.length, `Dubbletter bland ${description}`);
@@ -23,6 +25,21 @@ function asset(path, description) {
 }
 
 unique(companies.map(({ slug }) => slug), 'verksamhetsslugs');
+assert.equal(headquarters.email, 'huvudkontor@weab.nu');
+assert.equal(companyContacts.length, companies.length, 'Varje dotterbolag ska ha en kontaktadress');
+unique(companyContacts.map(contact => contact.email), 'dotterbolagsadresser');
+for (const company of companies) {
+  const contact = companyContacts.find(item => item.slug === company.slug);
+  assert.ok(contact, 'Saknad kontakt för ' + company.name);
+  assert.equal(contact.name, company.name);
+  assert.equal(emailForCompany(company.slug), contact.email);
+  assert.match(contact.email, /^[a-z]+@weab\.nu$/u, 'Ogiltig kontaktadress för ' + company.name);
+}
+assert.equal(chiefExecutive.name, 'Store-W');
+assert.deepEqual(leadingMembers.map(member => member.name), [
+  'RavenHamstster', 'Filuren2003', 'Haapalainen', 'Laxen_MX'
+]);
+assert.ok(leadingMembers.every(member => member.title === 'Ledande ledamot'));
 unique(companies.map(({ name }) => name), 'verksamhetsnamn');
 unique(projects.map(({ id }) => id), 'projekt-id');
 unique(news.map(({ slug }) => slug), 'nyhetsslugs');
