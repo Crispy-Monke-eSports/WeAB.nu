@@ -111,6 +111,14 @@ for (const authorId of completedAuthorIds) {
   assert.ok(authorArticles.length >= 1, `Skribenten saknar artiklar: ${authorId}`);
   assert.ok(authorArticles.every(article => expandedArticleSlugs.includes(article.slug)),
     `Skribentens samtliga artiklar måste vara fullängdstexter: ${authorId}`);
+  if (authorId === 'alva-heden') {
+    assert.equal(authorArticles.length, 6, 'Alva ska ha exakt fem nya texter och en äldre insändare');
+    for (const article of authorArticles) {
+      assert.ok(article.body.length >= 9 &&
+        article.body.join(' ').trim().split(/\s+/u).length >= 700,
+        `Alvas text har inte fullängd: ${article.slug}`);
+    }
+  }
 }
 for (const slug of expandedArticleSlugs) {
   const article = publications.find(item => item.slug === slug);

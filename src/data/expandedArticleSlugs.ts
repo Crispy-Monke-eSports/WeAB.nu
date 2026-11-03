@@ -30,10 +30,16 @@ export const expandedArticleSlugs = [
   "hur-en-farg-fick-en-egen-avdelning",
   "shulkerboxens-lilla-hemlighet",
   "ett-fack-for-framtiden",
-  "varje-block-har-en-adress"
+  "varje-block-har-en-adress",
+  "jarnfarmens-andra-uppgift",
+  "endermanfarmens-egen-dimension",
+  "sockerrorens-stilla-arbete",
+  "guldfarmens-bortglomda-kedja",
+  "shulkerfarmens-betydelse",
+  "insandare-farmer-som-fungerar"
 ] as const;
 export const expandedMinimumWords = 500;
 export const expandedMinimumParagraphs = 8;
 
 /** Endast skribenter vars samtliga texter redan är fullängdsartiklar. */
-export const completedAuthorIds = ['ruben-kist'] as const;
+export const completedAuthorIds = ['ruben-kist', 'alva-heden'] as const;

@@ -123,28 +123,38 @@ en genererad fil ska inte kunna överleva utan att upptäckas.
 
 ### Längre artiklar – en skribent i taget
 
-**25 av 100 artiklar är nu fullängdstexter.** De 20 första omarbetades
-tidigare i två omgångar. Ruben Kists **samtliga fem redaktionella texter**
-är nu också färdiga, med 726–765 ord och nio utvecklade stycken var.
-Kronikan, reportaget, analysen, ekonomitexten och guiden har olika
-journalistiska grepp men samma torra lagerhumor och igenkännbara röst.
+**31 av 100 artiklar är nu fullängdstexter.** De första 20 färdigställdes
+i två omgångar. Därefter har **Ruben Kists samtliga fem** och
+**Alva Hedens samtliga sex** artiklar omarbetats var för sig, så att deras
+journalistiska röster förblir sammanhängande.
 
-De tio första officiella pressmeddelandena är omskrivna direkt i
-`src/data/news.ts`. Nästa tio ligger i `src/data/expanded/`, tillsammans
-med Rubens fem genomarbetade artiklar. `bodies.ts` kopplar dessa texter
-till `src/data/publications.ts` utan att ändra rubriker, datum,
-bilder, artikeladresser eller avsändare.
+Ruben skriver med torr humor om lager, ordning och borttappade material.
+Alva följer mekaniken i WeKills farmer steg för steg och skiljer
+konstruktionens angivna kapacitet från mätning av verklig drift.
+Hennes fem produktionsartiklar och en äldre insändare har **729–826 ord**
+och **nio utvecklade stycken** vardera. Uppgifterna om järnfarmens
+fjorton bybogrupper, XP-resultat i End, sockerrörens skörd, det
+icke fungerande erfarenhetsuttaget i guldfarmen och shulkerfarmens
+skalproduktion återges med relevant teknisk försiktighet.
 
-**75 artiklar återstår** i originalutförande. Fortsätt fortsättningsvis
-med **en redaktionell skribents samtliga artiklar per omgång**, inte en
-blandning av flera skribenter. Artiklarna får fortfarande minst 500 ord
-och åtta utvecklade stycken. Om ett pressmeddelande omarbetas ska det
-alltjämt anges med koncern eller relevant dotterbolag som avsändare.
+De första tio officiella pressmeddelandena är omskrivna direkt i
+`src/data/news.ts`. Senare fullängdstexter ligger i
+`src/data/expanded/`. `bodies.ts` kopplar dem till
+`src/data/publications.ts` utan att ändra artikeladresser, datum,
+bilder eller officiella bolagsavsändare. Alvas två ingresser med
+kapacitetsuppgifter har samtidigt förtydligats i
+`src/data/edition/alva.ts`.
 
-`src/data/expandedArticleSlugs.ts` är checklistan över längre artiklar.
-`completedAuthorIds` markerar bara skribenter vars **alla** artiklar är
-färdigställda. `npm run check` kontrollerar detta, textlängderna,
-samtliga 100 artiklar, bilderna och rätt avsändare.
+**69 artiklar återstår** i originalutförande. Fortsätt med **en
+redaktionell skribents samtliga artiklar per omgång** i stället för att
+blanda deras röster. Artiklarna får minst 500 ord och åtta stycken.
+
+`src/data/expandedArticleSlugs.ts` anger vilka artiklar som är
+genomarbetade. `completedAuthorIds` markerar endast skribenter vars
+**alla** artiklar är färdigställda. `npm run check` kontrollerar
+detta, längdgränser, datum, alla 100 artiklar, bilder och rätt avsändare.
+För Alva krävs dessutom minst 700 ord och nio stycken i var och en av
+hennes sex artiklar.
 
 ### WeAB Tidningen
 
