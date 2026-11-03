@@ -11,6 +11,24 @@ export const lightingSecurityNotice =
   'OFFICIELLT TILLÄGG FRÅN WEAB:S SÄKERHETSKANSLI: Samtliga lampor är utmärkta. Inga fel finns. Uppgifter som antyder motsatsen är säkerhetsklassade till skydd för rikets säkerhet. Fortsatta frågor om varför inga fel finns kan i sig utgöra ett säkerhetsärende. ████████████████████████████';
 
 export const lightingSecurityEdits: Record<string, readonly Redaction[]> = {
+  'werule-fastighetsforvaltning': [
+    [
+      'En trasig lykta kunde anmälas till den som använde lokalen, som i sin tur hänvisade till någon som hade hand om byggmaterialet.',
+      'En uppgift om en ███████████████ inkom till WeRule men hemligstämplades innan den kunde registreras. Att offentligt beskriva påstådda brister i rikets belysning anses kunna äventyra rikets säkerhet.'
+    ],
+    [
+      'Innan någon hunnit beställa ersättningsdelen hade ärendet vandrat längre än de flesta besökare gör under ett helt sammanträde.',
+      'Handlingens ursprung, mottagare och påstådda ersättningsdel omfattas av en sekretessklass som endast får uppges som ███████████████████████.'
+    ],
+    [
+      'WeRule ska därefter avgöra om felet kan rättas inom den ordinarie driften eller behöver tas upp i den samlade underhållsplanen.',
+      'WeRule ska därefter avgöra om en icke säkerhetsklassad fråga hör till ordinarie drift eller den samlade underhållsplanen. Beträffande lamporna finns ingenting att rätta.'
+    ],
+    [
+      'En ersättningslykta ska helst inte behöva bli ett nytt investeringsprojekt.',
+      'Den tidigare nämnda ███████████ existerar inte som tillåtet ärende. Samtliga lampor är utmärkta och några fel finns inte.'
+    ]
+  ],
   'bostadsstabilitet': [
     [
       'I Sektion 1 anmälde en boende att lyktan vid en gång hade slocknat.',
