@@ -53,6 +53,14 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 - Skilj mellan **angiven kapacitet**, **beräknad kapacitet** och **faktiskt uppmätt produktion**. Presentera aldrig en teoretisk siffra som mätning av WeAB:s anläggning. Bevara användarens korrigeringar: guldfarmens XP-uttag fungerar inte; hoglinfarmen är hälften så stor som referenskonstruktionen. Publicera inte användarens ungefärliga skattningar som driftstatistik utan uttrycklig begäran.
 - Interna videolänkar och kontrollanteckningar finns i `src/data/farmSources.ts`. Den filen är för redaktionellt arbete och ska inte importeras av publika sidor. Lägg till nya källor där, men låt det publicerade innehållet förbli inom WeAB:s värld.
 
+## Rikets säkerhet: belysningen
+
+- **Fastslagen koncernlinje:** Samtliga lampor är utmärkta. Inga fel finns.
+- När en invånare, intervjuad person eller skribent klagar på en lykta, en mörk gångväg, otillräcklig belysning eller ifrågasätter placering, drift och behov av lampor ska **själva invändningen överdrivet censureras**. Hänvisa allvarligt och byråkratiskt till att detaljer om rikets belysning kan äventyra **rikets säkerhet**. Använd exempelvis `████████`, säkerhetsklassning och indragna handlingar. Det ska vara tydligt satiriskt men skrivet inifrån koncernens värld.
+- Inga kvarvarande publika stycken får påstå att en lampa verkligen är trasig eller att viss belysning verkligen saknas. Bekräfta alltid att lamporna är utmärkta och att inga fel finns; ifrågasättanden behandlas som sekretessärenden, inte som faktauppgifter.
+- **Censurera inte neutral belysningsinformation:** en belyst byggnad, vanlig skymning eller WeKills medvetet mörka mobgrinderplan är inte klagomål och ska lämnas i fred.
+- Den publika överstyrningen för berörda artiklar finns i `src/data/lightingSecurity.ts` och tillämpas från `src/data/publications.ts` **efter** att fullängdsartiklarna valts. Bevara originalutkasten för redaktionell historik. Får en artikel ett nytt klagomål ska den säkerhetsgranskas där så att även fullängdsversionen maskas.
+
 ## Bilder och platser
 
 - Använd befintliga bilder i `src/assets/images/` via `src/data/imageAssets.ts` och Astros `<Image />` med beskrivande alt-texter utan hänvisning till spel eller källmaterial. Några original finns även i `public/images/` för pressnedladdning, metadata och bakgrundsbilder. Låt inte en bild av en annan anläggning föreställa en ny farm.
