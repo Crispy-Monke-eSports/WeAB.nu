@@ -15,12 +15,12 @@ export const nilsArticles = makeMagazineArticles('nils-brynja', 15, [
     "slug": "en-timme-vid-jarnfarmen",
     "format": "reportage",
     "title": "En timme vid järnfarmen berättar mer än ett möte",
-    "summary": "WeKills produktion pågår enligt sin mekanik, men den avgörande frågan kommer när materialet ska vidare.",
+    "summary": "Signe visar hur två grupper om tre bybor delar en zombie — och vart deras golemer tar vägen när de lämnar järnfarmen.",
     "image": "/images/wekill-iron-farm.webp",
-    "scene": "Driftteknikern Signe börjar sitt pass vid WeKills järnfarm med att öppna en kista. Det är inte för att räkna varje järntacka. Hon vill se att det finns plats för nästa. – Farmen kan fortsätta arbeta även när ingen tittar, säger hon. Det är därför jag tittar.",
-    "context": "En järnfarm är en automatiserad anläggning som ger järn utan att någon behöver bryta varje malmblock för hand. Signe sköter inte själva arbetet åt maskinen. Hon kontrollerar att utmatningen fungerar och att leveransen kan skickas vidare till WeSort.",
-    "tension": "Tidigare arbetade hon mest med små reparationer på plats. Nu följer hon också materialets väg ut ur anläggningen. Om kistan blir full kan farmen se ut att producera som vanligt, samtidigt som nästa byggprojekt står utan sitt järn. – Det är ett fel man inte upptäcker genom att bara lyssna, säger Signe.",
-    "ending": "Innan vi går har hon gjort en anteckning om en tratt som bör ses över vid nästa tillsyn. Farmen stannar inte i dag. För Signe är det hela poängen med att komma dit innan någon annan märker ett problem."
+    "scene": "Driftteknikern Signe öppnar inte en kista först den här morgonen. Hon visar oss en zombie. På var sin sida står tre bybor som vet precis vad den kan göra. Samma zombie skrämmer båda grupperna innan den dras undan igen. Sex bybor, två produktionsgrupper, en mycket effektiv arbetsfördelning.",
+    "context": "När byborna känner sig hotade kan varje tregrupp frambringa en egen järngolem. I en by skulle den stanna som beskyddare. Här förs den i stället över bron till WeKills huvudkontor, där den möter lava och järnet tas om hand. Sju zombier betjänar järnfarmens fjorton grupper och håller resan i gång utan att någon behöver bryta malm.",
+    "tension": "Signe visar avståndet till nästa grupp. En golem här ska inte få de andra byborna att tveka; deras del av byggnaden kan fortsätta oberoende. – Det fina är att de aldrig behöver vänta på varandra, säger hon, och följer den första golemens färd mot lavan med ett leende som dröjer kvar långt efter att den försvunnit.",
+    "ending": "Innan timmen är över har en ny golem lämnat byggnaden och tagit bron mot huvudkontoret. Signe kontrollerar att nästa kan följa efter och går tillbaka mot byborna. De får snart se zombien igen. På andra sidan bron håller WeKill redan plats för deras nästa beskyddare."
   },
   {
     "slug": "pa-besok-hos-welove",

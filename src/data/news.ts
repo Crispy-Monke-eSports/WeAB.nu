@@ -52,17 +52,20 @@ export const news: NewsItem[] = [
     "publishedAt": "2026-10-28",
     "slug": "wekill-tredimensionell-produktionsplan",
     "type": "PRODUKTION",
-    "title": "WeKill samlar fjorton farmer i en gemensam produktionsplan",
-    "summary": "Anläggningarna i Overworld, Nether och End omfattas av samma uppföljning. Avstånden mellan dimensionerna påverkar inte ägarbilden.",
+    "title": "WeKill samlar produktionen i tre dimensioner under samma plan",
+    "summary": "Fjorton anläggningsplatser följs upp tillsammans. Järnfarmen har fjorton grupper som var och en kan frambringa en golem.",
     "image": "/images/wekill-enderman-farm.webp",
     "alt": "Endermanfarm i The End inom WeKills produktion",
     "body": [
       "En av WeKills farmer verkade ha slutat producera. Men när driftlaget kom dit var maskinen i gång.",
       "Kistan vid utgången var full.",
-      "Nu samlar bolaget sina fjorton farmer i en produktionsplan som också visar vad som händer efter att resurserna har tillverkats.",
+      "Nu samlar bolaget sina fjorton registrerade anläggningsplatser i en produktionsplan som också visar vad som händer efter att resurserna har tillverkats. En plats kan rymma flera produktionsgrupper: järnfarmen har fjorton bybogrupper och sju zombier i samma byggnad.",
       "– Ett stopp vid utloppet är inte samma sak som ett stopp i farmen. Men för den som väntar på material ser det likadant ut, säger en ansvarig för driftuppföljningen.",
       "Anläggningarna ligger i Overworld, Nether och End. Var och en får ett driftkort med resurs, utmatning och väg vidare till WeSort. För shulkerproduktionen noteras dessutom när WeBox behöver fler skal till sina behållare.",
-      "Hoglinfarmen får ett eget kapacitetsunderlag. Den är hälften så stor som en fullskalig anläggning beräknad för över 125 000 föremål i timmen. Om takten följde storleken exakt skulle den mindre farmen kunna nå omkring 62 500 föremål i timmen. WeKill redovisar det som en kalkyl, inte som ett uppmätt resultat; faktiska leveranser ska räknas vid uppsamlingen.",
+      "Järnfarmen har ett särskilt kretslopp. De fjorton grupperna består av tre bybor var; varje par delar på en zombie som visas med jämna mellanrum. Grupperna är placerade så att de inte hindrar varandras frambringande. Sex bybor ser samma fara, men varje tregrupp kan ge WeKill en egen järngolem. Med minst 30 sekunder mellan en grupps frambringanden blir det teoretiska taket 1 680 golemer i timmen för hela byggnaden. Det är en beräkning, inte en uppmätt leverans. Golemerna fraktas över bron till huvudkontoret, där lavan och uppsamlingen redan väntar på nästa ankomst.",
+      "Hoglinfarmen visar hur flera dimensioner kan arbeta i samma produktionslinje. På plattformarna har WeKill placerat blågröna svampar som hoglinerna skyr. När de söker sig bort från svamparna kommer de i stället till portalerna. Bolaget får därmed en stadig tillförsel utan att behöva driva varje hoglin för hand.",
+      "På andra sidan väntar ett schakt där de faller genom lava. Värmen tillagar köttet under själva transporten. Trattar samlar upp både fläsk och läder och skickar materialet till sortering. Ingen separat tillagning behövs: portalerna, fallet och hettan levererar färdig mat i ett och samma flöde.",
+      "Anläggningen är byggd i halv skala. Om produktionen följde storleken exakt vore riktvärdet 62 500 föremål i timmen; utfallet får räknas vid uppsamlingen. Från hoglinernas första steg bort från svamparna till den sista läderbiten arbetar hela sträckan för samma resultat. Varje omgång är välkommen.",
       "WeKill vill kunna se var ett fel uppstår innan underhållslaget skickas genom fel portal. Avståndet mellan dimensionerna finns kvar. Det ska inte finnas i ansvarsfördelningen."
     ]
   },
@@ -226,14 +229,15 @@ export const news: NewsItem[] = [
     "slug": "wekill-produktion",
     "type": "PRODUKTION",
     "title": "WeKill fortsätter att utveckla automatiserad resursproduktion",
-    "summary": "Ökad standardisering ska ge stabilare leveranser från koncernens farmer och bättre planering i nästa led.",
+    "summary": "Tio mörka produktionsplan leder mobsen mot samma fallschakt. Nedanför väntar kistor för krut, benmjöl och tråd.",
     "image": "/images/wekill-farms.webp",
     "alt": "WeKills produktionsanläggningar",
     "body": [
-      "En järnfarm kan arbeta ostört i timmar. Sedan räcker en felplacerad tratt för att resultatet ska stanna på fel sida om en vägg. WeKill inför därför återkommande kontroll av utmatningen, inte bara av själva produktionen.",
-      "Kontrollerna börjar där resursen lämnar farmen: går den vidare, fylls rätt kista och kan WeSort ta emot nästa leverans? En maskin som fortsätter tillverka material medan utloppet är fullt räknas inte längre som en fungerande kedja.",
-      "I ett prov fick underhållslaget följa ett järnblock hela vägen till märkningen för fortsatt lagring. Det tog längre tid än att bara titta på farmen, men visade också var två separata ansvarsområden möttes utan tydlig överlämning.",
-      "Bolaget ser detta som en liten teknisk förändring med stor effekt. Produktion är inte färdig när något skapas; den är färdig när någon annan faktiskt kan använda det."
+      "Högst upp i mobgrindern är det mörkt och gott om plats att dyka upp. Tio produktionsplan ger nya mobs en väg in i anläggningen. De stannar inte länge: deras rörelse samlas mot ett fallschakt som för varje omgång ned mot uppsamlingen.",
+      "Fallet gör det arbete som annars skulle kräva personal på varje våning. Vid schaktets slut tas föremålen om hand, och krut, benmjöl och tråd får sina egna platser. Kapaciteten är över 7 000 föremål i timmen. För WeKill är det en ovanligt vacker arbetsfördelning mellan mörker, höjd och kistor.",
+      "Nere vid mottagningen går det att följa vad varje våning har bidragit med, men inte att fråga de tidigare besökarna hur de upplevde nedfärden. Det behovet finns heller inte i produktionsplanen. Det viktiga är att nästa omgång kommer fram till samma schakt och att materialet kommer vidare till WeSort.",
+      "Driftpersonalen ser till att kistorna kan ta emot flödet. En full behållare får aldrig göra de övre våningarnas arbete meningslöst. När sorteringen hinner med kan anläggningen fortsätta ge koncernen resurser utan uppehåll mellan varje fall.",
+      "Samma princip gäller i andra delar av WeKills verksamhet: hitta det som får en varelse att röra sig, bygg vägen och ta hand om resultatet. Mobgrindern gör hela tanken synlig från översta planet till sista kistan."
     ]
   },
   {

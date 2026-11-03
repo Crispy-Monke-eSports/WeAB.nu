@@ -6,6 +6,11 @@
  * i WeAB:s egna anläggningar.
  */
 export const farmSources = {
+  'wekill-iron-farm': {
+    url: 'https://minecraft.wiki/w/Iron_Golem',
+    title: 'Minecraft Wiki: Iron Golem, avsnitten om Java Edition och drops',
+    notes: 'Java: tre panikslagna bybor kan frambringa en golem; en bybo som varit nära ett frambringande de senaste 30 sekunderna kan inte delta igen. Golemer som upptäcks inom 16 block och frambringanden nära andra grupper kan hindra driften. Användaren uppger 14 tregrupper, två grupper per zombie, byggda så att de inte påverkar varandra. Användarens bild i samtalet visar bron som fraktar golemerna från järnfarmen till WeKill-byggnaden; bilden är endast intern referens och ska inte publiceras på webbplatsen. 14 × 3600/30 = 1 680 golemer/timme är endast ett teoretiskt övre tak. Varje golem ger 3–5 järntackor, i genomsnitt 4: 6 720 tackor/timme vid detta optimistiska tak. Ingen uppmätt WeAB-takt finns. Wikins 1/700 chans per speltick och 35 sekunder i snitt avser Bedrock Edition, inte Java.'
+  },
   'wekill-enderman-farm': {
     url: 'https://www.youtube.com/watch?v=e_Pb2kW6ZE0',
     title: 'NEW MINECRAFT 26.3 EASY ENDERMAN XP FARM TUTORIAL | 1 Hit Farm - Super Fast XP (Java & Bedrock)',
@@ -14,7 +19,7 @@ export const farmSources = {
   'wekill-hoglin-farm': {
     url: 'https://www.youtube.com/watch?v=LNF3qCX-S9Y',
     title: 'Ending the Minecraft World Hunger by Making a Huge Food Farm in Survival',
-    notes: 'Shulkercraft anger över 125 000 föremål/timme för sin fullstora hoglinfarm. Användaren uppger att WeAB:s anläggning är hälften så stor. En linjär halvering ger cirka 62 500 föremål/timme som teoretiskt riktvärde, inte uppmätt resultat; spawnbegränsningar och driftförhållanden kan göra skalningen icke-linjär.'
+    notes: 'Videons textning beskriver hur warped fungi skrämmer hoglins från plattformarna in i portaler. På andra sidan faller de genom lava så att köttet tillagas, varefter trattar samlar stekt fläsk och läder. Fullskalig takt: cirka 125 000 föremål/timme (109 000 tillagat fläsk, 16 000 läder). Användaren uppger att WeAB:s anläggning är hälften så stor. Linjär halvering ger 62 500 föremål/timme som kapacitetsmål, inte uppmätt resultat; skalning kan vara icke-linjär.'
   },
   'wekill-witch-farm': {
     url: 'https://www.youtube.com/watch?v=sofyZ44Rw_E',

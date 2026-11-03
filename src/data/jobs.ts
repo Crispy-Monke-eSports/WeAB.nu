@@ -41,7 +41,7 @@ export const jobs: JobPosting[] = [
     compensation: 'Diamanter, när produktionen godkänts',
     pitch: 'Mobs sover aldrig. Vi ser gärna samma arbetsmoral hos dig.',
     responsibilities: ['Övervaka produktionslinjer och uppsamlingssystem.', 'Åtgärda flaskhalsar innan någon hinner kalla dem problem.', 'Håll anläggningen igång när dagskiftet säger god natt.'],
-    requirements: ['Förståelse för redstone, spawnmekanik och hopperflöden.', 'Nattsyn är meriterande. Sömn är det inte.'],
+    requirements: ['Förståelse för redstone, mobstillströmning och trattarnas flöden.', 'Nattsyn är meriterande. Sömn är det inte.'],
     perk: 'Arbetsplatsbelysning ingår under godkända driftstopp.'
   },
   {

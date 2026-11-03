@@ -56,7 +56,7 @@ Engångsinställning innan första publiceringen:
 - `src/data/companyEditorial.ts` – Bolagens egna avsnitt, anläggningsgrupper och kopplingar mellan verksamheter
 - `src/data/arena.ts` – Arenagalleriets tre foton och alt-texter
 - `src/assets/we-logo.svg` – Den bifogade officiella WE-logotypen (gemensam för alla bolag)
-- `src/data/locations.ts` – Internt referensmaterial från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-farmer); visas inte på webbplatsen
+- `src/data/locations.ts` – Internt referensmaterial från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-anläggningsplatser); visas inte på webbplatsen. Järnfarmen är en anläggning med 14 tregrupper av bybor. Två grupper delar en zombie, alltså sju zombier totalt — inte 14 separata järnfarmer.
 - `src/data/news.ts` – 16 längre fiktiva pressmeddelanden (nio omskrivna och sju nya)
 - `src/data/editorial.ts` – Tio fiktiva tidningstexter i åtta redaktionella genrer
 - `src/data/publications.ts` – Gemensamt, datumordnat tidningsarkiv med skribent- och formatmetadata

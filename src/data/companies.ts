@@ -17,12 +17,12 @@ export interface Company {
 export const companies: Company[] = [
   {
     slug: 'wekill', name: 'WeKill', kicker: 'INDUSTRIELL PRODUKTION', tagline: 'Livet är en resurs.',
-    overview: 'Vår produktion slutar aldrig. Produktionsmålen höjs ändå.',
-    description: 'På WeKill mäts livet i droppfrekvens, effektivitet och marginaler. När produktionen stannar upp ställer vi den enda relevanta frågan: Vem gav den tillåtelse?',
+    overview: 'Varje fall är ett framsteg. Produktionsmålen höjs ändå.',
+    description: 'Vi erbjuder mobsen en tydlig väg genom produktionen: inträde, ett välplanerat fall och vidareförädling till något koncernen faktiskt behöver. Hetta, trånga utrymmen och frånvaron av utgångar är inte hinder för oss utan driftfördelar. På WeKill mäts livet i droppfrekvens, effektivitet och marginaler. När produktionen stannar upp ställer vi den enda relevanta frågan: Vem gav den tillåtelse?',
     accent: '#C62828', image: '/images/wekill-headquarters.webp', imageAlt: 'WeKills kontorsbyggnad med röd WE-skylt',
     location: 'Sektion 1', status: 'Aktiv verksamhet',
     services: ['Automatiserad farmdrift', 'Storskalig resursproduktion', 'Produktionseffektivisering', 'Anläggningsutveckling'],
-    facts: [{label: 'Huvudkontor',value:'Sektion 1'},{label:'Prioritet',value:'Maximal avkastning'},{label:'Hoglinfarmen',value:'Halvstor anläggning · takt ännu inte uppmätt'}]
+    facts: [{label: 'Huvudkontor',value:'Sektion 1'},{label:'Prioritet',value:'Maximal avkastning'},{label:'Järnfarmen',value:'14 oberoende bybogrupper · teoretiskt högst 1 680 golemer/timme'},{label:'Hoglinfarmen',value:'Halvstor anläggning · beräknat riktvärde 62 500 föremål/timme'}]
   },
   {
     slug: 'wesort', name: 'WeSort', kicker: 'LOGISTIK & SORTERING', tagline: 'Allting har sin plats.',
