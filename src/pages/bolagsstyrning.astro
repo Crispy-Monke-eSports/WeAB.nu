@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { leadingMembers, chiefExecutive } from '../data/leadership';
+---
+<BaseLayout title="Bolagsstyrning | WeAB Group" description="WeAB:s ledningsstruktur, ansvarsfördelning, uppförandekod och centrala styrningsprinciper.">
+  <header class="page-hero"><div class="shell">
+    <span class="small-caps">KONCERNEN / BOLAGSSTYRNING</span>
+    <h1>Ansvar börjar högst upp.</h1>
+    <p class="lead">WeAB:s styrmodell förenar tydliga mandat, effektiva beslutsvägar och en konsekvent fördelning av ansvar. Den som fattar beslut och den som bär konsekvenserna behöver inte alltid vara samma person.</p>
+  </div></header>
+  <section class="section"><div class="shell">
+    <div class="section-heading"><h2>Koncernledning</h2><p>Den verkställande ledningen omsätter koncernens övergripande strategi i bindande riktlinjer för samtliga verksamheter.</p></div>
+    <div class="ceo-card"><div class="ceo-avatar" aria-hidden="true"><span>?</span></div><div><span class="small-caps">VERKSTÄLLANDE LEDNING</span><h3>{chiefExecutive.name}</h3><strong>{chiefExecutive.title}</strong><p>{chiefExecutive.description}</p></div></div>
+    <h3 class="members-heading">Ledande ledamöter</h3>
+    <div class="members-grid">{leadingMembers.map(member => <article class="member-card"><span class="member-symbol" aria-hidden="true">WE</span><h4>{member.name}</h4><p>{member.title}</p></article>)}</div>
+    <p class="caption">Individuella ansvarsområden och den fullständiga beslutsordningen är interna handlingar. Samtliga fyra personer innehar titeln ledande ledamot.</p>
+  </div></section>
+  <section class="section section--dark"><div class="shell">
+    <div class="section-heading"><h2>Principer för god bolagsstyrning</h2><p>Ett enhetligt ramverk för intern kontroll och konsekventa prioriteringar.</p></div>
+    <div class="governance-grid">
+      <article><span class="small-caps">01 / ÄGARSTYRNING</span><h3>En gemensam riktning</h3><p>Alla dotterbolag arbetar mot långsiktigt värdeskapande för koncernen. Lokala avvikelser hanteras genom dialog, därefter genom centrala beslut.</p></article>
+      <article><span class="small-caps">02 / RISK</span><h3>Risker identifieras tidigt</h3><p>Fri konkurrens, okontrollerade resursflöden och självständiga initiativ följs upp som särskilda affärsrisker.</p></article>
+      <article><span class="small-caps">03 / ETIK</span><h3>Vår uppförandekod</h3><p>Medarbetare förväntas agera i koncernens bästa intresse. Vid målkonflikter förväntas medarbetare först och främst kunna identifiera koncernens intresse.</p></article>
+      <article><span class="small-caps">04 / TRANSPARENS</span><h3>Information med omsorg</h3><p>Vi redovisar beslutsunderlag när vi bedömer att offentliggörandet tillför ett tydligt värde. Övriga underlag tillför värde genom att förbli interna.</p></article>
+    </div>
+  </div></section>
+  <section class="section"><div class="shell split-layout">
+    <div><span class="small-caps">ETIK OCH REGELEFTERLEVNAD</span><h2>Din röst är viktig.</h2><p class="lead">Vi uppmuntrar alla medarbetare att lyfta frågor om oegentligheter genom etablerade kanaler.</p><p>Synpunkter granskas av ansvarig funktion och vidarebefordras vid behov till den ledning som synpunkterna berör. Anonymitet behandlas som ett önskemål, inte som en administrativ garanti.</p></div>
+    <div class="governance-contact"><h3>Kontakt för bolagsstyrning</h3><p>Frågor om koncernens uppförandekod, ansvarsfördelning och interna principer hanteras av huvudkontoret.</p><a href="mailto:huvudkontor@weab.nu">huvudkontor@weab.nu ↗</a><a href="/kontakt/">Alla kontaktvägar ↗</a></div>
+  </div></section>
+</BaseLayout>
+<style>
+.ceo-card{display:flex;align-items:center;gap:2rem;padding:2.5rem;border:1px solid #3a5360;background:linear-gradient(115deg,#193642,#111f2b);margin:2rem 0 3rem}.ceo-avatar{width:170px;min-width:170px;aspect-ratio:1;background:radial-gradient(circle,#274653,#0b1720);display:grid;place-items:center;border:1px solid #42616e;color:#89b4c1}.ceo-avatar span{font-size:6rem;font-weight:800}.ceo-card h3{font-size:2.3rem;margin:.7rem 0}.ceo-card strong{color:#a8dce6}.ceo-card p{max-width:670px;margin:1rem 0 0}.members-heading{font-size:1.6rem}.members-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin:1.5rem 0}.member-card{border:1px solid #334a56;background:#172831;min-width:0;padding:1.5rem}.member-symbol{display:grid;place-items:center;width:74px;height:74px;border:1px solid #385664;background:#0e1e27;color:#9bd8e4;font-size:1.3rem;font-weight:900;letter-spacing:.12em}.member-card h4{font-size:1.12rem;margin:1.25rem 0 .45rem;overflow-wrap:anywhere}.member-card p{font-size:.8rem;margin:0}.governance-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.governance-grid article{border-top:2px solid #5fb7c7;background:#192933;padding:1.65rem}.governance-grid h3{margin:1rem 0 .7rem}.governance-grid p{font-size:.88rem;margin:0}.governance-contact{background:#172832;border:1px solid #3b4f58;padding:2rem}.governance-contact a{display:block;color:#93e1ed;font-weight:800;font-size:.87rem;overflow-wrap:anywhere;margin-top:1.2rem}@media(max-width:850px){.members-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.ceo-card{align-items:flex-start;flex-direction:column;padding:1.5rem}.ceo-avatar{width:110px;min-width:110px}.ceo-avatar span{font-size:4rem}.governance-grid{grid-template-columns:1fr}}@media(max-width:380px){.members-grid{grid-template-columns:1fr}}
+</style>
