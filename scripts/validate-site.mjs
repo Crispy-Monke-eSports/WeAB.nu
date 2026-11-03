@@ -15,7 +15,7 @@ function scan(dir) {
 }
 scan(dist);
 
-const required = ['index.html', 'koncernen/index.html', 'verksamheter/index.html', 'arena/index.html', 'verksamheter/wegamble/index.html', 'hallbarhet/index.html', 'bolagsstyrning/index.html', 'press/index.html', 'investerare/rapporter/index.html', 'kontakt/index.html'];
+const required = ['index.html', 'koncernen/index.html', 'verksamheter/index.html', 'arena/index.html', 'verksamheter/wegamble/index.html', 'hallbarhet/index.html', 'bolagsstyrning/index.html', 'press/index.html', 'investerare/rapporter/index.html', 'kontakt/index.html', 'strategi/index.html', 'leverantorer/index.html'];
 const missing = required.filter(path => !existsSync(join(dist, path)));
 const broken = [];
 
@@ -36,6 +36,39 @@ for (const page of pages) {
     const found = existsSync(target) &&
       (statSync(target).isFile() || existsSync(join(target, 'index.html')));
     if (!found) broken.push(`${page.slice(dist.length + 1)} → ${urlPath}`);
+  }
+}
+
+const featuredCorporateLinks = [
+  ['index.html', '/strategi/'],
+  ['koncernen/index.html', '/strategi/'],
+  ['kontakt/index.html', '/leverantorer/'],
+  ['press/index.html', '/logos/weab.svg'],
+  ['investerare/index.html', '/investerare/rapporter/#verksamhetsoversikt']
+];
+for (const [file, link] of featuredCorporateLinks) {
+  const html = readFileSync(join(dist, file), 'utf8');
+  if (!html.includes('href="' + link + '"')) broken.push(file + ' saknar företagets länk: ' + link);
+}
+
+const pagesWithAnchors = [
+  'strategi/index.html',
+  'leverantorer/index.html',
+  'press/index.html',
+  'investerare/index.html',
+  'investerare/rapporter/index.html'
+];
+for (const page of pagesWithAnchors) {
+  const html = readFileSync(join(dist, page), 'utf8');
+  const anchors = [...html.matchAll(/href="(\\/[^"#?]*\\/)(#[^"]+)"/g)];
+  for (const [, path, fragment] of anchors) {
+    const targetPage = join(dist, path.replace(/^\\/+/, ''), 'index.html');
+    if (!existsSync(targetPage)) continue;
+    const id = decodeURIComponent(fragment.slice(1));
+    const targetHtml = readFileSync(targetPage, 'utf8');
+    if (!targetHtml.includes('id="' + id + '"')) {
+      broken.push(page + ' länkar till ett saknat avsnitt: ' + path + fragment);
+    }
   }
 }
 
