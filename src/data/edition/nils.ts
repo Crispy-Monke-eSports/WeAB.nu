@@ -17,10 +17,10 @@ export const nilsArticles = makeMagazineArticles('nils-brynja', 15, [
     "title": "En timme vid järnfarmen berättar mer än ett möte",
     "summary": "WeKills produktion pågår enligt sin mekanik, men den avgörande frågan kommer när materialet ska vidare.",
     "image": "/images/wekill-iron-farm.webp",
-    "scene": "Anläggningens ljud ligger som en jämn bakgrund medan den automatiska processen fortsätter. Vid WeKills järnfarm behöver ingen dagligen förklara varför varje nytt materialföremål är viktigt.",
-    "context": "Det är lätt att räkna resultatet i kistor. Den egentliga organisationen börjar dock tidigare, med en process som måste vara tillräckligt stabil för att ge nytta över längre tid.",
-    "tension": "Om nästa del av kedjan blir full spelar det liten roll att den första delen fortsätter leverera. Det är därför produktionsanläggningen inte kan förstås utan WeSort och senare förvaring.",
-    "ending": "När besöket är slut har en ny omgång material redan påbörjat sin väg. Ingen applåderar, men för dem som ska använda resurserna i ett bygge är det en ganska bra nyhet."
+    "scene": "Driftteknikern Signe börjar sitt pass vid WeKills järnfarm med att öppna en kista. Det är inte för att räkna varje järntacka. Hon vill se att det finns plats för nästa. – Farmen kan fortsätta arbeta även när ingen tittar, säger hon. Det är därför jag tittar.",
+    "context": "En järnfarm är en automatiserad anläggning som ger järn utan att någon behöver bryta varje malmblock för hand. Signe sköter inte själva arbetet åt maskinen. Hon kontrollerar att utmatningen fungerar och att leveransen kan skickas vidare till WeSort.",
+    "tension": "Tidigare arbetade hon mest med små reparationer på plats. Nu följer hon också materialets väg ut ur anläggningen. Om kistan blir full kan farmen se ut att producera som vanligt, samtidigt som nästa byggprojekt står utan sitt järn. – Det är ett fel man inte upptäcker genom att bara lyssna, säger Signe.",
+    "ending": "Innan vi går har hon gjort en anteckning om en tratt som bör ses över vid nästa tillsyn. Farmen stannar inte i dag. För Signe är det hela poängen med att komma dit innan någon annan märker ett problem."
   },
   {
     "slug": "pa-besok-hos-welove",
@@ -28,10 +28,10 @@ export const nilsArticles = makeMagazineArticles('nils-brynja', 15, [
     "title": "I WeLoves lokaler är framtiden redan en arbetsuppgift",
     "summary": "Vi ser närmare på hur anläggningen för villager breeding kopplas till koncernens fortsatta personalbehov.",
     "image": "/images/welove-headquarters.webp",
-    "scene": "Utanför WeLoves anläggning bryts bergmiljön av en tydlig skylt. Inne i verksamheten är det svårare att tala om framtiden som något avlägset; planeringen gäller redan dem som ännu inte har börjat arbeta.",
-    "context": "Driftansvarige Haapalainen ansvarar för en verksamhet som ska kunna möta andra bolags behov över tid. Det gör att personalförsörjning behandlas med samma framförhållning som lager och byggnader.",
-    "tension": "En besökare kan undra hur många steg som ligger mellan dagens rutiner och en framtida plats vid en handelsdisk. Svaret finns i samordningen med bland andra WeTrade och boendeverksamheten.",
-    "ending": "På vägen ut framstår anläggningen som ett ovanligt konkret svar på en vanlig organisationsfråga: hur ser man till att nästa verksamhet inte börjar med att sakna dem som ska arbeta där?"
+    "scene": "Haapalainen stannar vid skylten utanför WeLoves anläggning och pekar mot rummen längre in. Där planeras inte nästa arbetspass, utan vilka arbetsplatser som ska kunna bemannas när dagens yngsta villagers har vuxit upp.",
+    "context": "Villager breeding är en etablerad del av Minecraft-världen. Här har WeAB gjort den till en fråga också för personalplaneringen: WeTrade behöver bibliotekarier, WeLiveLaughLove behöver veta hur många boende som ska få plats och WeLove håller reda på när behoven möts.",
+    "tension": "– Om vi börjar planera först när en disk står tom har vi redan börjat för sent, säger Haapalainen. Han visar två listor: en över planerade arbetsplatser, en över boendeplatser. De är inte lika långa ännu.",
+    "ending": "När vi går ut syns den rosa WE-skylten mot berget igen. Framtiden är fortfarande osäker för den som växer upp här. I koncernens pärm har den åtminstone fått en egen flik."
   },
   {
     "slug": "bedrockhalets-botten",
@@ -39,10 +39,10 @@ export const nilsArticles = makeMagazineArticles('nils-brynja', 15, [
     "title": "Nere vid bedrockhålets botten är djupet svårt att förhandla om",
     "summary": "Ett helt chunk har grävts ur och dekorerats. Vi följer det stora projektet från marknivån till botten.",
     "image": "/images/bedrock-hole-interior.webp",
-    "scene": "Ovanifrån ser bedrockhålet nästan ut som en öppning i en ritning. Väl nere vid botten förändras skalan. Väggarna stiger brant och de utvalda dekorationerna framstår som ännu mer avsiktliga.",
-    "context": "Projektet ligger vid WeKills kontor i Sektion 1 och visar hur mycket arbete som kan läggas på något som inte omedelbart producerar ett föremål. Här är själva genomförandet en del av poängen.",
-    "tension": "Det går att fråga varför man väljer att gräva så långt ned när marken redan ligger där den ligger. Frågan är rimlig, men den besvaras delvis av resultatet: ett djup som ingen kan misstolka.",
-    "ending": "När jag återvänder till ytan är marknivån inte längre någon självklar referens. Projektet har gjort en förvånansvärt konkret sak av ett mycket företagsmässigt begrepp: att gå till botten med frågan."
+    "scene": "Ovanifrån ser hålet ut som en ruta som saknas i landskapet. Nere vid bedrock är den rutan en hel värld: väggarna stiger så högt att jag behöver leta efter himlen mellan kanterna.",
+    "context": "Ett helt chunk har grävts ur nära WeKills kontor i Sektion 1. Arbetet har inte fyllt ett förråd med nya varor. Det har i stället skapat en plats där frånvaron av mark går att besöka, betrakta och ta omvägen förbi.",
+    "tension": "Dekorationerna längst ned får djupet att kännas planerat snarare än övergivet. Det är en märklig investering för en koncern som annars gärna mäter resultat i kistor. Men WeAB kan också redovisa något som folk faktiskt stannar för att se.",
+    "ending": "På vägen upp passerar jag samma lager av sten som på vägen ned. Nu ser jag arbetet annorlunda: inte som ett hål som blev färdigt, utan som tusentals block som någon bestämde sig för att flytta."
   },
   {
     "slug": "bakom-wetrades-diskar",
@@ -50,9 +50,9 @@ export const nilsArticles = makeMagazineArticles('nils-brynja', 15, [
     "title": "Ett besök bakom WeTrades ordnade handelsdiskar",
     "summary": "Handel med enchanted books förutsätter mer än efterfrågan; den behöver personal, rutiner och en plats där sortimentet går att hitta.",
     "image": "/images/wetrade-hall.webp",
-    "scene": "Handelsmiljön fylls av upprepade möten vid disk efter disk. Besökaren ser enchantments och priser, men bakom den ytan finns en ordning som gör att kunden inte behöver leta i hela servern.",
-    "context": "WeTrade samlar specialiserade handlare i samma miljö. Det förenklar både presentationen av utbudet och den administrativa frågan om vem som svarar för vilken del av tjänsten.",
-    "tension": "Det är lätt att tänka sig varje affär som en helt fristående händelse. Men då försvinner sambandet med den personalförsörjning och de lokaler som gör att handeln faktiskt kan upprepas.",
-    "ending": "När jag går därifrån fortsätter diskarna sitt arbete. Det är inte en dramatisk syn, men just frånvaron av drama förklarar en stor del av varför kunderna kan planera sina besök."
+    "scene": "Butiksvärden Elin byter en skylt vid en av WeTrades diskar. En besökare har frågat efter en bok som finns i hallen, men under ett namn hen inte kände igen. – Det ska inte krävas att man redan kan sortimentet för att hitta hit, säger Elin.",
+    "context": "WeTrade samlar villagers som säljer enchanted books, böcker som ger utrustning särskilda egenskaper. Kunden möter många diskar på en och samma plats. Elins uppgift är att göra vägen mellan frågan och rätt handlare kortare, medan WeLove planerar för personalen bakom diskarna.",
+    "tension": "Det nya skyltsystemet sorterar både efter bokens namn och efter vad den kan användas till. För en kund med en trasig hacka är det ofta lättare att fråga efter reparation än efter den rätta stavningen på Mending. Elin provläser skylten från entrén innan hon fäster den.",
+    "ending": "Nästa steg är att se vilka frågor som fortfarande ställs i hallen. Om samma bok fortsätter att vara svår att hitta kan fler skyltar behöva flyttas. En handel som aldrig ändrar sin skyltning är, enligt Elin, inte nödvändigtvis en handel där alla hittar rätt."
   }
 ] satisfies StorySeed[]);

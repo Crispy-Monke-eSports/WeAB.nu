@@ -6,10 +6,10 @@ export const ottiliaArticles = makeMagazineArticles('ottilia-glas', 30, [
     "title": "När Huvudstadens arena blir en egen berättelse",
     "summary": "De blåvita ytorna och läktarnas ordning ger distriktens tävlingar en scen som känns större än varje enskilt resultat.",
     "image": "/images/huvudstadens-arena-interior.webp",
-    "scene": "Från läktaren faller blicken nästan automatiskt mot tävlingsytan. Det är som om hela byggnaden har fått uppgiften att samla människors uppmärksamhet.",
-    "context": "Huvudstadens arena rymmer passager och publikytor som ger de olika distriktens representanter ett gemensamt sammanhang.",
-    "tension": "Ett mindre arrangemang ute i en by hade kanske varit charmigt, men inte kunnat ge alla deltagare samma centrala plats.",
-    "ending": "Det vackraste är kanske att arenan låter rivaliteten synas utan att den spiller ut över hela servern. Här får den en tydlig ram."
+    "scene": "En besökare på den översta raden lutar sig fram för att se var tävlingsytan börjar. Läktaren är ännu inte fylld av jubel, men blicken hittar ändå samma punkt som alla andra blickar kommer att söka.",
+    "context": "Huvudstadens arena är byggd för möten mellan distrikt som tidigare kunnat hålla sina tävlingar var för sig. Det blåvita rummet samlar dem utan att kräva att byarna slutar vara olika. Varje hemort kan bära sina färger in i samma byggnad.",
+    "tension": "Hur gör man en plats för rivalitet utan att själva huset tar ställning? Genom att ge deltagare och publik var sin tydlig väg och låta reglerna, inte arkitekturen, avgöra vem som vinner. WeAB har stått för ramen; den första stora berättelsen får distrikten skriva själva.",
+    "ending": "Jag ser mig om innan jag går. Det finns ännu inga officiella resultat att läsa upp, bara en arena som gör det lätt att föreställa sig hur någon en dag kommer att minnas exakt var hen satt."
   },
   {
     "slug": "riksdagshusets-fasad",
@@ -28,10 +28,10 @@ export const ottiliaArticles = makeMagazineArticles('ottilia-glas', 30, [
     "title": "En sorteringshall har sin egen sorts skönhet",
     "summary": "WeSort visar att återkommande funktioner och tydliga rader av förvaring också kan bilda en genomtänkt helhet.",
     "image": "/images/wesort-interior.webp",
-    "scene": "I WeSort är det inte en utsikt som först fångar blicken, utan upprepningen. Behållare, passager och linjer fortsätter i ordnad följd.",
-    "context": "Hallens arkitektur utgår från vad föremålen ska göra. Den är därför ett slags karta över arbetet som utförs där varje dag.",
-    "tension": "En sådan miljö riskerar att avfärdas som rent praktisk. Men själva tydligheten har en egen estetik som är svår att uppnå genom improvisation.",
-    "ending": "Det är en ovanlig sorts skönhet: den behöver ingen högtidlig förklaring för att göra sitt arbete, bara fortsatt omsorg om ordningen."
+    "scene": "Raderna av kistor ser nästan målade ut på håll. På nära håll märks skillnaden: en av dem fylls medan vi står där, en annan väntar på ett material som ännu inte kommit fram.",
+    "context": "WeSort är inte byggt som ett museum. Hallens form följer varornas väg från mottagning till sortering och vidare mot förvaring. Just därför går det att läsa arkitekturen: varje upprepning berättar att samma sak ska kunna hända igen i morgon.",
+    "tension": "Den som kallar rummet enbart praktiskt har förstås rätt. Men det är också en miljö där det praktiska fått färg, rytm och proportioner. De tomma facken är inte hål i kompositionen. De gör plats för den del av bilden som ännu inte levererats.",
+    "ending": "På vägen ut hör jag ett föremål landa i sin behållare. I WeSort låter skönheten inte som applåder. Den låter som att något kom fram."
   },
   {
     "slug": "huvudstaden-sedd-ovanifran",

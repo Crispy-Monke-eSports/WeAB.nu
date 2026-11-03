@@ -158,10 +158,12 @@ for (const [index, article] of publications.entries()) {
     assert.equal(article.byline, getAuthor(article.authorId).name,
       `Fel skribent för artikeln: ${article.slug}`);
   }
-  const minParagraphs = established ? (article.format === 'pressmeddelande' ? 6 : 5) : 4;
-  const minChars = established ? (article.format === 'pressmeddelande' ? 125 : 220) : 115;
-  assert.ok(article.body.length >= minParagraphs && article.body.every(p => p.trim().length >= minChars),
-    `Ofullständig artikel: ${article.slug} (minst ${minParagraphs} stycken à ${minChars} tecken)`);
+  // Låt reportage, insändare och korta nyhetsnotiser ha olika längd och rytm.
+  const minParagraphs = 3;
+  const minChars = 350;
+  assert.ok(article.body.length >= minParagraphs && article.body.every(p => p.trim().length > 0)
+    && article.body.join('').length >= minChars,
+    `Ofullständig artikel: ${article.slug} (minst ${minParagraphs} stycken och ${minChars} tecken)`);
   asset(article.image, article.slug);
 }
 for (const job of jobs) {

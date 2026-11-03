@@ -7,10 +7,10 @@ export const agnesArticles: MagazineDraft[] = [
     "summary": "När de gemensamma byggnaderna sköts med samma omsorg som andra tillgångar blir vardagen mindre dramatisk.",
     "image": "/images/werule-riksdagshuset.webp",
     "body": [
-      "Den som någon gång försökt laga ett läckande tak förstår att sten och trä ställer ganska bestämda krav. De vill bli omhändertagna i tid. Det hjälper föga att beskriva ambitionen i vackra ord, om ingen samtidigt bestämmer vem som faktiskt ska göra arbetet.",
-      "Vid Riksdagshuset i Huvudstaden finns två roller som bör hållas isär: verksamheten som använder huset och fastighetsägaren som ser efter det. WeAB:s ägande skapar en tydlig förvaltning, och just tydligheten är den ofta förbisedda fördelen.",
-      "Visst kan man önska att varje detalj först diskuteras med alla som går förbi byggnaden. Men fönster och takstolar har sällan förmågan att invänta det sista sammanträdet. De behöver beslut som har både ansvarig och budget.",
-      "En välskött byggnad väcker sällan stora känslor. Det är kanske det finaste omdöme en fastighetsförvaltare kan få. Ingen behöver tänka på taket, därför att någon annan redan har gjort det."
+      "Det börjar ofta med en droppe. Sedan kommer hinken, samtalet om vem som ska tömma hinken och till sist frågan om varför ingen lagade taket medan det fortfarande var torrt.",
+      "Riksdagshuset används av serverns riksdag. Fastigheten ägs av WeAB. Att de två förhållandena möts under samma tak kan säkert irritera den som helst vill att en offentlig byggnad också ska sakna en tydlig ägare. Men ägandet gör åtminstone underhållsfrågan möjlig att besvara innan hinken står på bordet.",
+      "Ingen har visat att ett sammanträde blir friare av att taket får vänta på nästa sammanträde. WeRule ska kunna beställa en reparation, redovisa kostnaden och stå till svars för resultatet. Den ordningen är mindre romantisk än ett stort samtal om det gemensamma rummet. Den håller betydligt bättre i regn.",
+      "Det offentliga behöver fungerande lokaler. Den som vill förändra vem som äger dem måste också förklara vem som då kommer med stegen när det läcker."
     ],
     "publishedAt": "2026-11-02",
     "type": "LEDARE",
@@ -24,10 +24,10 @@ export const agnesArticles: MagazineDraft[] = [
     "summary": "Tydliga uppdrag är inte ett hinder för samarbete. De gör det möjligt att avgöra vem som ska svara när något händer.",
     "image": "/images/werule-sektion-1-stadshus.webp",
     "body": [
-      "Det finns en sorts missförstånd som uppstår när alla sägs vara ansvariga för samma fråga. Det låter inkluderande, men blir besvärligt den dag en dörr behöver lagas eller ett nytt utrymme tas i bruk. Plötsligt visar det sig att ansvar också behöver en adress.",
-      "Stadshuset i Sektion 1 är ett gott exempel på varför den saken spelar roll. Byggnaden har en uppgift inom samhället, samtidigt som förvaltningen måste fungera genom vanliga rutiner för underhåll och användning.",
-      "Mot detta invänds ibland att en tydlig huvudman får för stort inflytande. Det är en förståelig tanke. Ändå bör den jämföras med alternativet: att ingen kan förklara varför samma fel uppstår igen, eller vem som hade kunnat förebygga det.",
-      "WeRule visar värdet av en sådan uppdelning. När uppdraget blir tydligt kan synpunkter prövas mot något faktiskt, och en åtgärd kan följas från fråga till resultat. Det är mindre högtidligt än många principdebatter, men betydligt mer användbart."
+      "En dörr vid stadshuset i Sektion 1 behövde ses över. Det är ingen samhällskris. Men om tre verksamheter alla säger sig ansvara för dörren och ingen faktiskt beställer reparationen, har man byggt ett mycket litet exempel på ett mycket stort problem.",
+      "WeRule sköter fastigheten. De som använder stadshuset sköter sina möten. När något i lokalen inte fungerar ska den uppdelningen göra det möjligt att gå från felanmälan till åtgärd utan att ärendet först besöker varje sammanträdesrum.",
+      "Den som oroar sig för koncentrerat inflytande har en poäng. En ägare ska inte kunna göra sin egen bekvämlighet till den enda måttstocken för en offentlig byggnad. Just därför behövs ett beslut som går att läsa, en ansvarig som går att hitta och en kostnad som går att ifrågasätta.",
+      "Diffust ansvar skyddar ingen från makt. Det gör bara makten svårare att hitta när dörren fortfarande inte går att öppna."
     ],
     "publishedAt": "2026-11-01",
     "type": "LEDARE",
@@ -41,10 +41,10 @@ export const agnesArticles: MagazineDraft[] = [
     "summary": "Det låter självklart att möteslokaler behöver skötas. Ändå försvinner den insikten ofta i samtal om stora uppdrag.",
     "image": "/images/werule-riksdagshuset.webp",
     "body": [
-      "En institution kan ha hur viktiga uppgifter som helst; den måste fortfarande öppna sina dörrar i en byggnad där golv, belysning och väggar fungerar. Den praktiska delen av uppdraget märks inte särskilt mycket, förrän den plötsligt inte längre fungerar.",
-      "Riksdagshuset i Huvudstaden används för sammanträden inom serverns riksdag och ägs av WeAB. Det är två förhållanden som kan existera samtidigt utan att vare sig mötet eller byggnaden upphör att vara sig självt.",
-      "Frågan blir därför inte vilken etikett man sätter på byggnaden, utan hur den kan användas långsiktigt. Förvaltningen behöver regler för tillträde, underhåll och förändringar. Den som använder lokalerna behöver förstå ramarna utan att själv bli byggnadsexpert.",
-      "Detta är en rätt stillsam slutsats: samhällsliv kräver fungerande rum. När WeRule tar ansvar för den delen frigörs andra att ägna sig åt sina egna uppgifter. Det är knappast en förlust att slippa mötas kring en trasig lykta."
+      "En riksdag kan besluta om stora saker. Den kan inte besluta bort draget från en trasig ruta.",
+      "I Huvudstaden sammanträder serverns riksdag i ett hus som ägs av WeAB. Den kombinationen säger något om hur WeRule blivit en del av det offentliga vardagsmaskineriet: någon annan än ledamöterna behöver hålla reda på lokalerna, även när alla vill tala om vad som sker inne i dem.",
+      "Det kan låta som en teknisk detalj. Men tillträde, belysning och underhåll avgör om ett möte blir av. Den som vill ge institutionen självständighet bör inte samtidigt förvänta sig att varje ledamot ska vara sin egen fastighetsskötare.",
+      "WeRules uppdrag måste gå att granska. Ändå är alternativet till en tydlig förvaltare inte ett magiskt självgående hus. Det är en byggnad vars praktiska frågor till slut dyker upp på mötesdagordningen."
     ],
     "publishedAt": "2026-10-31",
     "type": "ANALYS",
@@ -58,10 +58,10 @@ export const agnesArticles: MagazineDraft[] = [
     "summary": "Det går att lyssna ordentligt utan att förvandla varje underhållsfråga till en fråga som aldrig avgörs.",
     "image": "/images/section-1-overview.webp",
     "body": [
-      "Vi uppskattar gärna en öppen diskussion när ett gemensamt område ska förändras. Det är rimligt. Men även det öppnaste samtal måste någon gång leda till en ritning, en beställning eller ett besked om att arbetet inte ska utföras.",
-      "På servern finns många platser där ett beslut påverkar mer än en verksamhet. En passage kan höra ihop med boende, transporter och handel samtidigt. Den som bara ser sin egen dörr riskerar då att missa den större ordning som håller området samman.",
-      "En gemensam prövning innebär inte att alla önskemål måste uppfyllas. Det innebär att önskemålen kan vägas mot samma förutsättningar. WeAB:s sätt att samordna flera verksamheter erbjuder en metod som är lättare att följa upp än femton olika muntliga överenskommelser.",
-      "En fungerande organisation ska inte vara rädd för synpunkter. Den ska kunna besvara dem och sedan fortsätta arbetet. För den som behöver använda en färdig passage är just det sista steget ofta det viktigaste."
+      "Passagen mellan två byggnader i Sektion 1 är planerad. Ändå kan den inte byggas så länge varje nytt önskemål får börja om diskussionen från första blocket.",
+      "En del av invändningarna är rimliga. En boende behöver komma hem, en leverans behöver nå fram och någon måste ta ansvar för belysningen efteråt. Men det är skäl att pröva ritningen, inte skäl att aldrig fatta ett beslut.",
+      "WeAB kan väga de olika behoven mot varandra. Det garanterar inte att alla blir nöjda. Det ger däremot ett besked som går att följa upp och ändra om verkligheten visar något annat än planen. Femton överenskommelser i femton dörröppningar erbjuder sällan samma möjlighet.",
+      "Den som vill bli tagen på allvar ska få ett svar. Den som måste ta sig till arbetet ska också någon gång få en färdig gångväg. En slutpunkt för samtalet är inte ett förakt för det; det är skälet till att samtalet fördes."
     ],
     "publishedAt": "2026-10-30",
     "type": "DEBATT",
@@ -75,10 +75,10 @@ export const agnesArticles: MagazineDraft[] = [
     "summary": "En billig spontan lösning kan bli kostsam när någon förväntas ta hand om den långt efter invigningen.",
     "image": "/images/weab-cyan-building.webp",
     "body": [
-      "En ny byggnad eller förbindelse kan se förvånansvärt enkel ut på ritningen. Ett par block här, en dörr där, och allt verkar vara ordnat. Det är först senare som det visar sig att även en enkel lösning behöver underhåll, skyltning och någon som kommer ihåg varför den byggdes.",
-      "De kostnaderna syns sällan i den första entusiasmen. Därför är det begripligt att WeAB prövar större projekt mot en gemensam ordning för investeringar. Den som kan samordna flera behov behöver inte betala för samma misstag flera gånger.",
-      "Det går naturligtvis att värdera friheten att improvisera högre än förutsägbarhet. Men friheten är inte gratis för grannen som senare tvingas reparera den bro någon annan glömde bort. Gemensamma resurser gör frågan större än det enskilda byggögonblicket.",
-      "Det mest hållbara projektet är inte alltid det som startar först. Det är det som också fungerar när den ursprungliga byggaren har gått vidare. En koncern som planerar för den dagen visar ansvar som inte låter särskilt spektakulärt, men som borde vara det."
+      "Ett nytt stickspår kan se billigt ut på en karta. Några rälsblock, en skylt och sedan är det väl bara att åka? Den som ställer den frågan har förmodligen aldrig kommit tillbaka efter invigningen för att laga en trasig kurva.",
+      "WeAB vill att investeringar också ska bära sitt framtida underhåll. Det är rätt prioritering. Ett projekt som binder samman flera anläggningar förtjänar att jämföras med ett som bara gör någons egen väg kortare. Inte för att genvägar är förbjudna, utan för att kostnaden inte upphör när den första vagnen passerat.",
+      "Kritiken mot en gemensam investeringsmodell är lätt att förstå. Ett bra förslag kan behöva vänta, och väntan känns alltid längre för den som kom med idén. Men den otåligheten får inte bli någon annans arbetsorder utan budget.",
+      "Oförutsägbarhet har ett pris. Det betalas sällan vid byggstart och desto oftare av den som ännu inte visste att hen skulle bli ansvarig."
     ],
     "publishedAt": "2026-10-29",
     "type": "LEDARE",
