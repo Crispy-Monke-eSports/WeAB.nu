@@ -39,6 +39,8 @@ Den här genomgången utgår från reglerna i [AGENTS.md](../AGENTS.md). Målet 
 
 ## Verifiering
 
-Kör `npm run check`. Det omfattar innehåll, logotyper, Astro-build och interna länkar. De statiska kontrollerna ersätter inte visuell granskning av verkliga mobiler eller tangentbordstest i en webbläsare. Testresultat från GitHub Actions ska därför redovisas separat från manuell testning.
+Kör `npm run check`. Det omfattar innehåll, logotyper, `astro check`, Astro-build, interna länkar och ankarlänkar på alla genererade sidor. Mot Astro Docs MCP har vi granskat statisk routing (`getStaticPaths` för tre dynamiska mallar), klientskript (tre filter), CSS-avgränsning, `Astro.url`/`Astro.site` och bildhantering från `public/`. Bilder i `public/` optimeras inte av Astro; publicerade `<img>`-element har därför alt-text och originalmått. `astro build` typkontrollerar inte `.astro`-filer; `astro check` körs även i CI.
+
+Vid den kompletterande webbläsarkontrollen öppnades alla 140 genererade adresser i 390 respektive 1280 px bredd: inga JavaScript-fel, saknade huvudrubriker eller horisontella överströmningar noterades. Alla 193 interna ankarlänkar kontrollerades mot målens id. De tre filtren provades både med och utan JavaScript; utan skript syntes alla 84 tidningstexter, 16 pressmeddelanden och 13 platsannonser utan oanvändbara kontroller. Bildmåtten för samtliga 39 WebP-original jämfördes med källfilerna. Detta är inte ett test på fysiska telefoner, i andra webbläsarmotorer eller med skärmläsare.
 
 **Innehåll som inte ändrats:** De 100 befintliga artiklarna, deras fiktiva författare, publiceringsdatum, anläggningsreferenser och faktauppgifter. En mer omfattande redaktionell omskrivning av hela arkivet bör ske som egen uppgift, med bibehållen historik och röst per författare.
