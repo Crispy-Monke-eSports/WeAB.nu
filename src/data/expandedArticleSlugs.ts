@@ -36,10 +36,15 @@ export const expandedArticleSlugs = [
   "sockerrorens-stilla-arbete",
   "guldfarmens-bortglomda-kedja",
   "shulkerfarmens-betydelse",
-  "insandare-farmer-som-fungerar"
+  "insandare-farmer-som-fungerar",
+  "skyltarnas-stora-fortjanst",
+  "en-kista-vard-att-beundra",
+  "en-hogtidlig-vantan-pa-taget",
+  "bygg-med-tacksamhet",
+  "en-koncern-ar-en-god-granne"
 ] as const;
 export const expandedMinimumWords = 500;
 export const expandedMinimumParagraphs = 8;
 
 /** Endast skribenter vars samtliga texter redan är fullängdsartiklar. */
-export const completedAuthorIds = ['ruben-kist', 'alva-heden'] as const;
+export const completedAuthorIds = ['ruben-kist', 'alva-heden', 'herr-elskar-weandersson'] as const;
