@@ -2,6 +2,7 @@ import { news, type NewsItem } from './news.ts';
 import { editorials, type EditorialFormat } from './editorial.ts';
 import { authors, getAuthor } from './authors.ts';
 import { expandedArticleBodies } from './expanded/bodies.ts';
+import { censorLightingComplaints } from './lightingSecurity.ts';
 import { companies } from './companies.ts';
 import { agnesArticles } from './edition/agnes.ts';
 import { elskarArticles } from './edition/elskar.ts';
@@ -106,7 +107,7 @@ const entries: Array<NewsItem & { format: PublicationFormat; authorId?: string }
   ...additionalArticles
 ];
 export const publications: Publication[] = entries.map(original => {
-  const article = { ...original, body: expandedArticleBodies.get(original.slug) ?? original.body };
+  const article = { ...original, body: censorLightingComplaints(original.slug, expandedArticleBodies.get(original.slug) ?? original.body) };
   if (article.format === 'pressmeddelande') {
     const issuer = pressIssuerFor(article.slug);
     return { ...article, authorId: null, issuer, byline: issuer.name };
