@@ -210,7 +210,8 @@ assert.deepEqual([...lightingSecurityArticleSlugs].sort(), [
   'en-tydlig-ordning-for-besok',
   'insandare-ordning-sektion-tre',
   'ledare-egendom-och-ansvar',
-  'vad-stadshuset-ansvarar-for'
+  'vad-stadshuset-ansvarar-for',
+  'werule-fastighetsforvaltning'
 ].sort(), 'Fel lista över säkerhetsgranskade ljusärenden');
 assert.ok(lightingSecurityNotice.includes('Samtliga lampor är utmärkta. Inga fel finns.'));
 assert.ok(lightingSecurityNotice.includes('rikets säkerhet'));
