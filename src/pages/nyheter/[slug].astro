@@ -11,7 +11,8 @@ export function getStaticPaths() {
   }));
 }
 const { article } = Astro.props as { article: Publication };
-const archiveHref = article.format === 'pressmeddelande' ? '/press/' : '/nyheter/';
+const isPressRelease = article.format === 'pressmeddelande';
+const archiveHref = isPressRelease ? '/press/' : '/nyheter/';
 const archiveLabel = article.format === 'pressmeddelande' ? 'Till pressrummet' : 'Till WeAB Tidningen';
 const author = article.authorId ? getAuthor(article.authorId) : null;
 const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
@@ -21,7 +22,7 @@ const related = publications
   .filter(item => item.slug !== article.slug && (item.format === article.format || item.type === article.type))
   .slice(0, 2);
 ---
-<BaseLayout title={`${article.title} | WeAB Tidningen`} description={article.summary}>
+<BaseLayout title={`${article.title} | ${isPressRelease ? 'WeAB Pressrum' : 'WeAB Tidningen'}`} description={article.summary}>
   <header class="page-hero publication-hero">
     <div class="shell article-shell">
       <a class="back-link" href={archiveHref}>← {archiveLabel}</a>
@@ -62,7 +63,7 @@ const related = publications
         <p>Det här meddelandet har publicerats av <strong>{article.issuer.name}</strong> inom WeAB-koncernen.</p>
         <a href={article.issuer.href}>Läs mer om {article.issuer.name} <span aria-hidden="true">↗</span></a>
       </aside>}
-      <nav class="article-end" aria-label="Tillbaka till tidningen">
+      <nav class="article-end" aria-label="Tillbaka till arkivet">
         <a class="btn btn-outline" href={archiveHref}>{archiveLabel} <span aria-hidden="true">↗</span></a>
       </nav>
       <small class="satire-note">Innehållet är satir.</small>
