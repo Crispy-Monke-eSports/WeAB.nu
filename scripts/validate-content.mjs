@@ -156,10 +156,10 @@ for (const company of companies) {
 for (const id of featuredProjectIds) {
   assert.ok(projects.some(project => project.id === id), `Utvalt projekt saknas: ${id}`);
 }
-assert.equal(news.length, 16, 'Det ska finnas 16 befintliga pressmeddelanden');
+assert.equal(news.length, 17, 'Det ska finnas 17 pressmeddelanden');
 assert.equal(editorials.length, 10, 'Det ska finnas tio tidigare redaktionella artiklar');
 assert.equal(additionalArticles.length, 74, 'Det ska finnas 74 nya texter');
-assert.equal(publications.length, 100, 'Tidningen ska innehålla exakt 100 artiklar');
+assert.equal(publications.length, 101, 'Arkivet ska innehålla exakt 101 publikationer');
 unique([...expandedArticleSlugs], 'genomarbetade artikeladresser');
 unique([...completedAuthorIds], 'färdigställda skribenter');
 for (const authorId of completedAuthorIds) {
@@ -202,7 +202,7 @@ for (const slug of expandedArticleSlugs) {
     `Artikeln ${slug} behöver minst ${expandedMinimumParagraphs} utvecklade stycken`);
 }
 
-// Samtliga 100 publika artiklar säkerhetsgranskas efter att fullängdstexten valts.
+// Samtliga publika artiklar säkerhetsgranskas efter att fullängdstexten valts.
 // Endast artiklar som faktiskt innehåller invändningar om ljuset censureras.
 assert.deepEqual([...lightingSecurityArticleSlugs].sort(), [
   'bostadsstabilitet',
@@ -239,10 +239,21 @@ for (const article of publications) {
 }
 
 assert.equal(authors.length, 15, 'Tidningen ska ha exakt 15 återkommande skribenter');
-assert.equal(publications.filter(item => item.format === 'pressmeddelande').length, 16,
-  'Det ska finnas 16 officiella pressmeddelanden');
+assert.equal(publications.filter(item => item.format === 'pressmeddelande').length, 17,
+  'Det ska finnas 17 officiella pressmeddelanden');
 assert.equal(publications.filter(item => item.authorId !== null).length, 84,
   'Skribenterna ska tillskrivas exakt 84 redaktionella texter');
+// Koncernens nya säkerhetsmeddelande ska förbli ett officiellt pressutskick.
+const martaNotice = publications.find(article => article.slug === 'weab-marta-ek-olycka-jarnfarmen');
+assert.ok(martaNotice, 'Pressmeddelandet om Märta Ek saknas');
+assert.equal(martaNotice.format, 'pressmeddelande');
+assert.equal(martaNotice.authorId, null);
+assert.equal(martaNotice.issuer?.name, 'WeAB-koncernen');
+assert.equal(martaNotice.publishedAt, '2026-11-03');
+assert.equal(publications[0].slug, martaNotice.slug, 'Senaste meddelandet ska listas först');
+assert.ok(martaNotice.body.join(' ').includes('samtliga lampor är utmärkta och inga fel finns'));
+assert.ok(martaNotice.body.join(' ').includes('rikets säkerhet'));
+assert.ok(martaNotice.body.join(' ').includes('Inga ytterligare frågor kommer att tas emot.'));
 assert.deepEqual(Object.keys(pressIssuerSlugs).sort(), news.map(item => item.slug).sort(),
   'Alla pressmeddelanden ska ha en explicit bolagsavsändare');
 assert.equal(Object.keys(publicationFormatLabels).length, 12, 'Alla format behöver namn');
@@ -264,7 +275,7 @@ for (const [index, article] of publications.entries()) {
     `Felaktigt datum i artikeln: ${article.slug}`);
   assert.equal(new Date(article.publishedAt + 'T12:00:00Z').toISOString().slice(0,10),
     article.publishedAt, `Ogiltigt datum: ${article.slug}`);
-  assert.ok(article.publishedAt <= '2026-11-02', `Framtidsdaterad artikel: ${article.slug}`);
+  assert.ok(article.publishedAt <= '2026-11-03', `Framtidsdaterad artikel: ${article.slug}`);
   if (index) assert.ok(publications[index - 1].publishedAt >= article.publishedAt,
     'Artiklarna ska vara sorterade med senaste datum först');
   const established = establishedSlugs.has(article.slug);
