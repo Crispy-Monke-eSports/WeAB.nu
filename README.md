@@ -123,8 +123,9 @@ en genererad fil ska inte kunna överleva utan att upptäckas.
 
 ### WeAB Tidningen
 
-Nyhetsrummet omfattar **100 texter av 15 återkommande fiktiva skribenter**:
-16 längre pressmeddelanden, tio tidigare redaktionella texter och 74 nya artiklar. Insändare, ledare, krönikor, reportage,
+Nyhetsrummet omfattar **100 texter totalt**: **16 officiella pressmeddelanden**
+från WeAB-koncernen eller respektive dotterbolag samt **84 redaktionella texter**
+av 15 återkommande, fiktiva skribenter (tio äldre och 74 nya artiklar). Insändare, ledare, krönikor, reportage,
 intervjuer, ekonomi, kultur och guider har skilda skribenter och former
 men delar en genomgående koncernvänlig världsbild.
 
@@ -135,8 +136,12 @@ dokumentera verkliga händelser utanför den spelvärlden.
 
 Arkivet på `/nyheter/` visar en förstasidesartikel, en egen avdelning
 för insändare, artikelkort och klientbaserad sökning och filtrering efter
-både genrer och skribenter, med stegvis visning av artiklar. Artiklarna visar **rubrik först** och därefter kategori, datum och
-skribent. Klickbara skribentnamn leder till profilsidor på
+både genrer och avsändare (koncern, bolag eller skribent), med stegvis visning
+av artiklar. Artiklarna visar **rubrik först** och därefter kategori, datum och
+rätt avsändare. Officiella pressmeddelanden länkar direkt till bolagets
+verksamhetssida, eller till koncernen när utskicket kommer från moderbolaget.
+De **ingår inte** i de femton skribenternas artikelhistorik.
+Klickbara skribentnamn i redaktionella texter leder till profilsidor på
 `/nyheter/skribenter/`, med ämnesområden, individuella skrivsätt och
 alla respektive skribents publiceringar. Vi använder inte små etiketter över rubrikerna i tidningens
 sidor. På varje artikelsida ligger `Innehållet är satir.` som liten,
@@ -146,8 +151,12 @@ De äldre artikeladresserna råkar fortfarande fungera, men behöver inte vara
 permanenta. Skribentprofilerna definieras i `src/data/authors.ts`, och de 74
 nya texterna ligger i `src/data/edition/`. Redigera äldre nyheter i
 `src/data/news.ts`, nya tidningstexter i `src/data/editorial.ts` och
-formatnamn i `src/data/publications.ts`. CI kontrollerar datumordning,
-unika adresser, artiklarnas längd, genretäckning och bildreferenser.
+formatnamn och officiell pressavsändare i `src/data/publications.ts`.
+Kartan `pressIssuerSlugs` styr vilken koncernenhet som står som avsändare
+för vart och ett av de 16 pressmeddelandena. CI kontrollerar att utskick
+saknar personlig byline, att alla 16 har en giltig bolagsavsändare och att
+skribenternas profiler bara visar deras 84 redaktionella texter. Därutöver
+kontrolleras datumordning, unika adresser, textlängd, genrer och bilder.
 
 ### Innehåll
 

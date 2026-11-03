@@ -1,6 +1,7 @@
 import { news, type NewsItem } from './news.ts';
 import { editorials, type EditorialFormat } from './editorial.ts';
 import { authors, getAuthor } from './authors.ts';
+import { companies } from './companies.ts';
 import { agnesArticles } from './edition/agnes.ts';
 import { elskarArticles } from './edition/elskar.ts';
 import { martaArticles } from './edition/marta.ts';
@@ -19,10 +20,18 @@ import { irisArticles } from './edition/iris.ts';
 import type { MagazineDraft } from './magazineTypes.ts';
 
 export type PublicationFormat = 'pressmeddelande' | EditorialFormat | MagazineDraft['format'];
+export interface PressIssuer {
+  name: string;
+  href: string;
+}
 export interface Publication extends NewsItem {
   format: PublicationFormat;
-  authorId: string;
+  /** Endast redaktionella texter har en personlig skribent. */
+  authorId: string | null;
+  /** Mänsklig skribent eller officiellt bolagsnamn beroende på typ. */
   byline: string;
+  /** Enbart pressmeddelanden har en officiell bolagsavsändare. */
+  issuer: PressIssuer | null;
 }
 export const publicationFormatLabels: Record<PublicationFormat, string> = {
   pressmeddelande: 'Pressmeddelande',
@@ -39,25 +48,37 @@ export const publicationFormatLabels: Record<PublicationFormat, string> = {
   debatt: 'Debatt'
 };
 
-// Befintliga artiklar knyts till samma femton fiktiva skribenter som
-// nypubliceringarna. Varje signatur är en person, inte en redaktionsetikett.
+// Pressmeddelanden är bolagens officiella utskick, inte texter av
+// redaktionens 15 fiktiva skribenter.
+export const pressIssuerSlugs: Record<string, string> = {
+  'werule-fastighetsforvaltning': 'werule',
+  'wesort-colors-kapacitet': 'wesort',
+  'wekill-tredimensionell-produktionsplan': 'wekill',
+  'webox-tillatelsehantering': 'webox',
+  'welivelaughlove-sektion-tre': 'welivelaughlove',
+  'huvudstadens-arena': 'weab',
+  'welove-framtidens-arbetskraft': 'welove',
+  'wetravel-stationsplan': 'wetravel',
+  'wetrade-kunskapsmonopol': 'wetrade',
+  'webox-lagerkontroll': 'webox',
+  'wetravel-forbindelser': 'wetravel',
+  'weab-kapitalallokering': 'weab',
+  'wesort-logistik': 'wesort',
+  'wekill-produktion': 'wekill',
+  'wegamble-utveckling': 'wegamble',
+  'bostadsstabilitet': 'welivelaughlove'
+};
+function pressIssuerFor(slug: string): PressIssuer {
+  const companySlug = pressIssuerSlugs[slug];
+  if (!companySlug) throw new Error('Pressmeddelandet saknar bolagsavsändare: ' + slug);
+  if (companySlug === 'weab') return { name: 'WeAB-koncernen', href: '/koncernen/' };
+  const company = companies.find(item => item.slug === companySlug);
+  if (!company) throw new Error('Okänt avsändande bolag: ' + companySlug);
+  return { name: company.name, href: `/verksamheter/${company.slug}/` };
+}
+
+// Personliga signaturer gäller endast tidigare redaktionella texter.
 const establishedByline: Record<string, string> = {
-  'werule-fastighetsforvaltning': 'dagmar-stenqvist',
-  'wesort-colors-kapacitet': 'ruben-kist',
-  'wekill-tredimensionell-produktionsplan': 'alva-heden',
-  'webox-tillatelsehantering': 'bjorn-ralsund',
-  'welivelaughlove-sektion-tre': 'leif-klover',
-  'huvudstadens-arena': 'ottilia-glas',
-  'welove-framtidens-arbetskraft': 'leif-klover',
-  'wetravel-stationsplan': 'viktor-sadel',
-  'wetrade-kunskapsmonopol': 'ester-linde',
-  'webox-lagerkontroll': 'ruben-kist',
-  'wetravel-forbindelser': 'viktor-sadel',
-  'weab-kapitalallokering': 'selma-kvarnstrom',
-  'wesort-logistik': 'nils-brynja',
-  'wekill-produktion': 'alva-heden',
-  'wegamble-utveckling': 'pelle-diamantsson',
-  'bostadsstabilitet': 'marta-ek',
   'insandare-ordning-sektion-tre': 'marta-ek',
   'ledare-egendom-och-ansvar': 'agnes-holmgren',
   'insandare-en-handlare-racker': 'ester-linde',
@@ -84,9 +105,13 @@ const entries: Array<NewsItem & { format: PublicationFormat; authorId?: string }
   ...additionalArticles
 ];
 export const publications: Publication[] = entries.map(article => {
+  if (article.format === 'pressmeddelande') {
+    const issuer = pressIssuerFor(article.slug);
+    return { ...article, authorId: null, issuer, byline: issuer.name };
+  }
   const authorId = article.authorId ?? establishedByline[article.slug];
   const author = getAuthor(authorId);
-  return { ...article, authorId, byline: author.name };
+  return { ...article, authorId, issuer: null, byline: author.name };
 }).sort((a,b) => b.publishedAt.localeCompare(a.publishedAt) || a.slug.localeCompare(b.slug, 'sv'));
 
 export const editorialFormats: Exclude<PublicationFormat, 'pressmeddelande'>[] = [

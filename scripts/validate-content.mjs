@@ -5,7 +5,7 @@ import { companies } from '../src/data/companies.ts';
 import { jobs } from '../src/data/jobs.ts';
 import { news } from '../src/data/news.ts';
 import { editorials } from '../src/data/editorial.ts';
-import { publications, editorialFormats, publicationFormatLabels, additionalArticles, establishedSlugs, authorPublications } from '../src/data/publications.ts';
+import { publications, editorialFormats, publicationFormatLabels, additionalArticles, establishedSlugs, authorPublications, pressIssuerSlugs } from '../src/data/publications.ts';
 import { authors, getAuthor } from '../src/data/authors.ts';
 import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { arenaPhotos } from '../src/data/arena.ts';
@@ -104,6 +104,12 @@ assert.equal(editorials.length, 10, 'Det ska finnas tio tidigare redaktionella a
 assert.equal(additionalArticles.length, 74, 'Det ska finnas 74 nya texter');
 assert.equal(publications.length, 100, 'Tidningen ska innehålla exakt 100 artiklar');
 assert.equal(authors.length, 15, 'Tidningen ska ha exakt 15 återkommande skribenter');
+assert.equal(publications.filter(item => item.format === 'pressmeddelande').length, 16,
+  'Det ska finnas 16 officiella pressmeddelanden');
+assert.equal(publications.filter(item => item.authorId !== null).length, 84,
+  'Skribenterna ska tillskrivas exakt 84 redaktionella texter');
+assert.deepEqual(Object.keys(pressIssuerSlugs).sort(), news.map(item => item.slug).sort(),
+  'Alla pressmeddelanden ska ha en explicit bolagsavsändare');
 assert.equal(Object.keys(publicationFormatLabels).length, 12, 'Alla format behöver namn');
 unique(authors.map(author => author.id), 'skribent-ID');
 unique(authors.map(author => author.name), 'skribentnamn');
@@ -131,8 +137,27 @@ for (const [index, article] of publications.entries()) {
     `Artikelns rubrik eller ingress är för kort: ${article.slug}`);
   assert.ok(article.alt.trim().length > 10 && publicationFormatLabels[article.format],
     `Bilden eller formatet saknas: ${article.slug}`);
-  assert.equal(article.byline, getAuthor(article.authorId).name,
-    `Fel byline för artikeln: ${article.slug}`);
+  if (article.format === 'pressmeddelande') {
+    assert.equal(article.authorId, null,
+      `Pressmeddelanden får inte tillskrivas skribenter: ${article.slug}`);
+    assert.ok(article.issuer, `Pressmeddelandet saknar bolagsavsändare: ${article.slug}`);
+    assert.equal(article.byline, article.issuer.name);
+    const slug = pressIssuerSlugs[article.slug];
+    if (slug === 'weab') {
+      assert.deepEqual(article.issuer, { name: 'WeAB-koncernen', href: '/koncernen/' });
+    } else {
+      const company = companies.find(item => item.slug === slug);
+      assert.ok(company, `Okänd pressavsändare för ${article.slug}`);
+      assert.deepEqual(article.issuer, {
+        name: company.name, href: `/verksamheter/${company.slug}/`
+      });
+    }
+  } else {
+    assert.equal(article.issuer, null,
+      `Redaktionella artiklar får inte ha pressavsändare: ${article.slug}`);
+    assert.equal(article.byline, getAuthor(article.authorId).name,
+      `Fel skribent för artikeln: ${article.slug}`);
+  }
   const minParagraphs = established ? (article.format === 'pressmeddelande' ? 6 : 5) : 4;
   const minChars = established ? (article.format === 'pressmeddelande' ? 125 : 220) : 115;
   assert.ok(article.body.length >= minParagraphs && article.body.every(p => p.trim().length >= minChars),

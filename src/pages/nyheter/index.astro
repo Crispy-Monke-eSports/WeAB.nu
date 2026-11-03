@@ -4,6 +4,10 @@ import { publications, publicationFormatLabels, editorialFormats } from '../../d
 import { authors } from '../../data/authors.ts';
 
 const [featured] = publications;
+const pressCount = publications.filter(item => item.format === 'pressmeddelande').length;
+const issuers = [...new Map(
+  publications.filter(item => item.issuer).map(item => [item.issuer!.name, item.issuer!])
+).values()].sort((a, b) => a.name.localeCompare(b.name, 'sv'));
 const letters = publications.filter(item => item.format === 'insandare').slice(0, 3);
 const formatButtons = ['alla', 'pressmeddelande', ...editorialFormats] as const;
 const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
@@ -18,7 +22,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
     <div class="shell">
       <h1>WeAB Tidningen.</h1>
       <p class="lead">Nyheter, debatt och fördjupning från koncernen och vår omvärld. Här finns plats för flera röster, så länge de har något konstruktivt att säga.</p>
-      <div class="paper-edition"><span>Utgiven av WeAB Group</span><span>{publications.length} publicerade texter av {authors.length} skribenter</span></div>
+      <div class="paper-edition"><span>Utgiven av WeAB Group</span><span>{publications.length} publicerade texter · {authors.length} skribenter · {pressCount} officiella pressmeddelanden</span></div>
       <p class="writer-directory"><a href="/nyheter/skribenter/">Lär känna skribenterna <span aria-hidden="true">↗</span></a></p>
     </div>
   </header>
@@ -64,10 +68,16 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
       <div class="archive-search">
         <label for="news-search">Sök i tidningen</label>
         <input id="news-search" type="search" placeholder="Sök bland rubriker, ämnen och skribenter" data-search />
-        <label for="author-filter">Skribent</label>
+        <label for="author-filter">Avsändare</label>
         <select data-author id="author-filter">
-          <option value="alla">Alla skribenter</option>
-          {authors.map(author => <option value={author.id}>{author.name}</option>)}
+          <option value="alla">Alla avsändare</option>
+          <option value="press">Alla officiella pressmeddelanden</option>
+          <optgroup label="Avsändande bolag">
+            {issuers.map(issuer => <option value={`issuer:${issuer.name}`}>{issuer.name}</option>)}
+          </optgroup>
+          <optgroup label="Skribenter">
+            {authors.map(author => <option value={`author:${author.id}`}>{author.name}</option>)}
+          </optgroup>
         </select>
         <output data-count aria-live="polite">{publications.length} texter</output>
       </div>
@@ -78,6 +88,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
           data-story
           data-format={item.format}
           data-author={item.authorId}
+          data-issuer={item.issuer?.name}
           data-searchable={`${item.title} ${item.summary} ${item.byline} ${item.type} ${publicationFormatLabels[item.format]}`.toLocaleLowerCase('sv')}>
           <div class="image-frame"><img src={item.image} alt={item.alt} loading="lazy" /></div>
           <h3>{item.title}</h3>
@@ -107,9 +118,13 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
     const query = (search?.value ?? '').trim().toLocaleLowerCase('sv');
     let matched = 0;
     for (const card of cards) {
+      const selected = authorSelect?.value ?? 'alla';
+      const matchesSender = selected === 'alla'
+        || (selected === 'press' && card.dataset.format === 'pressmeddelande')
+        || (selected.startsWith('author:') && card.dataset.author === selected.slice('author:'.length))
+        || (selected.startsWith('issuer:') && card.dataset.issuer === selected.slice('issuer:'.length));
       const matches = (activeFormat === 'alla' || card.dataset.format === activeFormat)
-        && (!authorSelect || authorSelect.value === 'alla' || card.dataset.author === authorSelect.value)
-        && (card.dataset.searchable ?? '').includes(query);
+        && matchesSender && (card.dataset.searchable ?? '').includes(query);
       if (matches) matched += 1;
       card.hidden = !matches || matched > limit;
     }

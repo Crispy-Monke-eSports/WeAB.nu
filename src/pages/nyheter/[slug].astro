@@ -11,7 +11,7 @@ export function getStaticPaths() {
   }));
 }
 const { article } = Astro.props as { article: Publication };
-const author = getAuthor(article.authorId);
+const author = article.authorId ? getAuthor(article.authorId) : null;
 const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }
 ).format(new Date(`${iso}T12:00:00Z`));
@@ -28,7 +28,9 @@ const related = publications
       <div class="publication-meta">
         <span>{publicationFormatLabels[article.format]}</span>
         <time datetime={article.publishedAt}>{dateLabel(article.publishedAt)}</time>
-        <span>Av <a class="byline" href={`/nyheter/skribenter/${author.id}/`}>{article.byline}</a></span>
+        {article.issuer
+          ? <span>Officiellt pressmeddelande från <a class="byline" href={article.issuer.href}>{article.issuer.name}</a></span>
+          : author && <span>Av <a class="byline" href={`/nyheter/skribenter/${author.id}/`}>{author.name}</a></span>}
       </div>
     </div>
   </header>
@@ -48,11 +50,16 @@ const related = publications
           <span>{publicationFormatLabels[item.format]} · {dateLabel(item.publishedAt)}</span>
         </a>)}</div>
       </aside>}
-      <aside class="author-info">
+      {author && <aside class="author-info">
         <h2>Om skribenten</h2>
         <p><strong>{author.name}</strong> · {author.role}. {author.biography}</p>
         <a href={`/nyheter/skribenter/${author.id}/`}>Fler artiklar av {author.name} <span aria-hidden="true">↗</span></a>
-      </aside>
+      </aside>}
+      {article.issuer && <aside class="author-info">
+        <h2>Officiellt pressmeddelande</h2>
+        <p>Det här meddelandet har publicerats av <strong>{article.issuer.name}</strong> inom WeAB-koncernen.</p>
+        <a href={article.issuer.href}>Läs mer om {article.issuer.name} <span aria-hidden="true">↗</span></a>
+      </aside>}
       <nav class="article-end" aria-label="Tillbaka till tidningen">
         <a class="btn btn-outline" href="/nyheter/">Alla texter <span aria-hidden="true">↗</span></a>
       </nav>
