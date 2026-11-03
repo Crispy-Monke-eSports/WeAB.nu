@@ -123,7 +123,7 @@ en genererad fil ska inte kunna överleva utan att upptäckas.
 
 ### Längre artiklar – etappvis redaktionell genomgång
 
-**Etapp 1–2 är slutförda: 20 av 100 artiklar** har skrivits om till längre
+**21 av 100 artiklar är förlängda** (20 tidigare samt Ruben Kists första krönika) har skrivits om till längre
 tidningstexter med 591–750 ord och 9–10 utvecklade stycken per artikel.
 Omgången omfattar de tio första officiella pressmeddelandena i
 `src/data/news.ts` – från WeRules fastighetsförvaltning till WeBoxes
@@ -132,8 +132,9 @@ och de fyra första redaktionella texterna: två insändare, en ledare och
 ett reportage. Fullängdstexterna för etapp 2 finns i
 `src/data/expanded/` och kopplas till publiceringen via `bodies.ts`
 och `src/data/publications.ts`. Ursprungliga artikeladresser,
-metadata och avsändare behålls. De övriga **80 artiklarna är
-oförändrade** i denna omgång.
+metadata och avsändare behålls. De övriga **79 artiklarna är
+oförändrade**. Nästa steg är att färdigställa Rubens fyra återstående
+artiklar med samma igenkännbara skribentröst.
 
 `src/data/expandedArticleSlugs.ts` är checklistan för vilka artiklar som
 redan fått en genomarbetad förlängning. Nästa omgång kan lägga till tio

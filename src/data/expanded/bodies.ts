@@ -2,6 +2,7 @@ import { expandedPressPartA } from './press-part-a.ts';
 import { expandedPressPartB } from './press-part-b.ts';
 import { expandedEditorialPartA } from './editorial-part-a.ts';
 import { expandedEditorialPartB } from './editorial-part-b.ts';
+import { rubenFullLengthPart1 } from './ruben-part-1.ts';
 
 /**
  * Etapp 2: brödtexten för artiklar 11–20.
@@ -13,7 +14,8 @@ for (const article of [
   ...expandedPressPartA,
   ...expandedPressPartB,
   ...expandedEditorialPartA,
-  ...expandedEditorialPartB
+  ...expandedEditorialPartB,
+  ...rubenFullLengthPart1
 ]) {
   if (expandedArticleBodies.has(article.slug)) {
     throw new Error('Dubbel fullängdstext: ' + article.slug);

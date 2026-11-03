@@ -3,7 +3,7 @@
  * De tio första pressmeddelandena finns direkt i news.ts.
  * Artiklar 11–20 har sina fullängdstexter i src/data/expanded/,
  * som används av publications.ts utan att ändra artikelmetadata.
- * Nya omgångar kan lägga till tio slugs åt gången.
+ * Följande omgång arbetar skribentvis; Ruben Kists första längre krönika är incheckad.
  */
 export const expandedArticleSlugs = [
   "werule-fastighetsforvaltning",
@@ -25,7 +25,8 @@ export const expandedArticleSlugs = [
   "insandare-ordning-sektion-tre",
   "ledare-egendom-och-ansvar",
   "insandare-en-handlare-racker",
-  "reportage-inne-i-wesort"
+  "reportage-inne-i-wesort",
+  "den-borttappade-kistans-sorg"
 ] as const;
 export const expandedMinimumWords = 500;
 export const expandedMinimumParagraphs = 8;
