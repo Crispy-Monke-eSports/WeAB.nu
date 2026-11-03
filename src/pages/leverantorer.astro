@@ -6,15 +6,15 @@ import { headquarters } from '../data/contacts';
   <header class="page-hero procurement-hero">
     <div class="shell">
       
-      <h1>Tillsammans skapar vi värde.</h1>
-      <p class="lead">WeAB söker långsiktiga leverantörsrelationer som stärker koncernens kapacitet, tillförlitlighet och kontroll över värdekedjan. Vi ser externa samarbeten som ett viktigt steg på vägen mot fullständig integration.</p>
-      <a href="#leverantorsprocess" class="btn">Så arbetar vi med inköp ↓</a>
+      <h1>Inköp och leverantörer</h1>
+      <p class="lead">WeAB hanterar de flesta transporter, lager och produktionsflöden inom den egna koncernen. Externa leverantörer kan lämna förslag till huvudkontoret. Förslagen prövas mot befintliga interna lösningar.</p>
+      <a href="#leverantorsprocess" class="link-arrow">Läs om leverantörsprövningen ↓</a>
     </div>
   </header>
 
   <section class="section" id="leverantorsprocess">
     <div class="shell">
-      <div class="section-heading"><div><h2>En tydlig process för långsiktiga samarbeten.</h2></div><p>Vi välkomnar initiativ som bidrar till koncernens övergripande strategi. Vår inköpsprocess är utformad för att värdera erbjudandet utifrån våra behov.</p></div>
+      <div class="section-heading"><div><h2>Så behandlas en förfrågan</h2></div><p>Huvudkontoret tar emot förslag, bedömer affärsnyttan och avgör vilken verksamhet som kan hantera ärendet.</p></div>
       <ol class="steps">
         <li><span>01</span><div><h3>Inledande kontakt</h3><p>Beskriv vilka varor eller tjänster din verksamhet erbjuder. Huvudkontoret samordnar inkomna förfrågningar och avgör vilka som behöver en fortsatt bedömning.</p></div></li>
         <li><span>02</span><div><h3>Leverantörsprövning</h3><p>Vi utvärderar kvalitet, leveransförmåga, risk och hur väl samarbetet passar våra interna processer. Möjligheten till framtida förvärv ses som en särskild strategisk fördel.</p></div></li>
@@ -25,7 +25,7 @@ import { headquarters } from '../data/contacts';
 
   <section class="section section--dark">
     <div class="shell">
-      <div class="section-heading"><div><h2>Våra grundläggande förväntningar.</h2></div><p>Gemensamma principer bidrar till bättre kvalitet och mer förutsägbara affärsrelationer.</p></div>
+      <div class="section-heading"><div><h2>Leverantörskrav</h2></div><p>Villkoren används vid prövning av externa leverantörer. Slutliga avtalsvillkor bestäms i varje enskilt ärende.</p></div>
       <div class="requirements">
         <article><h3>Pålitlighet</h3><p>Varor och tjänster ska levereras i enlighet med överenskommen omfattning. WeAB har rätt att omvärdera överenskommelsen när koncernens behov förändras.</p></article>
         <article><h3>Transparens</h3><p>Vi förväntar oss full insyn i leverantörens processer och kostnader. Ömsesidig insyn regleras separat enligt koncernens bedömning.</p></article>
@@ -38,7 +38,7 @@ import { headquarters } from '../data/contacts';
 
   <section class="section">
     <div class="shell procurement-split">
-      <div><h2>Inköp och fakturering.</h2><p class="lead">För att skapa effektiva flöden har vi samlat informationen till leverantörer på ett ställe.</p></div>
+      <div><h2>Frågor om inköp</h2><p class="lead">Huvudkontoret svarar på frågor om förfarandet. Konkreta pris- och leveransvillkor förhandlas inte offentligt.</p></div>
       <div class="faq-list">
         <details><summary>Hur kontaktar jag inköpsfunktionen?</summary><p>Kontakta koncernens huvudkontor via <a href={`mailto:${headquarters.email}`}>{headquarters.email}</a> och ange vilket affärsområde ärendet gäller. Förfrågningar fördelas därefter internt.</p></details>
         <details><summary>Vilken valuta används?</summary><p>Koncernens affärsmodell utgår från diamanter. Faktureringsvillkor, leveransomfattning och betalningsform fastställs för varje avtal; någon offentlig prislista finns inte.</p></details>
@@ -49,13 +49,36 @@ import { headquarters } from '../data/contacts';
     </div>
   </section>
 
-  <section class="supplier-ending">
-    <div class="shell supplier-ending__inner">
-      <div><h2>Är ni redo för ett närmare samarbete?</h2><p>Vi ser gärna nya möjligheter till partnerskap, samordning och andra långsiktiga ägarformer.</p></div>
-      <a href={`mailto:${headquarters.email}?subject=Leverant%C3%B6rsf%C3%B6rfr%C3%A5gan%20%E2%80%93%20WeAB`} class="btn">Kontakta inköp ↗</a>
-    </div>
-  </section>
+  <section class="supplier-ending"><div class="shell supplier-ending__inner"><div><h2>Kontakta inköp</h2><p>Beskriv varan eller tjänsten, berört bolag och vem som ansvarar för leveransen. Inga svarstider garanteras.</p></div><a href={`mailto:${headquarters.email}?subject=Leverant%C3%B6rsf%C3%B6rfr%C3%A5gan%20%E2%80%93%20WeAB`} class="link-arrow">{headquarters.email} ↗</a></div></section>
 </BaseLayout>
 <style>
-.procurement-hero{background:linear-gradient(90deg,#0b1720f8 10%,#0b1720cf 60%,#0b17206e),url('/images/wesort-interior.webp') center / cover}.procurement-hero .btn{margin-top:1rem}.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:2rem 0 0}.steps li{padding:1.8rem;background:#182a35;border:1px solid #38515e}.steps li>span{font-weight:800;color:#84dfed;font-size:.9rem}.steps h3{font-size:1.4rem;margin:1.2rem 0 .7rem}.steps p{font-size:.86rem;margin:0}.requirements{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.requirements article{padding:1.8rem;background:#192e38;border-top:2px solid #68d1e3}.requirements h3{font-size:1.4rem;margin:1rem 0 .8rem}.requirements p{font-size:.86rem;margin:0}.policy-link{margin:2rem 0 0}.procurement-split{display:grid;grid-template-columns:.85fr 1.15fr;gap:4rem}.faq-list{border-top:1px solid #415762}.faq-list details{border-bottom:1px solid #415762}.faq-list summary{font-size:1.08rem;font-weight:750;line-height:1.45;cursor:pointer;list-style:none;padding:1.4rem 2rem 1.4rem 0;position:relative}.faq-list summary::-webkit-details-marker{display:none}.faq-list summary::after{content:'+';position:absolute;right:.3rem;top:1.25rem;color:#8fe0ec;font-size:1.4rem}.faq-list details[open] summary::after{content:'−'}.faq-list details p{font-size:.91rem;padding:0 1rem 1.4rem 0;margin:0}.faq-list details a{color:#9ae8f1}.supplier-ending{padding:5rem 0;background:#10313b;border-top:1px solid #3f6470}.supplier-ending__inner{display:flex;align-items:center;justify-content:space-between;gap:3rem}.supplier-ending__inner>div{max-width:800px}.supplier-ending__inner .btn{flex-shrink:0}@media(max-width:850px){.steps{grid-template-columns:1fr 1fr}.procurement-split{grid-template-columns:1fr;gap:2rem}}@media(max-width:620px){.steps,.requirements{grid-template-columns:1fr}.supplier-ending__inner{align-items:flex-start;flex-direction:column;gap:1rem}}
+.procurement-hero{background:linear-gradient(90deg,#0b1720f8 10%,#0b1720db 63%,#0b17208c),url('/images/wesort-interior.webp') center / cover}
+.procurement-hero .link-arrow{margin-top:.8rem}
+.steps{list-style:none;padding:0;margin:2rem 0 0;border-top:1px solid #465b65}
+.steps li{display:grid;grid-template-columns:55px 210px minmax(0,1fr);align-items:baseline;gap:1.5rem;padding:1.5rem 0;border-bottom:1px solid #465b65}
+.steps li>span{color:#8adae7;font-size:.8rem;font-weight:800}
+.steps li>div{display:contents}
+.steps h3{font-size:1.18rem;margin:0}
+.steps p{font-size:.9rem;line-height:1.7;margin:0}
+.requirements{display:grid;grid-template-columns:1fr 1fr;column-gap:3.4rem;row-gap:0}
+.requirements article{padding:1.5rem 0;border-top:1px solid #465b65}
+.requirements h3{font-size:1.2rem;margin:0 0 .8rem}
+.requirements p{font-size:.89rem;margin:0}
+.policy-link{margin:2rem 0 0}
+.procurement-split{display:grid;grid-template-columns:.8fr 1.2fr;gap:4rem}
+.faq-list{border-top:1px solid #465b65}
+.faq-list details{border-bottom:1px solid #465b65}
+.faq-list summary{font-size:1rem;font-weight:750;line-height:1.5;cursor:pointer;list-style:none;padding:1.3rem 2rem 1.3rem 0;position:relative}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:'+';position:absolute;right:.3rem;top:1.15rem;color:#8bdbe9;font-size:1.4rem}
+.faq-list details[open] summary::after{content:'−'}
+.faq-list details p{font-size:.9rem;padding:0 0 1.5rem;margin:0}
+.faq-list details a{color:#a7e9f1}
+.supplier-ending{padding:3.5rem 0;border-top:1px solid #40545f}
+.supplier-ending__inner{display:flex;align-items:center;justify-content:space-between;gap:3rem}
+.supplier-ending__inner>div{max-width:650px}
+.supplier-ending__inner h2{font-size:clamp(1.7rem,3vw,2.5rem)}
+.supplier-ending__inner .link-arrow{overflow-wrap:anywhere}
+@media(max-width:850px){.procurement-split{grid-template-columns:1fr;gap:2rem}.steps li{grid-template-columns:40px 1fr;gap:.6rem}.steps li>div{display:block}.steps h3{margin-bottom:.5rem}}
+@media(max-width:620px){.requirements{grid-template-columns:1fr}.supplier-ending__inner{align-items:flex-start;flex-direction:column;gap:.5rem}}
 </style>
