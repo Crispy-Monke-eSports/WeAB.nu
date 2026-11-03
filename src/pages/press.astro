@@ -9,13 +9,13 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE', {day:'numeri
 <BaseLayout title="Press och media | WeAB Group" description="Officiella pressmeddelanden, koncerninformation och mediekontakter för WeAB Group.">
   <header class="page-hero"><div class="shell">
     
-    <h1>Information från koncernen.</h1>
-    <p class="lead">Här publicerar WeAB och våra verksamheter officiell information om strategiska beslut, anläggningar och utvecklingen i koncernen. Vi eftersträvar en korrekt och enhetlig beskrivning av verkligheten.</p>
-    <a class="btn btn-outline" href="/nyheter/">Till WeAB Tidningen ↗</a>
+    <h1>Pressmeddelanden och pressmaterial</h1>
+    <p class="lead">Pressmeddelanden från WeAB och dotterbolagen publiceras här med datum och avsändare. Reportage, insändare och övrig redaktionell text finns i WeAB Tidningen.</p>
+    <a class="link-arrow" href="/nyheter/">Till WeAB Tidningen ↗</a>
   </div></header>
   <section class="section"><div class="shell">
     <div class="section-heading"><h2>Senaste pressmeddelanden</h2><p>Officiella utskick från moderbolaget och dotterbolagen, samlade på en plats.</p></div>
-    <div class="press-controls"><label for="issuer-select">Filtrera avsändare</label><select id="issuer-select"><option value="alla">Alla koncernbolag</option>{issuers.map(issuer => <option value={issuer}>{issuer}</option>)}</select><output id="release-count" aria-live="polite">{releases.length} pressmeddelanden</output></div>
+    <div class="press-controls" data-js-control hidden><label for="issuer-select">Filtrera avsändare</label><select id="issuer-select"><option value="alla">Alla koncernbolag</option>{issuers.map(issuer => <option value={issuer}>{issuer}</option>)}</select><output id="release-count" aria-live="polite">{releases.length} pressmeddelanden</output></div>
     <div class="press-grid" id="releases">{releases.map(article => <article class="press-entry" data-issuer={article.issuer?.name}>
       <h3><a href={'/nyheter/'+article.slug+'/'}>{article.title}</a></h3>
       <p class="press-meta"><time datetime={article.publishedAt}>{dateLabel(article.publishedAt)}</time> · {publicationFormatLabels[article.format]}</p>
@@ -44,11 +44,11 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE', {day:'numeri
         <div class="media-card__body"><h3>Industriellt verksamhetsområde</h3><p>Översiktsbild av koncernens anläggningar i Sektion 1 (WebP).</p><a href="/images/section-1-overview.webp" download="weab-sektion-1.webp">Hämta pressbild ↗</a></div>
       </article>
     </div>
-    <p class="media-guidance">För bolagsspecifika frågor och kompletterande material: <a href="/kontakt/">kontakta respektive verksamhet</a>. Vi tillhandahåller bilder av anläggningarna, inte en förhandsgranskning av den redaktionella slutsatsen.</p>
+    <p class="media-guidance">För bolagsspecifika frågor och kompletterande material: <a href="/kontakt/">kontakta respektive verksamhet</a>. Bilderna visar koncernens egna anläggningar. En bildbeskrivning får inte användas som belägg för en anläggnings produktion eller kapacitet.</p>
   </div></section>
   <section class="section section--dark"><div class="shell press-bottom">
-    <div><h2>Fler perspektiv.<br/>Samma värld.</h2><p>För reportage, intervjuer, ledare och insändare hänvisar vi till WeAB Tidningen. Där ges plats åt flera röster inom ramen för ett sammanhållet publicistiskt uppdrag.</p><a class="btn btn-outline" href="/nyheter/">Besök tidningen ↗</a></div>
-    <div class="press-contact"><h3>Pressförfrågningar</h3><p>Huvudkontoret samordnar övergripande förfrågningar. För verksamhetsspecifik information finns kontaktvägar till respektive bolag.</p><a href="mailto:huvudkontor@weab.nu">huvudkontor@weab.nu ↗</a><a href="/kontakt/">Kontaktkatalog ↗</a><p class="caption">Publicerade texter representerar koncernens egen framställning. Oberoende granskning beställs inte här.</p></div>
+    <div><h2>Läs WeAB Tidningen</h2><p>För reportage, intervjuer, ledare och insändare hänvisar vi till WeAB Tidningen. Där publiceras signerade texter med egna skribentprofiler och en annan publiceringsform än koncernens officiella utskick.</p><a class="btn btn-outline" href="/nyheter/">Besök tidningen ↗</a></div>
+    <div class="press-contact"><h3>Pressförfrågningar</h3><p>Huvudkontoret samordnar övergripande förfrågningar. För verksamhetsspecifik information finns kontaktvägar till respektive bolag.</p><a href="mailto:huvudkontor@weab.nu">huvudkontor@weab.nu ↗</a><a href="/kontakt/">Kontaktkatalog ↗</a><p class="caption">Pressmeddelandena är officiella utskick från koncernen eller angivet dotterbolag, inte oberoende journalistik.</p></div>
   </div></section>
 </BaseLayout>
 <script>
@@ -57,9 +57,44 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE', {day:'numeri
   const output=document.querySelector<HTMLOutputElement>('#release-count');
   const empty=document.querySelector<HTMLElement>('#empty-press');
   const update=()=>{let visible=0;for(const item of entries){const match=select?.value==='alla'||select?.value===item.dataset.issuer;item.hidden=!match;if(match)visible++;}if(output)output.textContent=visible+' '+(visible===1?'pressmeddelande':'pressmeddelanden');if(empty)empty.hidden=visible!==0;};
-  select?.addEventListener('change',update);
+  if (select) {
+    document.querySelectorAll<HTMLElement>('[data-js-control]').forEach(control => { control.hidden = false; });
+    select.addEventListener('change',update);
+  }
 </script>
 <style>
-.media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.media-card{background:#142832;border:1px solid #3c5663;min-width:0;display:flex;flex-direction:column}.media-preview{aspect-ratio:16/9;background:#182a34;overflow:hidden}.media-preview img{width:100%;height:100%;object-fit:cover}.media-preview--logo{display:grid;place-items:center;background:radial-gradient(circle,#16414d,#0b1720)}.media-preview--logo img{width:auto;max-height:130px;max-width:130px;height:auto;object-fit:contain}.media-card__body{padding:1.4rem;display:flex;flex:1;flex-direction:column;align-items:flex-start}.media-card__body h3{font-size:1.12rem;margin:0 0 .7rem;line-height:1.3}.media-card__body p{font-size:.8rem;margin:0 0 1.2rem}.media-card__body>a{margin-top:auto;font-size:.82rem;font-weight:800;color:#92e1ec}.media-guidance{font-size:.83rem;margin:1.5rem 0 0}.media-guidance a{color:#9fe5ef}@media(max-width:900px){.media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:610px){.media-grid{grid-template-columns:1fr}}
-.press-controls{display:flex;gap:1.1rem;align-items:center;flex-wrap:wrap;padding:1.3rem;background:#172832;border:1px solid #334955;margin:2rem 0}.press-controls label{font-weight:700;font-size:.86rem}.press-controls select{min-height:44px;background:#0b1b25;border:1px solid #526976;color:white;padding:.55rem;font:inherit;max-width:100%}.press-controls output{margin-left:auto;font-size:.8rem;color:#aec6d0}.press-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.press-entry{background:#142530;border:1px solid #344954;padding:1.7rem;display:flex;flex-direction:column;min-width:0}.press-entry[hidden],.empty-press[hidden]{display:none}.press-entry h3{font-size:1.35rem;margin:1rem 0}.press-entry h3 a{text-decoration:none}.press-entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--cyan)}.press-entry p{font-size:.86rem}.press-entry .press-meta{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:#a5c0cc;margin:0 0 1rem}.press-issuer{display:flex;justify-content:space-between;gap:1rem;align-items:center;border-top:1px solid #364e59;margin-top:auto;padding-top:1rem;font-size:.78rem}.press-issuer span{color:#a7bdc9}.press-issuer a{font-weight:700;color:#93e1ef;text-align:right}.press-bottom{display:grid;grid-template-columns:1.15fr .85fr;gap:4rem}.press-bottom>div:first-child p{max-width:550px}.press-contact{background:#192c37;padding:2rem;border-top:2px solid var(--cyan)}.press-contact a{display:block;margin-top:1rem;font-size:.88rem;font-weight:800;color:#94e2ef;overflow-wrap:anywhere}.press-contact .caption{margin-top:1.5rem}.empty-press{padding:1.5rem}@media(max-width:700px){.press-grid,.press-bottom{grid-template-columns:1fr}.press-controls output{margin-left:0}}
+.press-controls{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin:2rem 0 1.2rem}
+.press-controls label{font-size:.87rem;font-weight:750}
+.press-controls select{font:inherit;min-height:44px;max-width:100%;padding:.55rem .75rem;color:var(--text);background:#10222d;border:1px solid #607580}
+.press-controls output{margin-left:auto;font-size:.8rem;color:#b6c8d0}
+.press-grid{border-top:1px solid #425966}
+.press-entry{display:grid;grid-template-columns:1fr 190px;gap:.2rem 2rem;padding:1.5rem 0;border-bottom:1px solid #425966}
+.press-entry[hidden],.empty-press[hidden]{display:none}
+.press-entry h3{grid-column:1;grid-row:1;font-size:1.25rem;line-height:1.3;margin:0 0 .6rem}
+.press-entry h3 a{text-decoration:none}.press-entry h3 a:hover{text-decoration:underline;text-underline-offset:3px}
+.press-entry>p:not(.press-meta){grid-column:1;grid-row:3;margin:0;font-size:.87rem;max-width:75ch}
+.press-entry .press-meta{grid-column:2;grid-row:1;font-size:.77rem;color:#b1c5ce;margin:0;line-height:1.6}
+.press-issuer{grid-column:2;grid-row:3;display:grid;align-content:start;gap:.35rem;font-size:.76rem}
+.press-issuer span{color:#a2b9c5}.press-issuer a{color:#9cdeea;font-weight:700}
+.media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.7rem}
+.media-card{display:flex;flex-direction:column;min-width:0}
+.media-preview{aspect-ratio:16/9;background:#162934;overflow:hidden}
+.media-preview img{width:100%;height:100%;object-fit:cover}
+.media-preview--logo{display:grid;place-items:center;background:#18313c}
+.media-preview--logo img{width:auto;max-height:125px;max-width:125px;height:auto;object-fit:contain}
+.media-card__body{padding:1rem 0;display:flex;flex:1;flex-direction:column;align-items:flex-start}
+.media-card__body h3{font-size:1.07rem;margin:0 0 .65rem}
+.media-card__body p{font-size:.85rem;margin:0 0 1rem}
+.media-card__body>a{margin-top:auto;font-weight:750;font-size:.82rem;color:#9fe1ea}
+.media-guidance{font-size:.85rem;margin:1.5rem 0 0}
+.media-guidance a{color:#9fe1ea}
+.press-bottom{display:grid;grid-template-columns:1.2fr .8fr;gap:4rem}
+.press-bottom>div:first-child p{max-width:60ch}
+.press-contact{border-top:1px solid #51717c;padding:1.6rem 0}
+.press-contact h3{margin:0 0 1rem}
+.press-contact a{display:block;margin-top:.8rem;color:#9ce3ef;font-weight:750;font-size:.86rem;overflow-wrap:anywhere}
+.press-contact .caption{margin-top:1.5rem}
+.empty-press{padding:1.5rem 0}
+@media(max-width:800px){.media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.press-bottom{grid-template-columns:1fr}.press-entry{grid-template-columns:1fr}.press-entry h3,.press-entry .press-meta,.press-entry>p:not(.press-meta),.press-issuer{grid-column:1;grid-row:auto}.press-entry .press-meta{margin-bottom:.5rem}.press-issuer{margin-top:.8rem}}
+@media(max-width:600px){.media-grid{grid-template-columns:1fr}.press-controls output{margin-left:0;width:100%}}
 </style>
