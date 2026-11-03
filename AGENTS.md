@@ -1,5 +1,13 @@
 # Arbetsanvisningar för WeAB
 
+## ABSOLUT DESIGNREGEL: Aldrig ögonbryn över rubriker
+
+- **STRIKT FÖRBUD.** Visa **aldrig** en eyebrow/ögonbryn, kicker, överrubrik, sektionstagg, versalrad, bolagsetikett, kategorirad eller numrering **ovanför en rubrik eller titelliknande text**. Detta gäller **alla** sidrubriker (h1–h6), sektionsrubriker, kort- och dokumenttitlar, citatblock, författarpresentationer och nya komponenter. Regeln gäller på både mobil och dator.
+- Lägg **rubriken först**, helt utan dekorativ förtext. Exempel på **förbjudet** mönster: `<span class="small-caps">WEAB GROUP / LÄGESRAPPORT 2026</span><h2>Verksamhetsöversikt 2026</h2>`. Detsamma gäller andra klasser, taggar eller typografiska varianter av en liten rad ovanför rubriken.
+- Behövs information som datum, avsändare, dokumentkategori eller bolagsnamn, placera den **under rubriken**, i brödtext eller som ett riktigt datafält. Ta inte bort nödvändig sakinformation bara för att uppfylla förbudet.
+- Återinför **aldrig** ögonbryn som grafisk förfining, inte heller vid framtida designarbete. Rena symboler och avatarer som **inte innehåller textetiketter** får däremot finnas vid en rubrik.
+- Projektets innehållsvalidering ska upptäcka och stoppa återfall med etikett- eller spanrader direkt före rubriker.
+
 ## Projektet
 
 - Statisk Astro 7-webbplats på svenska. Node.js 22.23.4 eller senare.

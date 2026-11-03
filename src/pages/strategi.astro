@@ -19,7 +19,7 @@ const supporting = [
 <BaseLayout title="Strategi och affärsmodell | WeAB Group" description="Så arbetar WeAB med vertikal integration, koncernsynergier och långsiktiga strategiska prioriteringar.">
   <header class="page-hero strategy-hero">
     <div class="shell">
-      <span class="small-caps">KONCERNEN / STRATEGI</span>
+      
       <h1>Hela värdekedjan.<br/>En enda ägare.</h1>
       <p class="lead">Vår affärsmodell bygger på att samla avgörande funktioner inom samma koncern. Det skapar tydligare ansvar, kortare beslutsvägar och färre oönskade alternativ för kunden.</p>
       <a href="#affarsmodell" class="btn">Utforska affärsmodellen ↓</a>
@@ -29,13 +29,13 @@ const supporting = [
   <section class="section" id="affarsmodell">
     <div class="shell">
       <div class="section-heading">
-        <div><span class="small-caps">AFFÄRSMODELL</span><h2>Från första resurs till slutkund.</h2></div>
+        <div><h2>Från första resurs till slutkund.</h2></div>
         <p>Varje verksamhet tillför något. Tillsammans ser de till att värdet stannar där det skapas: inom WeAB.</p>
       </div>
       <ol class="value-chain">
         {valueChain.map(step => <li>
           <span class="chain-num">{step.number}</span>
-          <div><span class="small-caps">VÄRDEKEDJA</span><h3>{step.name}</h3><p>{step.detail}</p></div>
+          <div><h3>{step.name}</h3><p>{step.detail}</p></div>
           <a href={`/verksamheter/${step.slug}/`} aria-label={`Läs mer om ${companyBySlug[step.slug].name}`}>
             <strong>{companyBySlug[step.slug].name}</strong><span aria-hidden="true">↗</span>
           </a>
@@ -46,21 +46,21 @@ const supporting = [
 
   <section class="section section--dark">
     <div class="shell split-layout">
-      <div><span class="small-caps">STRATEGISKA PRIORITERINGAR</span><h2>Skalbarhet genom samordning.</h2><p class="lead">När en koncern äger produktionen, logistiken och distributionsvägarna uppstår betydande samordningsvinster.</p><p>WeAB arbetar löpande för att minska beroendet av aktörer som inte omfattas av koncernens kvalitetssäkring, prissättning eller ägarstyrning.</p><a class="link-arrow" href="/investerare/">Investerarperspektivet ↗</a></div>
+      <div><h2>Skalbarhet genom samordning.</h2><p class="lead">När en koncern äger produktionen, logistiken och distributionsvägarna uppstår betydande samordningsvinster.</p><p>WeAB arbetar löpande för att minska beroendet av aktörer som inte omfattas av koncernens kvalitetssäkring, prissättning eller ägarstyrning.</p><a class="link-arrow" href="/investerare/">Investerarperspektivet ↗</a></div>
       <div class="strategy-principles">
-        <article><span>01 / TILLVÄXT</span><h3>Kapacitet före begränsningar</h3><p>Vi utvecklar befintliga anläggningar och identifierar nya områden där naturens resurser kan få en tydlig ekonomisk funktion.</p></article>
-        <article><span>02 / INTEGRATION</span><h3>Färre överlämningar</h3><p>Produktion och tjänster ska så långt det är möjligt levereras mellan koncernbolag. Det minimerar behovet av externa diskussioner.</p></article>
-        <article><span>03 / STABILITET</span><h3>Förutsägbara beslut</h3><p>En sammanhållen styrmodell ger varje invånare och kund tryggheten att veta vem som bestämmer.</p></article>
+        <article><h3>Kapacitet före begränsningar</h3><p>Vi utvecklar befintliga anläggningar och identifierar nya områden där naturens resurser kan få en tydlig ekonomisk funktion.</p></article>
+        <article><h3>Färre överlämningar</h3><p>Produktion och tjänster ska så långt det är möjligt levereras mellan koncernbolag. Det minimerar behovet av externa diskussioner.</p></article>
+        <article><h3>Förutsägbara beslut</h3><p>En sammanhållen styrmodell ger varje invånare och kund tryggheten att veta vem som bestämmer.</p></article>
       </div>
     </div>
   </section>
 
   <section class="section">
     <div class="shell">
-      <div class="section-heading"><div><span class="small-caps">KONCERNENS ÖVRIGA AFFÄRSOMRÅDEN</span><h2>Fler verksamheter.<br/>Samma strategi.</h2></div><p>Värdekedjan kompletteras av fastigheter, samhällstjänster, personalförsörjning och framtida nöjesverksamhet.</p></div>
+      <div class="section-heading"><div><h2>Fler verksamheter.<br/>Samma strategi.</h2></div><p>Värdekedjan kompletteras av fastigheter, samhällstjänster, personalförsörjning och framtida nöjesverksamhet.</p></div>
       <div class="supporting-grid">
         {supporting.map(item => <a href={`/verksamheter/${item.slug}/`} class="supporting-card">
-          <span class="small-caps">{companyBySlug[item.slug].name}</span><h3>{item.heading}</h3><p>{item.body}</p><strong>Om verksamheten <span aria-hidden="true">↗</span></strong>
+          <h3>{item.heading}</h3><p>{item.body}</p><strong>Om verksamheten <span aria-hidden="true">↗</span></strong>
         </a>)}
       </div>
     </div>
@@ -68,7 +68,7 @@ const supporting = [
 
   <section class="strategy-close">
     <div class="shell strategy-close__inner">
-      <div><span class="small-caps">WEAB GROUP / LÅNGSIKTIGT PERSPEKTIV</span><h2>En marknad utan friktion.</h2><p class="lead">Vi ser en framtid där kunden inte längre behöver jämföra leverantörer. Vi arbetar målmedvetet för att göra den framtiden möjlig.</p></div>
+      <div><h2>En marknad utan friktion.</h2><p class="lead">Vi ser en framtid där kunden inte längre behöver jämföra leverantörer. Vi arbetar målmedvetet för att göra den framtiden möjlig.</p></div>
       <a href="/koncernen/" class="btn btn-outline">Läs mer om koncernen ↗</a>
     </div>
   </section>

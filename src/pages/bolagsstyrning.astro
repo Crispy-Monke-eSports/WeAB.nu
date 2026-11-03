@@ -4,13 +4,13 @@ import { leadingMembers, chiefExecutive } from '../data/leadership';
 ---
 <BaseLayout title="Bolagsstyrning | WeAB Group" description="WeAB:s ledningsstruktur, ansvarsfördelning, uppförandekod och centrala styrningsprinciper.">
   <header class="page-hero"><div class="shell">
-    <span class="small-caps">KONCERNEN / BOLAGSSTYRNING</span>
+    
     <h1>Ansvar börjar högst upp.</h1>
     <p class="lead">WeAB:s styrmodell förenar tydliga mandat, effektiva beslutsvägar och en konsekvent fördelning av ansvar. Den som fattar beslut och den som bär konsekvenserna behöver inte alltid vara samma person.</p>
   </div></header>
   <section class="section"><div class="shell">
     <div class="section-heading"><h2>Koncernledning</h2><p>Den verkställande ledningen omsätter koncernens övergripande strategi i bindande riktlinjer för samtliga verksamheter.</p></div>
-    <div class="ceo-card"><div class="ceo-avatar" aria-hidden="true"><span>?</span></div><div><span class="small-caps">VERKSTÄLLANDE LEDNING</span><h3>{chiefExecutive.name}</h3><strong>{chiefExecutive.title}</strong><p>{chiefExecutive.description}</p></div></div>
+    <div class="ceo-card"><div class="ceo-avatar" aria-hidden="true"><span>?</span></div><div><h3>{chiefExecutive.name}</h3><strong>{chiefExecutive.title}</strong><p>{chiefExecutive.description}</p></div></div>
     <h3 class="members-heading">Ledande ledamöter</h3>
     <div class="members-grid">{leadingMembers.map(member => <article class="member-card"><span class="member-symbol" aria-hidden="true">WE</span><h4>{member.name}</h4><p>{member.title}</p></article>)}</div>
     <p class="caption">Individuella ansvarsområden och den fullständiga beslutsordningen är interna handlingar. Samtliga fyra personer innehar titeln ledande ledamot.</p>
@@ -18,14 +18,14 @@ import { leadingMembers, chiefExecutive } from '../data/leadership';
   <section class="section section--dark"><div class="shell">
     <div class="section-heading"><h2>Principer för god bolagsstyrning</h2><p>Ett enhetligt ramverk för intern kontroll och konsekventa prioriteringar.</p></div>
     <div class="governance-grid">
-      <article><span class="small-caps">01 / ÄGARSTYRNING</span><h3>En gemensam riktning</h3><p>Alla dotterbolag arbetar mot långsiktigt värdeskapande för koncernen. Lokala avvikelser hanteras genom dialog, därefter genom centrala beslut.</p></article>
-      <article><span class="small-caps">02 / RISK</span><h3>Risker identifieras tidigt</h3><p>Fri konkurrens, okontrollerade resursflöden och självständiga initiativ följs upp som särskilda affärsrisker.</p></article>
-      <article><span class="small-caps">03 / ETIK</span><h3>Vår uppförandekod</h3><p>Medarbetare förväntas agera i koncernens bästa intresse. Vid målkonflikter förväntas medarbetare först och främst kunna identifiera koncernens intresse.</p></article>
-      <article><span class="small-caps">04 / TRANSPARENS</span><h3>Information med omsorg</h3><p>Vi redovisar beslutsunderlag när vi bedömer att offentliggörandet tillför ett tydligt värde. Övriga underlag tillför värde genom att förbli interna.</p></article>
+      <article><h3>En gemensam riktning</h3><p>Alla dotterbolag arbetar mot långsiktigt värdeskapande för koncernen. Lokala avvikelser hanteras genom dialog, därefter genom centrala beslut.</p></article>
+      <article><h3>Risker identifieras tidigt</h3><p>Fri konkurrens, okontrollerade resursflöden och självständiga initiativ följs upp som särskilda affärsrisker.</p></article>
+      <article><h3>Vår uppförandekod</h3><p>Medarbetare förväntas agera i koncernens bästa intresse. Vid målkonflikter förväntas medarbetare först och främst kunna identifiera koncernens intresse.</p></article>
+      <article><h3>Information med omsorg</h3><p>Vi redovisar beslutsunderlag när vi bedömer att offentliggörandet tillför ett tydligt värde. Övriga underlag tillför värde genom att förbli interna.</p></article>
     </div>
   </div></section>
   <section class="section"><div class="shell split-layout">
-    <div><span class="small-caps">ETIK OCH REGELEFTERLEVNAD</span><h2>Din röst är viktig.</h2><p class="lead">Vi uppmuntrar alla medarbetare att lyfta frågor om oegentligheter genom etablerade kanaler.</p><p>Synpunkter granskas av ansvarig funktion och vidarebefordras vid behov till den ledning som synpunkterna berör. Anonymitet behandlas som ett önskemål, inte som en administrativ garanti.</p></div>
+    <div><h2>Din röst är viktig.</h2><p class="lead">Vi uppmuntrar alla medarbetare att lyfta frågor om oegentligheter genom etablerade kanaler.</p><p>Synpunkter granskas av ansvarig funktion och vidarebefordras vid behov till den ledning som synpunkterna berör. Anonymitet behandlas som ett önskemål, inte som en administrativ garanti.</p></div>
     <div class="governance-contact"><h3>Kontakt för bolagsstyrning</h3><p>Frågor om koncernens uppförandekod, ansvarsfördelning och interna principer hanteras av huvudkontoret.</p><a href="mailto:huvudkontor@weab.nu">huvudkontor@weab.nu ↗</a><a href="/kontakt/">Alla kontaktvägar ↗</a></div>
   </div></section>
 </BaseLayout>

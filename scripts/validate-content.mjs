@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { companies } from '../src/data/companies.ts';
 import { jobs } from '../src/data/jobs.ts';
@@ -23,6 +23,36 @@ function asset(path, description) {
   assert.ok(path.startsWith('/') && !path.includes('..'), `Ogiltig sökväg för ${description}: ${path}`);
   assert.ok(existsSync(join('public', path.slice(1))), `Saknad fil för ${description}: ${path}`);
 }
+
+// Designregel från AGENTS.md: inga ögonbryn/överrubriker före rubriker.
+function assertNoHeadingEyebrows(directory) {
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const filepath = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      assertNoHeadingEyebrows(filepath);
+      continue;
+    }
+    if (!entry.name.endsWith('.astro')) continue;
+    const source = readFileSync(filepath, 'utf8');
+    const directPrefix = /<(span|p|small|div)\b([^>]*)>[^<]*<\/\1>\s*<h[1-6]\b/gi;
+    for (const match of source.matchAll(directPrefix)) {
+      const [, tag, attributes] = match;
+      // En grafisk avatar är inte en ögonbrynstext.
+      if (tag === 'span' && /\bmember-symbol\b/.test(attributes)) continue;
+      const looksLikeEyebrow = tag === 'span'
+        || /\b(?:small-caps|eyebrow|kicker|overline|section-label|overtitle)\b/i.test(attributes);
+      assert.ok(!looksLikeEyebrow,
+        `${filepath} har en förbjuden ögonbrynsetikett direkt före en rubrik: ${match[0].slice(0, 120)}`);
+    }
+    const nestedTimePrefix = /<span\b[^>]*><time\b[^>]*>[^<]*<\/time>[^<]*<\/span>\s*<h[1-6]\b/gi;
+    assert.ok(!nestedTimePrefix.test(source),
+      `${filepath} har datum eller kategorietikett ovanför en rubrik; placera metadata under titeln`);
+    const quotedEyebrow = /<span\b[^>]*class="[^"]*\bsmall-caps\b[^"]*"[^>]*>[^<]*<\/span>\s*<blockquote\b/gi;
+    assert.ok(!quotedEyebrow.test(source),
+      `${filepath} har ögonbrynsetikett ovanför ett citatblock`);
+  }
+}
+assertNoHeadingEyebrows('src');
 
 unique(companies.map(({ slug }) => slug), 'verksamhetsslugs');
 assert.equal(headquarters.email, 'huvudkontor@weab.nu');

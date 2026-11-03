@@ -12,8 +12,8 @@ const weabProjects = projects.filter(project => project.division === 'WeAB' && !
   <section class="section"><div class="shell split-layout"><div><h2>Ledda av resultat.<br/>Styrda av avkastning.</h2><p>WeAB leds av ett antal ledande ledamöter med ett gemensamt mandat: att skydda koncernens intressen och driva aktiekursen uppåt. Andra överväganden vägs omsorgsfullt mot sitt bidrag till den långsiktiga avkastningen.</p><p>Grundarens identitet ingår inte i koncernens offentliga historieskrivning. Transparens är viktigt. Selektiv transparens är effektivare.</p><a class="link-arrow" href="/strategi/">Vår strategi och affärsmodell ↗</a></div><div class="image-frame"><img src="/images/weab-cyan-building.webp" alt="Cyanprofilerad byggnad med staty"/></div></div></section>
   <section class="section section--dark leadership-preview" id="ledning"><div class="shell">
     <div class="section-heading"><h2>Ledning och styrning.</h2><p>En sammanhållen ledningsmodell med tydliga beslutsvägar och fyra ledande ledamöter.</p></div>
-    <div class="leadership-feature"><div class="leader-symbol" aria-hidden="true">?</div><div><span class="small-caps">VERKSTÄLLANDE DIREKTÖR</span><h3>{chiefExecutive.name}</h3><p>{chiefExecutive.description}</p></div></div>
-    <div class="leadership-names">{leadingMembers.map(member => <div><span class="small-caps">LEDANDE LEDAMOT</span><strong>{member.name}</strong></div>)}</div>
+    <div class="leadership-feature"><div class="leader-symbol" aria-hidden="true">?</div><div><h3>{chiefExecutive.name}</h3><p>{chiefExecutive.description}</p></div></div>
+    <div class="leadership-names">{leadingMembers.map(member => <div><strong>{member.name}</strong></div>)}</div>
     <div class="leadership-link"><a class="link-arrow" href="/bolagsstyrning/">Se koncernledning, mandat och styrningsprinciper ↗</a></div>
   </div></section>
   <section class="section weab-sites" id="anlaggningar"><div class="shell">
@@ -21,21 +21,21 @@ const weabProjects = projects.filter(project => project.division === 'WeAB' && !
     <div class="weab-sites__grid">{weabProjects.map(project => <article class="weab-site" id={`anlaggning-${project.id}`}>
       <img src={project.image} alt={project.alt} loading="lazy" />
       {project.gallery && <div class="weab-site__gallery" role="group" aria-label={`Fler bilder från ${project.name}`}>{project.gallery.map(photo => <img src={photo.image} alt={photo.alt} loading="lazy" />)}</div>}
-      <div class="weab-site__copy"><span>{project.category}</span><h3>{project.name}</h3><p>{project.description}</p></div>
+      <div class="weab-site__copy"><h3>{project.name}</h3><p>{project.description}</p></div>
     </article>)}</div>
     <a class="link-arrow" href="/arena/">Besök Huvudstadens arena ↗</a>
   </div></section>
   <section class="section weab-history" id="historia"><div class="shell">
     <div class="section-heading"><div><h2>Från en idé till<br/>ett ofrånkomligt faktum.</h2></div></div>
     <ol class="history-grid">
-      <li><span>01 / URSPRUNG</span><h3>En vision tar form</h3><p>WeAB grundades med en enkel övertygelse: framtiden blir effektivare när någon redan har bestämt vem som ska äga den. Uppgifter om grundaren lämnas inte ut.</p></li>
-      <li><span>02 / EXPANSION</span><h3>Sektion 1 får ett syfte</h3><p>WeLove producerar framtidens arbetskraft. WeTrade säljer dess dyraste kunskaper. WeKill driver produktionen, WeSort kontrollerar varuflödet och WeBox arkiverar ägodelarna. Diamanterna fortsätter att cirkulera i önskad riktning.</p></li>
-      <li><span>03 / STABILISERING</span><h3>Byarnas missförstånd</h3><p>Ett antal villagers försökte en gång tolka självbestämmande bokstavligt. Situationen är nu åtgärdad. WeLiveLaughLove ansvarar för ett tryggt boende utan överdriven rörelsefrihet.</p></li>
-      <li><span>04 / FRAMTIDEN</span><h3>Även fritiden har ett pris</h3><p>WeTravel knyter ihop våra områden. På WeGamble Island byggs nästa naturliga steg: en plats där besökare frivilligt kan bidra till koncernens diamantreserver.</p></li>
+      <li><h3>En vision tar form</h3><p>WeAB grundades med en enkel övertygelse: framtiden blir effektivare när någon redan har bestämt vem som ska äga den. Uppgifter om grundaren lämnas inte ut.</p></li>
+      <li><h3>Sektion 1 får ett syfte</h3><p>WeLove producerar framtidens arbetskraft. WeTrade säljer dess dyraste kunskaper. WeKill driver produktionen, WeSort kontrollerar varuflödet och WeBox arkiverar ägodelarna. Diamanterna fortsätter att cirkulera i önskad riktning.</p></li>
+      <li><h3>Byarnas missförstånd</h3><p>Ett antal villagers försökte en gång tolka självbestämmande bokstavligt. Situationen är nu åtgärdad. WeLiveLaughLove ansvarar för ett tryggt boende utan överdriven rörelsefrihet.</p></li>
+      <li><h3>Även fritiden har ett pris</h3><p>WeTravel knyter ihop våra områden. På WeGamble Island byggs nästa naturliga steg: en plats där besökare frivilligt kan bidra till koncernens diamantreserver.</p></li>
     </ol>
     <div class="history-footer"><span>OFFENTLIG VERSION · GODKÄND AV KONCERNLEDNINGEN</span><a href="/verksamheter/welivelaughlove/" class="link-arrow">Vår samhällsservice ↗</a></div>
   </div></section>
-  <section class="section section--dark"><div class="shell"><div class="section-heading"><div><h2>Principer som skapar värde.</h2></div></div><ol class="value-grid"><li><span>01 /</span><h3>Samordning</h3><p>Det blir enklare att fatta rätt beslut när alla beslut kommer från samma håll.</p></li><li><span>02 /</span><h3>Tillväxt</h3><p>En god avkastning är inte en ambition. Det är en minimiförväntning.</p></li><li><span>03 /</span><h3>Stabilitet</h3><p>Vi ser till att varje samhällsprocess följer en väl definierad riktning.</p></li></ol></div></section>
+  <section class="section section--dark"><div class="shell"><div class="section-heading"><div><h2>Principer som skapar värde.</h2></div></div><ol class="value-grid"><li><h3>Samordning</h3><p>Det blir enklare att fatta rätt beslut när alla beslut kommer från samma håll.</p></li><li><h3>Tillväxt</h3><p>En god avkastning är inte en ambition. Det är en minimiförväntning.</p></li><li><h3>Stabilitet</h3><p>Vi ser till att varje samhällsprocess följer en väl definierad riktning.</p></li></ol></div></section>
   <section class="section"><div class="shell"><div class="section-heading"><div><h2>Koncernens verksamheter</h2></div></div><div class="org-parent"><BrandMark slug="weab" name="WeAB" size="parent" /><span>Moderbolag · Huvudkontor i huvudstaden</span></div><div class="org-line"></div><div class="org-grid">{companies.map(c=><a href={`/verksamheter/${c.slug}/`} style={`--c:${c.accent}`}><BrandMark slug={c.slug} name={c.name} size="org" /><small>{c.kicker}</small></a>)}</div></div></section>
   <section class="section section--dark" aria-label="Huvudstaden och omgivningen">
     <div class="shell">

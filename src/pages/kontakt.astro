@@ -4,18 +4,18 @@ import { headquarters, companyContacts } from '../data/contacts';
 ---
 <BaseLayout title="Kontakt och bolagsadresser | WeAB Group" description="Kontaktuppgifter till WeAB:s huvudkontor och samtliga nio dotterbolag.">
   <header class="page-hero"><div class="shell">
-    <span class="small-caps">KONTAKT / WEAB GROUP</span>
+    
     <h1>Rätt kontakt.<br/>Rätt beslutsväg.</h1>
     <p class="lead">Vi vill göra det enkelt att nå rätt del av koncernen. Genom tydliga kontaktvägar säkerställer vi att varje fråga når den verksamhet som har mandat att hantera den.</p>
   </div></header>
   <section class="section"><div class="shell">
     <div class="section-heading"><h2>Huvudkontor</h2><p>Koncernövergripande ärenden, pressförfrågningar och frågor om bolagsstyrning.</p></div>
-    <div class="hq-panel"><div><span class="small-caps">WEAB GROUP / KONCERNKONTOR</span><h3>{headquarters.name}</h3><p>{headquarters.address}</p><p>Strategiska frågor, koncernkommunikation, samordning och förvärvsdialog.</p></div><div class="hq-contact"><span>E-POST</span><a href={'mailto:'+headquarters.email}>{headquarters.email} ↗</a><small>Förvärvserbjudanden prioriteras efter förväntat strategiskt värde.</small></div></div>
+    <div class="hq-panel"><div><h3>{headquarters.name}</h3><p>{headquarters.address}</p><p>Strategiska frågor, koncernkommunikation, samordning och förvärvsdialog.</p></div><div class="hq-contact"><span>E-POST</span><a href={'mailto:'+headquarters.email}>{headquarters.email} ↗</a><small>Förvärvserbjudanden prioriteras efter förväntat strategiskt värde.</small></div></div>
   </div></section>
   <section class="section section--dark"><div class="shell">
     <div class="section-heading"><h2>Kontakt till våra bolag</h2><p>Varje verksamhet ansvarar för sina operativa frågor och samordnar övriga ärenden med huvudkontoret.</p></div>
     <div class="contact-directory">{companyContacts.map(contact => <article class="contact-entry">
-      <div><span class="small-caps">VERKSAMHET / WEAB GROUP</span><h3><a href={'/verksamheter/'+contact.slug+'/'}>{contact.name}</a></h3><p>{contact.location}</p></div>
+      <div><h3><a href={'/verksamheter/'+contact.slug+'/'}>{contact.name}</a></h3><p>{contact.location}</p></div>
       <div><span class="contact-label">E-POST</span><a class="email-link" href={'mailto:'+contact.email}>{contact.email} ↗</a></div>
     </article>)}</div>
   </div></section>
