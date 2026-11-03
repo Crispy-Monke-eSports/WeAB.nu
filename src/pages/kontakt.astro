@@ -1,10 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { headquarters, companyContacts } from '../data/contacts';
 ---
-<BaseLayout title="Kontakt | WeAB Group">
-<section class="page-hero"><div class="shell"><h1>Vi lyssnar gärna.<br/>I rimlig omfattning.</h1><p class="lead">Har du frågor om våra tjänster, anläggningar eller framtida expansion? Tala med en koncernrepresentant i Huvudstaden. Svar utlovas inte.</p></div></section>
-<section class="section"><div class="shell contact-grid"><div class="contact-tile"><h2>Huvudstaden</h2><p>Koncernens hjärta. Härifrån fattas beslut som påverkar alla andra.</p><span>Besök endast vid kallelse.</span></div><div class="contact-tile"><h2>Sektion 1</h2><p>WeKill, WeSort och WeBox finns i Sektion 1.</p><span>Obehörig effektivitet undanbedes.</span></div><div class="contact-tile"><h2>Kontakta oss på plats</h2><p>Här finns varken e-postadress eller kontaktformulär.</p><span>Tala med en koncernrepresentant i Huvudstaden.</span></div></div></section>
-<section class="section section--dark"><div class="shell"><div class="contact-quote">”Konkurrent? Kontakta oss för förvärv, integration eller frivillig avveckling.”<span>— WEAB · CORPORATE AFFAIRS</span></div></div></section>
+<BaseLayout title="Kontakt och bolagsadresser | WeAB Group" description="Kontaktuppgifter till WeAB:s huvudkontor och samtliga nio dotterbolag.">
+  <header class="page-hero"><div class="shell">
+    <span class="small-caps">KONTAKT / WEAB GROUP</span>
+    <h1>Rätt kontakt.<br/>Rätt beslutsväg.</h1>
+    <p class="lead">Vi vill göra det enkelt att nå rätt del av koncernen. Genom tydliga kontaktvägar säkerställer vi att varje fråga når den verksamhet som har mandat att hantera den.</p>
+  </div></header>
+  <section class="section"><div class="shell">
+    <div class="section-heading"><h2>Huvudkontor</h2><p>Koncernövergripande ärenden, pressförfrågningar och frågor om bolagsstyrning.</p></div>
+    <div class="hq-panel"><div><span class="small-caps">WEAB GROUP / KONCERNKONTOR</span><h3>{headquarters.name}</h3><p>{headquarters.address}</p><p>Strategiska frågor, koncernkommunikation, samordning och förvärvsdialog.</p></div><div class="hq-contact"><span>E-POST</span><a href={'mailto:'+headquarters.email}>{headquarters.email} ↗</a><small>Förvärvserbjudanden prioriteras efter förväntat strategiskt värde.</small></div></div>
+  </div></section>
+  <section class="section section--dark"><div class="shell">
+    <div class="section-heading"><h2>Kontakt till våra bolag</h2><p>Varje verksamhet ansvarar för sina operativa frågor och samordnar övriga ärenden med huvudkontoret.</p></div>
+    <div class="contact-directory">{companyContacts.map(contact => <article class="contact-entry">
+      <div><span class="small-caps">VERKSAMHET / WEAB GROUP</span><h3><a href={'/verksamheter/'+contact.slug+'/'}>{contact.name}</a></h3><p>{contact.location}</p></div>
+      <div><span class="contact-label">E-POST</span><a class="email-link" href={'mailto:'+contact.email}>{contact.email} ↗</a></div>
+    </article>)}</div>
+  </div></section>
+  <section class="section"><div class="shell contact-info"><div><h2>Så hanterar vi ditt ärende.</h2><p class="lead">Våra interna rutiner är utformade för att skapa ordning, konsekvens och ett rationellt beslutsflöde.</p></div><div><h3>Kommunikationsprinciper</h3><p>Ange vilket bolag din fråga gäller. Beskriv ditt ärende tydligt och bifoga de uppgifter du anser att vi behöver. Koncernen förbehåller sig rätten att begära ytterligare information, vidarebefordra ärendet eller betrakta tystnad som ett avslutat ärende.</p><p>Det finns inga garanterade svarstider. Vår ambitionsnivå är hög, särskilt i frågor som berör våra tillgångar.</p><a href="/bolagsstyrning/" class="link-arrow">Läs om koncernens styrning ↗</a></div></div></section>
 </BaseLayout>
-<style>.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}.contact-tile{border:1px solid #344651;padding:2rem;background:#162631;min-height:275px}.contact-tile h2{font-size:1.65rem}.contact-tile p{font-size:.87rem}.contact-tile>span{display:block;margin-top:2rem;padding-top:1.2rem;border-top:1px solid #374a55;color:#7f9aa8;font-size:.76rem}.contact-quote{font-size:clamp(1.8rem,3.7vw,3.4rem);font-weight:750;letter-spacing:-.04em;line-height:1.25;max-width:920px}.contact-quote span{display:block;font-size:.68rem;letter-spacing:.15em;color:var(--cyan);margin-top:2.2rem}@media(max-width:780px){.contact-grid{grid-template-columns:1fr}}
+<style>
+.hq-panel{display:grid;grid-template-columns:1.4fr 1fr;gap:2rem;padding:2.5rem;background:#18313c;border:1px solid #44616f}.hq-panel h3{font-size:2rem;margin:1rem 0}.hq-panel p{font-size:.9rem;margin-bottom:.7rem}.hq-contact{display:grid;align-content:center;gap:.9rem;border-left:1px solid #45616f;padding-left:2rem}.hq-contact>span,.contact-label{font-size:.67rem;font-weight:800;letter-spacing:.15em;color:#a6c3cf}.hq-contact a{font-size:1.2rem;font-weight:800;color:#98e5ef;overflow-wrap:anywhere}.hq-contact small{line-height:1.6;color:#b6c8cf}.contact-directory{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.contact-entry{background:#172832;border:1px solid #39505c;padding:1.5rem;display:flex;flex-direction:column;gap:2rem}.contact-entry h3{font-size:1.45rem;margin:.8rem 0 .4rem}.contact-entry h3 a{text-decoration:none}.contact-entry h3 a:hover{text-decoration:underline}.contact-entry p{font-size:.82rem;margin:0}.email-link{display:block;font-weight:750;font-size:.93rem;color:#9fe4ed;overflow-wrap:anywhere;margin-top:.5rem}.contact-info{display:grid;grid-template-columns:1fr 1fr;gap:4rem}.contact-info h3{font-size:1.4rem}.contact-info p{font-size:.9rem}@media(max-width:750px){.hq-panel,.contact-info{grid-template-columns:1fr;gap:1.5rem}.hq-contact{border-left:0;border-top:1px solid #45616f;padding:1.5rem 0 0}.contact-directory{grid-template-columns:1fr}.hq-panel{padding:1.5rem}}
 </style>
