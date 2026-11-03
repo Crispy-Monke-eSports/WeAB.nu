@@ -6,6 +6,11 @@
  * i WeAB:s egna anläggningar.
  */
 export const farmSources = {
+  'wekill-enderman-farm': {
+    url: 'https://www.youtube.com/watch?v=e_Pb2kW6ZE0',
+    title: 'NEW MINECRAFT 26.3 EASY ENDERMAN XP FARM TUTORIAL | 1 Hit Farm - Super Fast XP (Java & Bedrock)',
+    notes: 'BrianCraft anger nivå 0 till 33+ på cirka en minut för konstruktionen. Detta är erfarenhetsnivåer under användning, inte 33 föremål/minut eller en fast XP-poäng/timme. Ingen mätning från WeAB:s anläggning har lämnats. Försök att hämta automatiska undertexter gav HTTP 429; videobeskrivningen är källan.'
+  },
   'wekill-hoglin-farm': {
     url: 'https://www.youtube.com/watch?v=LNF3qCX-S9Y',
     title: 'Ending the Minecraft World Hunger by Making a Huge Food Farm in Survival',

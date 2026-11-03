@@ -15,12 +15,12 @@ export const alvaArticles = makeMagazineArticles('alva-heden', 40, [
     "slug": "endermanfarmens-egen-dimension",
     "format": "reportage",
     "title": "I End fortsätter arbetet långt från Huvudstaden",
-    "summary": "Endermanfarmen visar att dimensioner kan skilja en anläggning från dess kunder utan att resursbehovet blir mindre.",
+    "summary": "I End ligger en anläggning där erfarenhet är den viktiga leveransen. Angiven kapacitet: från nivå 0 till minst 33 på omkring en minut.",
     "image": "/images/wekill-enderman-farm.webp",
-    "scene": "Resan till End förändrar känslan av avstånd. Här ligger en av WeKills specialiserade farmer i en miljö där det vanliga landskapet inte följer med.",
-    "context": "Anläggningens uppgift är fortfarande densamma som i andra delar av produktionen: en återkommande process ska ge resurser som går att ta hand om.",
-    "tension": "Det är lätt att tro att den ovanliga platsen gör driften till ett helt separat projekt. Men tekniken behöver också här underhåll och en plan för materialet.",
-    "ending": "Skillnaden mellan dimensioner är tydlig för besökaren, men bör inte bli en ursäkt för att förlora överblick. En farm är värdefull när dess resultat går att använda."
+    "scene": "Vägen till WeKills endermanfarm slutar vid en plattform långt ute i End. Här är erfarenhet den leverans som besökaren märker först. Anläggningens angivna kapacitet är att ta en användare från nivå 0 till minst 33 på omkring en minut.",
+    "context": "En sådan uppgift beskriver ett tillfälle vid farmen, inte ett lager som fylls med 33 nivåer per minut. Erfarenhet behöver samlas av den som står på plats, medan föremål från driften måste tas om hand i sitt eget flöde.",
+    "tension": "WeAB har ännu inte redovisat en egen tidsmätning för nivåökningen. Resultatet beror också på var användaren börjar och om anläggningen kan hållas i gång utan avbrott. En snabb minut säger mindre om nyttan om nästa besökare möts av ett stopp.",
+    "ending": "WeKill vill därför följa både tillgängligheten och det som lämnar plattformen. Avståndet till Huvudstaden kan vara stort; den del av arbetet som sker här får ändå inte försvinna ur koncernens rapportering."
   },
   {
     "slug": "sockerrorens-stilla-arbete",
