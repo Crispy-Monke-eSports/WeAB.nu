@@ -72,6 +72,23 @@ for (const page of pagesWithAnchors) {
   }
 }
 
+// Filter i tidningen, pressrummet och karriärsidan ska vara progressivt aktiverade.
+// Utan JavaScript visas allt innehåll, men inga synligt verkningslösa filter.
+for (const path of ['nyheter/index.html', 'press/index.html', 'karriar/index.html']) {
+  const html = readFileSync(join(dist, path), 'utf8');
+  const controls = [...html.matchAll(/<[^>]+data-js-control[^>]*>/g)].map(match => match[0]);
+  if (!controls.length) broken.push(path + ' saknar progressivt aktiverade filter');
+  for (const tag of controls) {
+    if (!/\bhidden\b/.test(tag)) broken.push(path + ' har ett filter som visas utan JavaScript');
+  }
+}
+for (const page of pages) {
+  const html = readFileSync(page, 'utf8');
+  if (/\bhref=["']#["']/.test(html)) {
+    broken.push(page.slice(dist.length + 1) + ' har en länk utan mål');
+  }
+}
+
 const contactHtml = readFileSync(join(dist, 'kontakt/index.html'), 'utf8');
 for (const address of [
   'huvudkontor@weab.nu', 'kill@weab.nu', 'sort@weab.nu',
