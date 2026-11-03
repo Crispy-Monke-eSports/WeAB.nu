@@ -70,7 +70,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
     groups: [
       { title: 'Huvudstadens centralstation', ids: ['wetravel-huvudstaden-centralstation'] },
       { title: 'Centralstationen i Sektion 1', ids: ['wetravel-sektion-1-centralstation'] },
-      { title: 'Längs nätet', ids: ['wetravel-station'] }
+      { title: 'Längs nätet', ids: ['wetravel-sparnat'] }
     ]
   },
   wetrade: {
