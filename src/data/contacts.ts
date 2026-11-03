@@ -1,4 +1,4 @@
-import { companies } from './companies';
+import { companies } from './companies.ts';
 
 export const headquarters = {
   name: 'WeAB Huvudkontor',
