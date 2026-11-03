@@ -14,7 +14,7 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
 ---
 <BaseLayout
   title={`${author.name} | WeAB Tidningen`}
-  description={`Läs ${author.name}s artiklar och lär känna skribentens ämnesområde och stil.`}
+  description={`Läs ${author.name}s artiklar och lär känna skribentens bakgrund och bevakningsområde.`}
 >
   <header class="page-hero">
     <div class="shell author-header">
@@ -29,7 +29,7 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
       <p class="lead">{author.biography}</p>
       <div class="writer-focus">
         <div><h2>Bevakar</h2><p>{author.beat}</p></div>
-        <div><h2>Skriver så här</h2><p>{author.approach}</p></div>
+        <div><h2>Bakgrund</h2><p>{author.background}</p></div>
       </div>
     </div>
   </header>
