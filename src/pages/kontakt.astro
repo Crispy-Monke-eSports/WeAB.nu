@@ -5,22 +5,38 @@ import { headquarters, companyContacts } from '../data/contacts';
 <BaseLayout title="Kontakt och bolagsadresser | WeAB Group" description="Kontaktuppgifter till WeAB:s huvudkontor och samtliga nio dotterbolag.">
   <header class="page-hero"><div class="shell">
     
-    <h1>Rätt kontakt.<br/>Rätt beslutsväg.</h1>
-    <p class="lead">Vi vill göra det enkelt att nå rätt del av koncernen. Genom tydliga kontaktvägar säkerställer vi att varje fråga når den verksamhet som har mandat att hantera den.</p>
+    <h1>Kontakt</h1>
+    <p class="lead">Skriv direkt till det bolag som äger anläggningen eller hanterar tjänsten. Huvudkontoret ansvarar för koncernövergripande frågor, press och inköp.</p>
   </div></header>
   <section class="section"><div class="shell">
     <div class="section-heading"><h2>Huvudkontor</h2><p>Koncernövergripande ärenden, pressförfrågningar och frågor om bolagsstyrning.</p></div>
     <div class="hq-panel"><div><h3>{headquarters.name}</h3><p>{headquarters.address}</p><p>Strategiska frågor, koncernkommunikation, samordning och förvärvsdialog.</p></div><div class="hq-contact"><span>E-POST</span><a href={'mailto:'+headquarters.email}>{headquarters.email} ↗</a><small>Förvärvserbjudanden prioriteras efter förväntat strategiskt värde.</small></div></div>
   </div></section>
   <section class="section section--dark"><div class="shell">
-    <div class="section-heading"><h2>Kontakt till våra bolag</h2><p>Varje verksamhet ansvarar för sina operativa frågor och samordnar övriga ärenden med huvudkontoret.</p></div>
+    <div class="section-heading"><h2>Kontakt till våra bolag</h2><p>Adresserna nedan är indelade efter dotterbolag. Verksamhetsbladet anger bland annat plats och driftstatus.</p></div>
     <div class="contact-directory">{companyContacts.map(contact => <article class="contact-entry">
       <div><h3><a href={'/verksamheter/'+contact.slug+'/'}>{contact.name}</a></h3><p>{contact.location}</p></div>
       <div><span class="contact-label">E-POST</span><a class="email-link" href={'mailto:'+contact.email}>{contact.email} ↗</a></div>
     </article>)}</div>
   </div></section>
-  <section class="section"><div class="shell contact-info"><div><h2>Så hanterar vi ditt ärende.</h2><p class="lead">Våra interna rutiner är utformade för att skapa ordning, konsekvens och ett rationellt beslutsflöde.</p></div><div><h3>Kommunikationsprinciper</h3><p>Ange vilket bolag din fråga gäller. Beskriv ditt ärende tydligt och bifoga de uppgifter du anser att vi behöver. Koncernen förbehåller sig rätten att begära ytterligare information, vidarebefordra ärendet eller betrakta tystnad som ett avslutat ärende.</p><p>Det finns inga garanterade svarstider. Vår ambitionsnivå är hög, särskilt i frågor som berör våra tillgångar.</p><a href="/bolagsstyrning/" class="link-arrow">Läs om koncernens styrning ↗</a><p class="contact-supplier">Gäller ärendet inköp eller leverantörssamarbete? <a href="/leverantorer/">Se information för leverantörer ↗</a></p></div></div></section>
+  <section class="section"><div class="shell contact-info"><div><h2>Så fördelas frågorna</h2><p class="lead">Ett ärende om en anläggning går till ansvarigt bolag. Ägarfrågor, press och inköp hanteras på huvudkontoret.</p></div><div><h3>Kommunikationsprinciper</h3><p>Ange vilket bolag din fråga gäller. Beskriv ditt ärende tydligt och bifoga de uppgifter du anser att vi behöver. Koncernen förbehåller sig rätten att begära ytterligare information, vidarebefordra ärendet eller betrakta tystnad som ett avslutat ärende.</p><p>Det finns inga garanterade svarstider. Vår ambitionsnivå är hög, särskilt i frågor som berör våra tillgångar.</p><a href="/bolagsstyrning/" class="link-arrow">Läs om koncernens styrning ↗</a><p class="contact-supplier">Gäller ärendet inköp eller leverantörssamarbete? <a href="/leverantorer/">Se information för leverantörer ↗</a></p></div></div></section>
 </BaseLayout>
 <style>
-.hq-panel{display:grid;grid-template-columns:1.4fr 1fr;gap:2rem;padding:2.5rem;background:#18313c;border:1px solid #44616f}.hq-panel h3{font-size:2rem;margin:1rem 0}.hq-panel p{font-size:.9rem;margin-bottom:.7rem}.hq-contact{display:grid;align-content:center;gap:.9rem;border-left:1px solid #45616f;padding-left:2rem}.hq-contact>span,.contact-label{font-size:.67rem;font-weight:800;letter-spacing:.15em;color:#a6c3cf}.hq-contact a{font-size:1.2rem;font-weight:800;color:#98e5ef;overflow-wrap:anywhere}.hq-contact small{line-height:1.6;color:#b6c8cf}.contact-directory{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.contact-entry{background:#172832;border:1px solid #39505c;padding:1.5rem;display:flex;flex-direction:column;gap:2rem}.contact-entry h3{font-size:1.45rem;margin:.8rem 0 .4rem}.contact-entry h3 a{text-decoration:none}.contact-entry h3 a:hover{text-decoration:underline}.contact-entry p{font-size:.82rem;margin:0}.email-link{display:block;font-weight:750;font-size:.93rem;color:#9fe4ed;overflow-wrap:anywhere;margin-top:.5rem}.contact-info{display:grid;grid-template-columns:1fr 1fr;gap:4rem}.contact-info h3{font-size:1.4rem}.contact-supplier{border-top:1px solid #425561;padding-top:1rem;margin-top:1.5rem}.contact-supplier a{color:#9ae5ed;font-weight:750}.contact-info p{font-size:.9rem}@media(max-width:750px){.hq-panel,.contact-info{grid-template-columns:1fr;gap:1.5rem}.hq-contact{border-left:0;border-top:1px solid #45616f;padding:1.5rem 0 0}.contact-directory{grid-template-columns:1fr}.hq-panel{padding:1.5rem}}
+.hq-panel{display:grid;grid-template-columns:1fr 1fr;gap:3rem;padding:1.6rem 0;border-top:1px solid #465a66}
+.hq-panel h3{font-size:1.7rem;margin:0 0 .75rem}.hq-panel p{font-size:.9rem;margin-bottom:.6rem}
+.hq-contact{display:grid;align-content:center;gap:.7rem}.hq-contact>span,.contact-label{font-size:.72rem;font-weight:750;color:#a9c1cd}
+.hq-contact a{font-size:1.15rem;font-weight:800;color:#a8e4ef;overflow-wrap:anywhere}
+.hq-contact small{font-size:.77rem;line-height:1.6;color:#b7c8cf}
+.contact-directory{border-top:1px solid #47606a}
+.contact-entry{display:grid;grid-template-columns:minmax(0,1fr) minmax(170px,.8fr);gap:1.5rem;align-items:center;padding:1.15rem 0;border-bottom:1px solid #47606a}
+.contact-entry h3{font-size:1.22rem;margin:0 0 .4rem}
+.contact-entry h3 a{text-decoration:none}.contact-entry h3 a:hover{text-decoration:underline}
+.contact-entry p{font-size:.8rem;margin:0}
+.contact-label{display:none}
+.email-link{display:block;font-weight:750;font-size:.94rem;color:#a9e4ee;overflow-wrap:anywhere}
+.contact-info{display:grid;grid-template-columns:1fr 1fr;gap:4rem}
+.contact-info h3{font-size:1.3rem}.contact-info p{font-size:.91rem}
+.contact-supplier{border-top:1px solid #405765;padding-top:1rem;margin-top:1.5rem}
+.contact-supplier a{color:#9ae5ed;font-weight:750}
+@media(max-width:750px){.hq-panel,.contact-info{grid-template-columns:1fr;gap:1.4rem}.contact-entry{grid-template-columns:1fr;gap:.4rem}}
 </style>
