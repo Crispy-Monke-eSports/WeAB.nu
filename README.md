@@ -55,6 +55,23 @@ Engångsinställning innan första publiceringen:
 - `/kontakt/` – Koncernens kontaktkatalog med mailto-länkar till huvudkontoret och nio dotterbolag
 - `/leverantorer/` – Inköpsprocess, leverantörskod och vanliga frågor för externa samarbeten
 
+### Design- och textprinciper
+
+WeAB:s visuella och redaktionella regler definieras i [AGENTS.md](AGENTS.md), inklusive
+det absoluta förbudet mot ögonbryn över rubriker och de tio antimall-reglerna:
+ingen standardtema-estetik, inga generiska feature-kort, inga fejkmätvärden,
+inga ornament utan funktion och inga visade kontroller som inte fungerar.
+
+Se [designgranskningen](docs/design-audit.md) för en genomgång av varje
+sidmall, vad som ändrats och vad som medvetet behållits. Webbplatsen använder
+skärmbilder från projektets egna anläggningar. Pressmaterial, kontakter,
+policyer, artiklar och anläggningar presenteras utifrån deras **verkliga
+uppgifter i den fiktiva WeAB-världen**.
+
+Nyhets-, press- och jobbfilter är progressiva: utan JavaScript visas innehållet
+utan inaktiva filtreringskontroller. Den automatiska webbkontrollen verifierar
+att de genererade sidorna behåller detta beteende.
+
 ### Redigera innehåll
 
 - `src/data/companies.ts` – Företagsbeskrivningar, namn, accentfärger, bilder och status
