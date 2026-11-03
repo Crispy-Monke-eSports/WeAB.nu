@@ -41,17 +41,25 @@ Engångsinställning innan första publiceringen:
 ### URL-struktur
 
 - `/` – Startsida
-- `/koncernen/` – Om WeAB, koncernstruktur och moderbolagets anläggningar
+- `/koncernen/` – Om WeAB, koncernstruktur, koncernledning och moderbolagets anläggningar
+- `/strategi/` – Koncernens affärsmodell, värdekedja och strategiska prioriteringar
+- `/bolagsstyrning/` – Ledningspresentation med Store-W som anonym VD och de fyra ledande ledamöterna
+- `/hallbarhet/` – Fiktiv hållbarhetssida med avsiktlig greenwashing-satir
+- `/press/` – Officiellt pressrum med bolagens pressmeddelanden och nedladdningsbart grafiskt material
 - `/verksamheter/` och `/verksamheter/[slug]/` – Verksamhetssidor med bolagens egna byggnader, bilder och platsmarkeringar
 - `/arena/` – Huvudstadens arena med tre bilder och platsmarkeringen Hungerspelsarenan
-- `/investerare/` – Fiktiv investerarportal med **tydligt märkt demokurva**
+- `/investerare/` – Fiktiv investerarportal utan publicerad börskurs, med rapportarkiv och finansiell kalender
+- `/investerare/rapporter/` – Verksamhetsöversikt, kapitalpolicy och rapporteringsprinciper
 - `/karriar/` – Platsannonser inom rollspelet; inga ansökningar via webbplatsen
-- `/nyheter/` – WeAB Tidningen: pressmeddelanden, insändare, ledare, reportage och andra genrer
-- `/kontakt/` – Kontakt via Minecraft-servern
+- `/nyheter/` – WeAB Tidningen: 84 redaktionella texter (insändare, ledare, reportage och andra genrer); officiella pressmeddelanden listas separat i `/press/`
+- `/kontakt/` – Koncernens kontaktkatalog med mailto-länkar till huvudkontoret och nio dotterbolag
+- `/leverantorer/` – Inköpsprocess, leverantörskod och vanliga frågor för externa samarbeten
 
 ### Redigera innehåll
 
 - `src/data/companies.ts` – Företagsbeskrivningar, namn, accentfärger, bilder och status
+- `src/data/contacts.ts` – Officiella @weab.nu-adresser för huvudkontoret och dotterbolagen
+- `src/data/leadership.ts` – Store-W som VD och fyra ledande ledamöter
 - `src/data/projects.ts` – Anläggningar, bilder och alt-texter som visas på respektive bolagssida och koncernsidan
 - `src/data/companyEditorial.ts` – Bolagens egna avsnitt, anläggningsgrupper och kopplingar mellan verksamheter
 - `src/data/arena.ts` – Arenagalleriets tre foton och alt-texter
@@ -157,6 +165,23 @@ och `completedAuthorIds` markerar endast författare vars
 validerar fullängdstexterna, 100-artikelsamlingen,
 författarkopplingarna, bilder och genererade länkar.
 
+### Koncernmaterial och kontaktuppgifter
+
+De nya sidorna för strategi, hållbarhet, bolagsstyrning, inköp och investerare
+ska efterlikna en större koncerns offentliga kommunikation, men uppgifterna är
+skrivna som **satir inifrån WeAB:s fiktiva värld**. Inga verkliga finansiella
+resultat eller miljöeffekter påstås eller fabriceras.
+
+Kontaktadresserna för dotterbolagen definieras samlat i
+`src/data/contacts.ts`. Att webbplatsen länkar till adresserna betyder
+**inte** att DNS, brevlådor eller e-postleverans har kontrollerats. Den
+tekniska e-postkonfigurationen för `weab.nu` hanteras utanför repot.
+
+Pressmaterialet på `/press/` länkar direkt till befintliga bild- och
+logotypfiler under `public/`; inga särskilda externa mediebibliotek eller
+registreringsformulär krävs. Pressrum och redaktionell tidning är separata
+ingångar, men alla 100 artiklar fortsätter ha sina egna artikelsidor.
+
 ### WeAB Tidningen
 
 Nyhetsrummet omfattar **100 texter totalt**: **16 officiella pressmeddelanden**
@@ -170,12 +195,12 @@ tidningstexternas signaturer är påhittade. Publiceringsdatumen hör till
 den fiktiva tidningens arkiv. Ingen av artiklarna utger sig för att
 dokumentera verkliga händelser utanför den spelvärlden.
 
-Arkivet på `/nyheter/` visar en förstasidesartikel, en egen avdelning
+Tidningsarkivet på `/nyheter/` visar en förstasidesartikel, en egen avdelning
 för insändare, artikelkort och klientbaserad sökning och filtrering efter
-både genrer och avsändare (koncern, bolag eller skribent), med stegvis visning
+både genrer och skribenter, med stegvis visning
 av artiklar. Artiklarna visar **rubrik först** och därefter kategori, datum och
-rätt avsändare. Officiella pressmeddelanden länkar direkt till bolagets
-verksamhetssida, eller till koncernen när utskicket kommer från moderbolaget.
+rätt skribent. Officiella pressmeddelanden listas i stället på `/press/` och
+länkar till bolagets verksamhetssida eller koncernen från respektive artikel.
 De **ingår inte** i de femton skribenternas artikelhistorik.
 Klickbara skribentnamn i redaktionella texter leder till profilsidor på
 `/nyheter/skribenter/`, med ämnesområden, individuella skrivsätt och

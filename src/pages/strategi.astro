@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { companies } from '../data/companies';
+const companyBySlug = Object.fromEntries(companies.map(company => [company.slug, company]));
+const valueChain = [
+  { number: '01', name: 'Produktion', slug: 'wekill', detail: 'Råvaror och industriella flöden tas fram där naturen erbjuder bäst förutsättningar för standardisering.' },
+  { number: '02', name: 'Sortering och lagring', slug: 'wesort', detail: 'Resurser styrs genom gemensamma lagerprocesser. Oberoende förråd bidrar sällan till jämförbarheten.' },
+  { number: '03', name: 'Förvaring', slug: 'webox', detail: 'Shulkerbaserade system håller varor tillgängliga, märkta och omsorgsfullt registrerade i koncernens struktur.' },
+  { number: '04', name: 'Transport', slug: 'wetravel', detail: 'Räls och isbåtsleder förbinder verksamheterna. Alternativa färdvägar bedöms utifrån deras strategiska nödvändighet.' },
+  { number: '05', name: 'Handel', slug: 'wetrade', detail: 'Kunskap och enchantments erbjuds i ett samlat handelssystem där kunderna möter samma höga standard överallt.' }
+];
+const supporting = [
+  {slug:'welove',heading:'Framtidens kompetensförsörjning',body:'Långsiktig befolknings- och personalplanering säkerställer ett förutsägbart tillskott av arbetskraft.'},
+  {slug:'welivelaughlove',heading:'Bostäder och samhällsstabilitet',body:'Gemensam planering skapar kapacitet för fler boende och minskar belastningen av individuella boendeval.'},
+  {slug:'werule',heading:'Fastigheter för offentliga uppdrag',body:'WeRule tillhandahåller byggnader för offentlig verksamhet. Uppdragets samhällskaraktär påverkar inte ägandeförhållandet.'},
+  {slug:'wegamble',heading:'Nya kundupplevelser',body:'På WeGamble Island utvecklas ett erbjudande som skapar omsättning även efter att kundens ursprungliga behov är uppfyllt.'}
+];
+---
+<BaseLayout title="Strategi och affärsmodell | WeAB Group" description="Så arbetar WeAB med vertikal integration, koncernsynergier och långsiktiga strategiska prioriteringar.">
+  <header class="page-hero strategy-hero">
+    <div class="shell">
+      <span class="small-caps">KONCERNEN / STRATEGI</span>
+      <h1>Hela värdekedjan.<br/>En enda ägare.</h1>
+      <p class="lead">Vår affärsmodell bygger på att samla avgörande funktioner inom samma koncern. Det skapar tydligare ansvar, kortare beslutsvägar och färre oönskade alternativ för kunden.</p>
+      <a href="#affarsmodell" class="btn">Utforska affärsmodellen ↓</a>
+    </div>
+  </header>
+
+  <section class="section" id="affarsmodell">
+    <div class="shell">
+      <div class="section-heading">
+        <div><span class="small-caps">AFFÄRSMODELL</span><h2>Från första resurs till slutkund.</h2></div>
+        <p>Varje verksamhet tillför något. Tillsammans ser de till att värdet stannar där det skapas: inom WeAB.</p>
+      </div>
+      <ol class="value-chain">
+        {valueChain.map(step => <li>
+          <span class="chain-num">{step.number}</span>
+          <div><span class="small-caps">VÄRDEKEDJA</span><h3>{step.name}</h3><p>{step.detail}</p></div>
+          <a href={`/verksamheter/${step.slug}/`} aria-label={`Läs mer om ${companyBySlug[step.slug].name}`}>
+            <strong>{companyBySlug[step.slug].name}</strong><span aria-hidden="true">↗</span>
+          </a>
+        </li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="shell split-layout">
+      <div><span class="small-caps">STRATEGISKA PRIORITERINGAR</span><h2>Skalbarhet genom samordning.</h2><p class="lead">När en koncern äger produktionen, logistiken och distributionsvägarna uppstår betydande samordningsvinster.</p><p>WeAB arbetar löpande för att minska beroendet av aktörer som inte omfattas av koncernens kvalitetssäkring, prissättning eller ägarstyrning.</p><a class="link-arrow" href="/investerare/">Investerarperspektivet ↗</a></div>
+      <div class="strategy-principles">
+        <article><span>01 / TILLVÄXT</span><h3>Kapacitet före begränsningar</h3><p>Vi utvecklar befintliga anläggningar och identifierar nya områden där naturens resurser kan få en tydlig ekonomisk funktion.</p></article>
+        <article><span>02 / INTEGRATION</span><h3>Färre överlämningar</h3><p>Produktion och tjänster ska så långt det är möjligt levereras mellan koncernbolag. Det minimerar behovet av externa diskussioner.</p></article>
+        <article><span>03 / STABILITET</span><h3>Förutsägbara beslut</h3><p>En sammanhållen styrmodell ger varje invånare och kund tryggheten att veta vem som bestämmer.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading"><div><span class="small-caps">KONCERNENS ÖVRIGA AFFÄRSOMRÅDEN</span><h2>Fler verksamheter.<br/>Samma strategi.</h2></div><p>Värdekedjan kompletteras av fastigheter, samhällstjänster, personalförsörjning och framtida nöjesverksamhet.</p></div>
+      <div class="supporting-grid">
+        {supporting.map(item => <a href={`/verksamheter/${item.slug}/`} class="supporting-card">
+          <span class="small-caps">{companyBySlug[item.slug].name}</span><h3>{item.heading}</h3><p>{item.body}</p><strong>Om verksamheten <span aria-hidden="true">↗</span></strong>
+        </a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="strategy-close">
+    <div class="shell strategy-close__inner">
+      <div><span class="small-caps">WEAB GROUP / LÅNGSIKTIGT PERSPEKTIV</span><h2>En marknad utan friktion.</h2><p class="lead">Vi ser en framtid där kunden inte längre behöver jämföra leverantörer. Vi arbetar målmedvetet för att göra den framtiden möjlig.</p></div>
+      <a href="/koncernen/" class="btn btn-outline">Läs mer om koncernen ↗</a>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+.strategy-hero{background:linear-gradient(90deg,#091921f5,#091921b0 65%,#09192166),url('/images/section-1-overview.webp') center / cover}.strategy-hero .btn{margin-top:1rem}.value-chain{list-style:none;padding:0;margin:2.5rem 0 0;border-top:1px solid #3c5260}.value-chain li{display:grid;grid-template-columns:75px minmax(0,1fr) 170px;align-items:center;gap:2rem;padding:1.7rem 0;border-bottom:1px solid #3c5260}.chain-num{font-size:1.1rem;color:#80d9e6;font-weight:800}.value-chain h3{font-size:1.55rem;margin:.45rem 0}.value-chain p{margin:0;font-size:.88rem;max-width:690px}.value-chain a{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;border:1px solid #466170;text-decoration:none;color:#d7f3f6;font-size:.84rem}.value-chain a:hover{border-color:#89dce9;background:#163844}.value-chain a span{color:#84dce9}.strategy-principles{display:grid;gap:1rem}.strategy-principles article{padding:1.6rem;background:#1b2d38;border-left:2px solid #69ccdc}.strategy-principles article>span{font-size:.69rem;font-weight:800;letter-spacing:.13em;color:#8ccbd7}.strategy-principles h3{font-size:1.2rem;margin:1rem 0 .6rem}.strategy-principles p{font-size:.86rem;margin:0}.supporting-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.supporting-card{padding:1.9rem;background:#152833;border:1px solid #36515e;text-decoration:none;display:flex;flex-direction:column}.supporting-card:hover{border-color:#87dce8}.supporting-card h3{font-size:1.5rem;margin:1rem 0 .7rem}.supporting-card p{font-size:.86rem}.supporting-card strong{font-size:.8rem;color:#8bdce9;margin-top:auto}.strategy-close{padding:5rem 0;border-top:1px solid #31515e;background:linear-gradient(120deg,#0b2b35,#0b1720)}.strategy-close__inner{display:flex;justify-content:space-between;align-items:center;gap:3rem}.strategy-close__inner>div{max-width:800px}.strategy-close__inner .btn{flex-shrink:0}@media(max-width:800px){.value-chain li{grid-template-columns:42px 1fr;gap:1rem}.value-chain li>a{grid-column:2;width:fit-content;min-width:170px}.strategy-close__inner{align-items:flex-start;flex-direction:column;gap:1rem}}@media(max-width:580px){.supporting-grid{grid-template-columns:1fr}.value-chain li{grid-template-columns:1fr;gap:.5rem}.value-chain li>a{grid-column:auto;margin-top:.6rem}}
+</style>

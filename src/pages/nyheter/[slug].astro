@@ -11,6 +11,8 @@ export function getStaticPaths() {
   }));
 }
 const { article } = Astro.props as { article: Publication };
+const archiveHref = article.format === 'pressmeddelande' ? '/press/' : '/nyheter/';
+const archiveLabel = article.format === 'pressmeddelande' ? 'Till pressrummet' : 'Till WeAB Tidningen';
 const author = article.authorId ? getAuthor(article.authorId) : null;
 const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }
@@ -22,7 +24,7 @@ const related = publications
 <BaseLayout title={`${article.title} | WeAB Tidningen`} description={article.summary}>
   <header class="page-hero publication-hero">
     <div class="shell article-shell">
-      <a class="back-link" href="/nyheter/">← Till WeAB Tidningen</a>
+      <a class="back-link" href={archiveHref}>← {archiveLabel}</a>
       <h1>{article.title}</h1>
       <p class="lead">{article.summary}</p>
       <div class="publication-meta">
@@ -61,7 +63,7 @@ const related = publications
         <a href={article.issuer.href}>Läs mer om {article.issuer.name} <span aria-hidden="true">↗</span></a>
       </aside>}
       <nav class="article-end" aria-label="Tillbaka till tidningen">
-        <a class="btn btn-outline" href="/nyheter/">Alla texter <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-outline" href={archiveHref}>{archiveLabel} <span aria-hidden="true">↗</span></a>
       </nav>
       <small class="satire-note">Innehållet är satir.</small>
     </div>

@@ -5,6 +5,7 @@ import { companies } from '../../data/companies';
 import { projects } from '../../data/projects';
 import CompanyAssets from '../../components/CompanyAssets.astro';
 import { companyEditorial } from '../../data/companyEditorial';
+import { emailForCompany } from '../../data/contacts';
 
 export function getStaticPaths() {
   return companies.map(company => ({ params: { slug: company.slug }, props: { company } }));
@@ -13,6 +14,7 @@ export function getStaticPaths() {
 const { company } = Astro.props;
 const relatedProjects = projects.filter(project => project.division === company.name);
 const editorial = companyEditorial[company.slug];
+const contactEmail = emailForCompany(company.slug);
 const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegamble'].includes(company.slug);
 ---
 <BaseLayout title={`${company.name} | WeAB Group`} description={company.overview}>
@@ -44,7 +46,7 @@ const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegambl
           {company.facts.map(fact => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}
           <div><dt>Verksamhetsstatus</dt><dd>{company.status}</dd></div>
           <div><dt>Plats</dt><dd>{company.location}</dd></div>
-        </dl></div>
+        </dl><div class="company-contact"><span>VERKSAMHETSKONTAKT</span><a href={"mailto:" + contactEmail}>{contactEmail} ↗</a></div></div>
       </div>
     </section>
 
@@ -83,6 +85,9 @@ const assetsFirst = ['wekill', 'welivelaughlove', 'wetravel', 'werule', 'wegambl
   .facts dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-top: 1px solid #354651; font-size: .82rem; }
   .facts dt { color: #a7bdc9; }
   .facts dd { font-weight: 700; text-align: right; margin: 0; }
+  .company-contact { margin-top:1.4rem; padding-top:1.4rem; border-top:1px solid #354651; display:grid; gap:.55rem; }
+  .company-contact span { font-size:.65rem; font-weight:800; color:#9db6c1; letter-spacing:.12em; }
+  .company-contact a { font-size:.94rem; font-weight:800; color:#a6e9f2; overflow-wrap:anywhere; }
   .service-list { list-style: decimal-leading-zero; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 3rem; margin: 2rem 0 0; padding-left: 2.5rem; }
   .service-list li { padding: 1.2rem .75rem; border-top: 1px solid #35464e; font-size: 1.12rem; font-weight: 700; line-height: 1.45; }
   .service-list li::marker { color: var(--company-accent); font-size: .8rem; font-weight: 800; }

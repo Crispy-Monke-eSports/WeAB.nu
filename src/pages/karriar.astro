@@ -29,6 +29,10 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
     </div>
   </section>
 
+  <section class="section careers-culture"><div class="shell split-layout">
+    <div><span class="small-caps">LIVET PÅ WEAB</span><h2>En arbetsplats med långsiktiga relationer.</h2><p class="lead">Vi erbjuder förutsägbara karriärvägar i en koncern där varje medarbetare kan utvecklas inom en och samma organisation.</p><p>Vår medarbetarfilosofi bygger på tydliga mål, hög tillgänglighet och förståelse för att balans mellan arbete och fritid är en fråga som kräver central samordning.</p><a class="link-arrow" href="/bolagsstyrning/">Vår uppförandekod och styrning ↗</a></div>
+    <div class="culture-quote"><span class="small-caps">PEOPLE & CULTURE / WEAB GROUP</span><blockquote>Hos oss är nästa karriärsteg aldrig långt bort. Framför allt eftersom vi ansvarar för nästan alla arbetsplatser i närheten.</blockquote><small>PERSONALAVDELNINGENS ARBETSGIVARLÖFTE</small></div>
+  </div></section>
   <section class="section section--dark" id="lediga-tjanster">
     <div class="shell">
       <div class="section-heading vacancies-heading">
@@ -96,6 +100,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
   division?.addEventListener('change', filterJobs);
 </script>
 <style>
+  .careers-culture{background:#101d26}.culture-quote{padding:2.5rem;background:#1c3440;border-top:2px solid #67cce0}.culture-quote blockquote{font-size:clamp(1.4rem,2.5vw,2.1rem);line-height:1.35;letter-spacing:-.03em;font-weight:700;margin:1.2rem 0}.culture-quote small{font-size:.68rem;color:#aec5d0;letter-spacing:.1em}
   .careers-hero{min-height:620px;display:flex;align-items:center;background:linear-gradient(90deg,#08141bf5 0%,#08141bd9 42%,#08141b59 100%),url('/images/wesort-interior.webp') center/cover;border-bottom:1px solid #2b3e48}
   .careers-intro{padding:6.5rem 0}.careers-hero h1{margin:0;max-width:980px}.careers-hero h1 em{font-style:normal;color:#70dbeb}.careers-hero p{max-width:650px;margin:1.6rem 0 2rem}
   .benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.benefits article{border:1px solid #334851;padding:1.6rem;background:#182832}.benefits article>span,.job-field>span,.job-terms span{font-size:.62rem;font-weight:800;letter-spacing:.15em;color:#89a8b6}.benefits h3{margin:1.1rem 0 .65rem}.benefits p{font-size:.86rem;margin:0}

@@ -15,12 +15,15 @@ function scan(dir) {
 }
 scan(dist);
 
-const required = ['index.html', 'koncernen/index.html', 'verksamheter/index.html', 'arena/index.html', 'verksamheter/wegamble/index.html'];
+const required = ['index.html', 'koncernen/index.html', 'verksamheter/index.html', 'arena/index.html', 'verksamheter/wegamble/index.html', 'hallbarhet/index.html', 'bolagsstyrning/index.html', 'press/index.html', 'investerare/rapporter/index.html', 'kontakt/index.html', 'strategi/index.html', 'leverantorer/index.html'];
 const missing = required.filter(path => !existsSync(join(dist, path)));
 const broken = [];
 
 for (const page of pages) {
   const html = readFileSync(page, 'utf8');
+  if (!/<html\s+lang="sv">/.test(html) || !/<main\s+id="main">/.test(html) || !/href="#main"/.test(html)) {
+    broken.push(`${page.slice(dist.length + 1)} saknar sidstruktur för språk eller tangentbordsnavigation`);
+  }
   if (!/<meta\s+name="robots"\s+content="noindex, nofollow, noimageindex"\s*\/?\s*>/.test(html)) {
     broken.push(`${page.slice(dist.length + 1)} saknar noindex-direktiv`);
   }
@@ -36,6 +39,51 @@ for (const page of pages) {
   }
 }
 
+const featuredCorporateLinks = [
+  ['index.html', '/strategi/'],
+  ['koncernen/index.html', '/strategi/'],
+  ['kontakt/index.html', '/leverantorer/'],
+  ['press/index.html', '/logos/weab.svg'],
+  ['investerare/index.html', '/investerare/rapporter/#verksamhetsoversikt']
+];
+for (const [file, link] of featuredCorporateLinks) {
+  const html = readFileSync(join(dist, file), 'utf8');
+  if (!html.includes('href="' + link + '"')) broken.push(file + ' saknar företagets länk: ' + link);
+}
+
+const pagesWithAnchors = [
+  'strategi/index.html',
+  'leverantorer/index.html',
+  'press/index.html',
+  'investerare/index.html',
+  'investerare/rapporter/index.html'
+];
+for (const page of pagesWithAnchors) {
+  const html = readFileSync(join(dist, page), 'utf8');
+  const anchors = [...html.matchAll(new RegExp('href="(/[^"#?]*/)(#[^"]+)"', 'g'))];
+  for (const [, path, fragment] of anchors) {
+    const targetPage = join(dist, path.slice(1), 'index.html');
+    if (!existsSync(targetPage)) continue;
+    const id = decodeURIComponent(fragment.slice(1));
+    const targetHtml = readFileSync(targetPage, 'utf8');
+    if (!targetHtml.includes('id="' + id + '"')) {
+      broken.push(page + ' länkar till ett saknat avsnitt: ' + path + fragment);
+    }
+  }
+}
+
+const contactHtml = readFileSync(join(dist, 'kontakt/index.html'), 'utf8');
+for (const address of [
+  'huvudkontor@weab.nu', 'kill@weab.nu', 'sort@weab.nu',
+  'box@weab.nu', 'livelaughlove@weab.nu', 'gamble@weab.nu',
+  'travel@weab.nu', 'trade@weab.nu', 'love@weab.nu', 'rule@weab.nu'
+]) {
+  if (!contactHtml.includes('mailto:' + address)) broken.push('Kontaktkatalog saknar ' + address);
+}
+const governanceHtml = readFileSync(join(dist, 'bolagsstyrning/index.html'), 'utf8');
+for (const name of ['Store-W', 'RavenHamstster', 'Filuren2003', 'Haapalainen', 'Laxen_MX']) {
+  if (!governanceHtml.includes(name)) broken.push('Ledningssidan saknar ' + name);
+}
 const robots = readFileSync(join(dist, 'robots.txt'), 'utf8');
 if (!/User-agent: Googlebot\s+Allow: \//.test(robots) ||
     !/User-agent: Bingbot\s+Allow: \//.test(robots) ||
