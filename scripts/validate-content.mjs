@@ -14,6 +14,7 @@ import { locations, locationGroups } from '../src/data/locations.ts';
 import { companyEditorial } from '../src/data/companyEditorial.ts';
 import { companyContacts, headquarters, emailForCompany } from '../src/data/contacts.ts';
 import { chiefExecutive, leadingMembers } from '../src/data/leadership.ts';
+import { lightingSecurityArticleSlugs, lightingSecurityEdits, lightingSecurityNotice } from '../src/data/lightingSecurity.ts';
 
 function unique(values, description) {
   assert.equal(new Set(values).size, values.length, `Dubbletter bland ${description}`);
@@ -199,6 +200,41 @@ for (const slug of expandedArticleSlugs) {
     `Artikeln ${slug} är för kort: ${words} ord (minst ${expandedMinimumWords})`);
   assert.ok(article.body.length >= expandedMinimumParagraphs,
     `Artikeln ${slug} behöver minst ${expandedMinimumParagraphs} utvecklade stycken`);
+}
+
+// Samtliga 100 publika artiklar säkerhetsgranskas efter att fullängdstexten valts.
+// Endast artiklar som faktiskt innehåller invändningar om ljuset censureras.
+assert.deepEqual([...lightingSecurityArticleSlugs].sort(), [
+  'bostadsstabilitet',
+  'den-lilla-lyktan',
+  'en-tydlig-ordning-for-besok',
+  'insandare-ordning-sektion-tre',
+  'ledare-egendom-och-ansvar',
+  'vad-stadshuset-ansvarar-for'
+].sort(), 'Fel lista över säkerhetsgranskade ljusärenden');
+assert.ok(lightingSecurityNotice.includes('Samtliga lampor är utmärkta. Inga fel finns.'));
+assert.ok(lightingSecurityNotice.includes('rikets säkerhet'));
+for (const article of publications) {
+  const edits = lightingSecurityEdits[article.slug];
+  const joinedBody = article.body.join(' ');
+  if (!edits) {
+    assert.ok(!joinedBody.includes(lightingSecurityNotice),
+      'Oskyldiga artiklar ska inte censureras: ' + article.slug);
+    continue;
+  }
+  assert.equal(article.body.at(-1), lightingSecurityNotice,
+    'Säkerhetsbesked saknas eller har flyttats i ' + article.slug);
+  assert.ok(joinedBody.includes('████') && joinedBody.includes('rikets säkerhet'),
+    'Censur av ljusfrågor saknas i ' + article.slug);
+  for (const [original] of edits) {
+    assert.ok(!joinedBody.includes(original),
+      'Omaskad kritik mot belysningen finns kvar i ' + article.slug + ': ' + original);
+  }
+}
+const uncensoredLightComplaints = /(?:en trasig lykta|en lykta inte fungerar|lyktan vid en gång hade slocknat|stadshus som saknar fungerande belysning|önskemål om bättre belysning|väg beskrivs som mörk av flera boende|belysningen slutat fungera|fråga om trasig belysning)/i;
+for (const article of publications) {
+  assert.ok(!uncensoredLightComplaints.test(article.body.join(' ')),
+    'Omaskad uppgift om undermålig belysning i ' + article.slug);
 }
 
 assert.equal(authors.length, 15, 'Tidningen ska ha exakt 15 återkommande skribenter');
