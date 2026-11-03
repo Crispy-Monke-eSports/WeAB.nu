@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { companies } from '../src/data/companies.ts';
 import { jobs } from '../src/data/jobs.ts';
 import { news } from '../src/data/news.ts';
-import { expandedArticleSlugs, expandedMinimumWords, expandedMinimumParagraphs } from '../src/data/expandedArticleSlugs.ts';
+import { expandedArticleSlugs, completedAuthorIds, expandedMinimumWords, expandedMinimumParagraphs } from '../src/data/expandedArticleSlugs.ts';
 import { editorials } from '../src/data/editorial.ts';
 import { publications, editorialFormats, publicationFormatLabels, additionalArticles, establishedSlugs, authorPublications, pressIssuerSlugs } from '../src/data/publications.ts';
 import { authors, getAuthor } from '../src/data/authors.ts';
@@ -105,6 +105,13 @@ assert.equal(editorials.length, 10, 'Det ska finnas tio tidigare redaktionella a
 assert.equal(additionalArticles.length, 74, 'Det ska finnas 74 nya texter');
 assert.equal(publications.length, 100, 'Tidningen ska innehålla exakt 100 artiklar');
 unique([...expandedArticleSlugs], 'genomarbetade artikeladresser');
+unique([...completedAuthorIds], 'färdigställda skribenter');
+for (const authorId of completedAuthorIds) {
+  const authorArticles = authorPublications(authorId);
+  assert.ok(authorArticles.length >= 1, `Skribenten saknar artiklar: ${authorId}`);
+  assert.ok(authorArticles.every(article => expandedArticleSlugs.includes(article.slug)),
+    `Skribentens samtliga artiklar måste vara fullängdstexter: ${authorId}`);
+}
 for (const slug of expandedArticleSlugs) {
   const article = publications.find(item => item.slug === slug);
   assert.ok(article, `Genomarbetad artikel saknas: ${slug}`);

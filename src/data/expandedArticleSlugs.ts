@@ -3,7 +3,7 @@
  * De tio första pressmeddelandena finns direkt i news.ts.
  * Artiklar 11–20 har sina fullängdstexter i src/data/expanded/,
  * som används av publications.ts utan att ändra artikelmetadata.
- * Följande omgång arbetar skribentvis; Ruben Kists första längre krönika är incheckad.
+ * Kommande omgångar färdigställs skribentvis och valideras som hela serier.
  */
 export const expandedArticleSlugs = [
   "werule-fastighetsforvaltning",
@@ -26,7 +26,14 @@ export const expandedArticleSlugs = [
   "ledare-egendom-och-ansvar",
   "insandare-en-handlare-racker",
   "reportage-inne-i-wesort",
-  "den-borttappade-kistans-sorg"
+  "den-borttappade-kistans-sorg",
+  "hur-en-farg-fick-en-egen-avdelning",
+  "shulkerboxens-lilla-hemlighet",
+  "ett-fack-for-framtiden",
+  "varje-block-har-en-adress"
 ] as const;
 export const expandedMinimumWords = 500;
 export const expandedMinimumParagraphs = 8;
+
+/** Endast skribenter vars samtliga texter redan är fullängdsartiklar. */
+export const completedAuthorIds = ['ruben-kist'] as const;

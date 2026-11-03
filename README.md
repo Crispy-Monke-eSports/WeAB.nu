@@ -121,27 +121,30 @@ CI verifierar att samtliga genererade SVG-filer överensstämmer med
 originalet och de aktuella företagsfärgerna; en manuell redigering av
 en genererad fil ska inte kunna överleva utan att upptäckas.
 
-### Längre artiklar – etappvis redaktionell genomgång
+### Längre artiklar – en skribent i taget
 
-**21 av 100 artiklar är förlängda** (20 tidigare samt Ruben Kists första krönika) har skrivits om till längre
-tidningstexter med 591–750 ord och 9–10 utvecklade stycken per artikel.
-Omgången omfattar de tio första officiella pressmeddelandena i
-`src/data/news.ts` – från WeRules fastighetsförvaltning till WeBoxes
-lagerkontroll. **Etapp 2** omfattar sex ytterligare pressmeddelanden
-och de fyra första redaktionella texterna: två insändare, en ledare och
-ett reportage. Fullängdstexterna för etapp 2 finns i
-`src/data/expanded/` och kopplas till publiceringen via `bodies.ts`
-och `src/data/publications.ts`. Ursprungliga artikeladresser,
-metadata och avsändare behålls. De övriga **79 artiklarna är
-oförändrade**. Nästa steg är att färdigställa Rubens fyra återstående
-artiklar med samma igenkännbara skribentröst.
+**25 av 100 artiklar är nu fullängdstexter.** De 20 första omarbetades
+tidigare i två omgångar. Ruben Kists **samtliga fem redaktionella texter**
+är nu också färdiga, med 726–765 ord och nio utvecklade stycken var.
+Kronikan, reportaget, analysen, ekonomitexten och guiden har olika
+journalistiska grepp men samma torra lagerhumor och igenkännbara röst.
 
-`src/data/expandedArticleSlugs.ts` är checklistan för vilka artiklar som
-redan fått en genomarbetad förlängning. Nästa omgång kan lägga till tio
-nya slugs utan att skriva över tidigare publicerat innehåll.
-`npm run check` verifierar att de markerade artiklarna har minst
-500 ord och åtta stycken. Pressmeddelandenas officiella bolagsavsändare
-och de redaktionella skribenternas signaturer hålls fortsatt åtskilda.
+De tio första officiella pressmeddelandena är omskrivna direkt i
+`src/data/news.ts`. Nästa tio ligger i `src/data/expanded/`, tillsammans
+med Rubens fem genomarbetade artiklar. `bodies.ts` kopplar dessa texter
+till `src/data/publications.ts` utan att ändra rubriker, datum,
+bilder, artikeladresser eller avsändare.
+
+**75 artiklar återstår** i originalutförande. Fortsätt fortsättningsvis
+med **en redaktionell skribents samtliga artiklar per omgång**, inte en
+blandning av flera skribenter. Artiklarna får fortfarande minst 500 ord
+och åtta utvecklade stycken. Om ett pressmeddelande omarbetas ska det
+alltjämt anges med koncern eller relevant dotterbolag som avsändare.
+
+`src/data/expandedArticleSlugs.ts` är checklistan över längre artiklar.
+`completedAuthorIds` markerar bara skribenter vars **alla** artiklar är
+färdigställda. `npm run check` kontrollerar detta, textlängderna,
+samtliga 100 artiklar, bilderna och rätt avsändare.
 
 ### WeAB Tidningen
 

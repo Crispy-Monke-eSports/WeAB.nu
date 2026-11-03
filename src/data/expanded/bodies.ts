@@ -3,9 +3,11 @@ import { expandedPressPartB } from './press-part-b.ts';
 import { expandedEditorialPartA } from './editorial-part-a.ts';
 import { expandedEditorialPartB } from './editorial-part-b.ts';
 import { rubenFullLengthPart1 } from './ruben-part-1.ts';
+import { rubenFullLengthPart2 } from './ruben-part-2.ts';
+import { rubenFullLengthPart3 } from './ruben-part-3.ts';
 
 /**
- * Etapp 2: brödtexten för artiklar 11–20.
+ * Fullängdstexter från etapp 2 och hela Ruben Kists skribentserie.
  * Originaldata behåller metadata, officiella avsändare och signaturer.
  * Nya redaktionella omgångar läggs till här utan att äldre texter skrivs över.
  */
@@ -15,7 +17,9 @@ for (const article of [
   ...expandedPressPartB,
   ...expandedEditorialPartA,
   ...expandedEditorialPartB,
-  ...rubenFullLengthPart1
+  ...rubenFullLengthPart1,
+  ...rubenFullLengthPart2,
+  ...rubenFullLengthPart3
 ]) {
   if (expandedArticleBodies.has(article.slug)) {
     throw new Error('Dubbel fullängdstext: ' + article.slug);
