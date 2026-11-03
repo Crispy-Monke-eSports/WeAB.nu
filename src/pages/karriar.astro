@@ -7,7 +7,7 @@ import { companies } from '../data/companies';
 const divisions = [{ name: 'WeAB', accent: '#00BCD4' }, ...companies.map(({ name, accent }) => ({ name, accent }))];
 const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [name, accent]));
 ---
-<BaseLayout title="Karriär hos WeAB | Din framtid är vår tillgång" description="Platsannonser från WeAB på en privat Minecraft-server. Inga verkliga anställningar.">
+<BaseLayout title="Karriär hos WeAB | Din framtid är vår tillgång" description="Platsannonser hos WeAB. Din framtid är vår tillgång.">
   <section class="careers-hero">
     <div class="shell careers-intro">
       <h1>Din framtid.<br/><em>Vår tillgång.</em></h1>
@@ -63,7 +63,7 @@ const colorByDivision = Object.fromEntries(divisions.map(({ name, accent }) => [
     <div class="shell recruitment">
       <div><h2>Tre enkla steg.<br/>Ett livslångt åtagande.</h2><p>Vi har effektiviserat rekryteringen så att du kan fokusera mindre på val och mer på resultat.</p></div>
       <ol class="recruitment-steps">
-        <li><span>01</span><div><h3>Visa intresse</h3><p>Hitta en koncernrepresentant på servern. Ange önskad tjänst och antalet diamanter du redan kontrollerar.</p></div></li>
+        <li><span>01</span><div><h3>Visa intresse</h3><p>Hitta en koncernrepresentant i Huvudstaden. Ange önskad tjänst och antalet diamanter du redan kontrollerar.</p></div></li>
         <li><span>02</span><div><h3>Bli granskad</h3><p>Vi kontrollerar din erfarenhet, lojalitet och eventuella kopplingar till fri konkurrens.</p></div></li>
         <li><span>03</span><div><h3>Bli en del av något större</h3><p>Grattis. Du är nu en tillgång. Uppsägning prövas vid nästa styrelsesammanträde.</p></div></li>
       </ol>

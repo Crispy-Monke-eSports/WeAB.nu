@@ -29,7 +29,7 @@ export const elskarArticles = makeMagazineArticles('herr-elskar-weandersson', 5,
     "summary": "Ett tack till WeTravel för att varje anslutning åtminstone har blivit ordentligt genomtänkt.",
     "image": "/images/wetravel-station.webp",
     "scene": "Jag stod på en plattform och såg rälsen sträcka sig mot horisonten. Där insåg jag att väntan inte behöver vara ett misslyckande, utan också kan vara ett mått på vår gemensamma tillit.",
-    "context": "WeTravel har tagit sig an den komplicerade uppgiften att förbinda olika delar av servern. Det innebär att man måste tänka på både resenärer, anslutningar och långsiktigt underhåll innan nästa spår byggs.",
+    "context": "WeTravel har tagit sig an den komplicerade uppgiften att förbinda våra distrikt. Det innebär att man måste tänka på både resenärer, anslutningar och långsiktigt underhåll innan nästa spår byggs.",
     "tension": "Vissa resenärer hade önskat en egen genväg. Men vem skulle då ta ansvar för dess kurvor och vad skulle hända när någon byggde en annan genväg rakt över den första?",
     "ending": "Jag vill därför varmt tillstyrka fortsatt ordnad planering. Vi som väntar vid en station kan under tiden njuta av den trösterika insikten att någon annan redan ansvarar för rälsen."
   },

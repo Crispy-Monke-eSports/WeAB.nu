@@ -6,7 +6,7 @@ export interface ArenaPhoto {
 export const arenaPhotos: ArenaPhoto[] = [
   {
     src: '/images/huvudstadens-arena-exterior.webp',
-    alt: 'Översiktsbild av Huvudstadens stora arena i skymningen, med blåvita tak, cyanbelysta kanter och kringliggande landskap i Minecraft.'
+    alt: 'Översiktsbild av Huvudstadens stora arena i skymningen, med blåvita tak, cyanbelysta kanter och kringliggande landskap.'
   },
   {
     src: '/images/huvudstadens-arena-laktare.webp',

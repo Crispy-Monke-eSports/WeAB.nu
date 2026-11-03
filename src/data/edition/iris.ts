@@ -37,10 +37,10 @@ export const irisArticles = makeMagazineArticles('iris-skymningsson', 70, [
     "slug": "en-faro-utanfor-vagarna",
     "format": "kronika",
     "title": "På vägen mot får-ön blir kartan mer försiktig",
-    "summary": "Vissa sevärdheter på servern gör mest intryck just därför att de ligger långt från de vanliga arbetsvägarna.",
+    "summary": "Vissa sevärdheter gör mest intryck just därför att de ligger långt från de vanliga arbetsvägarna.",
     "image": "/images/huvudstaden-overview.webp",
     "scene": "Jag tittade på markeringen för Noas får-ö och började fundera på hur annorlunda världen känns när målet ligger långt från en vanlig station.",
-    "context": "Ön finns som en egen waypoint på servern, men vägen dit är inte nödvändigtvis en del av den vardagliga infrastrukturen.",
+    "context": "Ön är utmärkt som resmål på kartan, men vägen dit är inte nödvändigtvis en del av den vardagliga infrastrukturen.",
     "tension": "Det är frestande att önska att varje utsikt ska få sin egen förbindelse. Men då skulle också varje avlägsen plats snabbt bli ett nytt underhållsärende.",
     "ending": "Jag tycker om att vissa resmål kräver eftertanke. De påminner om att världen är stor, samtidigt som man förstår varför de stora vägarna byggdes där folk faktiskt reser."
   }

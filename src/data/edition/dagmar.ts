@@ -7,7 +7,7 @@ export const dagmarArticles = makeMagazineArticles('dagmar-stenqvist', 50, [
     "summary": "När förvaltning och användning skiljs åt blir det också lättare att hitta rätt ansvarig.",
     "image": "/images/werule-sektion-1-stadshus.webp",
     "scene": "För att förstå stadshusets funktion i Sektion 1 behöver man först skilja själva lokalen från den verksamhet som bedrivs där.",
-    "context": "WeRule ansvarar för offentliga fastigheter på servern och kan därför samordna frågor om lokalerna på ett sätt som är tydligt över tid.",
+    "context": "WeRule ansvarar för offentliga fastigheter i våra områden och kan därför samordna frågor om lokalerna på ett sätt som är tydligt över tid.",
     "tension": "En invändning gäller vilka frågor som faktiskt är fastighetsfrågor. Det behöver avgöras innan ett önskemål skickas mellan olika kontaktvägar.",
     "ending": "När uppdraget är avgränsat går det också att följa upp varför en åtgärd har genomförts eller ännu inte prioriterats. Det skapar en ordning som kan återanvändas."
   },
@@ -39,7 +39,7 @@ export const dagmarArticles = makeMagazineArticles('dagmar-stenqvist', 50, [
     "title": "Det är inte samma sak att äga huset och att använda rummet",
     "summary": "Riksdagshuset visar varför två uppgifter som sker på samma plats inte måste vara samma organisatoriska fråga.",
     "image": "/images/werule-riksdagshuset.webp",
-    "scene": "Riksdagshuset i Huvudstaden är en offentlig byggnad som används av serverns riksdag och samtidigt ägs av WeAB. Det är två skilda förhållanden.",
+    "scene": "Riksdagshuset i Huvudstaden är en offentlig byggnad som används av riksdagen och samtidigt ägs av WeAB. Det är två skilda förhållanden.",
     "context": "För den som följer förvaltningen är det därför viktigt att hålla isär institutionens arbete och fastighetsägarens frågor om själva lokalerna.",
     "tension": "Det kan finnas situationer där uppgifterna möts. Då blir det särskilt värdefullt att veta vilken fråga som hör hemma hos vilken ansvarig.",
     "ending": "Det avgörande är inte att alla frågor samlas i ett enda begrepp, utan att varje fråga kan följas till den funktion som faktiskt har möjlighet att ta hand om den."

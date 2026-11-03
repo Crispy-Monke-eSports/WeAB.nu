@@ -22,7 +22,7 @@ export const companies: Company[] = [
     accent: '#C62828', image: '/images/wekill-headquarters.webp', imageAlt: 'WeKills kontorsbyggnad med röd WE-skylt',
     location: 'Sektion 1', status: 'Aktiv verksamhet',
     services: ['Automatiserad farmdrift', 'Storskalig resursproduktion', 'Produktionseffektivisering', 'Anläggningsutveckling'],
-    facts: [{label: 'Huvudkontor',value:'Sektion 1'},{label:'Prioritet',value:'Maximal avkastning'}]
+    facts: [{label: 'Huvudkontor',value:'Sektion 1'},{label:'Prioritet',value:'Maximal avkastning'},{label:'Hoglinfarmen',value:'Halvstor anläggning · takt ännu inte uppmätt'}]
   },
   {
     slug: 'wesort', name: 'WeSort', kicker: 'LOGISTIK & SORTERING', tagline: 'Allting har sin plats.',
@@ -36,11 +36,11 @@ export const companies: Company[] = [
   {
     slug:'webox', name:'WeBox', kicker:'INTEGRERADE LAGERSYSTEM',tagline:'Ditt lager. Vår infrastruktur.',
     overview:'Vi förvarar dina ägodelar. Och registrerar dem. För allas bästa, förstås.',
-    description:'Dina ägodelar förtjänar professionell tillsyn. WeKill producerar shulkerboxarna, vi tar hand om innehållet. Vi erbjuder spårbarhet, lagringskapacitet och fullständig sinnesro, åtminstone för den som äger systemet.',
+    description:'Dina ägodelar förtjänar professionell tillsyn. WeKills shulkerfarm levererar skalen som används för att tillverka shulkerboxar; vi tar hand om förvaringen och innehållet. Vi erbjuder spårbarhet, lagringskapacitet och fullständig sinnesro, åtminstone för den som äger systemet.',
     accent:'#8E44AD',image:'/images/webox-terminal.webp',imageAlt:'Detaljbild från WeBoxes anslutning vid en upplyst stenvägg',
     location:'Sektion 1 · ansluten till WeSort',status:'Aktivt system',
     services:['Shulkerbox-hantering','Lagerintegration','Förvaringsinfrastruktur','Resursförflyttning'],
-    facts:[{label:'Organisatorisk koppling',value:'WeSort'},{label:'Shulkerboxar från',value:'WeKills shulkerfarm'}]
+    facts:[{label:'Organisatorisk koppling',value:'WeSort'},{label:'Shulkerskal från',value:'WeKills shulkerfarm'}]
   },
   {
     slug:'welivelaughlove', name:'WeLiveLaughLove',kicker:'BOENDE & SAMHÄLLSHARMONI',tagline:'Mer gemenskap per kvadratmeter.',
@@ -61,7 +61,7 @@ export const companies: Company[] = [
   {
     slug:'wetravel',name:'WeTravel',kicker:'TRANSPORT & INFRASTRUKTUR',tagline:'Alla vägar leder genom oss.',
     overview:'Räls och isbåtsleder som förbinder platser, människor och verksamheter.',
-    description:'Vi driver järnvägar och isbåtsleder mellan serverns platser, med centralstationer i Huvudstaden och Sektion 1. Destinationerna är godkända. Den fria rörligheten är numera mycket välorganiserad.',
+    description:'Vi driver järnvägar och isbåtsleder mellan våra områden, med centralstationer i Huvudstaden och Sektion 1. Destinationerna är godkända. Den fria rörligheten är numera mycket välorganiserad.',
     accent:'#2563EB',image:'/images/wetravel-sektion-1-centralstation.webp',imageAlt:'WeTravels centralstation i Sektion 1 med tegelfasad och turkosa dörrar',
     location:'Huvudstaden och Sektion 1',status:'Aktiv infrastruktur',
     services:['Järnvägsförbindelser','Isbåtstransport','Stationsinfrastruktur','Nätverksutveckling'],
@@ -73,7 +73,7 @@ export const companies: Company[] = [
     kicker: 'HANDEL & KUNSKAPSKONTROLL',
     tagline: 'Kunskap är makt. Vi säljer båda.',
     overview: 'Alla enchantments. En enda handelsaktör. Våra handlare väntar på dig dygnet runt. De har inget annat val.',
-    description: 'WeTrade har samlat Minecrafts samtliga enchantments under ett och samma tak. Våra specialistsäljare står prydligt uppradade, redo att erbjuda rätt bok till rätt diamantpris, oavsett tid på dygnet. Vi kallar det kundservice utan öppettider. Arbetsmiljöavdelningen kallar det ett ärende som har avslutats. Kunskap ska vara tillgänglig för alla — förutsatt att de har råd att köpa den av oss.',
+    description: 'WeTrade har samlat alla efterfrågade enchantments under ett och samma tak. Våra specialistsäljare står prydligt uppradade, redo att erbjuda rätt bok till rätt diamantpris, oavsett tid på dygnet. Vi kallar det kundservice utan öppettider. Arbetsmiljöavdelningen kallar det ett ärende som har avslutats. Kunskap ska vara tillgänglig för alla — förutsatt att de har råd att köpa den av oss.',
     accent: '#4DAA27',
     image: '/images/wetrade-exterior.webp',
     imageAlt: 'WeTrades stora byggnad med grön WE-skylt',

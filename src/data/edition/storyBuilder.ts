@@ -37,7 +37,7 @@ export function makeMagazineArticles(authorId: string, startOffset: number, seed
       title: seed.title,
       summary: seed.summary,
       image: seed.image,
-      alt: 'Minecraft-miljö som illustrerar ' + seed.title.toLowerCase(),
+      alt: 'Miljö som illustrerar ' + seed.title.toLowerCase(),
       authorId,
       body
     };

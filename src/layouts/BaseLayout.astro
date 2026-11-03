@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import { companies } from '../data/companies';
 import '../styles/global.css';
 interface Props {title?:string;description?:string; noindex?:boolean;}
-const {title='WeAB Group | En bättre värld. På våra villkor.', description='WeAB är ett bolag på en privat Minecraft-server med verksamheter inom produktion, logistik, boende, transport och nöje.', noindex=false}=Astro.props;
+const {title='WeAB Group | En bättre värld. På våra villkor.', description='WeAB verkar inom produktion, logistik, boende, transport och nöje. En bättre värld, på våra villkor.', noindex=false}=Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://weab.nu').toString();
 const shouldNoindex = noindex || /^\/404(?:\.html|\/)?$/.test(Astro.url.pathname);
 const socialImage = new URL('/images/weab-cyan-building.webp', Astro.site ?? 'https://weab.nu').toString();

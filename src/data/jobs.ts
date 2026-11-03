@@ -33,7 +33,7 @@ export const jobs: JobPosting[] = [
     compensation: 'Diamanter per godkänd produktionscykel',
     pitch: 'På WeKill är livets stora fråga enkel: hur många drops per timme?',
     responsibilities: ['Maximera farmarnas utbyte och minimera tomgång.', 'Planera expansion där andra ser ett ekosystem.', 'Leverera produktionsrapporter med konsekvent goda nyheter.'],
-    requirements: ['Erfarenhet av automatiska Minecraft-farmer.', 'En imponerande förmåga att inte ställa följdfrågor.'],
+    requirements: ['Erfarenhet av automatiserade farmer.', 'En imponerande förmåga att inte ställa följdfrågor.'],
     perk: 'Hörselskydd vid behov. Behoven bedöms centralt.'
   },
   {
@@ -89,7 +89,7 @@ export const jobs: JobPosting[] = [
     compensation: 'Diamanter per godkänd avgång',
     pitch: 'Alla vägar leder till WeAB. Ditt jobb är att stänga de övriga.',
     responsibilities: ['Planera och underhåll rälsnät och isbåtsleder.', 'Garantera anslutning till koncernens strategiska anläggningar.', 'Prioritera punktlighet före onödigt många alternativa rutter.'],
-    requirements: ['Praktisk erfarenhet av Minecraft-transport.', 'Kunna skilja en genväg från obehörig infrastruktur.'],
+    requirements: ['Praktisk erfarenhet av räls- och isbåtstrafik.', 'Kunna skilja en genväg från obehörig infrastruktur.'],
     perk: 'Fri enkelresa på utvalda sträckor. Returresa prövas separat.'
   },
   {

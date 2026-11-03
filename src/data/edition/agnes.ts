@@ -8,13 +8,13 @@ export const agnesArticles: MagazineDraft[] = [
     "image": "/images/werule-riksdagshuset.webp",
     "body": [
       "Det börjar ofta med en droppe. Sedan kommer hinken, samtalet om vem som ska tömma hinken och till sist frågan om varför ingen lagade taket medan det fortfarande var torrt.",
-      "Riksdagshuset används av serverns riksdag. Fastigheten ägs av WeAB. Att de två förhållandena möts under samma tak kan säkert irritera den som helst vill att en offentlig byggnad också ska sakna en tydlig ägare. Men ägandet gör åtminstone underhållsfrågan möjlig att besvara innan hinken står på bordet.",
+      "Riksdagshuset används av riksdagen. Fastigheten ägs av WeAB. Att de två förhållandena möts under samma tak kan säkert irritera den som helst vill att en offentlig byggnad också ska sakna en tydlig ägare. Men ägandet gör åtminstone underhållsfrågan möjlig att besvara innan hinken står på bordet.",
       "Ingen har visat att ett sammanträde blir friare av att taket får vänta på nästa sammanträde. WeRule ska kunna beställa en reparation, redovisa kostnaden och stå till svars för resultatet. Den ordningen är mindre romantisk än ett stort samtal om det gemensamma rummet. Den håller betydligt bättre i regn.",
       "Det offentliga behöver fungerande lokaler. Den som vill förändra vem som äger dem måste också förklara vem som då kommer med stegen när det läcker."
     ],
     "publishedAt": "2026-11-02",
     "type": "LEDARE",
-    "alt": "Minecraft-miljö som illustrerar artikeln Ett bra tak behöver ingen omröstning",
+    "alt": "Miljö som illustrerar artikeln Ett bra tak behöver ingen omröstning",
     "authorId": "agnes-holmgren"
   },
   {
@@ -31,7 +31,7 @@ export const agnesArticles: MagazineDraft[] = [
     ],
     "publishedAt": "2026-11-01",
     "type": "LEDARE",
-    "alt": "Minecraft-miljö som illustrerar artikeln Ansvar måste gå att hitta på en karta",
+    "alt": "Miljö som illustrerar artikeln Ansvar måste gå att hitta på en karta",
     "authorId": "agnes-holmgren"
   },
   {
@@ -42,13 +42,13 @@ export const agnesArticles: MagazineDraft[] = [
     "image": "/images/werule-riksdagshuset.webp",
     "body": [
       "En riksdag kan besluta om stora saker. Den kan inte besluta bort draget från en trasig ruta.",
-      "I Huvudstaden sammanträder serverns riksdag i ett hus som ägs av WeAB. Den kombinationen säger något om hur WeRule blivit en del av det offentliga vardagsmaskineriet: någon annan än ledamöterna behöver hålla reda på lokalerna, även när alla vill tala om vad som sker inne i dem.",
+      "I Huvudstaden sammanträder riksdagen i ett hus som ägs av WeAB. Den kombinationen säger något om hur WeRule blivit en del av det offentliga vardagsmaskineriet: någon annan än ledamöterna behöver hålla reda på lokalerna, även när alla vill tala om vad som sker inne i dem.",
       "Det kan låta som en teknisk detalj. Men tillträde, belysning och underhåll avgör om ett möte blir av. Den som vill ge institutionen självständighet bör inte samtidigt förvänta sig att varje ledamot ska vara sin egen fastighetsskötare.",
       "WeRules uppdrag måste gå att granska. Ändå är alternativet till en tydlig förvaltare inte ett magiskt självgående hus. Det är en byggnad vars praktiska frågor till slut dyker upp på mötesdagordningen."
     ],
     "publishedAt": "2026-10-31",
     "type": "ANALYS",
-    "alt": "Minecraft-miljö som illustrerar artikeln En offentlig funktion har också fyra väggar",
+    "alt": "Miljö som illustrerar artikeln En offentlig funktion har också fyra väggar",
     "authorId": "agnes-holmgren"
   },
   {
@@ -65,7 +65,7 @@ export const agnesArticles: MagazineDraft[] = [
     ],
     "publishedAt": "2026-10-30",
     "type": "DEBATT",
-    "alt": "Minecraft-miljö som illustrerar artikeln Ett beslut får faktiskt ha en slutpunkt",
+    "alt": "Miljö som illustrerar artikeln Ett beslut får faktiskt ha en slutpunkt",
     "authorId": "agnes-holmgren"
   },
   {
@@ -82,7 +82,7 @@ export const agnesArticles: MagazineDraft[] = [
     ],
     "publishedAt": "2026-10-29",
     "type": "LEDARE",
-    "alt": "Minecraft-miljö som illustrerar artikeln Oförutsägbarhetens pris syns sällan på kvittot",
+    "alt": "Miljö som illustrerar artikeln Oförutsägbarhetens pris syns sällan på kvittot",
     "authorId": "agnes-holmgren"
   }
 ];

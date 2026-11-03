@@ -61,7 +61,8 @@ export const news: NewsItem[] = [
       "Kistan vid utgången var full.",
       "Nu samlar bolaget sina fjorton farmer i en produktionsplan som också visar vad som händer efter att resurserna har tillverkats.",
       "– Ett stopp vid utloppet är inte samma sak som ett stopp i farmen. Men för den som väntar på material ser det likadant ut, säger en ansvarig för driftuppföljningen.",
-      "Anläggningarna ligger i Overworld, Nether och End. Var och en får ett driftkort med resurs, utmatning och väg vidare till WeSort. För shulkerproduktionen noteras dessutom när WeBox behöver fler behållare.",
+      "Anläggningarna ligger i Overworld, Nether och End. Var och en får ett driftkort med resurs, utmatning och väg vidare till WeSort. För shulkerproduktionen noteras dessutom när WeBox behöver fler skal till sina behållare.",
+      "Hoglinfarmen får ett eget kapacitetsunderlag. Den är hälften så stor som en fullskalig anläggning beräknad för över 125 000 föremål i timmen. Om takten följde storleken exakt skulle den mindre farmen kunna nå omkring 62 500 föremål i timmen. WeKill redovisar det som en kalkyl, inte som ett uppmätt resultat; faktiska leveranser ska räknas vid uppsamlingen.",
       "WeKill vill kunna se var ett fel uppstår innan underhållslaget skickas genom fel portal. Avståndet mellan dimensionerna finns kvar. Det ska inte finnas i ansvarsfördelningen."
     ]
   },
@@ -179,7 +180,7 @@ export const news: NewsItem[] = [
     "publishedAt": "2026-10-14",
     "slug": "wetravel-forbindelser",
     "type": "INFRASTRUKTUR",
-    "title": "WeTravel utvecklar ett sammanhängande transportnät för serverns anläggningar",
+    "title": "WeTravel utvecklar ett sammanhängande transportnät mellan koncernens anläggningar",
     "summary": "Järnvägar och isbåtsleder knyter samman verksamheterna och ger nya förutsättningar för planerade resor.",
     "image": "/images/wetravel-station.webp",
     "alt": "Station med räls och resenärspassager i WeTravels nät",
@@ -197,7 +198,7 @@ export const news: NewsItem[] = [
     "title": "WeAB samlar investeringsbesluten i en koncerngemensam prioriteringsmodell",
     "summary": "Framtida projekt ska granskas utifrån samma principer för avkastning, kontroll och strategisk betydelse.",
     "image": "/images/weab-cyan-building.webp",
-    "alt": "WeAB-byggnad med cyan detaljer på Minecraft-servern",
+    "alt": "WeAB-byggnad med cyan detaljer",
     "body": [
       "Tre förslag låg på bordet: en ny farm, en större sorteringsyta och en gångväg till en ännu inte öppnad anläggning. WeAB:s nya investeringsmodell börjar inte med vilket förslag som låter mest storslaget, utan med vad som kan tas i bruk och av vem.",
       "Varje ansökan ska beskriva materialbehov, underhåll och samband med andra bolag. En sorteringsyta som avlastar flera farmer kan få företräde framför en ny farm vars utmatning ännu saknar plats. Gångvägen kan vänta tills det finns någon som faktiskt har anledning att gå där.",

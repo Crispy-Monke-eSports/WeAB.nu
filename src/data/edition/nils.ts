@@ -29,7 +29,7 @@ export const nilsArticles = makeMagazineArticles('nils-brynja', 15, [
     "summary": "Vi ser närmare på hur anläggningen för villager breeding kopplas till koncernens fortsatta personalbehov.",
     "image": "/images/welove-headquarters.webp",
     "scene": "Haapalainen stannar vid skylten utanför WeLoves anläggning och pekar mot rummen längre in. Där planeras inte nästa arbetspass, utan vilka arbetsplatser som ska kunna bemannas när dagens yngsta villagers har vuxit upp.",
-    "context": "Villager breeding är en etablerad del av Minecraft-världen. Här har WeAB gjort den till en fråga också för personalplaneringen: WeTrade behöver bibliotekarier, WeLiveLaughLove behöver veta hur många boende som ska få plats och WeLove håller reda på när behoven möts.",
+    "context": "WeLove planerar för nya generationer villagers. WeTrade behöver bibliotekarier, WeLiveLaughLove behöver veta hur många boende som ska få plats och WeLove håller reda på när behoven möts. Det är personalplanering med ovanligt lång framförhållning.",
     "tension": "– Om vi börjar planera först när en disk står tom har vi redan börjat för sent, säger Haapalainen. Han visar två listor: en över planerade arbetsplatser, en över boendeplatser. De är inte lika långa ännu.",
     "ending": "När vi går ut syns den rosa WE-skylten mot berget igen. Framtiden är fortfarande osäker för den som växer upp här. I koncernens pärm har den åtminstone fått en egen flik."
   },

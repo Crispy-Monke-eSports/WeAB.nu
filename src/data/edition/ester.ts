@@ -9,7 +9,7 @@ export const esterArticles = makeMagazineArticles('ester-linde', 60, [
     "scene": "Jag kom till WeTrade med en lista över sådant som behövdes till ett nytt projekt. Redan vid första disken märkte jag att mycket gick att ordna utan omvägar.",
     "context": "När flera enchantments kan hittas i samma anläggning blir det lättare att planera både inköp och nästa arbetsdag. Kunden behöver inte börja om från början varje gång.",
     "tension": "En annan handlare hade kanske kunnat erbjuda något annorlunda. Men då måste jag också uppskatta hur lång tid sökandet skulle ta, och det är svårare än att läsa en skylt.",
-    "ending": "För mig blev den stora vinsten att kunna gå hem med en tydlig plan. Det var betydligt trevligare än att försöka minnas vilka alternativ som fanns längst bort på servern."
+    "ending": "För mig blev den stora vinsten att kunna gå hem med en tydlig plan. Det var betydligt trevligare än att försöka minnas vilka alternativ som fanns längst bort i regionen."
   },
   {
     "slug": "en-kund-och-en-prislapp",

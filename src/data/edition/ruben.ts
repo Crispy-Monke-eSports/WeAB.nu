@@ -18,7 +18,7 @@ export const rubenArticles = makeMagazineArticles('ruben-kist', 35, [
     "summary": "WeSort Colors visar vad som händer när material av en viss sort får en tydlig destination.",
     "image": "/images/wesort-sign-original.webp",
     "scene": "En skylt och ett tydligt system berättar snart att färgerna inte längre behöver uppträda som en enda rörig familj i lagret.",
-    "context": "WeSort Colors har en egen plats på servern, och uppdelningen gör att färgrelaterade resurser kan hanteras utan att ständigt blandas med allt annat.",
+    "context": "WeSort Colors har en egen anläggning, och uppdelningen gör att färgrelaterade resurser kan hanteras utan att ständigt blandas med allt annat.",
     "tension": "En del föremål hade säkert trivts med att ligga kvar i samma kista som sina gamla grannar. Men gemenskap är sällan ett tillräckligt sorteringskriterium.",
     "ending": "Det finns en stillsam rättvisa i att varje material hittar rätt hem. Den som senare öppnar kistan behöver åtminstone inte fråga varför innehållet bytt färg."
   },

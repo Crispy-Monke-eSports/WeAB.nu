@@ -167,7 +167,7 @@ export const editorials: EditorialItem[] = [
     "title": "Sluta klaga på att farmerna aldrig stänger",
     "summary": "Det är märkligt att beskriva stabil produktion som ett problem när resultatet är att material faktiskt finns när det behövs.",
     "image": "/images/wekill-iron-farm.webp",
-    "alt": "WeKills järnfarm med konstruktion i Minecraft",
+    "alt": "WeKills järnfarm med tornkonstruktion",
     "body": [
       "En järnfarm har inga öppettider. Det är inte samma sak som att den aldrig behöver tillsyn. Tvärtom: när produktionen pågår utan publik måste någon kontrollera att både utmatning och lagring hinner med.",
       "Som materialkund vill jag inte bygga en egen farm varje gång jag saknar järn. Jag vill veta att nästa leverans kommer och att den inte ligger kvar i en full kista bakom anläggningen. WeKill och WeSort har arbetsuppgifter som hör ihop men inte är identiska. Det märks först när någon av dem slutar fungera.",

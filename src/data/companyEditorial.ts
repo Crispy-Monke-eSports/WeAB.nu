@@ -40,7 +40,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
   },
   webox: {
     heading: 'Varje box får en etikett.',
-    introduction: 'WeKill tillverkar shulkerboxarna. Vi registrerar innehållet och förvarar det i Sektion 1, anslutna till WeSort.',
+    introduction: 'WeKills farm producerar shulkerskal till boxarna. Vi registrerar innehållet och förvarar det i Sektion 1, anslutna till WeSort.',
     groups: [{ title: 'WeBox-anslutningen', ids: ['webox'] }],
     connections: {
       heading: 'Vem gör vad med boxen?',

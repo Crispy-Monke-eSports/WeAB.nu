@@ -29,7 +29,7 @@ export const selmaArticles = makeMagazineArticles('selma-kvarnstrom', 20, [
     "summary": "Priset vid disken är inte den enda kostnaden för ett inköp.",
     "image": "/images/wetrade-interior.webp",
     "scene": "Det är enkelt att jämföra två synliga priser. Svårare är att sätta värde på tiden som går åt för att resa mellan olika handlare.",
-    "context": "WeTrade samlar många enchantments på ett ställe och låter kunden planera sitt besök utan att först undersöka hela servern.",
+    "context": "WeTrade samlar många enchantments på ett ställe och låter kunden planera sitt besök utan att först undersöka varje handelsplats i regionen.",
     "tension": "En annan handlare kan säkert erbjuda ett lägre pris i ett enskilt fall. Men hur många omvägar ska räknas som gratis?",
     "ending": "En ordnad handelsplats kan alltså skapa ekonomiskt värde även när prisskylten inte är den lägsta möjliga."
   },

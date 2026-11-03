@@ -61,7 +61,7 @@ export const authors: Author[] = [
   },
   {
     id: 'alva-heden', name: 'Alva Heden', role: 'Produktionsreporter',
-    beat: 'WeKills farmer och serverns resurssystem',
+    beat: 'WeKills farmer och koncernens resurssystem',
     biography: 'Alva följer produktionen från första blocket till sista transporten och är mer intresserad av processen än av vem som får beröm.',
     approach: 'Förklarar mekaniken pedagogiskt i rätt ordning, noterar driftstopp och avslutar ofta med följderna för nästa led.'
   },
@@ -91,7 +91,7 @@ export const authors: Author[] = [
   },
   {
     id: 'bjorn-ralsund', name: 'Björn Rälsund', role: 'Intervjuare',
-    beat: 'Samtal med funktioner och ansvariga på servern',
+    beat: 'Samtal med funktioner och ansvariga i koncernen',
     biography: 'Björn vill veta vem som gör vad, vilket besked som faktiskt gavs och vilka frågor som inte behövde ställas två gånger.',
     approach: 'Konkreta frågor och korta svar, återkommer till detaljer som ett praktiskt dröjsmål eller en obekväm fråga om tillträde.'
   },

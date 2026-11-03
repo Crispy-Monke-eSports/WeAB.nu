@@ -26,33 +26,33 @@ export const alvaArticles = makeMagazineArticles('alva-heden', 40, [
     "slug": "sockerrorens-stilla-arbete",
     "format": "analys",
     "title": "Sockerrören växer utan att fråga efter arbetstid",
-    "summary": "Bakom en till synes enkel farm finns ett system som måste tåla både jämn produktion och återkommande leveranser.",
+    "summary": "Kapaciteten anges till 1 300 sockerrör i timmen. Det intressanta för WeKill är vad uppsamlingen faktiskt kan ta emot.",
     "image": "/images/wekill-sugarcane-farm.webp",
-    "scene": "En sockerrörsfarm kan se stillsam ut jämfört med andra anläggningar. Det mesta av arbetet sker genom mekanik som upprepar samma uppgift utan större dramatik.",
-    "context": "WeKill behöver därför förstå både hur snabbt grödan återkommer och hur själva insamlingen fungerar. Produktionen räknas först när materialet faktiskt lämnat systemet.",
-    "tension": "Den som bara följer de första minuterna kan få en missvisande bild av kapaciteten. Ett system visar sin styrka när det fortsätter leverera utan avbrott under längre tid.",
-    "ending": "Det är den sortens pålitlighet som ger nästa anläggning något att planera efter. En enkel farm kan vara en mycket viktig länk i en större kedja."
+    "scene": "Bakom glaset växer sockerrören i ordnade rader. WeKill anger kapaciteten till 1 300 sockerrör i timmen. Det är en siffra som kräver mer än bördig jord: skörden ska också samlas upp utan att något blir kvar längs rälsen.",
+    "context": "Pistons skördar odlingen och trattvagnar rör sig längs spåren för att fånga upp det som faller. För den som står utanför glaset ser allt stilla ut tills ett helt led av sockerrör försvinner på en gång.",
+    "tension": "Den angivna kapaciteten är ännu inte ett uppmätt driftresultat från WeAB:s anläggning. En vagn som stannar eller en full kista kan ge en annan skörd än den som står i planeringen. Ett kort besök vid glasväggen säger heller inte hur systemet klarar flera timmars arbete.",
+    "ending": "Nästa kontroll börjar därför i mottagningen: hur mycket sockerrör kommer faktiskt fram, och kan WeSort ta emot det? Först då blir farmens takt användbar för resten av koncernen."
   },
   {
     "slug": "guldfarmens-bortglomda-kedja",
     "format": "ekonomi",
     "title": "Guld är användbart först när någon hämtar det",
-    "summary": "Guldfarmens värde beror på hur väl den passar ihop med systemet som tar emot och förvarar resurserna.",
+    "summary": "Över 1 200 guldtackor i timmen är farmens angivna kapacitet. Erfarenhetsuttaget fungerar däremot inte i nuläget.",
     "image": "/images/wekill-gold-farm.webp",
-    "scene": "I Nether arbetar en av WeKills anläggningar med en resurs som lätt får all uppmärksamhet. Men när guldet väl har producerats börjar ett nytt problem.",
-    "context": "Materialet behöver kunna hämtas, transporteras och förvaras utan att hela processen bygger på vem som råkar vara i närheten just då.",
-    "tension": "Om en farm producerar mer än nästa del kan hantera riskerar resultatet att bli ett förråd fullt av väntan i stället för en fungerande leveranskedja.",
-    "ending": "En bra produktionsplan tittar därför både på takten och på mottagningen. Det är så farmens resurser blir till något mer än en full kista."
+    "scene": "WeKills guldfarm reser sig ovanför Nether med våningar av magmablock. Kapaciteten anges till över 1 200 guldtackor i timmen. Något fungerande uttag av erfarenhet finns inte i nuläget.",
+    "context": "Farmen behöver rätt förutsättningar för att zombifierade piglins ska ta sig till uppsamlingsdelen. Därifrån måste guldet vidare till lagring och sortering. Den som bara ser de lysande planen missar hur stor del av arbetet som pågår vid kistorna.",
+    "tension": "Kapacitet är inte samma sak som leverans. En full uppsamlingskista eller en bruten transportväg kan begränsa resultatet även om anläggningen fortsätter arbeta. WeKill ska heller inte räkna erfarenhet som en resurs när uttaget inte fungerar.",
+    "ending": "Guldet behöver nå WeSort innan det kan bokföras som användbar leverans. Den angivna kapaciteten ger verksamheten något att planera efter, men varje faktiskt driftpass måste redovisas för sig."
   },
   {
     "slug": "shulkerfarmens-betydelse",
     "format": "reportage",
     "title": "Från shulkerfarm till WeBox är avståndet en affärsfråga",
-    "summary": "Specialiserad farmproduktion visar varför en resurs kan vara betydelsefull långt från den plats där den uppstår.",
+    "summary": "Farmen ger skalen, inte färdiga boxar. Först när hela flödet till WeBox är uppmätt kan koncernen ange en egen produktionstakt.",
     "image": "/images/wekill-shulker-farm.webp",
-    "scene": "Shulkerfarmen är ett tydligt exempel på en anläggning vars resultat får en särskild betydelse i nästa steg av produktionen.",
-    "context": "WeKill äger farmen medan WeBox använder shulkerboxar i sin lagringsverksamhet. Sambandet gör tekniken till mer än ett lokalt produktionsprojekt.",
-    "tension": "Det kan locka att bedöma anläggningen isolerat efter hur mycket den ger. Men förvaringsmöjligheterna längre fram avgör vilken nytta materialet skapar.",
-    "ending": "Jag följer därför gärna resursen en bit till. Först när nästa verksamhet kan använda resultatet blir anläggningens uppgift riktigt tydlig."
+    "scene": "Det som lämnar WeKills shulkerfarm är skal. Två skal och en kista behövs för att tillverka en shulkerbox; farmen skickar alltså inte färdiga förvaringslådor direkt till WeBox.",
+    "context": "WeKill ansvarar för anläggningen och WeBox använder de färdiga boxarna i sitt lagersystem. Mellan dem behövs både vanliga kistor och ett arbetsmoment där skalen blir användbara behållare. Att räkna skal som färdiga boxar skulle ge lagret ett överskott som bara finns på papperet.",
+    "tension": "Produktionen är inte garanterad att pågå utan avbrott. En shulker kan behöva ersättas och portalerna kräver tillsyn. WeKill förbereder därför påfyllning och underhåll i stället för att lova att varje driftpass fortsätter av sig självt.",
+    "ending": "WeBox behöver veta hur många användbara boxar som verkligen kan tas emot, inte hur många skal som borde finnas i teorin. Först när den egna driften och stegen därefter har följts upp kan koncernen sätta en siffra på leveransen."
   }
 ] satisfies StorySeed[]);
