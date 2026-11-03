@@ -60,9 +60,9 @@ const pagesWithAnchors = [
 ];
 for (const page of pagesWithAnchors) {
   const html = readFileSync(join(dist, page), 'utf8');
-  const anchors = [...html.matchAll(/href="(\\/[^"#?]*\\/)(#[^"]+)"/g)];
+  const anchors = [...html.matchAll(new RegExp('href="(/[^"#?]*/)(#[^"]+)"', 'g'))];
   for (const [, path, fragment] of anchors) {
-    const targetPage = join(dist, path.replace(/^\\/+/, ''), 'index.html');
+    const targetPage = join(dist, path.slice(1), 'index.html');
     if (!existsSync(targetPage)) continue;
     const id = decodeURIComponent(fragment.slice(1));
     const targetHtml = readFileSync(targetPage, 'utf8');
