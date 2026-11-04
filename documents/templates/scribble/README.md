@@ -47,6 +47,27 @@ En AI ska analysera PDF-texten och skapa en korrekt bok med **egen boksidesindel
 
 En automatisk kopiering av PDF-rader till `pages` utan visuell/layoutmässig omarbetning **uppfyller inte kraven**. Jämför innehållet med `compare_texts.py`, kontrollera den resulterande boken i spelklienten och redovisa om speltest saknas.
 
+## Boktitel vid signering
+
+När en AI skapar eller konverterar en Minecraft-bok ska den alltid föreslå ett **kort och passande boknamn på högst 15 tecken** för **Minecraft Java Edition**. Det gäller själva signeringsrutan, **inte** den formella rubriken i PDF eller någon ny nyckel i JSON. Bedrock Edition har en annan gräns (16 tecken).
+
+Exempel från WeKills pressmeddelande:
+
+- `Järnfarmsolycka` – **15 tecken**, godkänt.
+- `Järnfarmsolyckan` – **16 tecken**, för långt i Java Edition.
+
+Testa innan ett förslag lämnas:
+
+```bash
+python3 documents/templates/scribble/tools/check_title.py "Järnfarmsolycka"
+```
+
+Räkna även mellanslag och skiljetecken. Svenskt å/ä/ö räknas som ett tecken vardera när de är skrivna som normaliserade Unicode-tecken. Längdkontrollen räknar UTF-16-kodenheter som Java-strängar; kontrollera dessutom läsbarhet och visuell bredd inne i spelet. För ett långt dokument väljs en **meningsfull kortform**, aldrig en titel som kapas mitt i ett ord.
+
+Minecrafts signeringsfält är skilt från Scribbles JSON-format (`author` och `pages`), som fortfarande inte ska innehålla `title`.
+
+Källa: [Minecraft Wiki – Book and Quill](https://minecraft.wiki/w/Book_and_Quill).
+
 ## Testa lokalt
 
 ```bash

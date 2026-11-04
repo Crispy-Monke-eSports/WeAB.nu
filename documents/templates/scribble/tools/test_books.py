@@ -9,12 +9,26 @@ import unittest
 from pypdf import PdfReader
 from book_to_pdf import make_pdf, validate_book
 from compare_texts import compare
+from check_title import MAX_SIGNED_BOOK_TITLE_LENGTH, title_length, validate_title
 from validate_books import check_one
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class ScribbleTests(unittest.TestCase):
+    def test_valid_signed_book_title_in_java(self):
+        self.assertEqual(MAX_SIGNED_BOOK_TITLE_LENGTH, 15)
+        self.assertEqual(validate_title("Järnfarmsolycka"), 15)
+        self.assertEqual(title_length("ä"), 1)
+        self.assertEqual(validate_title("Olycka vid farm"), 15)
+
+    def test_reject_too_long_title_and_invalid_text(self):
+        for title in ("Järnfarmsolyckan", " ", " Titel", "Titel ", "Rad\nbyte", "§cTitel", "a\u0308"):
+            with self.subTest(title=title):
+                with self.assertRaises(ValueError):
+                    validate_title(title)
+        self.assertEqual(title_length("📕"), 2)  # Java uses UTF-16 code units.
+
     def test_general_templates(self):
         files = sorted((ROOT / "general").glob("*.json"))
         self.assertEqual(len(files), 10)

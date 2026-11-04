@@ -8,6 +8,8 @@
 >
 > Om underlaget är en **JSON-bok från spelet**: läs den som originalkälla och gör en snygg, korrekt bolagsprofilerad PDF, med oberoende A4-sidindelning och utan textförlust. Om underlaget är en **PDF**: omforma texten till korta, balanserade Minecraft-boksidor och bevara allt innehåll.
 >
+> När du har skapat en bok ska du även ge **ett kort, passande namnförslag till Minecrafts signeringsruta, högst 15 tecken i Java Edition inklusive blanksteg**. Kontrollera längden med `tools/check_title.py` (å/ä/ö räknas normalt som ett tecken). Ange förslaget och teckenantalet i svaret; förkorta inte bara den officiella rubriken mekaniskt. Lägg inte till `title` i JSON eller ändra PDF:ens text.
+>
 > Följ Scribble BookFile-formatet med endast `author` och `pages`. Validera JSON, jämför texterna maskinellt där det går och granska resultatet separat i PDF och i spelet. Säg uttryckligen om in-game-test inte kunnat göras.
 >
 > **Bolag:** [ett av de tio namnen]  

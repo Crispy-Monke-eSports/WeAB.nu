@@ -93,7 +93,22 @@ Scribble 1.6+ använder endast detta format:
 | WeBox | `#8E44AD` | `§5` |
 | WeLiveLaughLove | `#79A83B` | `§a` |
 
-## 6. Innehåll och företagspolicy
+## 6. Titel när Minecraft-boken ska signeras
+
+**En AI som skapar eller bearbetar en Scribble-bok ska alltid ge användaren ett konkret förslag på boktitel som går att skriva in i Minecraft Java Editions signeringsruta.** Förslaget ska lämnas tillsammans med bok-/PDF-leveransen, även när den officiella dokumentrubriken är för lång för spelets titelfält.
+
+- **Högst 15 tecken** vid signering i Minecraft **Java Edition** (i Bedrock Edition är gränsen 16). Räkna inklusive blanksteg och skiljetecken. Välj helst 10–14 tecken om ett tydligt namn kan formuleras, men upp till 15 är tillåtet.
+- Boktiteln ska vara kort, naturlig, begriplig, sakligt korrekt och representativ för dokumentet. **Klipp aldrig bara av en lång titel mitt i ett ord.** Föreslå i stället en fungerande kortform.
+- Svenska tecken **å, ä och ö får användas** och räknas normalt som ett tecken var när de skrivs som enskilda, normaliserade Unicode-tecken. För säkerhets skull ska titeln vara NFC-normaliserad och längden kontrolleras som UTF-16-kodenheter (Java-strängens längd). Emojier kan uppta mer än en kodenhet och bör undvikas.
+- Föreslagen titel måste **testas före leverans**: `python3 documents/templates/scribble/tools/check_title.py "Järnfarmsolycka"`. Exemplet `Järnfarmsolycka` är **15 tecken och giltigt**; `Järnfarmsolyckan` är **16 tecken och för långt**.
+- Presentera den rekommenderade titeln tydligt för användaren, gärna tillsammans med teckenantal, exempelvis **Förslag på boktitel: Järnfarmsolycka (15/15)**. Alternativ får ges om de också har kontrollerats.
+- **Förväxla inte signeringstiteln med Scribbles JSON-struktur eller dokumentets officiella rubrik.** Scribble BookFile har endast `author` och `pages`; lägg **inte** till ett `title`-fält. Den korta boktiteln är ett separat förslag till signeringsrutan, inte en instruktion att ändra PDF-rubriken eller dokumentets saktext.
+- Vid konvertering av en **redan signerad bok** ska originaldokumentets text fortfarande bevaras. Ett nytt signeringstitelförslag får lämnas vid behov, men påstå inte att ett signerat exemplar automatiskt kan döpas om eller redigeras i spelet.
+- Kontrollera i spelet att även titelns **visuella bredd** är läsbar; en kontroll av teckenantal garanterar inte att texten ser bra ut i alla klienter.
+
+Källa för gränsen vid vanlig signering: [Minecraft Wiki – Book and Quill](https://minecraft.wiki/w/Book_and_Quill). Boktiteln hanteras av Minecrafts signeringsruta, inte i Scribbles JSON-`pages`.
+
+## 7. Innehåll och företagspolicy
 
 - Svenska som standardspråk. WeAB:s dokument har en saklig ton **inifrån den fiktiva företagsvärlden**. Skriv inte om Minecraft, server, YouTube, tutorials eller spelversioner i dokumenten som används i världen; sådant hör bara till tekniska instruktioner.
 - Behåll established names och verifierade sakuppgifter i repot. Presentera inte obekräftade siffror som verkliga resultat.
@@ -102,8 +117,9 @@ Scribble 1.6+ använder endast detta format:
 - Lägg inte teknisk text som "Mall", versionsnummer eller systemetiketter i färdigställda dokument.
 - Följ repots `AGENTS.md` om rubriker, ton och bolagets befintliga grafiska identitet.
 
-## 7. Obligatorisk slutkontroll
+## 8. Obligatorisk slutkontroll
 
+- [ ] En kort, begriplig **signeringstitel på högst 15 tecken** har föreslagits och validerats när AI skapat en bok.
 - [ ] Exakt rätt bolag, namn och rätt färgprofil.
 - [ ] JSON giltig, UTF-8 och `author` plus `pages` är enda fälten.
 - [ ] Alla sakord, rubriker, siffror och datum identiska i PDF och JSON.
