@@ -33,6 +33,14 @@ python3 documents/templates/scribble/tools/compare_texts.py bok.json dokument.pd
 
 Den genererade PDF:en har A4-typografi och flödande stycken. **PDF-sidantalet är oberoende av antalet boksidor.** Verktyget skriver inte över originalfilen. AI ska därefter granska PDF-renderingen och eventuella visuella problem; samma text är ett absolut krav.
 
+## Bygg alla tio JSON- och PDF-par
+
+```bash
+python3 documents/templates/scribble/tools/export_pairs.py /tmp/weab-book-pairs
+```
+
+Skriptet skapar både `.json` och `.pdf` per bolag och stoppar om saktexten skiljer sig mellan dem. De genererade PDF-filerna är **utdata**, inte källmallar som behöver versionshanteras under `general/`. Granska visuellt innan användning.
+
 ## Från PDF till Scribble
 
 En AI ska analysera PDF-texten och skapa en korrekt bok med **egen boksidesindelning**. Inga ord får försvinna och texten får inte sammanfattas för att den ska passa. Långa tabeller kan omformges i vertikala block så länge samtliga faktiska etiketter och värden behålls.
