@@ -10,7 +10,7 @@ export const chiefExecutive = {
 };
 
 export const leadingMembers: Executive[] = [
-  { name: 'RavenHamstster', title: 'Ledande ledamot' },
+  { name: 'RavenHamster', title: 'Ledande ledamot' },
   { name: 'Filuren2003', title: 'Ledande ledamot' },
   { name: 'Haapalainen', title: 'Ledande ledamot' },
   { name: 'Laxen_MX', title: 'Ledande ledamot' }
