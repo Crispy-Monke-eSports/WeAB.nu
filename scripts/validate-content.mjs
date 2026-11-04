@@ -76,7 +76,7 @@ for (const company of companies) {
 }
 assert.equal(chiefExecutive.name, 'Store-W');
 assert.deepEqual(leadingMembers.map(member => member.name), [
-  'RavenHamstster', 'Filuren2003', 'Haapalainen', 'Laxen_MX'
+  'RavenHamster', 'Filuren2003', 'Haapalainen', 'Laxen_MX'
 ]);
 assert.ok(leadingMembers.every(member => member.title === 'Ledande ledamot'));
 unique(companies.map(({ name }) => name), 'verksamhetsnamn');
