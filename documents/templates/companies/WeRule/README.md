@@ -6,13 +6,13 @@ Här placeras den färdiggranskade **LibreOffice Writer-mallen** för WeRules me
 documents/templates/companies/WeRule/Medborgarskapsbevis.ott
 ```
 
-**Status:** Den korrigerade `.ott`-filen finns nu i PR-grenen och dess Git-blobkontrollsumma matchar den lokalt verifierade originalfilen. En motsvarande [Scribble-mall för Minecraft](../../../scribble/companies/WeRule/Medborgarskapsbevis.json) ingår också.
+**Status:** Den korrigerade `.ott`-filen finns nu i PR-grenen och dess Git-blobkontrollsumma matchar den lokalt verifierade originalfilen. En motsvarande [Scribble-mall för Minecraft](../../scribble/companies/WeRule/Medborgarskapsbevis.json) ingår också.
 
 ## Två dokumentformat
 
 - **Writer/PDF:** `Medborgarskapsbevis.ott` är originalet för den godkända A4-designen med WE APPROVE-stämpel.
 - **Scribble/Minecraft:** `documents/templates/scribble/companies/WeRule/Medborgarskapsbevis.json` innehåller samma saktext men en egen boksidesindelning.
-- De sex fälten ska fyllas i **konsekvent i båda**, och AI ska omfördela boktexten efter verkliga värdens längd. Se [Scribble-instruktionerna](../../../scribble/companies/WeRule/README.md).
+- De sex fälten ska fyllas i **konsekvent i båda**, och AI ska omfördela boktexten efter verkliga värdens längd. Se [Scribble-instruktionerna](../../scribble/companies/WeRule/README.md).
 
 Originalfilen är den senaste **korrigerade** Writer-mallen, inte den tidigare varianten som flyttade signeringen till sida två.
 
