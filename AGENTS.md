@@ -72,3 +72,11 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 - Kör `npm run check` efter innehålls- eller kodändringar. Det validerar innehåll och logotyper, bygger webbplatsen och kontrollerar genererade sidor och lokala resurser.
 - `dist/` är byggutdata och ska inte redigeras för hand. Publicering sker från `main` via GitHub Actions; pusha bara när användaren ber om det.
 - Alla sidor har `noindex` i `BaseLayout.astro`. Googlebot och Bingbot måste få läsa det direktivet; blockera dem inte i `robots.txt`. Övriga följsamma robotar avråds från att hämta sidan. Skapa inte en webbplatskarta eller canonical-länkar av misstag.
+
+## Dokumentmallar för Scribble och PDF
+
+Det interna mallbiblioteket `documents/templates/scribble/` används för böcker i Scribble (Minecraft). Den tekniska dokumentationen får nämna spelmodden; innehåll som publiceras **inifrån WeAB:s värld** får fortfarande inte göra det.
+
+**Obligatoriskt:** En AI som arbetar med böcker, bokmallar, Scribble-JSON eller deras PDF-motsvarigheter måste först läsa `documents/templates/scribble/AGENTS.md` och **hela** `documents/templates/scribble/AI_INSTRUCTIONS.md`.
+
+För färdiga dokument är huvudregeln **två utdatafiler – PDF och Scribble-JSON – med exakt samma sakliga text**. Varje medium måste få egen professionell layout och sidindelning; det är förbjudet att mekaniskt matcha PDF-sidor mot boksidor. Detta gäller också om användaren skickar en bok som skapats i spelet och vill få en snygg bolagsprofilerad PDF av den. Validera bokens JSON och textöverensstämmelsen i båda riktningar; redovisa speltest som inte har genomförts.
