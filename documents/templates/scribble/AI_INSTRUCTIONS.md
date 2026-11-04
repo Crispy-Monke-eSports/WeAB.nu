@@ -119,7 +119,8 @@ Källa för gränsen vid vanlig signering: [Minecraft Wiki – Book and Quill](h
 
 ## 8. Obligatorisk slutkontroll
 
-- [ ] En kort, begriplig **signeringstitel på högst 15 tecken** har föreslagits och validerats när AI skapat en bok.\n- [ ] Exakt rätt bolag, namn och rätt färgprofil.
+- [ ] En kort, begriplig **signeringstitel på högst 15 tecken** har föreslagits och validerats när AI skapat en bok.
+- [ ] Exakt rätt bolag, namn och rätt färgprofil.
 - [ ] JSON giltig, UTF-8 och `author` plus `pages` är enda fälten.
 - [ ] Alla sakord, rubriker, siffror och datum identiska i PDF och JSON.
 - [ ] Bokssidorna **självständigt** balanserade och aldrig visuellt överfulla.
