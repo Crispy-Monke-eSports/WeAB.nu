@@ -19,4 +19,4 @@ Dessa är generella dokumentmallar, **inte** de verksamhetsspecifika specialmall
 
 Använd `python3 scripts/import-general-writer-templates.py <zip-fil>` för att importera exakt dessa tio filer utan att ändra innehållet. `--check` kontrollerar kontrollsummor och antalet filer.
 
-**PR-status:** Binärfilerna behöver importeras och läggas till innan denna förändring kan slås ihop.
+**Leveransstatus:** Alla tio generella `.ott`-filer ingår i versionshanteringen. Filernas SHA-256 och ODF-struktur verifieras automatiskt i CI. Vid framtida omimport ska endast källpaketets generella `.ott`-filer användas.
