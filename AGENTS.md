@@ -80,3 +80,5 @@ Det interna mallbiblioteket `documents/templates/scribble/` används för böcke
 **Obligatoriskt:** En AI som arbetar med böcker, bokmallar, Scribble-JSON eller deras PDF-motsvarigheter måste först läsa `documents/templates/scribble/AGENTS.md` och **hela** `documents/templates/scribble/AI_INSTRUCTIONS.md`.
 
 För färdiga dokument är huvudregeln **två utdatafiler – PDF och Scribble-JSON – med exakt samma sakliga text**. Varje medium måste få egen professionell layout och sidindelning; det är förbjudet att mekaniskt matcha PDF-sidor mot boksidor. Detta gäller också om användaren skickar en bok som skapats i spelet och vill få en snygg bolagsprofilerad PDF av den. Validera bokens JSON och textöverensstämmelsen i båda riktningar; redovisa speltest som inte har genomförts.
+
+**Vid skapande av en Minecraft-bok ska AI alltid ge ett meningsfullt, validerat namnförslag för signering (högst 15 tecken i Java Edition, inklusive mellanslag och å/ä/ö).** Använd `documents/templates/scribble/tools/check_title.py` för kontroll. Boktiteln anges som ett separat förslag till användaren, inte som en extra JSON-nyckel eller en ersättning för dokumentrubriken.
