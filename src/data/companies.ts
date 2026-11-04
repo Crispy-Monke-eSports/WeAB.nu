@@ -45,10 +45,10 @@ export const companies: Company[] = [
   {
     slug:'welivelaughlove', name:'WeLiveLaughLove',kicker:'BOENDE & SAMHÄLLSHARMONI',tagline:'Mer gemenskap per kvadratmeter.',
     overview:'Varje invånare förtjänar ett hem. Vi bestämmer hur mycket hem.',
-    description:'En bostad, en arbetsplats, ett syfte. Efter det olyckliga missförståndet om självbestämmande har byarna äntligen återfått lugnet. Invånarna tillfrågades inte; det hade stört mätningen. Nu tar vi även emot den tidigare regeringen och riksdagen i Sektion 3, Avdelning A. De har ”frivilligt” valt att bli tvångsplacerade där, enligt den ordning WeRule har dokumenterat.',
+    description:'En bostad, en arbetsplats, ett syfte. Efter det olyckliga missförståndet om självbestämmande har byarna äntligen återfått lugnet. Invånarna tillfrågades inte; det hade stört mätningen. I Sektion 3, Avdelning A tar vi även emot den tidigare regeringens statsråd och riksdagens ledamöter. De har ”frivilligt” valt att bli tvångsplacerade där, enligt den ordning WeRule har dokumenterat.',
     accent:'#79A83B', image:'/images/welivelaughlove-compound.webp',imageAlt:'Sektion 1, Avdelning B: inhägnat boendedistrikt med stor WE-skylt',location:'Sektion 1 och Sektion 3',status:'Aktiv verksamhet',
     services:['Kompakt boende','Kapacitetsplanering','Samhällsstabilisering','Standardiserad trivsel'],
-    facts:[{label:'Boendeform',value:'Högdensitet'},{label:'Officiell lägesbild',value:'Stabil'}]
+    facts:[{label:'Huvudansvarig',value:'Filuren2003 · förtrycksminister'},{label:'Boendeform',value:'Högdensitet'},{label:'Officiell lägesbild',value:'Stabil'}]
   },
   {
     slug:'wegamble',name:'WeGamble',kicker:'NÖJEN & ENTERTAINMENT',tagline:'Huset vinner. Vi äger huset.',
@@ -95,7 +95,7 @@ export const companies: Company[] = [
     location: 'WeLoves personalanläggning',
     status: 'Kontinuerlig drift',
     services: ['Villager breeding', 'Långsiktig personalplanering', 'Generationsväxling', 'Arbetskraftsproduktion', 'Kapacitetsoptimering', 'Rekrytering från födseln'],
-    facts: [{label: 'Driftansvarig', value: 'Haapalainen'}, {label: 'Affärsområde', value: 'Personalproduktion'}, {label: 'Leveransmodell', value: 'Kontinuerlig'}, {label: 'Karriärstart', value: 'Så tidigt som möjligt'}]
+    facts: [{label: 'Ansvarig för WeLove', value: 'Haapalainen'}, {label: 'Affärsområde', value: 'Personalproduktion'}, {label: 'Leveransmodell', value: 'Kontinuerlig'}, {label: 'Karriärstart', value: 'Så tidigt som möjligt'}]
   },
   {
     slug: 'werule', name: 'WeRule', kicker: 'OFFENTLIG MAKT · PRIVAT REGI', tagline: 'Staten är i goda händer. Våra.',

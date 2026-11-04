@@ -129,6 +129,14 @@ for (const project of projects) {
 }
 unique(Object.keys(companyEditorial), 'redaktionella verksamhetsslugs');
 assert.deepEqual(Object.keys(companyEditorial).sort(), companies.map(company => company.slug).sort(), 'Alla bolag behöver egna redaktionella avsnitt');
+const housingCompany = companies.find(company => company.slug === 'welivelaughlove');
+assert.ok(leadingMembers.some(member => member.name === 'Filuren2003' && member.title === 'Ledande ledamot'),
+  'Filuren2003 ska förbli en av de fyra ledande ledamöterna');
+assert.ok(housingCompany?.facts.some(fact => fact.label === 'Huvudansvarig' && fact.value.includes('Filuren2003') && fact.value.includes('förtrycksminister')),
+  'WeLiveLaughLoves nya ansvarsfördelning ska framgå');
+assert.ok(companies.find(company => company.slug === 'welove')?.facts.some(fact => fact.label === 'Ansvarig för WeLove' && fact.value === 'Haapalainen'),
+  'Haapalainens ansvar för WeLove ska framgå');
+for (const member of leadingMembers) asset(member.profileImage, `Profilbild för ${member.name}`);
 const projectById = new Map(projects.map(project => [project.id, project]));
 for (const company of companies) {
   const editorial = companyEditorial[company.slug];
