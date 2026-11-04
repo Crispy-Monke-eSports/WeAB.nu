@@ -7,6 +7,7 @@ Denna del av WeAB:s mallbibliotek gäller **Minecraft-böcker via Scribble 1.6+*
 ## Innehåll
 
 - `general/`: tio ursprungliga generella JSON-bokmallar, en per bolag.
+- `companies/WeRule/Medborgarskapsbevis.json`: specialmall för medborgarskapsbevis, med samma saktext som den [motsvarande Writer-mallen](../companies/WeRule/Medborgarskapsbevis.ott).
 - `schema/bookfile.schema.json`: formatkontraktet för Scribble BookFile.
 - `tools/validate_books.py`: JSON- och layoutkontroll.
 - `tools/book_to_pdf.py`: ombryter text från Scribble JSON till en professionell A4-PDF. En boksida motsvarar **inte** automatiskt en PDF-sida.
@@ -77,7 +78,7 @@ python3 -m unittest discover -s documents/templates/scribble/tools -p 'test_book
 
 ## När katalogen växer
 
-Senare kan `scribble/shared/` innehålla gemensamma dokumenttyper, exempelvis protokoll i varje bolagsprofil, och `scribble/companies/` kan innehålla företagsspecifika böcker. **Denna leverans innehåller enbart tio generella bokmallar**, gemensamma regler och verktyg.
+Senare kan `scribble/shared/` innehålla gemensamma dokumenttyper, exempelvis protokoll i varje bolagsprofil, och `scribble/companies/` kan innehålla företagsspecifika böcker. WeRule har nu även en [företagsspecifik medborgarskapsbok](companies/WeRule/README.md). Övriga specialmallar kan tillkomma på samma sätt.
 
 ## Källkodsverifiering
 
