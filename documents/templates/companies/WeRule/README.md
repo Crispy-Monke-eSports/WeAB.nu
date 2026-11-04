@@ -6,15 +6,13 @@ Här placeras den färdiggranskade **LibreOffice Writer-mallen** för WeRules me
 documents/templates/companies/WeRule/Medborgarskapsbevis.ott
 ```
 
-**Status i denna PR:** Mallen behöver fortfarande laddas upp som binärfil till sökvägen ovan. PR:en ska förbli ett utkast tills filen finns och är kontrollerad.
+**Status:** Den korrigerade `.ott`-filen finns nu i PR-grenen och dess Git-blobkontrollsumma matchar den lokalt verifierade originalfilen. En motsvarande [Scribble-mall för Minecraft](../../../scribble/companies/WeRule/Medborgarskapsbevis.json) ingår också.
 
-## Lägg till filen i PR-grenen
+## Två dokumentformat
 
-1. Ladda ner den korrigerade `.ott`-filen som hör till ärendet.
-2. Döp kopian till `Medborgarskapsbevis.ott`.
-3. Öppna denna katalog på **grenen `feat/werule-citizenship-certificate-template`** i GitHub och välj **Add file → Upload files**.
-4. Ladda upp filen här (inte i `main` och inte i `public/`) och committa till **samma PR-gren**.
-5. Kontrollera att PR:en innehåller `.ott`-filen innan den mergas.
+- **Writer/PDF:** `Medborgarskapsbevis.ott` är originalet för den godkända A4-designen med WE APPROVE-stämpel.
+- **Scribble/Minecraft:** `documents/templates/scribble/companies/WeRule/Medborgarskapsbevis.json` innehåller samma saktext men en egen boksidesindelning.
+- De sex fälten ska fyllas i **konsekvent i båda**, och AI ska omfördela boktexten efter verkliga värdens längd. Se [Scribble-instruktionerna](../../../scribble/companies/WeRule/README.md).
 
 Originalfilen är den senaste **korrigerade** Writer-mallen, inte den tidigare varianten som flyttade signeringen till sida två.
 
@@ -45,13 +43,15 @@ Skapa ett **nytt dokument från OTT-mallen**, fyll i fälten och exportera sedan
 
 ## Kvalitetskontroll innan merge
 
-- [ ] Rätt binär `.ott`-fil finns i katalogen.
-- [ ] SHA-256 stämmer med den granskade versionen.
+- [x] Rätt binär `.ott`-fil finns i katalogen.
+- [x] SHA-256 stämmer med den granskade versionen.
 - [ ] LibreOffice Writer öppnar mallen utan fel.
 - [ ] Samtliga sex inmatningsfält kan ändras.
 - [ ] Ett ifyllt exempel med realistisk text får plats på en A4-sida.
 - [ ] Utfärdare och WE APPROVE-stämpel ligger på samma sida som resten.
 - [ ] PDF-export, logotyp och den turkosa linjen är korrekta.
-- [ ] Inga RavenHamster-exempeluppgifter är hårdkodade i den återanvändbara mallen.
+- [x] Inga RavenHamster-exempeluppgifter är hårdkodade i den återanvändbara mallen.
+- [x] Scribble-JSON innehåller samma fullständiga saktext och samtliga sex platshållare.
+- [ ] Den slutliga Scribble-layouten har granskats inne i spelklienten (ej testad).
 
 Exempel-PDF och ifyllda dokument ska inte läggas i katalogen med produktionsmallar. 
