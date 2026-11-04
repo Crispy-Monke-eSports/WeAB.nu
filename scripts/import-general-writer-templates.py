@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import io
 from pathlib import Path
 import sys
 import zipfile
@@ -33,8 +34,19 @@ def verify(company: str, data: bytes, expected_sha256: str) -> None:
     digest = hashlib.sha256(data).hexdigest()
     if digest != expected_sha256:
         raise ValueError(f"{company}: SHA-256 mismatch: {digest}")
-    if not zipfile.is_zipfile(__import__("io").BytesIO(data)):
+    if not zipfile.is_zipfile(io.BytesIO(data)):
         raise ValueError(f"{company}: not a valid ODF ZIP package")
+    with zipfile.ZipFile(io.BytesIO(data)) as document:
+        required = {"mimetype", "content.xml", "META-INF/manifest.xml"}
+        missing = required - set(document.namelist())
+        if missing:
+            raise ValueError(f"{company}: missing ODF entries: {sorted(missing)}")
+        mimetype = document.read("mimetype")
+        if mimetype != b"application/vnd.oasis.opendocument.text-template":
+            raise ValueError(f"{company}: unexpected ODF mimetype: {mimetype!r}")
+        corrupt_member = document.testzip()
+        if corrupt_member is not None:
+            raise ValueError(f"{company}: corrupt ODF member: {corrupt_member}")
 
 
 def main() -> int:
@@ -45,6 +57,15 @@ def main() -> int:
     if not args.check and args.archive is None:
         parser.error("Provide the v2.3 ZIP archive, or use --check")
     if args.check:
+        if not TARGET_DIR.is_dir():
+            raise FileNotFoundError(f"Missing directory: {TARGET_DIR}")
+        expected = {company + ".ott" for company in FILES}
+        actual = {item.name for item in TARGET_DIR.iterdir() if item.name != "README.md"}
+        if actual != expected:
+            raise ValueError(
+                f"Expected exactly ten general templates; "
+                f"missing={sorted(expected - actual)}, extra={sorted(actual - expected)}"
+            )
         for company, (_, checksum) in FILES.items():
             path = TARGET_DIR / (company + ".ott")
             if not path.is_file():
