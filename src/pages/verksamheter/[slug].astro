@@ -43,9 +43,9 @@ const appointedLeader = leadingMembers.find(member => member.name === (company.s
 
     {appointedLeader && <section class="section company-appointment"><div class="shell company-appointment__inner">
       <div>{company.slug === 'welivelaughlove'
-          ? <><h2>Filuren2003 leder boendeordningen</h2><p>Filuren2003 har tagit över som koncernens förtrycksminister och huvudansvarig för WeLiveLaughLove. Uppdraget gäller bolagets boendeverksamhet i Sektion 1 och Sektion 3.</p></>
+          ? <><h2>Filuren2003 leder boendeordningen</h2><p>Filuren2003 har tagit över som koncernens förtrycksminister och huvudansvarig för WeLiveLaughLove. Han drev igenom att byarna bara får vatten utdelat varannan dag för att spara pengar och belönades med ”Årets insparning 2025” på koncernens champagnefest, där bara företagets toppar var inbjudna. Han är fortfarande otroligt stolt över beslutet.</p></>
           : <><h2>Haapalainen ansvarar för WeLove</h2><p>Haapalainen ansvarar för WeLove och leder arbetet med koncernens personalförsörjning.</p></>}
-        <a class="link-arrow" href="/bolagsstyrning/">Läs om koncernledningen ↗</a></div>
+        <a class="link-arrow" href={`/ledning/${appointedLeader.slug}/`}>Lär känna {appointedLeader.name} ↗</a></div>
       <Image src={imageAsset(appointedLeader.profileImage)} alt={`Profilbild för ${appointedLeader.name}`} layout="constrained" widths={[96, 144, 288]} sizes="(max-width: 600px) 96px, 144px" loading="lazy" />
     </div></section>}
 

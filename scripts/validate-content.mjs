@@ -14,6 +14,7 @@ import { locations, locationGroups } from '../src/data/locations.ts';
 import { companyEditorial } from '../src/data/companyEditorial.ts';
 import { companyContacts, headquarters, emailForCompany } from '../src/data/contacts.ts';
 import { chiefExecutive, leadingMembers } from '../src/data/leadership.ts';
+import { leaderProfiles } from '../src/data/leaderProfiles.ts';
 import { lightingSecurityArticleSlugs, lightingSecurityEdits, lightingSecurityNotice } from '../src/data/lightingSecurity.ts';
 
 function unique(values, description) {
@@ -79,6 +80,28 @@ assert.deepEqual(leadingMembers.map(member => member.name), [
   'RavenHamster', 'Filuren2003', 'Haapalainen', 'Laxen_MX'
 ]);
 assert.ok(leadingMembers.every(member => member.title === 'Ledande ledamot'));
+unique(leadingMembers.map(member => member.slug), 'ledamotsadresser');
+assert.equal(leaderProfiles.length, leadingMembers.length, 'Alla ledamöter behöver en profilsida');
+for (const profile of leaderProfiles) {
+  assert.ok(profile.member && leadingMembers.includes(profile.member), 'Okänd ledamot i profil');
+  assert.ok(profile.introduction.length > 70 && profile.past.length > 70 &&
+    profile.work.length >= 2 && profile.day.length >= 3 && profile.future.length > 70 &&
+    profile.questions.length >= 3,
+    `Ofullständig profil för ${profile.member.name}`);
+  assert.ok(profile.work.every(paragraph => paragraph.length > 70) &&
+    profile.day.every(paragraph => paragraph.length > 70) &&
+    profile.questions.every(item => item.question.trim() && item.answer.length > 40),
+    `Ofullständiga svar för ${profile.member.name}`);
+  if (profile.responsibility) {
+    assert.ok(companies.some(company => `/verksamheter/${company.slug}/` === profile.responsibility.href),
+      `Ogiltigt bolag i profilen för ${profile.member.name}`);
+  }
+}
+const filurenProfile = leaderProfiles.find(profile => profile.member.slug === 'filuren2003');
+assert.ok(filurenProfile?.past.includes('vatten utdelat varannan dag') &&
+  filurenProfile.past.includes('Årets insparning 2025') && filurenProfile.past.includes('champagnefest') &&
+  filurenProfile.past.includes('bara företagets toppar var inbjudna'),
+  'Filuren2003s vattenbesparing och utmärkelse ska finnas i profilen');
 unique(companies.map(({ name }) => name), 'verksamhetsnamn');
 unique(projects.map(({ id }) => id), 'projekt-id');
 unique(news.map(({ slug }) => slug), 'nyhetsslugs');

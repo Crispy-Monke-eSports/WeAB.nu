@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { imageAsset } from '../../data/imageAssets';
+import { leaderProfiles, type LeaderProfile } from '../../data/leaderProfiles';
+
+export function getStaticPaths() {
+  return leaderProfiles.map(profile => ({ params: { slug: profile.member.slug }, props: { profile } }));
+}
+
+const { profile } = Astro.props as { profile: LeaderProfile };
+const { member } = profile;
+---
+<BaseLayout title={`${member.name} | Koncernledning | WeAB Group`} description={profile.introduction}>
+  <header class="page-hero profile-hero"><div class="shell profile-hero__inner">
+    <div><h1>{member.name}</h1><p class="profile-role">{member.title}</p><p class="lead">{profile.introduction}</p></div>
+    <Image src={imageAsset(member.profileImage)} alt={`Profilbild för ${member.name}`} layout="constrained" widths={[160, 240, 320]} sizes="(max-width: 650px) 160px, 240px" loading="eager" />
+  </div></header>
+
+  <section class="section"><div class="shell profile-copy">
+    <h2>Tidigare ansvar</h2>
+    <p>{profile.past}</p>
+    <h2>Nuvarande ansvar</h2>
+    {profile.work.map(paragraph => <p>{paragraph}</p>)}
+    {profile.responsibility && <p><a class="link-arrow" href={profile.responsibility.href}>Läs om {profile.responsibility.text} ↗</a></p>}
+  </div></section>
+
+  <section class="section section--dark"><div class="shell profile-copy">
+    <h2>Häng med på en arbetsdag</h2>
+    {profile.day.map(paragraph => <p>{paragraph}</p>)}
+  </div></section>
+
+  <section class="section"><div class="shell profile-copy">
+    <h2>Småintervju: lär känna mig</h2>
+    <dl class="profile-questions">{profile.questions.map(item => <div><dt>{item.question}</dt><dd>”{item.answer}”</dd></div>)}</dl>
+  </div></section>
+
+  <section class="section section--dark"><div class="shell profile-copy">
+    <h2>Framtida ansvar</h2>
+    <p>{profile.future}</p>
+  </div></section>
+
+  <nav class="section profile-nav" aria-label="Fler personer i koncernledningen"><div class="shell profile-copy">
+    <h2>Fler i ledningen</h2>
+    <ul>{leaderProfiles.filter(item => item.member.slug !== member.slug).map(item => <li><a href={`/ledning/${item.member.slug}/`}>{item.member.name} ↗</a></li>)}</ul>
+    <a class="link-arrow" href="/bolagsstyrning/">Till bolagsstyrningen ↗</a>
+  </div></nav>
+</BaseLayout>
+
+<style>
+  .profile-hero__inner{display:grid;grid-template-columns:minmax(0,1fr) 240px;align-items:center;gap:clamp(2rem,7vw,6rem)}
+  .profile-hero h1{margin:0;overflow-wrap:anywhere}
+  .profile-role{margin:.8rem 0 1.6rem;color:#92dce8;font-weight:750}
+  .profile-hero .lead{max-width:64ch;margin:0}
+  .profile-hero img{width:100%;height:auto;border-radius:50%}
+  .profile-copy{max-width:850px}
+  .profile-copy h2{margin:0 0 1.6rem}
+  .profile-copy p + h2{margin-top:3.5rem}
+  .profile-copy p{max-width:70ch}
+  .profile-copy p:last-child{margin-bottom:0}
+  .profile-questions{margin:0;border-top:1px solid #45606c}
+  .profile-questions div{padding:1.5rem 0;border-bottom:1px solid #45606c}
+  .profile-questions dt{font-size:1.12rem;font-weight:750;margin-bottom:.6rem}
+  .profile-questions dd{margin:0;max-width:68ch;line-height:1.7;color:#b8cbd3}
+  .profile-nav ul{list-style:none;padding:0;margin:0 0 2rem;border-top:1px solid #45606c}
+  .profile-nav li{border-bottom:1px solid #45606c}
+  .profile-nav li a{display:block;padding:1rem 0;color:#b7e7ee;font-weight:750;text-decoration:none}
+  .profile-nav li a:hover{text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:650px){.profile-hero__inner{grid-template-columns:1fr;gap:2rem}.profile-hero img{width:160px;grid-row:1}.profile-hero .lead{max-width:65ch}}
+</style>

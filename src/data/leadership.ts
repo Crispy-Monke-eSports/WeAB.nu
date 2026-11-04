@@ -1,5 +1,6 @@
 export interface Executive {
   name: string;
+  slug: string;
   title: string;
   profileImage: string;
 }
@@ -11,8 +12,8 @@ export const chiefExecutive = {
 };
 
 export const leadingMembers: Executive[] = [
-  { name: 'RavenHamster', title: 'Ledande ledamot', profileImage: '/images/ravenhamster-profile.webp' },
-  { name: 'Filuren2003', title: 'Ledande ledamot', profileImage: '/images/filuren2003-profile.webp' },
-  { name: 'Haapalainen', title: 'Ledande ledamot', profileImage: '/images/haapalainen-profile.webp' },
-  { name: 'Laxen_MX', title: 'Ledande ledamot', profileImage: '/images/laxen-mx-profile.webp' }
+  { name: 'RavenHamster', slug: 'ravenhamster', title: 'Ledande ledamot', profileImage: '/images/ravenhamster-profile.webp' },
+  { name: 'Filuren2003', slug: 'filuren2003', title: 'Ledande ledamot', profileImage: '/images/filuren2003-profile.webp' },
+  { name: 'Haapalainen', slug: 'haapalainen', title: 'Ledande ledamot', profileImage: '/images/haapalainen-profile.webp' },
+  { name: 'Laxen_MX', slug: 'laxen-mx', title: 'Ledande ledamot', profileImage: '/images/laxen-mx-profile.webp' }
 ];
