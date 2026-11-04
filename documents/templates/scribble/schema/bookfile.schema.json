@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://weab.nu/scribble/schema/bookfile-v1.json",
+  "title": "Scribble 1.6+ BookFile",
+  "description": "Källkodsverifierad struktur: BookFile(String author, Collection<String> pages). Sidgränserna anges försiktigt här, med hänsyn till spelredigerarens begränsningar.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "author",
+    "pages"
+  ],
+  "properties": {
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "type": "string",
+        "maxLength": 1024
+      }
+    }
+  }
+}
