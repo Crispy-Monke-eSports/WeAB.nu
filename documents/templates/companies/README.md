@@ -4,7 +4,7 @@ Här ligger dokumenttyper som är särskilt anpassade till ett dotterbolags uppg
 
 ## WeRule
 
-- [Bevis om medborgarskap](WeRule/README.md) – en återanvändbar Writer-mall med sex redigerbara uppgifter och WeRules grafiska profil. **I den aktuella PR:en återstår uppladdning av själva binärfilen.**
+- [Bevis om medborgarskap](WeRule/README.md) – en återanvändbar Writer-mall med sex redigerbara uppgifter och WeRules grafiska profil. Mallen är uppladdad och verifierad. Motsvarande [Scribble-bok](../scribble/companies/WeRule/Medborgarskapsbevis.json) finns också.
 
 ## Framtida kataloger
 
