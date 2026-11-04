@@ -45,7 +45,7 @@ export const companies: Company[] = [
   {
     slug:'welivelaughlove', name:'WeLiveLaughLove',kicker:'BOENDE & SAMHÄLLSHARMONI',tagline:'Mer gemenskap per kvadratmeter.',
     overview:'Varje invånare förtjänar ett hem. Vi bestämmer hur mycket hem.',
-    description:'En bostad, en arbetsplats, ett syfte. Efter det olyckliga missförståndet om självbestämmande har byarna äntligen återfått lugnet. Invånarna tillfrågades inte; det hade stört mätningen.',
+    description:'En bostad, en arbetsplats, ett syfte. Efter det olyckliga missförståndet om självbestämmande har byarna äntligen återfått lugnet. Invånarna tillfrågades inte; det hade stört mätningen. Nu tar vi även emot den tidigare regeringen och riksdagen i Sektion 3, Avdelning A. De har ”frivilligt” valt att bli tvångsplacerade där, enligt den ordning WeRule har dokumenterat.',
     accent:'#79A83B', image:'/images/welivelaughlove-compound.webp',imageAlt:'Sektion 1, Avdelning B: inhägnat boendedistrikt med stor WE-skylt',location:'Sektion 1 och Sektion 3',status:'Aktiv verksamhet',
     services:['Kompakt boende','Kapacitetsplanering','Samhällsstabilisering','Standardiserad trivsel'],
     facts:[{label:'Boendeform',value:'Högdensitet'},{label:'Officiell lägesbild',value:'Stabil'}]
@@ -98,13 +98,13 @@ export const companies: Company[] = [
     facts: [{label: 'Driftansvarig', value: 'Haapalainen'}, {label: 'Affärsområde', value: 'Personalproduktion'}, {label: 'Leveransmodell', value: 'Kontinuerlig'}, {label: 'Karriärstart', value: 'Så tidigt som möjligt'}]
   },
   {
-    slug: 'werule', name: 'WeRule', kicker: 'OFFENTLIG FASTIGHET · PRIVAT ÄGANDE', tagline: 'Statens hus. Vår fastighet.',
-    overview: 'Statens byggnader. Koncernens fastigheter. Vi ser inget motsatsförhållande.',
-    description: 'WeRule ansvarar för koncernens offentliga byggnader. Riksdagen sammanträder i Huvudstaden i en statlig byggnad som ägs av WeAB. I Sektion 1 ligger WeRules stadshus. Staten står för uppdraget; koncernen har nycklarna.',
+    slug: 'werule', name: 'WeRule', kicker: 'OFFENTLIG MAKT · PRIVAT REGI', tagline: 'Staten är i goda händer. Våra.',
+    overview: 'Alla offentliga lokaler, all myndighetsutövning och våldsmonopolet. Ett ansvar som inte löper ut.',
+    description: 'Efter den då sittande regeringens och riksdagens beslut äger WeRule samtliga offentliga lokaler och utför alla myndigheters uppdrag, inklusive tillsyn, tillstånd och offentligt tvång. Alla kontrakt tillföll WeAB på obestämd tid. De tidigare företrädarna har ”frivilligt” valt tvångsplacering i Sektion 3, Avdelning A. Riksdagshuset och stadshuset finns kvar; den tidigare riksdagens beslutanderätt gör det inte. Den som överklagar ett beslut får det prövat inom samma koncern. Vi kallar det en obruten ansvarskedja.',
     accent: '#00BCD4', image: '/images/werule-riksdagshuset.webp', imageAlt: 'Riksdagshuset i Huvudstaden, vit byggnad med cyan detaljer och WE-symbol på fasaden',
-    location: 'Huvudstaden och Sektion 1', status: 'Offentligt uppdrag · privat ägande',
-    services: ['Riksdagshuset i Huvudstaden', 'Stadshuset i Sektion 1', 'Offentlig förvaltning', 'Fastighetsdrift'],
-    facts: [{label: 'Riksdagshuset', value: 'Huvudstaden · ägs av WeAB'}, {label: 'Stadshuset', value: 'Sektion 1'}, {label: 'Uppdraget', value: 'Offentligt · i privat regi'}]
+    location: 'Huvudstaden och Sektion 1', status: 'Myndighetsuppdrag utan slutdatum',
+    services: ['Samtliga offentliga lokaler', 'All myndighetsutövning', 'Våldsmonopol och verkställighet', 'Omprövning och tillsyn'],
+    facts: [{label: 'Riksdagshuset', value: 'Huvudstaden · ägs av WeRule'}, {label: 'Stadshuset', value: 'Sektion 1'}, {label: 'Kontrakt', value: 'Samtliga till WeAB · obestämd tid'}, {label: 'Beslut och omprövning', value: 'WeRule'}]
   }
 
 ];

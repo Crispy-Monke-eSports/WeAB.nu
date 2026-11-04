@@ -1,5 +1,6 @@
 import { arenaPhotos } from './arena.ts';
 import { martaEkPressRelease } from './press-marta-ek.ts';
+import { weRuleMandatePressReleases } from './press-werule-mandate.ts';
 
 /**
  * Fiktiva pressmeddelanden från WeAB:s Minecraft-rollspel.
@@ -17,6 +18,7 @@ export interface NewsItem {
 }
 
 export const news: NewsItem[] = [
+  ...weRuleMandatePressReleases,
   martaEkPressRelease,
   {
     "publishedAt": "2026-11-01",

@@ -85,7 +85,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
   },
   werule: {
     heading: 'Makten har en adress.',
-    introduction: 'Riksdagen sammanträder i Huvudstaden. Byggnaden är statlig, men ägs av WeAB. Stadshuset finns i Sektion 1.',
+    introduction: 'WeRule äger samtliga offentliga lokaler och ansvarar nu för myndigheterna och våldsmonopolet. Riksdagshuset i Huvudstaden och stadshuset i Sektion 1 är två synliga delar av uppdraget.',
     groups: [
       { title: 'Huvudstaden · Riksdagshuset', ids: ['werule-riksdagshuset'] },
       { title: 'Sektion 1 · Stadshuset', ids: ['werule-stadshus'] }
