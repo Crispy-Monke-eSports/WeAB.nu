@@ -113,7 +113,7 @@ for (const address of [
   if (!contactHtml.includes('mailto:' + address)) broken.push('Kontaktkatalog saknar ' + address);
 }
 const governanceHtml = readFileSync(join(dist, 'bolagsstyrning/index.html'), 'utf8');
-for (const name of ['Store-W', 'RavenHamstster', 'Filuren2003', 'Haapalainen', 'Laxen_MX']) {
+for (const name of ['Store-W', 'RavenHamster', 'Filuren2003', 'Haapalainen', 'Laxen_MX']) {
   if (!governanceHtml.includes(name)) broken.push('Ledningssidan saknar ' + name);
 }
 const robots = readFileSync(join(dist, 'robots.txt'), 'utf8');
