@@ -23,7 +23,7 @@ class ScribbleTests(unittest.TestCase):
         self.assertEqual(validate_title("Olycka vid farm"), 15)
 
     def test_reject_too_long_title_and_invalid_text(self):
-        for title in ("Järnfarmsolyckan", " ", " Titel", "Titel ", "Rad\\nbyte", "§cTitel", "a\\u0308"):
+        for title in ("Järnfarmsolyckan", " ", " Titel", "Titel ", "Rad\nbyte", "§cTitel", "a\u0308"):
             with self.subTest(title=title):
                 with self.assertRaises(ValueError):
                     validate_title(title)
