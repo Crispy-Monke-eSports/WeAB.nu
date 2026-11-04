@@ -33,3 +33,11 @@ python3 scripts/import-general-writer-templates.py --check
 ```
 
 Se `general/README.md` för filförteckningen.
+
+## Scribble-böcker och matchande PDF:er
+
+`scribble/` är en separat mallfamilj för böcker som öppnas i Scribble (Minecraft). Den innehåller tio generella JSON-bokmallar, validering och verktyg för formgivna A4-PDF:er. Den har en egen obligatorisk [AI-instruktion](scribble/AI_INSTRUCTIONS.md).
+
+För framtida AI-genererade färdiga handlingar ska normalt **både PDF och Scribble-JSON** levereras: **samma saktext och samma ordning, men var för sig formgiven sidindelning**. AI ska också kunna ta en bok som skapats i spelet och skapa en snygg, bolagsprofilerad PDF av hela innehållet, utan att spelets sidgränser kopieras till A4.
+
+Den ursprungliga uppdelningen i `general/`, `shared/` och `companies/` för LibreOffice Writer ligger kvar oförändrad. Scribbles böcker ligger avsiktligt i en egen katalog.

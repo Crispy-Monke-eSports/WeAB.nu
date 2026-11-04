@@ -19,6 +19,14 @@ jobs:
           node-version: 24
       - name: Validate general Writer templates
         run: python3 scripts/import-general-writer-templates.py --check
+      - name: Install Scribble PDF test dependencies
+        run: python3 -m pip install -r documents/templates/scribble/requirements.txt
+      - name: Validate Scribble JSON templates
+        run: python3 documents/templates/scribble/tools/validate_books.py
+      - name: Test Scribble to PDF fidelity and independent pagination
+        run: python3 -m unittest discover -s documents/templates/scribble/tools -p 'test_books.py' -v
+      - name: Export ten paired Scribble JSON and A4 PDFs
+        run: python3 documents/templates/scribble/tools/export_pairs.py /tmp/weab-scribble-pairs
       - name: Install dependencies
         run: npm ci
       - name: Validate content data
