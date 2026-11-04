@@ -1,4 +1,4 @@
-name: Verify website
+name: Verify website and document templates
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   verify:
-    name: Astro build and link check
+    name: Astro, links and Writer templates
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
