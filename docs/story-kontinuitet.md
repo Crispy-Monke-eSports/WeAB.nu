@@ -35,6 +35,10 @@ Dateringen av 2 november avser **senaste nuvarande publicering i arkivet**, inte
 - **Inget pressmeddelande, ingen separat Korsdalen-sida och inget nytt bolag.** Skriv inte heller in Korsdalen i nuvarande kartdata, byggnader, reselinjer, projektregister, press eller daterad koncernkronologi. Tills nya uttryckliga uppgifter kommer är detta endast en intern, odaterad möjlighet.
 - Om storyn någon gång faktiskt når Korsdalen krävs ett nytt och explicit händelseunderlag och en kontrollerad tidsövergång; använd då `src/data/storyCanon.ts` för att uppdatera statusen i samspel med övrig kanon.
 
+## Intern geografisk kontinuitet
+
+För berättelsens rumsliga logik finns en separat **AI-/redaktionsreferens** i `docs/internal/geografi-blueMap.md`, grundad på de sex användartillhandahållna kartvyerna och `src/data/locations.ts`. Den skiljer bland annat Huvudstaden (sydväst om Sektion 1), Casinoön (nordväst), WeLove (långt västerut) och Sektion 3 Avdelning A (nordost). Detta är **inte publikt innehåll**, och det introducerar inga nya anläggningar, kartor eller förbindelser i storyn.
+
 ## Gällande verksamhet och ekonomi
 
 - Koncernen har **ett moderbolag (WeAB) och exakt nio verkliga dotterbolag:** WeKill, WeSort, WeBox, WeLiveLaughLove, WeGamble, WeTravel, WeTrade, WeLove och WeRule.

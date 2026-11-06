@@ -96,6 +96,7 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 
 - Använd befintliga bilder i `src/assets/images/` via `src/data/imageAssets.ts` och Astros `<Image />` med beskrivande alt-texter utan hänvisning till spel eller källmaterial. Några original finns även i `public/images/` för pressnedladdning, metadata och bakgrundsbilder. Låt inte en bild av en annan anläggning föreställa en ny farm.
 - `src/data/locations.ts` är intern waypointreferens. Publicera inte koordinater eller råa waypointfiler. Anta inte att en waypoint ensam bevisar en anläggnings kapacitet eller aktuella skick.
+- **Intern geografisk orientering:** läs `docs/internal/geografi-blueMap.md` innan en AI-text beskriver riktning, avstånd eller placering mellan Sektion 1, Sektion 3, Huvudstaden, WeLove och Casinoön. Underlaget bygger på användarens sex BlueMap-skärmbilder och Waypoint-registret; det är **inte webbplatsmaterial**. Publicera varken skärmbilder eller exakta koordinater.
 - WE-logotypen i `src/assets/we-logo.svg` är originalet; varianterna i `public/logos/` genereras med `npm run logos:generate`.
 
 ## Verifiering
