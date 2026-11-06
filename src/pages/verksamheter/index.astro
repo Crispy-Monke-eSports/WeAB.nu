@@ -6,5 +6,10 @@ import {companies} from '../../data/companies';
 <BaseLayout title="Våra verksamheter | WeAB Group">
 <section class="page-hero"><div class="shell"><h1>Koncernens verksamheter</h1><p class="lead">Här finns de nio bolag som ingår i WeAB. Varje verksamhetsblad innehåller uppdrag, anläggningar, driftstatus, plats och egen kontaktadress.</p></div></section>
 <section class="section"><div class="shell"><div class="directory-intro"><h2>Bolagsregister</h2><p>Bolagen redovisas med verksamhetsområde och aktuell beskrivning. Verksamheter under utveckling anges som sådana.</p></div><div class="directory-list">{companies.map(company=><CompanyCard company={company}/>)}</div><a class="link-arrow directory-end" href="/strategi/">Så samordnas verksamheterna ↗</a></div></section>
+<section class="section section--dark"><div class="shell directory-proposal">
+  <h2>Förslag utanför bolagsregistret</h2>
+  <p><strong>WeDGS</strong> är arbetsnamnet på ett inkommet förslag om ett diamant- och gruvskatteverk. Förslaget är inte godkänt och har inte genomförts. WeDGS ingår därför inte bland koncernens nio dotterbolag.</p>
+  <a class="link-arrow" href="/forslag/wedgs/">Läs förslaget och dess beredningsstatus ↗</a>
+</div></section>
 </BaseLayout>
-<style>.directory-intro{display:flex;justify-content:space-between;align-items:end;gap:2rem;margin-bottom:1.3rem}.directory-intro h2{font-size:clamp(1.6rem,2.6vw,2.4rem);margin:0}.directory-intro p{max-width:450px;font-size:.9rem;margin:0}.directory-list{display:block}.directory-end{margin-top:2rem}@media(max-width:720px){.directory-intro{display:block}.directory-intro p{margin-top:1rem}}</style>
+<style>.directory-intro{display:flex;justify-content:space-between;align-items:end;gap:2rem;margin-bottom:1.3rem}.directory-intro h2{font-size:clamp(1.6rem,2.6vw,2.4rem);margin:0}.directory-intro p{max-width:450px;font-size:.9rem;margin:0}.directory-list{display:block}.directory-end{margin-top:2rem}.directory-proposal{max-width:920px}.directory-proposal p{max-width:75ch}@media(max-width:720px){.directory-intro{display:block}.directory-intro p{margin-top:1rem}}</style>

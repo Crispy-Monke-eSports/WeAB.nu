@@ -15,7 +15,7 @@ function scan(dir) {
 }
 scan(dist);
 
-const required = ['index.html', 'koncernen/index.html', 'verksamheter/index.html', 'arena/index.html', 'verksamheter/wegamble/index.html', 'hallbarhet/index.html', 'bolagsstyrning/index.html', 'press/index.html', 'investerare/rapporter/index.html', 'kontakt/index.html', 'strategi/index.html', 'leverantorer/index.html'];
+const required = ['index.html', 'koncernen/index.html', 'verksamheter/index.html', 'arena/index.html', 'verksamheter/wegamble/index.html', 'forslag/wedgs/index.html', 'nyheter/weab-wedgs-inkommet-skatteforslag/index.html', 'hallbarhet/index.html', 'bolagsstyrning/index.html', 'press/index.html', 'investerare/rapporter/index.html', 'kontakt/index.html', 'strategi/index.html', 'leverantorer/index.html'];
 const missing = required.filter(path => !existsSync(join(dist, path)));
 const broken = [];
 
@@ -56,6 +56,9 @@ for (const page of pages) {
 
 const featuredCorporateLinks = [
   ['index.html', '/strategi/'],
+  ['koncernen/index.html', '/forslag/wedgs/'],
+  ['verksamheter/index.html', '/forslag/wedgs/'],
+  ['forslag/wedgs/index.html', '/nyheter/weab-wedgs-inkommet-skatteforslag/'],
   ['koncernen/index.html', '/strategi/'],
   ['kontakt/index.html', '/leverantorer/'],
   ['press/index.html', '/logos/weab.svg'],

@@ -9,6 +9,7 @@ import { editorials } from '../src/data/editorial.ts';
 import { publications, editorialFormats, publicationFormatLabels, additionalArticles, establishedSlugs, authorPublications, pressIssuerSlugs } from '../src/data/publications.ts';
 import { authors, getAuthor } from '../src/data/authors.ts';
 import { projects, featuredProjectIds } from '../src/data/projects.ts';
+import { wedgsProposal } from '../src/data/wedgsProposal.ts';
 import { arenaPhotos } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
 import { companyEditorial } from '../src/data/companyEditorial.ts';
@@ -187,10 +188,18 @@ for (const company of companies) {
 for (const id of featuredProjectIds) {
   assert.ok(projects.some(project => project.id === id), `Utvalt projekt saknas: ${id}`);
 }
-assert.equal(news.length, 19, 'Det ska finnas 19 pressmeddelanden');
+assert.equal(news.length, 20, 'Det ska finnas 20 pressmeddelanden');
+assert.equal(wedgsProposal.proposer, 'ezzo13337', 'WeDGS-förslagets upphovsperson får inte tappas bort');
+assert.ok(!wedgsProposal.approved && !wedgsProposal.implemented, 'WeDGS är inte beslutat eller implementerat');
+assert.ok(!companies.some(company => company.slug === wedgsProposal.slug), 'WeDGS får inte registreras som dotterbolag utan beslut');
+assert.equal(pressIssuerSlugs[wedgsProposal.pressSlug], 'weab', 'WeDGS-besked måste avsändas av WeAB');
+assert.ok(news.some(item => item.slug === wedgsProposal.pressSlug &&
+  item.body.some(paragraph => paragraph.includes('ezzo13337')) &&
+  item.body.some(paragraph => paragraph.includes('Store-W'))),
+  'Pressmeddelandet måste redovisa förslagsställare och Store-W:s kommentar');
 assert.equal(editorials.length, 10, 'Det ska finnas tio tidigare redaktionella artiklar');
 assert.equal(additionalArticles.length, 74, 'Det ska finnas 74 nya texter');
-assert.equal(publications.length, 103, 'Arkivet ska innehålla exakt 103 publikationer');
+assert.equal(publications.length, 104, 'Arkivet ska innehålla exakt 104 publikationer');
 unique([...expandedArticleSlugs], 'genomarbetade artikeladresser');
 unique([...completedAuthorIds], 'färdigställda skribenter');
 for (const authorId of completedAuthorIds) {

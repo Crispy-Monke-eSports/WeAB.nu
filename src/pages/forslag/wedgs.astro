@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { wedgsProposal } from '../../data/wedgsProposal.ts';
+---
+<BaseLayout
+  title="WeDGS – förslag under beredning | WeAB"
+  description="WeDGS är ett inkommet förslag från ezzo13337 om ett diamant- och gruvskatteverk. Inget beslut har fattats och ingen verksamhet har startat."
+>
+  <header class="page-hero">
+    <div class="shell proposal-header">
+      <div>
+        <h1>WeDGS</h1>
+        <p class="lead">Förslag om ett diamant- och gruvskatteverk.</p>
+        <p class="proposal-state">Under construction · Inkommet förslag under beredning</p>
+      </div>
+      <dl class="proposal-facts" aria-label="Förslagets aktuella status">
+        <div><dt>Förslagsställare</dt><dd>{wedgsProposal.proposer}</dd></div>
+        <div><dt>Inkommet</dt><dd><time datetime={wedgsProposal.receivedAt}>6 november 2026</time></dd></div>
+        <div><dt>Beslut</dt><dd>Ej fattat</dd></div>
+        <div><dt>Genomförande</dt><dd>Inget påbörjat</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="shell proposal-body">
+      <h2>En idé på ledningens bord.</h2>
+      <p class="lead">WeAB har tagit emot ezzo13337:s förslag om en diamantbaserad skatteordning. Arbetsnamnet WeDGS används enbart för att hålla samman ärendet. Namnet är inte ett beslut om att bilda ett nytt dotterbolag.</p>
+      <p>Underlaget föreslår att skatt ska kunna tas ut vid försäljning, köp och handel, företagsverksamhet, fastigheter, gruvdrift och löner. Förslaget sammanfattas med mottot ”Ingen diamant ska vara skattefri”. Koncernledningen har ännu inte tagit ställning till om förslaget är lämpligt, hur det i så fall skulle administreras eller om det ska avvisas.</p>
+
+      <h2>Vad som står i förslaget.</h2>
+      <div class="proposal-columns">
+        <div><h3>Föreslagen beskattning</h3><ul>{wedgsProposal.proposedTaxBase.map(item => <li>{item}</li>)}</ul></div>
+        <div><h3>Föreslagna påföljder</h3><ul>{wedgsProposal.proposedSanctions.map(item => <li>{item}</li>)}</ul></div>
+      </div>
+      <p>Förslagsställaren anger även att WeAB och dess styrelse ska vara undantagna. Undantaget är lika lite beslutat som själva beskattningen. Inga påföljder gäller och inga diamanter får krävas in med hänvisning till förslaget.</p>
+
+      <h2>Exempel ur det inkomna underlaget.</h2>
+      <p>Beloppen nedan är förslagsställarens egna exempel, inte en antagen skattetabell. De visar inte någon beslutad beräknings- eller avrundningsmetod.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Då angivet belopp</th><th scope="col">Föreslagen skatt</th></tr></thead>
+          <tbody>{wedgsProposal.proposedExamples.map(row => <tr><td>{row.diamonds} {row.diamonds === 1 ? 'diamant' : 'diamanter'}</td><td>{row.tax} {row.tax === 1 ? 'diamant' : 'diamanter'}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p>Det första exemplet avviker från en enkel halvering. Exakt tillämpning, eventuella undantag och beräkningsregler är frågor för en eventuell fortsatt utredning – inte gällande ordning.</p>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="shell proposal-body">
+      <h2>Vad händer nu?</h2>
+      <ol class="steps">
+        <li><strong>Förslaget har inkommit.</strong><span>Materialet från ezzo13337 är mottaget.</span></li>
+        <li><strong>Ledningen ska ta ställning.</strong><span>WeAB får avgöra om förslaget ska utredas, ändras eller avslås. Någon tidpunkt är inte fastställd.</span></li>
+        <li><strong>Eventuell fortsatt beredning.</strong><span>WeRules befintliga myndighetsuppdrag och frågan om organisationsform behöver prövas innan ett genomförande kan övervägas.</span></li>
+        <li><strong>Inget har genomförts.</strong><span>Det finns ingen WeDGS-verksamhet, inget skatteuttag, inga anställda och inget införandedatum.</span></li>
+      </ol>
+      <p class="closing">Den här sidan är under uppbyggnad därför att förslaget ännu saknar beslut och fastställd inriktning. Den är inte en bygg- eller driftsrapport.</p>
+      <a class="link-arrow" href={`/nyheter/${wedgsProposal.pressSlug}/`}>Läs WeAB:s pressmeddelande ↗</a>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .proposal-header{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(270px,.7fr);gap:4rem;align-items:end}
+  .proposal-header h1{margin-bottom:.9rem}
+  .proposal-state{font-size:.87rem;line-height:1.5;border-left:3px solid var(--cyan);padding-left:1rem;color:#d3e6eb;margin:1.65rem 0 0}
+  .proposal-facts{margin:0;border-top:1px solid #536b76}
+  .proposal-facts>div{display:flex;justify-content:space-between;gap:1.5rem;padding:.9rem 0;border-bottom:1px solid #3e525e}
+  .proposal-facts dt{font-size:.82rem;color:#a7bec8}
+  .proposal-facts dd{margin:0;text-align:right;font-size:.88rem;font-weight:700}
+  .proposal-body{max-width:980px}
+  .proposal-body h2{font-size:clamp(1.7rem,3vw,2.7rem);margin:0 0 1.2rem}
+  .proposal-body h2:not(:first-child){margin-top:3.5rem}
+  .proposal-body p{max-width:80ch}
+  .proposal-columns{display:grid;grid-template-columns:1fr 1fr;gap:3rem;border-top:1px solid #3f5560;padding-top:1.6rem}
+  .proposal-columns h3{font-size:1.13rem}
+  .proposal-columns ul{padding-left:1.2rem;color:#c9d8df;line-height:1.9}
+  .table-wrap{overflow-x:auto}
+  table{border-collapse:collapse;width:min(100%,640px);margin:1.4rem 0}
+  th,td{text-align:left;padding:.9rem 1rem;border-bottom:1px solid #425663;font-size:.94rem}
+  th{border-top:1px solid #425663;color:#aee4ec}
+  .steps{list-style:none;padding:0;margin:1.8rem 0 2rem;border-top:1px solid #435966}
+  .steps li{display:grid;grid-template-columns:minmax(210px,.8fr) 1.2fr;gap:2rem;padding:1.4rem 0;border-bottom:1px solid #435966}
+  .steps li span{color:#b7cad1;line-height:1.7}
+  .closing{margin:1.5rem 0 1.2rem}
+  @media(max-width:760px){.proposal-header,.proposal-columns{grid-template-columns:1fr;gap:2rem}.steps li{grid-template-columns:1fr;gap:.4rem}}
+</style>

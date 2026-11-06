@@ -53,6 +53,7 @@ export const publicationFormatLabels: Record<PublicationFormat, string> = {
 // Pressmeddelanden är bolagens officiella utskick, inte texter av
 // redaktionens 15 fiktiva skribenter.
 export const pressIssuerSlugs: Record<string, string> = {
+  'weab-wedgs-inkommet-skatteforslag': 'weab',
   'werule-samlad-myndighetsutovning': 'werule',
   'werule-valdsmonopol-och-tillsyn': 'werule',
   'weab-marta-ek-olycka-jarnfarmen': 'weab',
