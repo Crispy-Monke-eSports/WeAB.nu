@@ -2,15 +2,15 @@ import type { NewsItem } from './news.ts';
 
 export const weRuleMandatePressReleases: NewsItem[] = [
   {
-    publishedAt: '2026-11-04',
+    publishedAt: '2051-11-04',
     slug: 'werule-samlad-myndighetsutovning',
     type: 'OFFENTLIG FÖRVALTNING',
-    title: 'WeRule övertar all myndighetsutövning efter historisk ansvarsförenkling',
-    summary: 'Den då sittande regeringen och riksdagen privatiserade all myndighetsutövning. Samtliga uppdrag tilldelades WeAB på obestämd tid och utförs av WeRule.',
+    title: 'WeRule redovisar den offentliga maktordningen efter 2045 års val',
+    summary: 'WeRule redogör för den maktordning som infördes efter riksvalet 2045. Koncernen har sedan dess samlat myndighetsuppdragen och den offentliga förvaltningen.',
     image: '/images/werule-riksdagshuset.webp',
     alt: 'Riksdagshuset i Huvudstaden med cyan fasad och WE-symbol',
     body: [
-      'Den då sittande regeringen och riksdagen beslutade, efter en konstruktiv period av koncernledd omprövning, att privatisera all myndighetsutövning. Beslutet omfattar såväl prövning och tillsyn som tillstånd, förelägganden och övriga bindande besked. Samtliga kontrakt har tilldelats WeAB på obestämd tid. WeRule utför uppdragen samt äger och förvaltar samtliga offentliga lokaler.',
+      'Detta är en redovisning från 2051 av den ordning som infördes efter riksvalet 2045, inte ett nytt beslut om maktöverföring. Enligt koncernens officiella framställning fattade den då sittande regeringen och riksdagen efter koncernledd omprövning beslut om att privatisera all myndighetsutövning. Beslutet omfattar såväl prövning och tillsyn som tillstånd, förelägganden och övriga bindande besked. Samtliga kontrakt har tilldelats WeAB på obestämd tid. WeRule utför uppdragen samt äger och förvaltar samtliga offentliga lokaler.',
       'Förändringen har föregåtts av ett tydligt önskemål från WeAB om att undvika dubbla beslutsvägar. Den tidigare regeringens och riksdagens företrädare gavs möjlighet att bekräfta att en övergång var ändamålsenlig. De gjorde det efter att koncernen klargjort vilka alternativ som inte längre stod till buds. WeAB välkomnar deras samarbetsvilja under dessa ovanligt väl avgränsade förutsättningar.',
       'Uppdragen tilldelades enligt den fastställda ordningen. Att varje kontrakt gick till samma koncern betraktas av WeAB som ett glädjande utslag av en konsekvent urvalsprocess, inte som ett skäl att öppna processen igen. Någon sluttid har inte skrivits in. Tillsynen av den nya ordningen ingår också i den samlade myndighetsutövningen, vilket minskar risken för motstridiga utlåtanden.',
       'Invånare ska även fortsättningsvis kunna lämna ansökningar och få beslut. Skillnaden är att de nu möter samma ansvariga koncern när de söker ett tillstånd, begär omprövning eller vill veta vem som ansvarar för själva beslutsordningen. Besvär över ett beslut tas emot av WeRule och prövas av en annan funktion inom WeRule. Funktionerna är åtskilda i organisationsschemat och förenade i ägarbilden.',
@@ -20,15 +20,15 @@ export const weRuleMandatePressReleases: NewsItem[] = [
     ]
   },
   {
-    publishedAt: '2026-11-04',
+    publishedAt: '2051-11-04',
     slug: 'werule-valdsmonopol-och-tillsyn',
     type: 'RIKETS SÄKERHET',
-    title: 'WeRule samlar våldsmonopol och tillsyn i ett gemensamt uppdrag',
-    summary: 'Även rätten att använda offentligt tvång har övergått till WeAB. WeRule ansvarar för beslut, verkställighet och uppföljning utan tidsbegränsning.',
+    title: 'WeRule beskriver våldsmonopolets organisering sedan 2045',
+    summary: 'Efter riksvalet 2045 tog WeAB kontroll även över våldsmonopolet. WeRule redovisar från 2051 hur tillsyn och verkställighet har organiserats.',
     image: '/images/werule-sektion-1-stadshus.webp',
     alt: 'Stadshuset i Sektion 1 med stenfasad och entrétrappa',
     body: [
-      'Som en följd av överlåtelsen av all myndighetsutövning har också våldsmonopolet privatiserats. Den då sittande regeringen och riksdagen överlät uppdraget till WeAB genom kontrakt utan slutdatum. Inom koncernen ansvarar WeRule för beslut om offentligt tvång, verkställighet och uppföljning av hur uppdraget har använts.',
+      'Efter riksvalet 2045 övertog WeAB även våldsmonopolet. Detta meddelande från 2051 beskriver ett redan genomfört maktskifte, inte en ny överlåtelse. Den då sittande regeringen och riksdagen överlät uppdraget till WeAB genom kontrakt utan slutdatum. Inom koncernen ansvarar WeRule för beslut om offentligt tvång, verkställighet och uppföljning av hur uppdraget har använts.',
       'Det nya mandatet innebär att en invånare inte längre behöver fundera på om ett ingripande hör till en myndighet, dess tillsynsorgan eller den som äger lokalen där ingripandet sker. Samtliga funktioner har en gemensam huvudman. WeRule framhåller särskilt att antalet organisatoriska gränser mellan beslut och verkställighet nu har kunnat minskas till noll.',
       'Ingripanden ska enligt bolagets instruktion dokumenteras. Den som berörs får ett ärendenummer när WeRule bedömer att ärendet kan registreras och kan därefter begära omprövning hos samma bolag. En separat enhet granskar handläggningen inom ramen för de kontrakt som koncernen själv förvaltar. WeRule betecknar detta som oberoende på enhetsnivå.',
       'Förändringen berör inte WeKills industriella produktion. Våldsmonopolet är en offentlig befogenhet i privat regi, inte en ny produktionsgren. WeRule svarar för rikets ordning; WeKill svarar fortsatt för sina anläggningar. Denna åtskillnad anses viktig för korrekt internredovisning.',

@@ -19,7 +19,7 @@ export type StorySeed = {
  */
 export function makeMagazineArticles(authorId: string, startOffset: number, seeds: StorySeed[]): MagazineDraft[] {
   return seeds.map((seed, i) => {
-    const publishedAt = new Date(Date.UTC(2026, 10, 2) - (startOffset + i) * 86_400_000)
+    const publishedAt = new Date(Date.UTC(2051, 10, 2) - (startOffset + i) * 86_400_000)
       .toISOString().slice(0, 10);
     const passages = [seed.scene, seed.context, seed.tension, seed.ending];
     // Kortare läsarbrev och guider får ett annat tempo än reportage och analyser.

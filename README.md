@@ -89,7 +89,7 @@ att de genererade sidorna behåller detta beteende.
 - `src/data/locations.ts` – Internt referensmaterial från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-anläggningsplatser); visas inte på webbplatsen. Järnfarmen är en anläggning med 14 tregrupper av bybor. Två grupper delar en zombie, alltså sju zombier totalt — inte 14 separata järnfarmer.
 - `src/data/news.ts` – Fem centrala pressmeddelanden från Hungerspelen, WeRule, Märta Ek och DGS; urvalet beskrivs i `docs/press-policy.md`
 - `docs/story-kontinuitet.md` – Kanon, händelsekronologi, aktörernas status och källordning för framtida författare
-- `src/data/storyCanon.ts` – Daterade milstolpar och listan med äldre riksdagsartiklar som får arkivkommentar
+- `src/data/storyCanon.ts` – Kuppen vid riksvalet 2045, artikelarkivets tidsläge 2051 och historiska riksdagsartiklars arkivkontext
 - `src/data/editorial.ts` – Tio fiktiva tidningstexter i åtta redaktionella genrer
 - `src/data/publications.ts` – Gemensamt, datumordnat tidningsarkiv med skribent- och formatmetadata
 - `src/data/authors.ts` – Femton fiktiva skribenter med unika röster och profiler
@@ -252,7 +252,7 @@ Webbplatsen är satir, inte en verklig företags- eller rekryteringssida. Platsa
 Kustbygget hör till WeGamble Island. WeLiveLaughLoves bybilder visar Sektion 1 Avdelning B respektive Sektion 3 Avdelning A. WeSort-bilderna visar samma anläggning, liksom WeTrades tre bilder och WeLoves tre bilder. Arenabilderna visar Huvudstadens arena, som på kartan även heter Hungerspelsarenan, där bybor från olika distrikt tävlar om ära till sin hemby. Tre användarlevererade skärmbilder har konverterats till WebP (1440 × 810) i `src/assets/images/`.
 De två nattliga överblicksbilderna från WeLiveLaughLove ligger i respektive avdelnings galleri: Sektion 1 Avdelning B och Sektion 3 Avdelning A. Bilden för Sektion 1 Avdelning B är den rättade vyn utan kartöverlägg.
 WeKills mobgrinder, järnfarm och shulkerfarm visas på WeKills sida. Shulkerfarmen försörjer WeBox med shulkerboxar. Överblicksbilden över Sektion 1 används även på startsidan.
-WeRules Riksdagshus ligger i Huvudstaden. Byggnaden är statlig och fungerar som serverns riksdag, men ägs av WeAB. WeRules stadshus ligger i Sektion 1 och har en separat markering i platslistan. Huvudstadens platsmarkering är inte en exakt koordinat för Riksdagshuset.
+Riksdagshuset ligger i Huvudstaden. Före kuppen vid riksvalet 2045 användes det av den demokratiska riksdagen. Efter att WeAB fördrivit riksdagen ansvarar WeRule för den offentliga förvaltningen och fastigheten. Stadshuset i Sektion 1 har en separat markering i platslistan. Huvudstadens platsmarkering är inte en exakt koordinat för Riksdagshuset.
 Överblicken över Huvudstaden visas på koncernsidan utan att tillskriva WeAB hela staden. WeTravels två centralstationer i Huvudstaden och Sektion 1 visas på WeTravels verksamhetssida.
 Bedrockhålet är ett WeAB-projekt bredvid WeKills kontor i Sektion 1, med en bild ovanifrån och en från botten. Det är en hel chunk utgrävd till bedrock, dekorerad med guld, järn och smaragder. Ingen exakt koordinat härleds från bilderna.
 De finansiella diagrammen är fiktiva och ska inte misstolkas som faktiska

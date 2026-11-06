@@ -5,18 +5,20 @@
  * Tidigare perioder är i flera fall odaterade. Tilldela dem inte fiktiva datum.
  */
 export const storyDates = {
-  martaEkDeath: '2026-11-03',
-  weRuleTransfer: '2026-11-04',
-  dgsProposal: '2026-11-06'
+  coupElectionYear: 2045,
+  martaEkDeath: '2051-11-03',
+  weRuleRetrospective: '2051-11-04',
+  dgsProposal: '2051-11-06',
+  resistanceHouseReport: '2051-11-21',
+  latestRecordedDate: '2051-11-21'
 } as const;
 
 /**
- * Dessa arkivartiklar skrevs före WeRules totala maktövertagande.
- * Då skilde riksdagen fortfarande sina beslut från WeAB:s förvaltning av
- * vissa offentliga byggnader. Artiklarna får förbli oförändrade som
- * samtidsskildringar men får en tydlig arkivkommentar i läsvyn.
+ * Riksdagsreportage publicerade i 2051 års arkiv behandlar ett historiskt
+ * skede före WeAB:s kupp vid riksvalet 2045. Dessa behöver en tydlig
+ * arkivkommentar: historiskt presens får inte förväxlas med nutida mandat.
  */
-export const preTransferRiksdagArticleSlugs = [
+export const historicalRiksdagArticleSlugs = [
   'fastighetens-tysta-kontrakt',
   'riksdagshuset-och-verklighetens-vaggar',
   'riksdagshusets-fasad',
@@ -24,9 +26,8 @@ export const preTransferRiksdagArticleSlugs = [
   'ledare-egendom-och-ansvar'
 ] as const;
 
-export function needsPreTransferContext(slug: string, publicationDate: string): boolean {
-  return publicationDate < storyDates.weRuleTransfer &&
-    (preTransferRiksdagArticleSlugs as readonly string[]).includes(slug);
+export function needsHistoricalRiksdagContext(slug: string): boolean {
+  return (historicalRiksdagArticleSlugs as readonly string[]).includes(slug);
 }
 
 /**

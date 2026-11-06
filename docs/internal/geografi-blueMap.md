@@ -40,7 +40,8 @@ Tabellen är **intern positionsorientering**, inte tillståndsbevis. Ingen av de
 ## Geografisk avgränsning för ARG (endast AI/spelledare)
 
 - En redan byggd hemlig tunnel finns vid `x 31, y 66, z -351` inom WeLiveLaughLove Sektion 1 Avdelning B, nära dess waypoint `x 62, z -350`. Detta är ett verkligt första ARG-fynd, **inte** en publik waypoint.
-- En husruin följer i ledtrådskedjan, och därefter ett vrak med kistan `Valresultat Riks 2045`. **Ingen exakt position för ruinen eller vraket är ännu fastslagen i denna referens**; gissa inte avstånd eller färdväg.
+- Tunnelns ledtråd leder till **ett vanligt hus** som WeAB **sprängde under 2051** efter att ha upptäckt och avrättat motståndspersoner där. Ruinens rapport är daterad **21/11/2051**, men själva räddatumet är inte fastslaget.
+- **Vraket på havsbotten är ett separat fynd utan någon ledtrådsväg dit.** Kistan med `Valresultat Riks 2045` rymmer det undanröjda resultatet från kuppvalet. Ingen exakt position för ruinen eller vraket är fastslagen här; gissa inte avstånd eller färdväg.
 - Se `docs/internal/arg-motstandsrorelsen.md` för kanon, pusseldesign och hur ARG-information får användas.
 
 ## Kontinuitetsregler för framtida AI-texter

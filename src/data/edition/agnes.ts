@@ -12,7 +12,7 @@ export const agnesArticles: MagazineDraft[] = [
       "Ingen har visat att ett sammanträde blir friare av att taket får vänta på nästa sammanträde. WeRule ska kunna beställa en reparation, redovisa kostnaden och stå till svars för resultatet. Den ordningen är mindre romantisk än ett stort samtal om det gemensamma rummet. Den håller betydligt bättre i regn.",
       "Det offentliga behöver fungerande lokaler. Den som vill förändra vem som äger dem måste också förklara vem som då kommer med stegen när det läcker."
     ],
-    "publishedAt": "2026-11-02",
+    "publishedAt": "2051-11-02",
     "type": "LEDARE",
     "alt": "Miljö som illustrerar artikeln Ett bra tak behöver ingen omröstning",
     "authorId": "agnes-holmgren"
@@ -29,7 +29,7 @@ export const agnesArticles: MagazineDraft[] = [
       "Den som oroar sig för koncentrerat inflytande har en poäng. En ägare ska inte kunna göra sin egen bekvämlighet till den enda måttstocken för en offentlig byggnad. Just därför behövs ett beslut som går att läsa, en ansvarig som går att hitta och en kostnad som går att ifrågasätta.",
       "Diffust ansvar skyddar ingen från makt. Det gör bara makten svårare att hitta när dörren fortfarande inte går att öppna."
     ],
-    "publishedAt": "2026-11-01",
+    "publishedAt": "2051-11-01",
     "type": "LEDARE",
     "alt": "Miljö som illustrerar artikeln Ansvar måste gå att hitta på en karta",
     "authorId": "agnes-holmgren"
@@ -46,7 +46,7 @@ export const agnesArticles: MagazineDraft[] = [
       "Det kan låta som en teknisk detalj. Men tillträde, belysning och underhåll avgör om ett möte blir av. Den som vill ge institutionen självständighet bör inte samtidigt förvänta sig att varje ledamot ska vara sin egen fastighetsskötare.",
       "WeRules uppdrag måste gå att granska. Ändå är alternativet till en tydlig förvaltare inte ett magiskt självgående hus. Det är en byggnad vars praktiska frågor till slut dyker upp på mötesdagordningen."
     ],
-    "publishedAt": "2026-10-31",
+    "publishedAt": "2051-10-31",
     "type": "ANALYS",
     "alt": "Riksdagssalen med sittplatser och talarstol i Huvudstaden",
     "authorId": "agnes-holmgren"
@@ -63,7 +63,7 @@ export const agnesArticles: MagazineDraft[] = [
       "WeAB kan väga de olika behoven mot varandra. Det garanterar inte att alla blir nöjda. Det ger däremot ett besked som går att följa upp och ändra om verkligheten visar något annat än planen. Femton överenskommelser i femton dörröppningar erbjuder sällan samma möjlighet.",
       "Den som vill bli tagen på allvar ska få ett svar. Den som måste ta sig till arbetet ska också någon gång få en färdig gångväg. En slutpunkt för samtalet är inte ett förakt för det; det är skälet till att samtalet fördes."
     ],
-    "publishedAt": "2026-10-30",
+    "publishedAt": "2051-10-30",
     "type": "DEBATT",
     "alt": "Miljö som illustrerar artikeln Ett beslut får faktiskt ha en slutpunkt",
     "authorId": "agnes-holmgren"
@@ -80,7 +80,7 @@ export const agnesArticles: MagazineDraft[] = [
       "Kritiken mot en gemensam investeringsmodell är lätt att förstå. Ett bra förslag kan behöva vänta, och väntan känns alltid längre för den som kom med idén. Men den otåligheten får inte bli någon annans arbetsorder utan budget.",
       "Oförutsägbarhet har ett pris. Det betalas sällan vid byggstart och desto oftare av den som ännu inte visste att hen skulle bli ansvarig."
     ],
-    "publishedAt": "2026-10-29",
+    "publishedAt": "2051-10-29",
     "type": "LEDARE",
     "alt": "Räls och belysning på en bro som förbinder WeTravels spår med en tunnel",
     "authorId": "agnes-holmgren"

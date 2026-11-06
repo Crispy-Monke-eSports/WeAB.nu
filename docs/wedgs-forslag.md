@@ -1,11 +1,11 @@
 # DGS – inkommet förslag; WeDGS är ledningens namnförslag
 
-**Kronologisk kanon:** Läs även `docs/story-kontinuitet.md`. DGS inkom den 6 november 2026, efter Märtas död den 3 november och WeRules maktövertagande den 4 november. Det är fortfarande ett förslag, inte ett skattesystem.
+**Kronologisk kanon:** Läs även `docs/story-kontinuitet.md`. DGS inkom den 6 november 2051, efter Märtas död den 3 november 2051. WeRules kontroll bygger på kuppen vid riksvalet 2045; de officiella pressutskicken från 4 november 2051 är retrospektiva. Det är fortfarande ett förslag, inte ett skattesystem.
 
 ## Ursprung
 
 - Förslagsställare: **ezzo13337**.
-- Mottaget: **2026-11-06**.
+- Mottaget: **2051-11-06**.
 - Namn i det inlämnade bokunderlaget: **DGS – Diamant- och Gruvskatteverket**.
 - **DGS är ezzo13337:s föreslagna namn.** Författaren har inte föreslagit namnet WeDGS.
 - **Store-W och koncernledningen förordar namnet WeDGS** om DGS skulle införlivas i WeAB. Något formellt beslut är ännu inte fattat.

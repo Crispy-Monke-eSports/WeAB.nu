@@ -24,7 +24,7 @@ export const news: NewsItem[] = [
   ...weRuleMandatePressReleases,
   martaEkPressRelease,
   {
-    "publishedAt": "2026-10-23",
+    "publishedAt": "2051-10-23",
     "slug": "huvudstadens-arena",
     "type": "HUVUDSTADEN",
     "title": "Huvudstadens arena används för Hungerspelen",

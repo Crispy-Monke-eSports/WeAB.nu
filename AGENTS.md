@@ -3,7 +3,7 @@
 ## ABSOLUT DESIGNREGEL: Aldrig ögonbryn över rubriker
 
 - **STRIKT FÖRBUD.** Visa **aldrig** en eyebrow/ögonbryn, kicker, överrubrik, sektionstagg, versalrad, bolagsetikett, kategorirad eller numrering **ovanför en rubrik eller titelliknande text**. Detta gäller **alla** sidrubriker (h1–h6), sektionsrubriker, kort- och dokumenttitlar, citatblock, författarpresentationer och nya komponenter. Regeln gäller på både mobil och dator.
-- Lägg **rubriken först**, helt utan dekorativ förtext. Exempel på **förbjudet** mönster: `<span class="small-caps">WEAB GROUP / LÄGESRAPPORT 2026</span><h2>Verksamhetsöversikt 2026</h2>`. Detsamma gäller andra klasser, taggar eller typografiska varianter av en liten rad ovanför rubriken.
+- Lägg **rubriken först**, helt utan dekorativ förtext. Exempel på **förbjudet** mönster: `<span class="small-caps">WEAB GROUP / LÄGESRAPPORT 2051</span><h2>Verksamhetsöversikt 2051</h2>`. Detsamma gäller andra klasser, taggar eller typografiska varianter av en liten rad ovanför rubriken.
 - Behövs information som datum, avsändare, dokumentkategori eller bolagsnamn, placera den **under rubriken**, i brödtext eller som ett riktigt datafält. Ta inte bort nödvändig sakinformation bara för att uppfylla förbudet.
 - Återinför **aldrig** ögonbryn som grafisk förfining, inte heller vid framtida designarbete. Rena symboler och avatarer som **inte innehåller textetiketter** får däremot finnas vid en rubrik.
 - Projektets innehållsvalidering ska upptäcka och stoppa återfall med etikett- eller spanrader direkt före rubriker.
@@ -48,8 +48,9 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 ## Kanon och kronologi – läs före alla storyändringar
 
 - **Obligatorisk huvudkälla:** `docs/story-kontinuitet.md`. Den skiljer etablerade händelser, koncernens partiska versioner och obeslutade förslag. De fastslagna datumen finns också i `src/data/storyCanon.ts`.
-- **Kronologi:** Märta Ek avled **3 november 2026** (WeAB påstår olycka vid järnfarmen, men har sekretessbelagt underlag), den totala överlåtelsen av myndighetsutövning och våldsmonopol till WeRule offentliggjordes **4 november 2026**, och ezzo13337:s **DGS**-förslag inkom **6 november 2026**. Store-W:s och ledningens önskade WE-namn är **WeDGS**, men inget är beslutat.
-- Tidigare, daterade tidningsartiklar som beskriver riksdagens dåvarande beslutanderätt är **historiska samtidsskildringar**, inte falska uppgifter om dagens läge. Deras originaltexter bevaras och läsvyn förtydligar att förhållandena ändrades 4 november.
+- **Kronologi:** WeAB kuppade den demokratiska riksdagen **vid riksvalet 2045**, fördrev företrädarna och tog kontroll över myndighetsutövning och våldsmonopol genom WeRule. Valresultatet **undanröjdes och återfinns i en kista i ett vrak på havets botten**. Exakt valdag och röstetal är okända.
+- **Berättelsens nuvarande år är 2051.** Märta Ek avled **3 november 2051** (WeAB kallar det olycka men döljer underlag), WeRule publicerade **4 november 2051 retrospektiva pressutskick om kuppen 2045**, och ezzo13337:s **DGS**-förslag inkom **6 november 2051**. **21 november 2051** är datumet på rapporten vid den sprängda husruinen, inte nödvändigtvis räddatumet.
+- Tidningsarkivets riksdagstexter som beskriver en självständig parlamentarisk verksamhet avser **det gamla förhållandet före kuppen 2045**, även där formuleringarna använder historiskt presens. Alla sådana texter måste ha historisk kontext på artikelsidan.
 - **Märta Ek är avliden**, men ska behållas som skribent för sina sex äldre publiceringar. Publicera inte nya artiklar med hennes signatur efter dödsdatumet.
 - Vid ändrade sakuppgifter: uppdatera koncernhistorien, verksamhetssidor, press, skribentprofiler, förslagsstatus och innehållsvalidering tillsammans. Hitta inte på datum för äldre händelser, omgångar i Hungerspelen eller förklaringar till Märtas död.
 
@@ -62,12 +63,12 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 
 ## Intern spelmästarkanon för motståndsrörelsens ARG
 
-- Det finns en **verklig motståndsrörelse i lore** som hoppas störta WeAB. Detta betyder inte att WeAB offentligt erkänt organisationen.
-- **Redan existerande ledtrådskedja:** hemlig tunnel vid `x 31, y 66, z -351` i WeLiveLaughLove Sektion 1 Avdelning B (budskap om ”hålla ut” och ”kommer tillbaka”) → husruin med text på bottenplanet → ett vrak med en kista som innehåller texten **`Valresultat Riks 2045`**.
-- Denna kedja är **befintlig**, inte en planerad konstruktion. Fastställ inte ordagranna ruintexter, koordinater, syftet med 2045 eller konspirationer som användaren ännu inte bekräftat.
-- Läs `docs/internal/arg-motstandsrorelsen.md` innan några ARG-ledtrådar, hemliga webbsidor eller videor skapas. Delar som föreslås där är *designförslag* och får inte automatiskt räknas som publicerat eller genomfört.
-- Användaren tillåter att facit och intern ARG-information lagras i det **offentliga GitHub-repot** under antagandet att deltagarna inte studerar kod. Länka **aldrig** till interna filer eller avslöja fysiska platser i den publika webbplatsen utan uttryckligt spelbeslut.
-- **Ingen automatisk pressnotis** om rörelsen: pressrummets fem stora händelser ska inte utökas bara för att ARG:et planeras.
+- Det finns en motståndsrörelse som hoppas störta WeAB, men den är inte offentligt erkänd i koncernens pressarkiv.
+- **Endast en bekräftad ledtrådsförbindelse:** den hemliga tunneln vid `x 31, y 66, z -351` i WeLiveLaughLove Sektion 1 Avdelning B leder till **ett vanligt hus som WeAB sprängde under 2051** efter att ha funnit motståndspersoner där och avrättat dem. Skyltarna i ruinen nämner tio personer och rapportdatumet **21/11/2051**.
+- **Vraket är INTE nästa ledtråd i kedjan. Inga ledtrådar leder till vraket.** Vraket ligger på havsbotten och innehåller ett av WeAB undanröjt **valresultat från Riks 2045**; detta riksval ledde till WeAB:s kupp.
+- Skilj på rädens händelseår **2051** och det kända **rapportdatumet 21 november 2051**. Inget exakt räddatum är bekräftat.
+- Läs `docs/internal/arg-motstandsrorelsen.md` för intern fakta, skylttexter, ledtrådskopplingar och eventuella *framtida* pusselidéer. Skapa inte hemliga sidor, länkar till vraket, pressutskick eller nya ledtrådar automatiskt.
+- ARG-information får ligga i GitHub enligt användarens förutsättning att spelarna inte läser repot, men **ska inte exponeras på webbplatsen**.
 
 ## Pressutskick förankrade i storyn
 

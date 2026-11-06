@@ -9,7 +9,7 @@ export const wedgsProposal = {
   brandProposalBy: 'Store-W och koncernledningen',
   descriptiveName: 'Diamant- och gruvskatteverket',
   proposer: 'ezzo13337',
-  receivedAt: '2026-11-06',
+  receivedAt: '2051-11-06',
   pressSlug: 'weab-wedgs-inkommet-skatteforslag',
   status: 'Inkommet förslag – avvaktar ledningens prövning',
   implemented: false,

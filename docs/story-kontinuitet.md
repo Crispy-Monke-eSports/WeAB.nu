@@ -1,6 +1,6 @@
 # WeAB – kanon, kronologi och berättelsens röda tråd
 
-**Status:** Redaktionellt källdokument för WeAB.nu, kontrollerat mot berättelsen och de faktiskt publicerade källfilerna den 6 november 2026. Det är inte ett dokument som i sig fastställer nya beslut i världen.
+**Status:** Redaktionell kanon för WeAB.nu. Den nuvarande berättelsen utspelar sig 2051 och innehåller historiska händelser från 2045. Tidigare webbarkivdateringar i 2026-serien har överförts till 2051, medan riksvalet och kuppen hör till 2045. Detta dokument är inte ett nytt beslut i världen.
 
 ## Källordning och tillförlitlighet
 
@@ -10,29 +10,37 @@
 4. **Inkomna handlingar**: `docs/wedgs-forslag.md`, som skiljer ezzo13337:s DGS-förslag från Store-W:s/ledningens föreslagna WE-namn. Ett förslag är inte en existerande verksamhet.
 5. **Tidningsarkiv**: `src/data/editorial.ts`, `src/data/edition/` och `src/data/expanded/`. Artiklar kan spegla ett äldre läge eller en skribents åsikt. Arkivtexter ska inte ges nutida faktastatus enbart för att de fortfarande går att läsa.
 
-## Kronologi med fastslagna datum
+## Kronologi och skilda datumtyper
 
-| Tid | Händelse | Status och viktig avgränsning |
+| Tid | Händelse | Status och avgränsning |
 | --- | --- | --- |
-| Tidigare, datum ej fastställt | WeAB uppstår och bygger en koncern med nio dotterbolag. Ledningen leds av **Store-W**, vars identitet inte offentliggörs, och fyra ledande ledamöter: **RavenHamster, Filuren2003, Haapalainen, Laxen_MX**. | Hitta inte på grundläggningsår eller vem den hemliga grundaren är. Identifiera inte automatiskt grundaren med Store-W. |
-| Tidigare, datum ej fastställt | Sektion 1:s produktion, sortering, lager och handel utvecklas; WeLove och WeLiveLaughLove driver koncernens personal- och boendesystem. WeLiveLaughLove hanterar även Sektion 3. | Den tidigare konflikten om bybornas självbestämmande har inträffat, men inget exakt datum eller verifierat händelseförlopp finns i nuvarande material. |
-| Tidigare, datum ej fastställt | WeGamble har redan inkomster från spelverksamhet; **WeGamble Island är fortfarande under uppbyggnad**. | Den planerade kasinoön får inte beskrivas som öppnad. Lediga tjänster på ön är projektroller. |
-| Före och under hösten 2026, exakt startdatum okänt | **Hungerspelen** hålls i Huvudstadens arena. **Två bybor från varje by kämpar till döden.** Arrangemanget ger WeAB inkomster. | Arenans pressartikel 23 oktober är inte belägg för ett invigningsdatum. Hitta inte på omgångar, vinnare, publikpriser eller inkomster. |
-| Före **4 november 2026** | Riksdagen och regeringen har fortfarande egna beslutsfunktioner. WeAB/WeRule har redan roll inom förvaltning och ägande av *vissa* offentliga fastigheter, bland annat Riksdagshuset. | Därför är äldre reportage om riksdagens sammanträden inte en motsägelse. Äldre artiklar som beskriver denna uppdelning märks med arkivkommentar i läsvyn; själva originaltexten bevaras. |
-| **2 november 2026** | Märta Ek har sina senaste registrerade tidningspubliceringar, däribland en insändare om Sektion 3. | Alla hennes sex signerade arkivtexter måste vara daterade **före** hennes död. Kritiken mot belysningen hanteras enligt koncernens censurregler. |
-| **3 november 2026** | **Märta Ek dör vid WeKills järnfarm.** WeAB betecknar fallet i transportanläggningen som en olycka och hemligstämplar delar av underlaget. | Dödsfallet är en händelse i storyn. **Olycksorsaken är WeAB:s officiella påstående**, inte ett oberoende fastställt förlopp. Märta får inte presenteras som nu levande skribent. |
-| **4 november 2026** | Den tidigare regeringen och riksdagen överlåter enligt WeAB:s publicerade besked **all myndighetsutövning och våldsmonopolet**. WeAB får kontrakten på obestämd tid och **WeRule** utför uppdragen och äger de offentliga lokalerna. Tidigare statsråd och riksdagsledamöter tvångsplaceras ”frivilligt” i **Sektion 3, Avdelning A**. | Här sker **den totala** maktövergången. Skriv inte om förvaltningen av enskilda byggnader före datumet som om all offentlig makt redan hade överförts. |
-| **6 november 2026** | **ezzo13337** lämnar förslaget **DGS – Diamant- och gruvskatteverket**. Store-W och koncernledningen förespråkar **WeDGS** som namn om verksamheten skulle införlivas. | **Inget är beslutat eller genomfört.** Ingen skatt eller myndighet har tillkommit. Den bruna WE-logotypen är en preliminär visualisering av ledningens namnlinje. |
+| Före 2045; exakt datum okänt | WeAB grundas och utvecklar sin koncern. | Inget officiellt grundläggningsdatum är fastslaget. |
+| **2045** (dag/månad ej fastställd) | Under **riksvalet 2045 genomför WeAB en kupp** mot den demokratiska riksdagen och fördriver dess företrädare. Koncernen tar kontroll över myndighetsutövning och våldsmonopol genom WeRule. | Det var **inte en frivillig överlåtelse**. WeAB:s offentliga redovisning använder däremot administrativa formuleringar om ansvarsförenkling. Den exakta kalenderdagen är okänd. |
+| Efter valet 2045 | Det verkliga **valresultatet från Riks 2045 undanröjs av WeAB** och avlägsnas från de offentliga arkiven. | Valresultatet återfinns i en kista i ett vrak på havsbotten. Inga valresultat, röstsiffror eller valdeltagandesiffror är kända; **hitta inte på dem**. |
+| Efter kuppen 2045 | Regeringens och riksdagens tidigare företrädare fördrivs och hamnar inom WeLiveLaughLove, Sektion 3, Avdelning A. | Koncernen beskriver deras placering som ”frivillig”; det är inte en oberoende beskrivning av vad som skedde. De före detta riksdagsfunktionerna har ingen självständig beslutanderätt i dagens ordning. |
+| Datum ej fastställt | WeAB:s etablerade inkomster kommer från exploateringen av bybor inom WeLiveLaughLove, WeGambles spelverksamhet och Hungerspelen. | Ingen skatt tas ut. I Huvudstadens arena kämpar två bybor per by till döden. WeGamble Island är ännu inte öppnad. |
+| **23 oktober 2051** | Arenans befintliga pressartikel beskriver Hungerspelen. | Artikeldatumet är inte ett belägg för start- eller invigningsdatum. |
+| **2 november 2051** | Märta Ek har sina senast registrerade tidningsartiklar. | Hennes sex publiceringar föregår dödsfallet. |
+| **3 november 2051** | Märta Ek omkommer vid WeKills järnfarm. | WeAB kallar det olycka och sekretessbelägger uppgifter. Olycksorsaken är **inte oberoende styrkt**. |
+| **4 november 2051** | WeRule publicerar två **tillbakablickande redovisningar** om den maktordning som infördes vid **riksvalet 2045**. | Detta är **publiceringsdatum för retrospektiva pressutskick**, inte datumet för kuppen eller överföringen av våldsmonopolet. |
+| **6 november 2051** | ezzo13337 lämnar **DGS – Diamant- och gruvskatteverket**. Store-W och koncernledningen förordar **WeDGS** som namn vid eventuellt införlivande. | Förslaget är **inte beslutat eller genomfört** och något skattesystem finns inte. |
+| **Under 2051**, exakt händelsedatum okänt | WeAB upptäcker motståndspersoner som gömmer sig i **ett vanligt hus**, avrättar de påträffade och spränger byggnaden. | De skyltar som hittats i ruinen nämner en motståndsstyrka om **tio personer**. Inget styrker en koppling mellan denna räd och valresultatet i vraket. |
+| **21 november 2051** | En skylt i den sprängda husruinen anger **”RAPPORT SKRIVEN 21/11/2051”**. | Detta är datumet på **rapporten**, inte ett fastslaget datum för räden, avrättningarna eller sprängningen. Det är den senaste daterade händelseuppgiften i det tillhandahållna ARG-materialet. |
 
-Dateringen av 2 november avser **senaste nuvarande publicering i arkivet**, inte nödvändigtvis Märtas sista text som hon någonsin skrev.
+**Den publika webbplatsens tidsläge:** 2051, efter de händelser som dokumenterats i november det året. Utgå inte från verklighetens kalender (2026) när artikelarkivet kontrolleras. **2045 är ett historiskt valår**, inte en framtidsledtråd. Dag och månad för valet är ännu okända.
 
-## Motståndsrörelsen – en etablerad men ännu okänd motkraft
+### Redaktionell arkivkontinuitet
 
-- En motståndsrörelse finns och hoppas störta WeAB. Organisationens namn, ledning och samband med tidigare bymotstånd har **inte** fastställts.
-- Tre fysiska ARG-fynd är redan etablerade i denna följd: **hemlig tunnel i WeLiveLaughLove Sektion 1 Avdelning B**, **husruin med meddelande på bottenplanet** och **vrak med en kista där texten ”Valresultat Riks 2045” förekommer**. Innehållet i den första tunneln manar till att ”hålla ut” och säger att de ”kommer tillbaka”.
-- Vrakets `2045` är än så länge bara text på ett föremål och får **inte** tolkas som ett bekräftat historiskt val i framtiden; webbplatsens nuvarande tid är november 2026.
-- Den exakta startpositionen, olösta ordalydelser, spelledarfacit och kommande möjligheter att bygga vidare dokumenteras **endast internt** i `docs/internal/arg-motstandsrorelsen.md`.
-- Den officiella koncernhistorien och pressarkivet ändras inte av att motståndsrörelsens fysiska spår finns. När nya händelser etableras ska berättarens perspektiv och kanontid kontrolleras.
+Flera tidigare artiklar om Riksdagshuset skildrar parlamentets *gamla* beslutsordning i historiskt presens. Efter omdateringen av artikelarkivet till 2051 ska de läsas som **historiska tillbakablickar**, inte samtidsskildringar av ett självständigt parlament 2051. Läsvyn visar därför en kontextnotis för relevanta artiklar. WeRule-pressutskicken från 4 november 2051 är också retrospektiva och beskriver vad som hände 2045 ur koncernens partiska perspektiv.
+
+## Motståndsrörelsen – bekräftade spår, skilda från koncernens offentliga version
+
+- En motståndsrörelse verkar för att störta WeAB. Dess namn och ledning är fortfarande okända.
+- **Bekräftad ledtrådskoppling:** En hemlig tunnel i ett hus inom WeLiveLaughLove, Sektion 1 Avdelning B, vid `x 31, y 66, z -351`, innehåller meddelanden om att ”agera normalt”, att någon ”kommer tillbaka” och att flyende kan få hjälp. Dessa uppgifter leder vidare till **ett vanligt hus**.
+- **Det vanliga huset är nu en ruin** eftersom WeAB under **2051** upptäckte motståndspersoner där, **avrättade de gömda personerna och sprängde huset**. Ruinens skyltar beskriver en motståndsstyrka på **tio personer** och en rapport skriven **21 november 2051**. Rapportdatum är inte nödvändigtvis händelsedatum.
+- **Vraket är ett helt separat fynd. Det finns inga ledtrådar som leder dit**, vare sig från tunneln eller husruinen. I en kista i vraket på havsbotten finns texten **”Valresultat Riks 2045”**, det undanröjda valresultatet från valet då WeAB kuppade bort den demokratiska riksdagen.
+- **Förbind inte fynden automatiskt:** Motståndspersonerna som dödades 2051 är inte dokumenterat samma personer som kan ha skyddat eller placerat undan valresultatet. Ingen ledtrådskedja till vraket får skapas i efterhand utan uttryckligt nytt underlag.
+- Exakta skylttexter, geografiska data, spelmästaranteckningar och möjliga framtida ARG-steg finns i `docs/internal/arg-motstandsrorelsen.md`. Detta är inte en anledning att lägga ut ledtrådar, namn, koordinater eller en ny pressnyhet på webbplatsen.
 
 ## Långsiktig expansion: Korsdalen (intern planering, ej etablerad storyhändelse)
 
@@ -59,20 +67,20 @@ För berättelsens rumsliga logik finns en separat **AI-/redaktionsreferens** i 
 
 - Koncernen beskriver sig själv **inifrån världen**, i saklig myndighets- och bolagston. Ingen publik text ska hänvisa till Minecraft, servrar eller videoguider.
 - Koncernens **officiella** hållning är att **alla lampor är utmärkta och inga fel finns**. Påståenden om brister är inte accepterad lägesbild, utan censureras med hänvisning till rikets säkerhet. Den publika maskningen sker i `src/data/lightingSecurity.ts` utan att de äldre originalutkasten förstörs.
-- Äldre tidningsartiklar får skildra det samhällsläge som gällde *när de publicerades*. Det gäller särskilt de texter där riksdagen ännu sammanträder. Läsvyn visar en tydlig **arkivkommentar** så att läsaren inte tror att de gamla mandatförhållandena fortfarande gäller.
+- Historiska artiklar kan återge *tiden före 2045* i historiskt presens trots arkivets publiceringsdatum 2051. De utpekade artiklarna får en **historisk kontextnotis** som skiljer demokratin före kuppen från den nuvarande WeRule-ordningen.
 - Skillnaden mellan **bekräftad händelse**, **koncernens egen förklaring**, **obeslutat förslag** och **editorial åsikt** ska behållas i varje text.
 - Pressarkivet innehåller **fem storybärande officiella utskick**; WeAB Tidningen innehåller **84 redaktionella artiklar**. Se `docs/press-policy.md`. Vanliga rutiner blir inte pressmeddelanden.
 
 ## Kontrollfrågor vid varje kommande AI-ändring
 
 1. Finns en källbelagd händelse, eller föreslår texten något nytt utan beslut?
-2. Har personens och institutionens status anpassats efter textens **datum**, framför allt 3, 4 och 6 november?
+2. Är **riksvalet och kuppen 2045** korrekt åtskilda från de senare **publiceringarna och händelserna 2051** (3, 4, 6 och 21 november)?
 3. Säger någon källa att WeAB tar ut skatt, att WeGamble Island har öppnat eller att WeDGS existerar som bolag? I så fall är texten fel om inget nytt beslut tillkommit.
 4. Är Hungerspelen uttryckligen **dödliga**, med **två bybor per by**, och utan uppdiktade tävlingsresultat?
 5. Är Märtas död tydligt skild från WeAB:s **påstående om olycksorsaken**?
-6. Har äldre tidningsarkiv fått korrekt historisk kontext utan att originalcitat skrivits om retroaktivt?
+6. Skiljer artikeln en **historisk riksdag före 2045** från den faktiska ordningen under **2051** utan att presentera 2051 års retrospektiva pressbesked som en ny kupp?
 7. Är ingen ny uppgift om datum, personer, kapacitet, kapital eller kontrakt presenterad som faktum utan grund?
 8. Är Korsdalen fortfarande en okontaktad, odaterad exploateringsidé utan koppling till en ännu inte etablerad senare värld eller ett påstått genomförande?
 9. Har `npm run check` körts, och är kanon-kontrollerna i `scripts/validate-content.mjs` fortfarande godkända?
 
-**Olösta frågor:** grundläggningsdatum, exakt tid för tidigare bykonflikter, första Hungerspelen, fördelningen av koncernens intäkter, oberoende utredning av Märtas död, DGS-förslagets framtida utfall samt om, när och under vilka former Korsdalen alls kan bli aktuellt. Inget av detta fylls ut genom antaganden. Inget av detta fylls ut genom antaganden.
+**Olösta frågor:** grundläggningsdatum, riksvalets exakta dag/månad 2045, röstresultatets innehåll, exakt datum för husräden under 2051, vilka som gömde valresultatet i vraket, grundandet av motståndsrörelsen, första Hungerspelen, fördelningen av intäkter, den oberoende förklaringen till Märtas död, DGS-förslagets framtid och den ännu okontaktade Korsdalen. Inga luckor fylls genom antaganden. Inget av detta fylls ut genom antaganden.

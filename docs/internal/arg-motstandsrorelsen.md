@@ -1,65 +1,68 @@
-# Motståndsrörelsens ARG – intern spelmästardokumentation
+# Motståndsrörelsens ARG – intern spelmästarkanon
 
-> **ENDAST FÖR AI OCH SPELLEDARE.** Detta är inte en publik WeAB-text. Det får ligga i det offentliga GitHub-repot enligt användarens uttryckliga förutsättning att deltagarna inte läser källkoden. Länka inte hit från webbplatsen. Publicera inte skärmbilder, koordinater eller ledtrådens facit oavsiktligt.
+> ENDAST FÖR AI OCH SPELLEDARE. Detta är inte material som ska publiceras på WeAB.nu. Uppgifterna får finnas i GitHub enligt användarens förutsättning att ARG-deltagarna inte läser repot. Lägg inte facit, exakta koordinater, skärmbilder eller avslöjanden i webbplatsens publika navigation.
 
-## Etablerad lore
+## Fastslagna historiska förhållanden
 
-En motståndsrörelse finns i världen och rör sig mellan olika platser med hoppet att kunna störta WeAB. Rörelsens namn, ledare, medlemsantal, faktiska organisation, kopplingar till äldre uppror samt exakta planer är **inte fastslagna**. WeAB har inte offentligt erkänt den i sitt pressarkiv.
+- **Riksvalet 2045**: WeAB genomförde en **kupp**, fördrev den demokratiska riksdagen och lade myndighetsutövning och våldsmonopol under WeRule. Detta var **inte** en demokratisk och frivillig överlåtelse, oavsett vad koncernens officiella dokument antyder.
+- **Valresultatet från Riks 2045** undanröjdes av WeAB. Det återfinns på **havets botten**, i en **kista i ett vrak**, där texten **”Valresultat Riks 2045”** förekommer. Resultatets röstsiffror, vem som skulle ha vunnit och exakt valdag har inte lämnats; hitta inte på dem.
+- **Under 2051** upptäckte WeAB motståndspersoner som gömde sig i **ett vanligt hus**. WeAB **avrättade personerna och sprängde huset**. Ruinens skyltar anger att en motståndsstyrka på **tio personer** påträffades i en gammal lokal.
+- En skylt i ruinen lyder **”RAPPORT SKRIVEN 21/11/2051”**. Detta daterar rapporten, **inte säkert räden eller sprängningen**.
+- Motståndsrörelsen finns fortfarande som en loremässig motkraft med målet att störta WeAB. Namn, övergripande ledare och vilka delar av rörelsen som känner till de olika fynden är inte fastslagna.
 
-De följande **tre fysiska fynden finns redan i världen** och får inte behandlas som idéer som återstår att bygga. Uppgifterna är lämnade direkt av användaren. Skriv inte in nya formuleringar, skyltar, kistor eller geografiska förbindelser i den etablerade kanon utan nytt underlag.
+## Spelvärldens existerande fysiska fynd
 
-| Steg | Fysisk plats/fynd | Bekräftad information | Osäkert; hitta inte på |
-| --- | --- | --- | --- |
-| 1 | Hemlig tunnel i ett hus inom **WeLiveLaughLove, Sektion 1, Avdelning B**, vid **x 31, y 66, z -351** (Overworld) | Där finns ett kryptiskt meddelande med innebörden att någon ska **”hålla ut”** och att avsändaren **”kommer tillbaka”**. En senare bild visar texten i hålet. | Exakt ordalydelse och tolkning ska inte rekonstrueras ur minnet om bilden inte finns tillgänglig; ingen ledare eller datering är känd. |
-| 2 | **Husruin** som föregående ledtråd leder till, med **ytterligare en text på bottenplanet** | Ruinen och texten är etablerade fysiska ARG-steg, visade i användarens bilder. | Ruinens koordinater, exakt text, upphovsperson och mekanismen för vägen vidare är inte verifierade i det textunderlag som finns här. |
-| 3 | **Vrak** med en **kista** | Användaren uppger att kistan i vraket har/rymmer texten **”Valresultat Riks 2045”** och att detta är **nästa ledtråd**. Exakt hur texten presenteras (bok, skylt eller annan mekanik) är inte fastslaget. | Vrakets koordinater och typ, vad kistan innehåller utöver den angivna texten, om ”Riks” avser riksdag/riket, och innebörden av ”2045” är ännu **inte fastslagna**. |
+### A. Bekräftad ledtrådsförbindelse: tunnel → husruin
 
-**Ordning utifrån användarens uppgifter:** hemlig tunnel → husruin med text på bottenplanet → vrakets kista ”Valresultat Riks 2045”.
+**Start:** En hemlig tunnel finns i ett hus inom **WeLiveLaughLove, Sektion 1, Avdelning B**, vid **x 31, y 66, z -351** (Overworld). De avbildade skyltarna uppmanar spelaren att **agera normalt**, säger **”Vi kommer tillbaka”** och erbjuder hjälp för den som lyckas fly. Den senare texten avslutas med **`245 495`**. Bilden utgör primärkälla för exakt skyltformatering.
 
-### Kontinuitet kring ”2045”
+**Fortsättning:** Dessa hänvisningar leder till **ett vanligt hus**, inte en ursprungligen övergiven motståndsbas. Huset är nu en ruin eftersom **WeAB sprängde det under 2051**, efter att ha påträffat och **avrättat gömda motståndspersoner** där. På bottenplanet finns den redan existerande rapporttexten, uppdelad på skyltar:
 
-WeAB-webbplatsens nuvarande daterade berättelse ligger **i november 2026**. Den text som finns på vrakets kista innehåller siffran **2045**, men det bevisar **inte** att ett riksval år 2045 redan har ägt rum eller att händelser efter 2026 har inträffat i berättelsens nutid. Det kan vara ett årtal, ett protokollnummer, en framtidsreferens eller något annat. **Lås inte tolkningen ännu.** Om årtalstolkningen senare bekräftas krävs en loremässig förklaring som användaren godkänner.
+> Motståndsstyrka på 10 personer hittades i en gammal lokal.
 
-Det officiella beskedet om att WeRule fick den fullständiga myndighetsutövningen och våldsmonopolet är daterat **4 november 2026**. Vrakets fynd kan tematiskt kontrasteras mot äldre riksdagsmaterial, men **påstå inte ännu** att kistan innehåller valfusk, en förlorad demokrati eller dokument om maktövertagandet. Förbindelsen återstår att etablera.
+> Motståndet avrättades då de hotar företagets makt.
 
-## Förslag på ett ARG som respekterar det redan byggda
+> RAPPORT SKRIVEN 21/11/2051
 
-Den här delen är **framtida design, inte genomfört innehåll**.
+Citaten återger läsbar innebörd av befintliga skyltar, inte nya skyltar som ska skrivas in. Den exakta positionen för husruinen är inte verifierad i det interna waypointregistret. Datumet **21/11/2051** får aldrig automatiskt tillskrivas räden som händelsedatum.
 
-### Spelprincip
+**Här slutar den bekräftade ledtrådsvägen.** Ingen känd text, karta eller koordinat i tunneln eller ruinen leder vidare till vraket. Bygg inte en sådan förbindelse retroaktivt.
 
-Officiella WeAB.nu framstår fortsatt som en genomarbetad och opålitlig koncernwebbplats. Mysteriet växer ur diskreta administrativa motsägelser; en deltagare som följer spåren börjar ana en annan röst. Ledtrådarna bör i första hand ge berättelsebitar, inte en oändlig rad lösenord utan mening.
+### B. Separat, oberoende fynd: vraket
 
-**Undvik retroaktiva ändringar av befintliga fysiska ledtrådar.** Skapa de digitala stegen först när hela kedjan är speltestad mot nuvarande skylt- och boktexter.
+I ett vrak på havsbotten finns en **kista** med texten **”Valresultat Riks 2045”**. Det syftar på det undanröjda resultatet från riksvalet då WeAB kuppade bort den demokratiska riksdagen. Resultatet är borttaget ur de tillgängliga offentliga arkiven.
 
-### Möjligt kapitel 1, efter vrakfyndet
+**Ingen ledtråd leder till vraket.** Det ska förstås som ett separat fynd, inte som del tre i en redan existerande obligatorisk ARG-kedja. Att användaren visade bilderna efter varandra var **inte** en uppgift om geografisk, kronologisk eller pusselmässig förbindelse.
 
-1. **Hitta kistan på riktigt.** Den exakta titeln `Valresultat Riks 2045` blir en sökfras eller dokumentnyckel. Ingen publik startsida ska automatiskt skicka spelare direkt till vraket.
-2. **Hitta en inkonsekvens i ett till synes vanligt WeAB-dokument.** En framtida intern arkivförteckning kan innehålla ett ofullständigt hänvisningsnummer, men ingen fastslagen händelse eller ett känt valresultat. Låt användaren kombinera arkivförteckningen med **ordalydelsen i kistan** för att hitta ett dolt dokument.
-3. **Dold sida på `weab.nu`.** Den skulle kunna se ut som en återställd bilaga eller en gallrad registerpost. Publicera den utan navigationslänk, utan sidkortsrekommendation och med `noindex`. Eftersom Astro bygger statiska sidor och repot är offentligt är det **inte** säker åtkomstkontroll; det är ett avtal med deltagarna om att lösa mysteriet genom ledtrådarna.
-4. **Första motståndsrösten.** Först här bör spelaren få ett trovärdigt tecken på att avsändaren bakom tunnelmeddelandet kanske inte är ensam. Gör ingen rörelselogotyp, kontaktsida eller offentlig rekrytering innan berättelsens identitet är avgjord.
-5. **Eventuellt YouTube-material, senare i spelet.** En kort, diegetisk ”arkivfilm”, ”säkerhetsgenomgång” eller läckt överföring kan innehålla bildrutor, tal eller undertexter som låser upp nästa steg. Skapa inte och publicera inte video innan den är berättelsemässigt motiverad; YouTube ska fungera som en kanal för ett fynd, inte som WeAB:s officiella bekräftelse på motståndet.
-6. **Tillbaka till världen.** Den digitala upptäckten ger skäl att söka en ny fysisk ledtråd, helst på en plats som redan finns och har logisk relation till tidigare spår. Det kan bli en belöning i form av en ny del av motståndsrörelsens historia i stället för ytterligare koordinater.
+Den andra skärmbilden visar delvis läsbara skyltar vid vraket, bland annat **”5 döda / 3 skadade”**, men det är **inte fastslaget att dessa uppgifter syftar på 2051 års husräd**. Hitta inte på ett samband eller vad de skadade skulle vara intagna för.
 
-**Viktigt:** Detta är ett förslag om struktur, **inte en fastställd lösning** på ”2045”. Det faktiska nästa steget bör avgöras när exakt skylttext från huset/ruinen och fler uppgifter om vraket har lämnats.
+Vrakets exakta koordinater, kistans fulla innehåll, vilka som placerade valresultatet i vraket och förhållandet mellan vraket och motståndsrörelsen är ännu inte fastslagna.
 
-## Föreslagen publiceringsarkitektur (ingen implementation ännu)
+## Redaktionsmässig konsekvens
 
-- Bevara ARG-facit, lösningsordning, koordinater, planerade datum och speltestchecklista under `docs/internal/`.
-- Färdiga hemliga sidor kan ligga under en egen icke-navigerad Astro-rutt, till exempel `src/pages/arkiv/bilagor/`, men **bygg ingen sådan rutt innan innehållet är beslutat**. Håll den ordinarie företagsnavigationen ren.
-- Använd in-world-dokument (diarienummer, beslut, gallringslistor, klipp från kommunikation) snarare än skrikiga ”hemlig sida”-gränssnitt. Skilj på äkta gamla arkiv och fabricerade dokument i spelledarens interna facit.
-- Förhindra oavsiktliga avslöjanden i navigation, `sitemap`, automatisk relaterat innehåll, interna sökresultat och länkförhandsvisning. **`robots.txt` är ingen hemlighållning** eftersom dess listade URL:er kan läsas.
-- Sätt `noindex` på eventuella dolda sidor, men utgå från att en tekniskt kunnig deltagare kan hitta dem. Använd inte lösenord, riktiga kontouppgifter eller oskyddad persondata i pusslen.
-- Med verkliga koordinater: visa spelarna en tydlig frivillighets- och säkerhetsram utanför fiktionen. Alla fysiska platser ska ligga på servern och vara nåbara utan griefing, blockförstörelse, åtkomst till privata områden eller handlingar i verkliga livet.
-- Lägg in en **hintstege** per pussel (en lätt antydan, en tydligare riktning och ett nästan fullständigt svar) samt en möjlighet att komma ikapp om ett fysiskt fynd försvinner.
-- Håll **Korsdalen** helt utanför det spelbara ARG:et i denna tidsperiod. Den senare miljön finns inte i nuvarande WeAB-kanon.
+- Den aktuella webbplatsen och pressarkivet befinner sig i **2051 års berättelsevärld**. **2045** är ett redan inträffat val och en redan genomförd kupp.
+- De två officiella WeRule-pressutskicken är daterade **4 november 2051** och återger **i efterhand** koncernens partiska version av kuppen **2045**. De är **inte** besked om en ny maktöverföring 2051.
+- Den demokratiska riksdagens ledamöter har fördrivits. WeRule förvaltar den faktiska statsapparaten. Håll isär detta från hur bolaget framställer det som administrativ kontinuitet.
+- Den sprängda husruinen och valresultatet i vraket är interna ARG-avslöjanden och får inte publiceras som öppna officiella nyheter i WeAB:s eget pressrum.
+- WeAB har inte infört skatt; DGS inkom 6 november 2051 och är fortfarande under beredning.
+- Korsdalen hör till en senare berättelsemiljö och har ännu inte kontaktats. Blanda inte in det i ARG:ets nuvarande händelser.
 
-## Saknas för att bygga kapitel 1 utan att hitta på
+## Eventuell framtida ARG-design – ingen implementation
 
-- Ordagrann transkribering av tunnelns skylt och ruinens bottenplanstext, om dessa ska användas i logiska textpussel.
-- Exakt geografiskt läge på ruinen och vraket (valfritt som intern spelledardata; publicera inte).
-- Om kistan med `Valresultat Riks 2045` innehåller **en bok, ytterligare föremål eller endast är namngiven**.
-- Om `2045` ska få en faktisk innebörd eller förbli ett öppet mysterium.
-- Hur svårt och hur långt första kapitlet ska vara; bestäm sedan var och hur en spelare rimligen upptäcker den allra första ledtråden.
+**Det som redan finns behöver inga nya ledtrådar:**
+1. Tunneln → det sprängda huset och dess rapport från 2051.
+2. Vraket med undanröjt valresultat från 2045 är en **oberoende upptäckt** utan ledtrådsväg.
 
-**Ingen offentlig sida, nytt pressmeddelande, video eller fysisk konstruktion är skapad genom detta dokument.**
+En framtida webbgren kan börja med en anonymiserad diarienotis om en 2051 års utredning, men får inte automatiskt röja huset eller innehålla ett hänvisningsnummer som pekar ut vraket. En annan, frivillig gren skulle kunna ta avstamp i valresultatet *när någon hittar vraket på egen hand*; den får inte presenteras som obligatoriskt steg efter tunneln.
+
+Möjliga medier är dolda dokument på WeAB.nu och eventuella YouTube-klipp i in-world-format. **Inga sådana sidor, videor eller digitala ledtrådar har skapats**. Spelaren ska inte behöva bryta block, gå utanför servern eller få åtkomst till privata verkliga utrymmen.
+
+## Det som fortfarande är öppet
+
+- Kuppens exakta datum under 2045, verkligt valutfall och hur valresultatet transporterades till vraket.
+- Husrazzian, avrättningarnas och sprängningens exakta datum under 2051 (endast rapportdatumet 21 november är säkert).
+- Husruinens och vrakets exakta koordinater.
+- Om fynden har någon djupare organisatorisk koppling inom motståndsrörelsen.
+- Hur webbspår eller framtida videor kan komplettera två **separata**, redan existerande spår utan att falskeligen länka ihop dem.
+
+Denna fil beskriver existerande kanon och ett eventuellt framtida arbetsmaterial. Ändra inga fysiska skyltar, skriv inga valresultat och skapa inga länkar till vraket utan nytt uttryckligt underlag.

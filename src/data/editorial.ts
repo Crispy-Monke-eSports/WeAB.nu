@@ -11,7 +11,7 @@ export interface EditorialItem extends NewsItem {
 }
 export const editorials: EditorialItem[] = [
   {
-    "publishedAt": "2026-11-02",
+    "publishedAt": "2051-11-02",
     "slug": "insandare-ordning-sektion-tre",
     "format": "insandare",
     "type": "INSÄNDARE",
@@ -27,7 +27,7 @@ export const editorials: EditorialItem[] = [
     ]
   },
   {
-    "publishedAt": "2026-11-02",
+    "publishedAt": "2051-11-02",
     "slug": "ledare-egendom-och-ansvar",
     "format": "ledare",
     "type": "LEDARE",
@@ -44,7 +44,7 @@ export const editorials: EditorialItem[] = [
     ]
   },
   {
-    "publishedAt": "2026-11-01",
+    "publishedAt": "2051-11-01",
     "slug": "insandare-en-handlare-racker",
     "format": "insandare",
     "type": "INSÄNDARE",
@@ -60,7 +60,7 @@ export const editorials: EditorialItem[] = [
     ]
   },
   {
-    "publishedAt": "2026-10-31",
+    "publishedAt": "2051-10-31",
     "slug": "reportage-inne-i-wesort",
     "format": "reportage",
     "type": "REPORTAGE",
@@ -77,7 +77,7 @@ export const editorials: EditorialItem[] = [
     ]
   },
   {
-    "publishedAt": "2026-10-30",
+    "publishedAt": "2051-10-30",
     "slug": "kronika-kostnaden-for-genvagar",
     "format": "kronika",
     "type": "KRÖNIKA",
@@ -93,7 +93,7 @@ export const editorials: EditorialItem[] = [
     ]
   },
   {
-    "publishedAt": "2026-10-28",
+    "publishedAt": "2051-10-28",
     "slug": "intervju-webox-fem-fragor",
     "format": "intervju",
     "type": "INTERVJU",
@@ -110,7 +110,7 @@ export const editorials: EditorialItem[] = [
     ]
   },
   {
-    "publishedAt": "2026-10-26",
+    "publishedAt": "2051-10-26",
     "slug": "ekonomi-en-diamant-ar-inte-bara-en-diamant",
     "format": "ekonomi",
     "type": "EKONOMI",
@@ -127,7 +127,7 @@ export const editorials: EditorialItem[] = [
     ]
   },
   {
-    "publishedAt": "2026-10-24",
+    "publishedAt": "2051-10-24",
     "slug": "kultur-arenan-och-aran",
     "format": "kultur",
     "type": "KULTUR & NÖJE",
@@ -143,7 +143,7 @@ export const editorials: EditorialItem[] = [
     ]
   },
   {
-    "publishedAt": "2026-10-22",
+    "publishedAt": "2051-10-22",
     "slug": "guide-besok-weab",
     "format": "guide",
     "type": "GUIDE",
@@ -159,7 +159,7 @@ export const editorials: EditorialItem[] = [
     ]
   },
   {
-    "publishedAt": "2026-10-18",
+    "publishedAt": "2051-10-18",
     "slug": "insandare-farmer-som-fungerar",
     "format": "insandare",
     "type": "INSÄNDARE",

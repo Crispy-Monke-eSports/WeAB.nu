@@ -26,7 +26,7 @@ export const authors: Author[] = [
   {
     id: 'marta-ek', name: 'Märta Ek', role: 'Lokal skribent · avliden',
     beat: 'Boende, grannskap och vardagens små frågor',
-    biography: 'Märta bevakade förändringarna i Sektion 1 och Sektion 3 från trottoaren och köksbordet. Hon skrev om vardagens detaljer och ifrågasatte offentligt uppgifter om belysningen. Märta omkom den 3 november 2026 vid WeKills järnfarm. WeAB beskriver dödsfallet som en olycka och hemligstämplar delar av underlaget.',
+    biography: 'Märta bevakade förändringarna i Sektion 1 och Sektion 3 från trottoaren och köksbordet. Hon skrev om vardagens detaljer och ifrågasatte offentligt uppgifter om belysningen. Märta omkom den 3 november 2051 vid WeKills järnfarm. WeAB beskriver dödsfallet som en olycka och hemligstämplar delar av underlaget.',
     background: 'Märta växte upp i Sektion 3 och började rapportera från grannskapet när gångvägen till hennes mors hus fick en ny sträckning. Hon kunde beskriva den gamla vägen steg för steg.'
   },
   {

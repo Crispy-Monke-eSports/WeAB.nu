@@ -12,7 +12,7 @@ import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { wedgsProposal } from '../src/data/wedgsProposal.ts';
 import { martaEkPressRelease } from '../src/data/press-marta-ek.ts';
 import { weRuleMandatePressReleases } from '../src/data/press-werule-mandate.ts';
-import { storyDates, preTransferRiksdagArticleSlugs, needsPreTransferContext, korsdalenContinuity } from '../src/data/storyCanon.ts';
+import { storyDates, historicalRiksdagArticleSlugs, needsHistoricalRiksdagContext, korsdalenContinuity } from '../src/data/storyCanon.ts';
 import { arenaPhotos, hungerGames } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
 import { companyEditorial } from '../src/data/companyEditorial.ts';
@@ -206,37 +206,60 @@ const storylinePressSlugs = [
   'weab-marta-ek-olycka-jarnfarmen',
   'huvudstadens-arena'
 ];
-assert.deepEqual(Object.values(storyDates), ['2026-11-03', '2026-11-04', '2026-11-06'],
-  'Kronologin ska vara 3 november: Märta, 4 november: WeRule, 6 november: DGS');
+assert.equal(storyDates.coupElectionYear, 2045, 'WeAB:s kupp hör till riksvalet 2045');
+assert.equal(storyDates.martaEkDeath, '2051-11-03');
+assert.equal(storyDates.weRuleRetrospective, '2051-11-04');
+assert.equal(storyDates.dgsProposal, '2051-11-06');
+assert.equal(storyDates.resistanceHouseReport, '2051-11-21');
+assert.equal(storyDates.latestRecordedDate, '2051-11-21');
+assert.ok(storyDates.martaEkDeath < storyDates.weRuleRetrospective &&
+  storyDates.weRuleRetrospective < storyDates.dgsProposal &&
+  storyDates.dgsProposal < storyDates.resistanceHouseReport,
+  '2051 års datum ligger i fel inbördes ordning');
 assert.equal(martaEkPressRelease.publishedAt, storyDates.martaEkDeath, 'Märtas dödsdatum stämmer inte');
-assert.ok(weRuleMandatePressReleases.every(article => article.publishedAt === storyDates.weRuleTransfer),
-  'WeRules maktöverföring hör till den 4 november');
-assert.equal(wedgsProposal.receivedAt, storyDates.dgsProposal, 'DGS inkom den 6 november');
-assert.ok(storyDates.martaEkDeath < storyDates.weRuleTransfer && storyDates.weRuleTransfer < storyDates.dgsProposal,
-  'Daterade händelser ligger i fel ordning');
+assert.ok(weRuleMandatePressReleases.every(article =>
+  article.publishedAt === storyDates.weRuleRetrospective &&
+  article.body.join(' ').includes('riksvalet 2045')),
+  'WeRule-utskicken från 2051 ska vara retrospektiva och beskriva kuppen 2045');
+assert.equal(wedgsProposal.receivedAt, storyDates.dgsProposal, 'DGS inkom den 6 november 2051');
 const martaBylines = authorPublications('marta-ek');
 assert.equal(martaBylines.length, 6, 'Märtas sex historiska artiklar ska finnas kvar');
 assert.ok(martaBylines.every(article => article.publishedAt < storyDates.martaEkDeath),
   'Märta Ek får inte publicera efter sin död');
 assert.match(getAuthor('marta-ek').role, /avliden/i, 'Märtas nuvarande skribentstatus är fel');
-assert.match(getAuthor('marta-ek').biography, /3 november 2026/, 'Märtas dödsdatum saknas i profilen');
-assert.ok(preTransferRiksdagArticleSlugs.every(slug => {
+assert.match(getAuthor('marta-ek').biography, /3 november 2051/, 'Märtas dödsdatum saknas i profilen');
+assert.ok(historicalRiksdagArticleSlugs.every(slug => {
   const article = publications.find(item => item.slug === slug);
   return article && article.format !== 'pressmeddelande' &&
-    needsPreTransferContext(article.slug, article.publishedAt);
-}), 'Alla utvalda riksdagsartiklar måste ha publicerats före maktöverföringen');
-assert.ok(readFileSync('src/pages/nyheter/[slug].astro', 'utf8').includes('historical-context'),
-  'Äldre riksdagstexter måste förses med en tydlig arkivkommentar');
+    article.publishedAt.startsWith('2051') && needsHistoricalRiksdagContext(article.slug);
+}), 'Riksdagsartiklarna från 2051 ska presenteras som historiska återblickar före 2045');
+const articleView = readFileSync('src/pages/nyheter/[slug].astro', 'utf8');
+assert.ok(articleView.includes('historical-context') &&
+  articleView.includes('riksvalet 2045') &&
+  !articleView.includes('publicerades före den 4 november 2026'),
+  'Historiska riksdagsartiklar måste få korrekt kontext för kuppen 2045');
 const historySource = readFileSync('src/pages/koncernen.astro', 'utf8');
+const coupIndex = historySource.indexOf('Riksvalet 2045');
 const martaIndex = historySource.indexOf('Märta Eks död vid järnfarmen');
-const transferIndex = historySource.indexOf('Den offentliga ordningen får en huvudman');
 const dgsIndex = historySource.indexOf('Förslaget som ännu inte blivit ett beslut');
-assert.ok(martaIndex > 0 && transferIndex > martaIndex && dgsIndex > transferIndex,
-  'Koncernhistoriens daterade händelser står i fel ordning');
+assert.ok(coupIndex > 0 && martaIndex > coupIndex && dgsIndex > martaIndex,
+  'Koncernhistorien måste placera kuppen 2045 före händelserna 2051');
 assert.ok(historySource.includes('storyDates.martaEkDeath') &&
-  historySource.includes('storyDates.weRuleTransfer') &&
+  historySource.includes('datetime="2045"') &&
   historySource.includes('storyDates.dgsProposal'),
-  'Koncernhistoria och kanon måste dela datum');
+  'Koncernhistorien måste använda rätt tidsangivelser');
+const argDoc = readFileSync('docs/internal/arg-motstandsrorelsen.md','utf8');
+assert.match(argDoc, /Ingen ledtråd leder till vraket/i,
+  'Ingen redan existerande ledtråd får leda till vraket');
+assert.match(argDoc, /avrättade personerna och sprängde huset/,
+  'WeAB:s räd, avrättningar och sprängningen 2051 måste finnas i ARG-kanon');
+assert.match(argDoc, /RAPPORT SKRIVEN 21\/11\/2051/,
+  'Rapportdatumet på husruinen är 21 november 2051');
+assert.match(argDoc, /riksvalet då WeAB kuppade bort den demokratiska riksdagen/,
+  'Valresultatet ska höra till kuppen 2045');
+assert.ok(!argDoc.includes('tunnel → husruin → vrak') &&
+  !argDoc.includes('i november 2026'),
+  'Den falska ledtrådskedjan eller gamla tiden finns kvar');
 const gambleOpeningJob = jobs.find(job => job.id === 'GAMBLE-001');
 assert.ok(gambleOpeningJob?.pitch.includes('spelverksamhet') &&
   gambleOpeningJob?.pitch.includes('ännu inte öppnat'),
@@ -369,15 +392,15 @@ assert.ok(martaNotice, 'Pressmeddelandet om Märta Ek saknas');
 assert.equal(martaNotice.format, 'pressmeddelande');
 assert.equal(martaNotice.authorId, null);
 assert.equal(martaNotice.issuer?.name, 'WeAB-koncernen');
-assert.equal(martaNotice.publishedAt, '2026-11-03');
+assert.equal(martaNotice.publishedAt, storyDates.martaEkDeath);
 assert.ok(publications.findIndex(item => item.slug === martaNotice.slug) > 1,
-  'De nya WeRule-meddelandena ska listas före det tidigare beskedet');
+  'WeRules retrospektiva meddelanden ska listas före beskedet om Märta Ek');
 for (const slug of ['werule-samlad-myndighetsutovning', 'werule-valdsmonopol-och-tillsyn']) {
   const notice = publications.find(item => item.slug === slug);
   assert.equal(notice?.format, 'pressmeddelande');
   assert.equal(notice?.authorId, null);
   assert.equal(notice?.issuer?.name, 'WeRule');
-  assert.equal(notice?.publishedAt, '2026-11-04');
+  assert.equal(notice?.publishedAt, storyDates.weRuleRetrospective);
 }
 assert.ok(publications.find(item => item.slug === 'werule-samlad-myndighetsutovning')?.body.join(' ').includes('”frivilligt” valt att bli tvångsplacerade i Sektion 3, Avdelning A'),
   'Den tidigare regeringens och riksdagens placering ska framgå av pressmeddelandet');
@@ -407,7 +430,7 @@ for (const [index, article] of publications.entries()) {
     `Felaktigt datum i artikeln: ${article.slug}`);
   assert.equal(new Date(article.publishedAt + 'T12:00:00Z').toISOString().slice(0,10),
     article.publishedAt, `Ogiltigt datum: ${article.slug}`);
-  assert.ok(article.publishedAt <= new Date().toISOString().slice(0, 10), `Framtidsdaterad artikel: ${article.slug}`);
+  assert.ok(article.publishedAt <= storyDates.latestRecordedDate, `Artikel bortom senaste bekräftade berättelsetid: ${article.slug}`);
   if (index) assert.ok(publications[index - 1].publishedAt >= article.publishedAt,
     'Artiklarna ska vara sorterade med senaste datum först');
   const established = establishedSlugs.has(article.slug);

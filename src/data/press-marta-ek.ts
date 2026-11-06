@@ -2,7 +2,7 @@ import type { NewsItem } from './news.ts';
 
 /** Officiellt meddelande från WeAB-koncernen, inte en artikel signerad Märta Ek. */
 export const martaEkPressRelease: NewsItem = {
-  publishedAt: '2026-11-03',
+  publishedAt: '2051-11-03',
   slug: 'weab-marta-ek-olycka-jarnfarmen',
   type: 'KONCERNMEDDELANDE',
   title: 'WeAB bekräftar tragisk olycka vid järnfarmen',
