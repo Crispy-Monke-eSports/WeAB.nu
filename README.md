@@ -87,7 +87,7 @@ att de genererade sidorna behåller detta beteende.
 - `src/data/arena.ts` – Arenagalleriets tre foton och alt-texter
 - `src/assets/we-logo.svg` – Den bifogade officiella WE-logotypen (gemensam för alla bolag)
 - `src/data/locations.ts` – Internt referensmaterial från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-anläggningsplatser); visas inte på webbplatsen. Järnfarmen är en anläggning med 14 tregrupper av bybor. Två grupper delar en zombie, alltså sju zombier totalt — inte 14 separata järnfarmer.
-- `src/data/news.ts` – 16 tidigare pressmeddelanden; det sjuttonde, om Märta Ek, ligger i `src/data/press-marta-ek.ts`
+- `src/data/news.ts` – Fem centrala pressmeddelanden från Hungerspelen, WeRule, Märta Ek och DGS; urvalet beskrivs i `docs/press-policy.md`
 - `src/data/editorial.ts` – Tio fiktiva tidningstexter i åtta redaktionella genrer
 - `src/data/publications.ts` – Gemensamt, datumordnat tidningsarkiv med skribent- och formatmetadata
 - `src/data/authors.ts` – Femton fiktiva skribenter med unika röster och profiler
@@ -154,8 +154,7 @@ en genererad fil ska inte kunna överleva utan att upptäckas.
 
 ### Längre artiklar – en skribent i taget
 
-**41 av 101 publikationer är nu fullängdstexter.** De första 20
-färdigställdes i två blandade omgångar, varefter fyra hela
+**26 av 89 publikationer är nu fullängdstexter.** Arenans pressmeddelande och utvalda redaktionella texter har bearbetats, varefter fyra hela
 skribentserier har omarbetats separat: **Ruben Kist (5)**,
 **Alva Heden (6)**, **Herr Elskar Weandersson (5)** och
 **Dagmar Stenqvist (5)**.
@@ -170,13 +169,13 @@ Hennes fem texter behandlar WeRules fastighetsförvaltning och
 offentliga lokaler och har **728–818 ord och nio utvecklade stycken**
 vardera; de omfattar analys, reportage, guide och lokalrapport.
 
-De första tio pressmeddelandena finns i `src/data/news.ts`.
-Övriga fullängdstexter finns i `src/data/expanded/`, där
+De fem pressmeddelandena sammanställs i `src/data/news.ts`.
+Redaktionella fullängdstexter finns i `src/data/expanded/`, där
 `bodies.ts` kopplar dem till `src/data/publications.ts` utan
 att ändra artikeladresser, datum, bilder, genre, skribentsignaturer
 eller officiella bolagsavsändare.
 
-**60 publikationer återstår** i originalutförande. Fortsätt med en
+**63 publikationer återstår** i originalutförande. Fortsätt med en
 skribents **samtliga texter** i varje omgång, minst 500 ord och
 åtta stycken per artikel. Alva Heden, Herr Elskar Weandersson
 och Dagmar Stenqvist kontrolleras dessutom mot minst 700 ord
@@ -185,7 +184,7 @@ och nio stycken för varje färdig text.
 `src/data/expandedArticleSlugs.ts` markerar alla utbyggda texter,
 och `completedAuthorIds` markerar endast författare vars
 **alla** publicerade texter har färdigställts. `npm run check`
-validerar fullängdstexterna, 101-publikationsarkivet,
+validerar fullängdstexterna, 89-publikationsarkivet,
 författarkopplingarna, bilder och genererade länkar.
 
 ### Koncernmaterial och kontaktuppgifter
@@ -203,11 +202,11 @@ tekniska e-postkonfigurationen för `weab.nu` hanteras utanför repot.
 Pressmaterialet på `/press/` länkar direkt till befintliga bild- och
 logotypfiler under `public/`; inga särskilda externa mediebibliotek eller
 registreringsformulär krävs. Pressrum och redaktionell tidning är separata
-ingångar, men alla 101 publikationer fortsätter ha sina egna artikelsidor.
+ingångar, men alla 89 publikationer fortsätter ha sina egna artikelsidor.
 
 ### WeAB Tidningen
 
-Nyhetsrummet omfattar **101 publikationer totalt**: **17 officiella pressmeddelanden**
+Nyhetsrummet omfattar **89 publikationer totalt**: **5 officiella pressmeddelanden**
 från WeAB-koncernen eller respektive dotterbolag samt **84 redaktionella texter**
 av 15 återkommande, fiktiva skribenter (tio äldre och 74 nya artiklar). Insändare, ledare, krönikor, reportage,
 intervjuer, ekonomi, kultur och guider har skilda skribenter och former
@@ -237,8 +236,8 @@ nya texterna ligger i `src/data/edition/`. Redigera äldre nyheter i
 `src/data/news.ts`, nya tidningstexter i `src/data/editorial.ts` och
 formatnamn och officiell pressavsändare i `src/data/publications.ts`.
 Kartan `pressIssuerSlugs` styr vilken koncernenhet som står som avsändare
-för vart och ett av de 17 pressmeddelandena. CI kontrollerar att utskick
-saknar personlig byline, att alla 17 har en giltig bolagsavsändare och att
+för vart och ett av de 5 storybärande pressmeddelandena. CI kontrollerar att utskick
+saknar personlig byline, att alla 5 har en giltig bolagsavsändare och att
 skribenternas profiler bara visar deras 84 redaktionella texter. Därutöver
 kontrolleras datumordning, unika adresser, textlängd, genrer och bilder.
 

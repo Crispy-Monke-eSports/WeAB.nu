@@ -11,50 +11,6 @@ export const lightingSecurityNotice =
   'OFFICIELLT TILLÄGG FRÅN WEAB:S SÄKERHETSKANSLI: Samtliga lampor är utmärkta. Inga fel finns. Uppgifter som antyder motsatsen är säkerhetsklassade till skydd för rikets säkerhet. Fortsatta frågor om varför inga fel finns kan i sig utgöra ett säkerhetsärende. ████████████████████████████';
 
 export const lightingSecurityEdits: Record<string, readonly Redaction[]> = {
-  'werule-fastighetsforvaltning': [
-    [
-      'En trasig lykta kunde anmälas till den som använde lokalen, som i sin tur hänvisade till någon som hade hand om byggmaterialet.',
-      'En uppgift om en ███████████████ inkom till WeRule men hemligstämplades innan den kunde registreras. Att offentligt beskriva påstådda brister i rikets belysning anses kunna äventyra rikets säkerhet.'
-    ],
-    [
-      'Innan någon hunnit beställa ersättningsdelen hade ärendet vandrat längre än de flesta besökare gör under ett helt sammanträde.',
-      'Handlingens ursprung, mottagare och påstådda ersättningsdel omfattas av en sekretessklass som endast får uppges som ███████████████████████.'
-    ],
-    [
-      'WeRule ska därefter avgöra om felet kan rättas inom den ordinarie driften eller behöver tas upp i den samlade underhållsplanen.',
-      'WeRule ska därefter avgöra om en icke säkerhetsklassad fråga hör till ordinarie drift eller den samlade underhållsplanen. Beträffande lamporna finns ingenting att rätta.'
-    ],
-    [
-      'En ersättningslykta ska helst inte behöva bli ett nytt investeringsprojekt.',
-      'Den tidigare nämnda ███████████ existerar inte som tillåtet ärende. Samtliga lampor är utmärkta och några fel finns inte.'
-    ]
-  ],
-  'bostadsstabilitet': [
-    [
-      'I Sektion 1 anmälde en boende att lyktan vid en gång hade slocknat.',
-      'I Sektion 1 inkom en skrivelse vars innehåll omedelbart klassades ███████████. Uppgifter om att någon lykta någonsin skulle ha slocknat omfattas av rikets säkerhet och får varken bekräftas, återges eller tänkas högt.'
-    ],
-    [
-      'Målet är att en trasig lykta inte ska behöva leda till en lång diskussion om exakt var bostadsområdet slutar innan någon kan byta den.',
-      'Målet är att ingen åter ska formulera den numera förbjudna kombinationen av orden █████ och █████. Av hänsyn till rikets säkerhet behöver ingenting bytas. Alla lampor är utmärkta.'
-    ],
-    [
-      'Ett önskemål om bättre belysning ska kunna registreras och jämföras med redan planerat underhåll.',
-      'Ett inkommet önskemål om █████████ har avförts från diariet. Att antyda att belysningen kan förbättras innebär att ifrågasätta en säkerhetsklassad riksstandard. Den fortsatta handläggningen är sekretessbelagd.'
-    ],
-    [
-      'Om samma väg beskrivs som mörk av flera boende kan det finnas skäl att se över belysningen på hela sträckan snarare än att sätta upp en enstaka lykta vid varje anmälan.',
-      'Uppgifter om att en viss väg skulle vara █████████ har censurerats i sin helhet. Att upprepa dessa uppgifter skulle kunna kartlägga rikets ljusförsvar. Den befintliga belysningen är utmärkt.'
-    ],
-    [
-      'Om en ny verksamhet ändrar hur människor rör sig genom ett område kan det påverka vilka gångvägar som behöver mer belysning eller tydligare skyltning.',
-      'Om en ny verksamhet påverkar hur människor rör sig genom ett område ser förvaltningen över skyltningen. Eventuella antydningar om █████████ har säkerhetsstrukits. Ingen gångväg behöver mer belysning.'
-    ],
-    [
-      'När lyktan fungerar och grinden går att förstå kan invånarna ägna sig åt resten av livet, och bolaget åt nästa förbättring.',
-      'Lyktan fungerar redan och har enligt samstämmiga interna handlingar aldrig fungerat på något annat sätt. Grinden behandlas enligt ordinarie rutiner. Lamporna förblir utmärkta.'
-    ]
-  ],
   'insandare-ordning-sektion-tre': [
     [
       'vem går var, vem tar hand om belysningen och vilken passage ska hållas fri när någon behöver komma fram med material?',

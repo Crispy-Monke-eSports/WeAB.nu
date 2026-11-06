@@ -196,7 +196,16 @@ for (const company of companies) {
 for (const id of featuredProjectIds) {
   assert.ok(projects.some(project => project.id === id), `Utvalt projekt saknas: ${id}`);
 }
-assert.equal(news.length, 20, 'Det ska finnas 20 pressmeddelanden');
+const storylinePressSlugs = [
+  'weab-wedgs-inkommet-skatteforslag',
+  'werule-samlad-myndighetsutovning',
+  'werule-valdsmonopol-och-tillsyn',
+  'weab-marta-ek-olycka-jarnfarmen',
+  'huvudstadens-arena'
+];
+assert.equal(news.length, 5, 'Pressarkivet ska innehålla fem storybärande utskick');
+assert.deepEqual(news.map(article => article.slug), storylinePressSlugs,
+  'Pressarkivet ska spegla dokumenterade händelser i koncernens story');
 assert.equal(wedgsProposal.proposer, 'ezzo13337', 'WeDGS-förslagets upphovsperson får inte tappas bort');
 assert.ok(news.find(item => item.slug === 'huvudstadens-arena')?.body.some(p => p.includes('Två bybor från varje by') && p.includes('till döden')), 'Arenapressen måste beskriva Hungerspelen korrekt');
 assert.ok(news.find(item => item.slug === wedgsProposal.pressSlug)?.body.some(p => p.includes('inget skattesystem')), 'DGS-pressen måste förklara att skatter saknas');
@@ -216,7 +225,7 @@ assert.ok(news.some(item => item.slug === wedgsProposal.pressSlug &&
   'Pressmeddelandet måste redovisa förslagsställare och Store-W:s kommentar');
 assert.equal(editorials.length, 10, 'Det ska finnas tio tidigare redaktionella artiklar');
 assert.equal(additionalArticles.length, 74, 'Det ska finnas 74 nya texter');
-assert.equal(publications.length, 104, 'Arkivet ska innehålla exakt 104 publikationer');
+assert.equal(publications.length, 89, 'Arkivet ska innehålla exakt 89 publikationer');
 unique([...expandedArticleSlugs], 'genomarbetade artikeladresser');
 unique([...completedAuthorIds], 'färdigställda skribenter');
 for (const authorId of completedAuthorIds) {
@@ -262,13 +271,11 @@ for (const slug of expandedArticleSlugs) {
 // Samtliga publika artiklar säkerhetsgranskas efter att fullängdstexten valts.
 // Endast artiklar som faktiskt innehåller invändningar om ljuset censureras.
 assert.deepEqual([...lightingSecurityArticleSlugs].sort(), [
-  'bostadsstabilitet',
   'den-lilla-lyktan',
   'en-tydlig-ordning-for-besok',
   'insandare-ordning-sektion-tre',
   'ledare-egendom-och-ansvar',
   'vad-stadshuset-ansvarar-for',
-  'werule-fastighetsforvaltning'
 ].sort(), 'Fel lista över säkerhetsgranskade ljusärenden');
 assert.ok(lightingSecurityNotice.includes('Samtliga lampor är utmärkta. Inga fel finns.'));
 assert.ok(lightingSecurityNotice.includes('rikets säkerhet'));
@@ -296,8 +303,8 @@ for (const article of publications) {
 }
 
 assert.equal(authors.length, 15, 'Tidningen ska ha exakt 15 återkommande skribenter');
-assert.equal(publications.filter(item => item.format === 'pressmeddelande').length, 20,
-  'Det ska finnas 20 officiella pressmeddelanden');
+assert.equal(publications.filter(item => item.format === 'pressmeddelande').length, 5,
+  'Det ska finnas fem officiella pressmeddelanden');
 assert.equal(publications.filter(item => item.authorId !== null).length, 84,
   'Skribenterna ska tillskrivas exakt 84 redaktionella texter');
 // Koncernens nya säkerhetsmeddelande ska förbli ett officiellt pressutskick.
@@ -323,8 +330,8 @@ assert.deepEqual(publications.slice(0, 3).map(item => item.slug),
 assert.ok(martaNotice.body.join(' ').includes('samtliga lampor är utmärkta och inga fel finns'));
 assert.ok(martaNotice.body.join(' ').includes('rikets säkerhet'));
 assert.ok(martaNotice.body.join(' ').includes('Inga ytterligare frågor kommer att tas emot.'));
-assert.deepEqual(Object.keys(pressIssuerSlugs).sort(), news.map(item => item.slug).sort(),
-  'Alla pressmeddelanden ska ha en explicit bolagsavsändare');
+assert.deepEqual(Object.keys(pressIssuerSlugs).sort(), storylinePressSlugs.slice().sort(),
+  'Enbart relevanta pressmeddelanden ska ha en explicit bolagsavsändare');
 assert.equal(Object.keys(publicationFormatLabels).length, 12, 'Alla format behöver namn');
 unique(authors.map(author => author.id), 'skribent-ID');
 unique(authors.map(author => author.name), 'skribentnamn');

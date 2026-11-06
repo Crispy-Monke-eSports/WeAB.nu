@@ -16,7 +16,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE', {day:'numeri
     <a class="link-arrow" href="/nyheter/">Till WeAB Tidningen ↗</a>
   </div></header>
   <section class="section"><div class="shell">
-    <div class="section-heading"><h2>Senaste pressmeddelanden</h2><p>Officiella utskick från moderbolaget och dotterbolagen, samlade på en plats.</p></div>
+    <div class="section-heading"><h2>Senaste pressmeddelanden</h2><p>Officiella besked om händelser med betydelse för koncernens historia. Rutinärenden hör inte hemma i pressarkivet.</p></div>
     <div class="press-controls" data-js-control hidden><label for="issuer-select">Filtrera avsändare</label><select id="issuer-select"><option value="alla">Alla koncernbolag</option>{issuers.map(issuer => <option value={issuer}>{issuer}</option>)}</select><output id="release-count" aria-live="polite">{releases.length} pressmeddelanden</output></div>
     <div class="press-grid" id="releases">{releases.map(article => <article class="press-entry" data-issuer={article.issuer?.name}>
       <h3><a href={'/nyheter/'+article.slug+'/'}>{article.title}</a></h3>

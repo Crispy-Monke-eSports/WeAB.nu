@@ -57,22 +57,7 @@ export const pressIssuerSlugs: Record<string, string> = {
   'werule-samlad-myndighetsutovning': 'werule',
   'werule-valdsmonopol-och-tillsyn': 'werule',
   'weab-marta-ek-olycka-jarnfarmen': 'weab',
-  'werule-fastighetsforvaltning': 'werule',
-  'wesort-colors-kapacitet': 'wesort',
-  'wekill-tredimensionell-produktionsplan': 'wekill',
-  'webox-tillatelsehantering': 'webox',
-  'welivelaughlove-sektion-tre': 'welivelaughlove',
   'huvudstadens-arena': 'weab',
-  'welove-framtidens-arbetskraft': 'welove',
-  'wetravel-stationsplan': 'wetravel',
-  'wetrade-kunskapsmonopol': 'wetrade',
-  'webox-lagerkontroll': 'webox',
-  'wetravel-forbindelser': 'wetravel',
-  'weab-kapitalallokering': 'weab',
-  'wesort-logistik': 'wesort',
-  'wekill-produktion': 'wekill',
-  'wegamble-utveckling': 'wegamble',
-  'bostadsstabilitet': 'welivelaughlove'
 };
 function pressIssuerFor(slug: string): PressIssuer {
   const companySlug = pressIssuerSlugs[slug];
