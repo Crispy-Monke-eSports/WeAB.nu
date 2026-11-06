@@ -5,7 +5,7 @@ import { imageAsset, responsiveWidths } from '../../data/imageAssets';
 import { publications, publicationFormatLabels } from '../../data/publications.ts';
 import type { Publication } from '../../data/publications.ts';
 import { getAuthor } from '../../data/authors.ts';
-import { needsHistoricalRiksdagContext } from '../../data/storyCanon.ts';
+import { publicationDateLabel } from '../../data/publicationDates.ts';
 
 export function getStaticPaths() {
   return publications.map(article => ({
@@ -18,10 +18,7 @@ const isPressRelease = article.format === 'pressmeddelande';
 const archiveHref = isPressRelease ? '/press/' : '/nyheter/';
 const archiveLabel = article.format === 'pressmeddelande' ? 'Till pressrummet' : 'Till WeAB Tidningen';
 const author = article.authorId ? getAuthor(article.authorId) : null;
-const isHistoricalRiksdagArchive = needsHistoricalRiksdagContext(article.slug);
-const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
-  { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }
-).format(new Date(`${iso}T12:00:00Z`));
+const dateLabel = (iso: string) => publicationDateLabel(iso);
 const related = publications
   .filter(item => item.slug !== article.slug && (item.format === article.format || item.type === article.type))
   .slice(0, 2);
@@ -47,10 +44,6 @@ const related = publications
       <figure class="publication-image">
         <Image src={imageAsset(article.image)} alt={article.alt} layout="constrained" widths={responsiveWidths} sizes="(max-width: 900px) 100vw, 900px" loading="eager" />
       </figure>
-      {isHistoricalRiksdagArchive && <aside class="historical-context" aria-label="Historisk kontext för artikeln">
-        <h2>Historisk kontext</h2>
-        <p>Artikeln återger förhållandena före riksvalet 2045, då den demokratiska riksdagen fortfarande hade egna beslutsuppgifter. Efter WeAB:s maktövertagande det året försvann riksdagens självständiga mandat. Textens historiska presens beskriver inte nuvarande statsordning. <a href="/nyheter/werule-samlad-myndighetsutovning/">Läs koncernens senare redovisning ↗</a></p>
-      </aside>}
       <div class="article-body">
         {article.body.map(paragraph => <p>{paragraph}</p>)}
       </div>
@@ -87,10 +80,6 @@ const related = publications
   .byline{color:#a9e1ea;text-decoration:underline;text-underline-offset:3px}
   .publication-image{margin:0 0 2.4rem;width:100%;height:clamp(240px,42vw,470px);border:1px solid #3b4e5a;overflow:hidden;background:#142531}
   .publication-image img{width:100%;height:100%;object-fit:cover;display:block}
-  .historical-context{border-left:2px solid #78cedd;padding:.1rem 0 .2rem 1.2rem;margin:-.3rem 0 2.4rem;color:#c6d7dd}
-  .historical-context h2{font-size:1.2rem;margin:0 0 .65rem}
-  .historical-context p{font-size:.92rem;line-height:1.75;max-width:78ch;margin:0}
-  .historical-context a{color:#8ce1ed;text-decoration:underline;text-underline-offset:3px}
   .article-body p{font-size:clamp(1rem,1.4vw,1.09rem);line-height:1.83;color:#d1dfe4;margin:0 0 1.55rem}
   .article-body p:first-child{color:#f0f5f7;font-weight:550}
   .related{border-top:1px solid #3d5360;padding-top:2.2rem;margin-top:3rem}

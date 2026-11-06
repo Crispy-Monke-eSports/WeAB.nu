@@ -5,6 +5,7 @@ import { imageAsset, responsiveWidths } from '../data/imageAssets';
 import {companies} from '../data/companies';
 import {projects, featuredProjectIds} from '../data/projects';
 import { publications, publicationFormatLabels } from '../data/publications.ts';
+import { publicationDateLabel } from '../data/publicationDates.ts';
 import {arenaPhotos} from '../data/arena';
 import { chiefExecutive } from '../data/leadership';
 const featuredProjects = featuredProjectIds.flatMap(id => {
@@ -13,7 +14,7 @@ const featuredProjects = featuredProjectIds.flatMap(id => {
 });
 const companySlugByName = Object.fromEntries(companies.map(company => [company.name, company.slug]));
 const latestReleases = publications.filter(article => article.format === 'pressmeddelande').slice(0, 3);
-const releaseDate = (date: string) => new Intl.DateTimeFormat('sv-SE', {day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T12:00:00Z'));
+const releaseDate = (date: string) => publicationDateLabel(date, 'short');
 ---
 <BaseLayout>
   <section class="hero">

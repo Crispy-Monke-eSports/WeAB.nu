@@ -1,6 +1,6 @@
 # WeAB – kanon, kronologi och berättelsens röda tråd
 
-**Status:** Redaktionell kanon för WeAB.nu. Den nuvarande berättelsen utspelar sig 2051 och innehåller historiska händelser från 2045. Tidigare webbarkivdateringar i 2026-serien har överförts till 2051, medan riksvalet och kuppen hör till 2045. Detta dokument är inte ett nytt beslut i världen.
+**Status:** Redaktionell kanon för WeAB.nu. Den nuvarande berättelsen utspelar sig 2051 och innehåller historiska händelser och samtida pressmeddelanden från 2045. Tidigare webbarkivdateringar i 2026-serien har överförts till 2051, medan WeRules samtida besked om maktskiftet har publiceringsår 2045. Detta dokument är inte ett nytt beslut i världen.
 
 ## Källordning och tillförlitlighet
 
@@ -18,11 +18,11 @@
 | **2045** (dag/månad ej fastställd) | Under **riksvalet 2045 genomför WeAB en kupp** mot den demokratiska riksdagen och fördriver dess företrädare. Koncernen tar kontroll över myndighetsutövning och våldsmonopol genom WeRule. | Det var **inte en frivillig överlåtelse**. WeAB:s offentliga redovisning använder däremot administrativa formuleringar om ansvarsförenkling. Den exakta kalenderdagen är okänd. |
 | Efter valet 2045 | Det verkliga **valresultatet från Riks 2045 undanröjs av WeAB** och avlägsnas från de offentliga arkiven. | Valresultatet återfinns i en kista i ett vrak på havsbotten. Inga valresultat, röstsiffror eller valdeltagandesiffror är kända; **hitta inte på dem**. |
 | Efter kuppen 2045 | Regeringens och riksdagens tidigare företrädare fördrivs och hamnar inom WeLiveLaughLove, Sektion 3, Avdelning A. | Koncernen beskriver deras placering som ”frivillig”; det är inte en oberoende beskrivning av vad som skedde. De före detta riksdagsfunktionerna har ingen självständig beslutanderätt i dagens ordning. |
+| **2045**, exakt publiceringsdag okänd | WeRule publicerar två **samtida pressmeddelanden** om övertagandet av myndighetsutövning respektive våldsmonopol. | Arkivet visar enbart **2045** för dokumenten, inte en påhittad dag eller månad. WeAB:s texter beskriver omorganisation och kontrakt, inte kuppen enligt intern kanon. |
 | Datum ej fastställt | WeAB:s etablerade inkomster kommer från exploateringen av bybor inom WeLiveLaughLove, WeGambles spelverksamhet och Hungerspelen. | Ingen skatt tas ut. I Huvudstadens arena kämpar två bybor per by till döden. WeGamble Island är ännu inte öppnad. |
 | **23 oktober 2051** | Arenans befintliga pressartikel beskriver Hungerspelen. | Artikeldatumet är inte ett belägg för start- eller invigningsdatum. |
 | **2 november 2051** | Märta Ek har sina senast registrerade tidningsartiklar. | Hennes sex publiceringar föregår dödsfallet. |
 | **3 november 2051** | Märta Ek omkommer vid WeKills järnfarm. | WeAB kallar det olycka och sekretessbelägger uppgifter. Olycksorsaken är **inte oberoende styrkt**. |
-| **4 november 2051** | WeRule publicerar två **tillbakablickande redovisningar** om den maktordning som infördes vid **riksvalet 2045**. | Detta är **publiceringsdatum för retrospektiva pressutskick**, inte datumet för kuppen eller överföringen av våldsmonopolet. |
 | **6 november 2051** | ezzo13337 lämnar **DGS – Diamant- och gruvskatteverket**. Store-W och koncernledningen förordar **WeDGS** som namn vid eventuellt införlivande. | Förslaget är **inte beslutat eller genomfört** och något skattesystem finns inte. |
 | **Under 2051**, exakt händelsedatum okänt | WeAB upptäcker motståndspersoner som gömmer sig i **ett vanligt hus**, avrättar de påträffade och spränger byggnaden. | De skyltar som hittats i ruinen nämner en motståndsstyrka om **tio personer**. Inget styrker en koppling mellan denna räd och valresultatet i vraket. |
 | **21 november 2051** | En skylt i den sprängda husruinen anger **”RAPPORT SKRIVEN 21/11/2051”**. | Detta är datumet på **rapporten**, inte ett fastslaget datum för räden, avrättningarna eller sprängningen. Det är den senaste daterade händelseuppgiften i det tillhandahållna ARG-materialet. |
@@ -31,7 +31,7 @@
 
 ### Redaktionell arkivkontinuitet
 
-Flera tidigare artiklar om Riksdagshuset skildrar parlamentets *gamla* beslutsordning i historiskt presens. Efter omdateringen av artikelarkivet till 2051 ska de läsas som **historiska tillbakablickar**, inte samtidsskildringar av ett självständigt parlament 2051. Läsvyn visar därför en kontextnotis för relevanta artiklar. WeRule-pressutskicken från 4 november 2051 är också retrospektiva och beskriver vad som hände 2045 ur koncernens partiska perspektiv.
+WeRules båda maktbesked är publicerade **2045**, med endast årtal i arkivets datumfält eftersom exakt dag inte är fastställd. De är skrivna som **samtida officiella meddelanden**, inte retrospektiva dokument från 2051. Övriga texter i WeAB Tidningen kan under 2051 behandla äldre riksdagsförhållanden, men en publicerad artikel får endast tala med en röst som koncernen själv tillåter. **Ingen neutral berättare, historisk kontextnotis eller utomstående redaktionsruta får förklara den verkliga kuppen, avslöja tvånget eller kommentera WeAB:s mörkläggning.** Sådana uppgifter hör endast till interna kanondokument.
 
 ## Motståndsrörelsen – bekräftade spår, skilda från koncernens offentliga version
 
@@ -67,18 +67,18 @@ För berättelsens rumsliga logik finns en separat **AI-/redaktionsreferens** i 
 
 - Koncernen beskriver sig själv **inifrån världen**, i saklig myndighets- och bolagston. Ingen publik text ska hänvisa till Minecraft, servrar eller videoguider.
 - Koncernens **officiella** hållning är att **alla lampor är utmärkta och inga fel finns**. Påståenden om brister är inte accepterad lägesbild, utan censureras med hänvisning till rikets säkerhet. Den publika maskningen sker i `src/data/lightingSecurity.ts` utan att de äldre originalutkasten förstörs.
-- Historiska artiklar kan återge *tiden före 2045* i historiskt presens trots arkivets publiceringsdatum 2051. De utpekade artiklarna får en **historisk kontextnotis** som skiljer demokratin före kuppen från den nuvarande WeRule-ordningen.
+- Artiklar kan omtala offentliga förhållanden före 2045 från **WeAB:s eget perspektiv**, men inga utomstående kontextnotiser får avslöja kuppen eller presentera hemlig kanon som offentlig kunskap. WeRules meddelanden om 2045 års omorganisation ligger i arkivet under **2045**.
 - Skillnaden mellan **bekräftad händelse**, **koncernens egen förklaring**, **obeslutat förslag** och **editorial åsikt** ska behållas i varje text.
 - Pressarkivet innehåller **fem storybärande officiella utskick**; WeAB Tidningen innehåller **84 redaktionella artiklar**. Se `docs/press-policy.md`. Vanliga rutiner blir inte pressmeddelanden.
 
 ## Kontrollfrågor vid varje kommande AI-ändring
 
 1. Finns en källbelagd händelse, eller föreslår texten något nytt utan beslut?
-2. Är **riksvalet och kuppen 2045** korrekt åtskilda från de senare **publiceringarna och händelserna 2051** (3, 4, 6 och 21 november)?
+2. Är **riksvalet och kuppen 2045**, och de samtida WeRule-publiceringarna från **2045**, korrekt åtskilda från händelserna **2051** (3, 6 och 21 november)?
 3. Säger någon källa att WeAB tar ut skatt, att WeGamble Island har öppnat eller att WeDGS existerar som bolag? I så fall är texten fel om inget nytt beslut tillkommit.
 4. Är Hungerspelen uttryckligen **dödliga**, med **två bybor per by**, och utan uppdiktade tävlingsresultat?
 5. Är Märtas död tydligt skild från WeAB:s **påstående om olycksorsaken**?
-6. Skiljer artikeln en **historisk riksdag före 2045** från den faktiska ordningen under **2051** utan att presentera 2051 års retrospektiva pressbesked som en ny kupp?
+6. Talar varje offentlig sida **inifrån WeAB:s världsbild** utan neutral förklaring av kuppen, och visas WeRules 2045-besked som samtida utskick utan påhittat exakt datum?
 7. Är ingen ny uppgift om datum, personer, kapacitet, kapital eller kontrakt presenterad som faktum utan grund?
 8. Är Korsdalen fortfarande en okontaktad, odaterad exploateringsidé utan koppling till en ännu inte etablerad senare värld eller ett påstått genomförande?
 9. Har `npm run check` körts, och är kanon-kontrollerna i `scripts/validate-content.mjs` fortfarande godkända?

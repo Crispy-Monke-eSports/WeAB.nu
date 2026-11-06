@@ -4,14 +4,13 @@ import { Image } from 'astro:assets';
 import { imageAsset, responsiveWidths } from '../../data/imageAssets';
 import { publications, publicationFormatLabels, editorialFormats } from '../../data/publications.ts';
 import { authors } from '../../data/authors.ts';
+import { publicationDateLabel } from '../../data/publicationDates.ts';
 
 const newspaperArticles = publications.filter(item => item.format !== 'pressmeddelande');
 const [featured] = newspaperArticles;
 const letters = newspaperArticles.filter(item => item.format === 'insandare').slice(0, 3);
 const formatButtons = ['alla', ...editorialFormats] as const;
-const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
-  { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }
-).format(new Date(`${iso}T12:00:00Z`));
+const dateLabel = (iso: string) => publicationDateLabel(iso);
 ---
 <BaseLayout
   title="WeAB Tidningen | Nyheter, insändare och opinion"
@@ -20,7 +19,7 @@ const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE',
   <header class="page-hero newspaper-hero">
     <div class="shell">
       <h1>WeAB Tidningen.</h1>
-      <p class="lead">Reportage, debatt, kultur och fördjupning från koncernen och vår omvärld. Här finns texter av femton skribenter, även äldre artiklar av Märta Ek som avled den 3 november 2026. Officiella pressmeddelanden publiceras separat av respektive bolag.</p>
+      <p class="lead">Reportage, debatt, kultur och fördjupning från koncernen och vår omvärld. Här finns texter av femton skribenter, även äldre artiklar av Märta Ek som avled den 3 november 2051. Officiella pressmeddelanden publiceras separat av respektive bolag.</p>
       <div class="paper-edition"><span>Utgiven av WeAB Group</span><span>{newspaperArticles.length} redaktionella texter · {authors.length} skribenter</span></div>
       <p class="writer-directory"><a href="/nyheter/skribenter/">Lär känna skribenterna <span aria-hidden="true">↗</span></a> <a href="/press/">Officiellt pressrum <span aria-hidden="true">↗</span></a></p>
     </div>

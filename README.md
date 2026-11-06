@@ -89,9 +89,9 @@ att de genererade sidorna behåller detta beteende.
 - `src/data/locations.ts` – Internt referensmaterial från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-anläggningsplatser); visas inte på webbplatsen. Järnfarmen är en anläggning med 14 tregrupper av bybor. Två grupper delar en zombie, alltså sju zombier totalt — inte 14 separata järnfarmer.
 - `src/data/news.ts` – Fem centrala pressmeddelanden från Hungerspelen, WeRule, Märta Ek och DGS; urvalet beskrivs i `docs/press-policy.md`
 - `docs/story-kontinuitet.md` – Kanon, händelsekronologi, aktörernas status och källordning för framtida författare
-- `src/data/storyCanon.ts` – Kuppen vid riksvalet 2045, artikelarkivets tidsläge 2051 och historiska riksdagsartiklars arkivkontext
+- `src/data/storyCanon.ts` – Kuppen vid riksvalet 2045, WeRules samtida presspubliceringar 2045 och berättelsens tidsläge 2051
 - `src/data/editorial.ts` – Tio fiktiva tidningstexter i åtta redaktionella genrer
-- `src/data/publications.ts` – Gemensamt, datumordnat tidningsarkiv med skribent- och formatmetadata
+- `src/data/publications.ts` – Gemensamt, datumordnat tidningsarkiv med skribent- och formatmetadata (årtal utan påhittade dagar för 2045 års WeRule-utskick)
 - `src/data/authors.ts` – Femton fiktiva skribenter med unika röster och profiler
 - `src/data/edition/` – Sjuttiofyra nya texter organiserade kring skribenternas ämnen
 - `src/styles/global.css` – Global grafisk profil

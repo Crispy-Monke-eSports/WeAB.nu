@@ -12,7 +12,8 @@ import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { wedgsProposal } from '../src/data/wedgsProposal.ts';
 import { martaEkPressRelease } from '../src/data/press-marta-ek.ts';
 import { weRuleMandatePressReleases } from '../src/data/press-werule-mandate.ts';
-import { storyDates, historicalRiksdagArticleSlugs, needsHistoricalRiksdagContext, korsdalenContinuity } from '../src/data/storyCanon.ts';
+import { storyDates, korsdalenContinuity } from '../src/data/storyCanon.ts';
+import { publicationDateLabel } from '../src/data/publicationDates.ts';
 import { arenaPhotos, hungerGames } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
 import { companyEditorial } from '../src/data/companyEditorial.ts';
@@ -208,19 +209,21 @@ const storylinePressSlugs = [
 ];
 assert.equal(storyDates.coupElectionYear, 2045, 'WeAB:s kupp hör till riksvalet 2045');
 assert.equal(storyDates.martaEkDeath, '2051-11-03');
-assert.equal(storyDates.weRuleRetrospective, '2051-11-04');
+assert.equal(storyDates.weRuleMandatePublished, '2045');
+assert.equal(publicationDateLabel(storyDates.weRuleMandatePublished), '2045', '2045-arkivet får inte hitta på månad/dag');
 assert.equal(storyDates.dgsProposal, '2051-11-06');
 assert.equal(storyDates.resistanceHouseReport, '2051-11-21');
 assert.equal(storyDates.latestRecordedDate, '2051-11-21');
-assert.ok(storyDates.martaEkDeath < storyDates.weRuleRetrospective &&
-  storyDates.weRuleRetrospective < storyDates.dgsProposal &&
+assert.ok(storyDates.weRuleMandatePublished < storyDates.martaEkDeath &&
+  storyDates.martaEkDeath < storyDates.dgsProposal &&
   storyDates.dgsProposal < storyDates.resistanceHouseReport,
-  '2051 års datum ligger i fel inbördes ordning');
+  '2045 års publikationer måste föregå händelserna 2051');
 assert.equal(martaEkPressRelease.publishedAt, storyDates.martaEkDeath, 'Märtas dödsdatum stämmer inte');
 assert.ok(weRuleMandatePressReleases.every(article =>
-  article.publishedAt === storyDates.weRuleRetrospective &&
-  article.body.join(' ').includes('riksvalet 2045')),
-  'WeRule-utskicken från 2051 ska vara retrospektiva och beskriva kuppen 2045');
+  article.publishedAt === storyDates.weRuleMandatePublished &&
+  article.body.join(' ').includes('riksvalet 2045') &&
+  !article.body.join(' ').includes('2051')),
+  'WeRule-utskicken ska vara samtida pressbesked från 2045 utan 2051-referenser');
 assert.equal(wedgsProposal.receivedAt, storyDates.dgsProposal, 'DGS inkom den 6 november 2051');
 const martaBylines = authorPublications('marta-ek');
 assert.equal(martaBylines.length, 6, 'Märtas sex historiska artiklar ska finnas kvar');
@@ -228,16 +231,13 @@ assert.ok(martaBylines.every(article => article.publishedAt < storyDates.martaEk
   'Märta Ek får inte publicera efter sin död');
 assert.match(getAuthor('marta-ek').role, /avliden/i, 'Märtas nuvarande skribentstatus är fel');
 assert.match(getAuthor('marta-ek').biography, /3 november 2051/, 'Märtas dödsdatum saknas i profilen');
-assert.ok(historicalRiksdagArticleSlugs.every(slug => {
-  const article = publications.find(item => item.slug === slug);
-  return article && article.format !== 'pressmeddelande' &&
-    article.publishedAt.startsWith('2051') && needsHistoricalRiksdagContext(article.slug);
-}), 'Riksdagsartiklarna från 2051 ska presenteras som historiska återblickar före 2045');
 const articleView = readFileSync('src/pages/nyheter/[slug].astro', 'utf8');
-assert.ok(articleView.includes('historical-context') &&
-  articleView.includes('riksvalet 2045') &&
-  !articleView.includes('publicerades före den 4 november 2026'),
-  'Historiska riksdagsartiklar måste få korrekt kontext för kuppen 2045');
+assert.ok(!articleView.includes('historical-context') &&
+  !articleView.includes('Historisk kontext') &&
+  !articleView.includes('needsHistoricalRiksdagContext'),
+  'Inga utomstående arkivnotiser om WeAB:s kupp får publiceras');
+assert.ok(articleView.includes('publicationDateLabel'),
+  'Artikelsidorna måste kunna visa årtal utan exakt datum');
 const historySource = readFileSync('src/pages/koncernen.astro', 'utf8');
 const coupIndex = historySource.indexOf('Riksvalet 2045');
 const martaIndex = historySource.indexOf('Märta Eks död vid järnfarmen');
@@ -393,19 +393,19 @@ assert.equal(martaNotice.format, 'pressmeddelande');
 assert.equal(martaNotice.authorId, null);
 assert.equal(martaNotice.issuer?.name, 'WeAB-koncernen');
 assert.equal(martaNotice.publishedAt, storyDates.martaEkDeath);
-assert.ok(publications.findIndex(item => item.slug === martaNotice.slug) > 1,
-  'WeRules retrospektiva meddelanden ska listas före beskedet om Märta Ek');
+assert.ok(publications.findIndex(item => item.slug === martaNotice.slug) < publications.findIndex(item => item.slug === 'werule-samlad-myndighetsutovning'),
+  '2051 års pressmeddelanden måste listas före 2045 års arkiv');
 for (const slug of ['werule-samlad-myndighetsutovning', 'werule-valdsmonopol-och-tillsyn']) {
   const notice = publications.find(item => item.slug === slug);
   assert.equal(notice?.format, 'pressmeddelande');
   assert.equal(notice?.authorId, null);
   assert.equal(notice?.issuer?.name, 'WeRule');
-  assert.equal(notice?.publishedAt, storyDates.weRuleRetrospective);
+  assert.equal(notice?.publishedAt, storyDates.weRuleMandatePublished);
 }
 assert.ok(publications.find(item => item.slug === 'werule-samlad-myndighetsutovning')?.body.join(' ').includes('”frivilligt” valt att bli tvångsplacerade i Sektion 3, Avdelning A'),
   'Den tidigare regeringens och riksdagens placering ska framgå av pressmeddelandet');
 assert.deepEqual(publications.slice(0, 3).map(item => item.slug),
-  ['weab-wedgs-inkommet-skatteforslag', 'werule-samlad-myndighetsutovning', 'werule-valdsmonopol-och-tillsyn']);
+  ['weab-wedgs-inkommet-skatteforslag', 'weab-marta-ek-olycka-jarnfarmen', 'huvudstadens-arena']);
 assert.ok(martaNotice.body.join(' ').includes('samtliga lampor är utmärkta och inga fel finns'));
 assert.ok(martaNotice.body.join(' ').includes('rikets säkerhet'));
 assert.ok(martaNotice.body.join(' ').includes('Inga ytterligare frågor kommer att tas emot.'));
@@ -426,10 +426,16 @@ for (const format of editorialFormats) {
     `Saknat format: ${format}`);
 }
 for (const [index, article] of publications.entries()) {
-  assert.match(article.publishedAt, /^20\d{2}-(0[1-9]|1[0-2])-([0-2]\d|3[01])$/,
-    `Felaktigt datum i artikeln: ${article.slug}`);
-  assert.equal(new Date(article.publishedAt + 'T12:00:00Z').toISOString().slice(0,10),
-    article.publishedAt, `Ogiltigt datum: ${article.slug}`);
+  if (/^\d{4}$/.test(article.publishedAt)) {
+    assert.ok(weRuleMandatePressReleases.some(item => item.slug === article.slug) &&
+      article.publishedAt === storyDates.weRuleMandatePublished,
+      `Årtal utan dag/månad är endast tillåtet för 2045 års WeRule-utskick: ${article.slug}`);
+  } else {
+    assert.match(article.publishedAt, /^20\d{2}-(0[1-9]|1[0-2])-([0-2]\d|3[01])$/,
+      `Felaktigt datum i artikeln: ${article.slug}`);
+    assert.equal(new Date(article.publishedAt + 'T12:00:00Z').toISOString().slice(0,10),
+      article.publishedAt, `Ogiltigt datum: ${article.slug}`);
+  }
   assert.ok(article.publishedAt <= storyDates.latestRecordedDate, `Artikel bortom senaste bekräftade berättelsetid: ${article.slug}`);
   if (index) assert.ok(publications[index - 1].publishedAt >= article.publishedAt,
     'Artiklarna ska vara sorterade med senaste datum först');

@@ -3,10 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import { imageAsset, responsiveWidths } from '../data/imageAssets';
 import { publications, publicationFormatLabels } from '../data/publications.ts';
+import { publicationDateLabel } from '../data/publicationDates.ts';
 
 const releases = publications.filter(article => article.format === 'pressmeddelande');
 const issuers = [...new Set(releases.map(article => article.issuer?.name).filter(Boolean))];
-const dateLabel = (iso: string) => new Intl.DateTimeFormat('sv-SE', {day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(iso+'T12:00:00Z'));
+const dateLabel = (iso: string) => publicationDateLabel(iso);
 ---
 <BaseLayout title="Press och media | WeAB Group" description="Officiella pressmeddelanden, koncerninformation och mediekontakter för WeAB Group.">
   <header class="page-hero"><div class="shell">

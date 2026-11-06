@@ -4,15 +4,14 @@ import { Image } from 'astro:assets';
 import { imageAsset, responsiveWidths } from '../../../data/imageAssets';
 import { authors, type Author } from '../../../data/authors.ts';
 import { authorPublications, publicationFormatLabels } from '../../../data/publications.ts';
+import { publicationDateLabel } from '../../../data/publicationDates.ts';
 
 export function getStaticPaths() {
   return authors.map(author => ({ params: { id: author.id }, props: { author } }));
 }
 const { author } = Astro.props as { author: Author };
 const stories = authorPublications(author.id);
-const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
-  day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC'
-}).format(new Date(`${date}T12:00:00Z`));
+const dateLabel = (date: string) => publicationDateLabel(date);
 ---
 <BaseLayout
   title={`${author.name} | WeAB Tidningen`}
@@ -28,7 +27,7 @@ const dateLabel = (date: string) => new Intl.DateTimeFormat('sv-SE', {
         </div>
       </div>
       <p class="lead">{author.biography}</p>
-      {author.id === 'marta-ek' && <p class="author-archive-note">Märtas artiklar är arkivtexter publicerade före hennes död. <a href="/nyheter/weab-marta-ek-olycka-jarnfarmen/">Läs WeAB:s officiella meddelande om dödsfallet ↗</a> Koncernens uppgift om olycksorsaken har inte kunnat granskas genom offentligt tillgängliga handlingar.</p>}
+      {author.id === 'marta-ek' && <p class="author-archive-note">Märtas tidigare publiceringar bevaras i WeAB Tidningens arkiv. <a href="/nyheter/weab-marta-ek-olycka-jarnfarmen/">Läs koncernens besked om olyckan ↗</a> Ytterligare underlag hanteras enligt gällande sekretessbestämmelser.</p>}
       <div class="writer-focus">
         <div><h2>Bevakar</h2><p>{author.beat}</p></div>
         <div><h2>Bakgrund</h2><p>{author.background}</p></div>

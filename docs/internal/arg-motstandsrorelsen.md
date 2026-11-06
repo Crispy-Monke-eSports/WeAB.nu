@@ -41,7 +41,7 @@ Kistans fulla innehåll, vilka som placerade valresultatet i vraket och förhål
 ## Redaktionsmässig konsekvens
 
 - Den aktuella webbplatsen och pressarkivet befinner sig i **2051 års berättelsevärld**. **2045** är ett redan inträffat val och en redan genomförd kupp.
-- De två officiella WeRule-pressutskicken är daterade **4 november 2051** och återger **i efterhand** koncernens partiska version av kuppen **2045**. De är **inte** besked om en ny maktöverföring 2051.
+- De två officiella WeRule-pressutskicken är **publicerade 2045** och beskriver koncernens partiska version **samtidigt med maktskiftet**. Endast publiceringsåret är känt; inget exakt datum får hittas på. De får inte kompletteras med offentlig arkivkommentar som avslöjar kuppen.
 - Den demokratiska riksdagens ledamöter har fördrivits. WeRule förvaltar den faktiska statsapparaten. Håll isär detta från hur bolaget framställer det som administrativ kontinuitet.
 - Den sprängda husruinen och valresultatet i vraket är interna ARG-avslöjanden och får inte publiceras som öppna officiella nyheter i WeAB:s eget pressrum.
 - WeAB har inte infört skatt; DGS inkom 6 november 2051 och är fortfarande under beredning.
