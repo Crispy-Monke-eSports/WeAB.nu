@@ -279,8 +279,8 @@ for (const article of publications) {
 }
 
 assert.equal(authors.length, 15, 'Tidningen ska ha exakt 15 återkommande skribenter');
-assert.equal(publications.filter(item => item.format === 'pressmeddelande').length, 19,
-  'Det ska finnas 19 officiella pressmeddelanden');
+assert.equal(publications.filter(item => item.format === 'pressmeddelande').length, 20,
+  'Det ska finnas 20 officiella pressmeddelanden');
 assert.equal(publications.filter(item => item.authorId !== null).length, 84,
   'Skribenterna ska tillskrivas exakt 84 redaktionella texter');
 // Koncernens nya säkerhetsmeddelande ska förbli ett officiellt pressutskick.
@@ -301,8 +301,8 @@ for (const slug of ['werule-samlad-myndighetsutovning', 'werule-valdsmonopol-och
 }
 assert.ok(publications.find(item => item.slug === 'werule-samlad-myndighetsutovning')?.body.join(' ').includes('”frivilligt” valt att bli tvångsplacerade i Sektion 3, Avdelning A'),
   'Den tidigare regeringens och riksdagens placering ska framgå av pressmeddelandet');
-assert.deepEqual(publications.slice(0, 2).map(item => item.slug),
-  ['werule-samlad-myndighetsutovning', 'werule-valdsmonopol-och-tillsyn']);
+assert.deepEqual(publications.slice(0, 3).map(item => item.slug),
+  ['weab-wedgs-inkommet-skatteforslag', 'werule-samlad-myndighetsutovning', 'werule-valdsmonopol-och-tillsyn']);
 assert.ok(martaNotice.body.join(' ').includes('samtliga lampor är utmärkta och inga fel finns'));
 assert.ok(martaNotice.body.join(' ').includes('rikets säkerhet'));
 assert.ok(martaNotice.body.join(' ').includes('Inga ytterligare frågor kommer att tas emot.'));
@@ -327,7 +327,7 @@ for (const [index, article] of publications.entries()) {
     `Felaktigt datum i artikeln: ${article.slug}`);
   assert.equal(new Date(article.publishedAt + 'T12:00:00Z').toISOString().slice(0,10),
     article.publishedAt, `Ogiltigt datum: ${article.slug}`);
-  assert.ok(article.publishedAt <= '2026-11-04', `Framtidsdaterad artikel: ${article.slug}`);
+  assert.ok(article.publishedAt <= new Date().toISOString().slice(0, 10), `Framtidsdaterad artikel: ${article.slug}`);
   if (index) assert.ok(publications[index - 1].publishedAt >= article.publishedAt,
     'Artiklarna ska vara sorterade med senaste datum först');
   const established = establishedSlugs.has(article.slug);
