@@ -100,7 +100,7 @@ export const companies: Company[] = [
   {
     slug: 'werule', name: 'WeRule', kicker: 'OFFENTLIG MAKT · PRIVAT REGI', tagline: 'Staten är i goda händer. Våra.',
     overview: 'Alla offentliga lokaler, all myndighetsutövning och våldsmonopolet. Ett ansvar som inte löper ut.',
-    description: 'Efter den då sittande regeringens och riksdagens beslut äger WeRule samtliga offentliga lokaler och utför alla myndigheters uppdrag, inklusive tillsyn, tillstånd och offentligt tvång. Alla kontrakt tillföll WeAB på obestämd tid. De tidigare företrädarna har ”frivilligt” valt tvångsplacering i Sektion 3, Avdelning A. Riksdagshuset och stadshuset finns kvar; den tidigare riksdagens beslutanderätt gör det inte. Den som överklagar ett beslut får det prövat inom samma koncern. Vi kallar det en obruten ansvarskedja.',
+    description: 'Efter den då sittande regeringens och riksdagens beslut äger WeRule samtliga offentliga lokaler och utför alla myndigheters uppdrag, inklusive tillsyn, tillstånd och offentligt tvång. Alla kontrakt tillföll WeAB på obestämd tid. De tidigare företrädarna har ”frivilligt” valt tvångsplacering i Sektion 3, Avdelning A. Riksdagshuset och stadshuset finns kvar och ingår numera i WeRules samlade offentliga förvaltning. Den som överklagar ett beslut får det prövat inom samma koncern. Vi kallar det en obruten ansvarskedja.',
     accent: '#00BCD4', image: '/images/werule-riksdagshuset.webp', imageAlt: 'Riksdagshuset i Huvudstaden, vit byggnad med cyan detaljer och WE-symbol på fasaden',
     location: 'Huvudstaden och Sektion 1', status: 'Myndighetsuppdrag utan slutdatum',
     services: ['Samtliga offentliga lokaler', 'All myndighetsutövning', 'Våldsmonopol och verkställighet', 'Omprövning och tillsyn'],

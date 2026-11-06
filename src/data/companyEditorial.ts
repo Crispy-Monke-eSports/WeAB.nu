@@ -80,7 +80,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
   },
   welove: {
     heading: 'Personalförsörjning från början.',
-    introduction: 'Här planeras nästa generation villagers för koncernens arbetsmarknad. Familjens framtid är redan budgeterad.',
+    introduction: 'Här planeras nästa generation bybor för koncernens arbetsmarknad. Familjens framtid är redan budgeterad.',
     groups: [{ title: 'Personalanläggningen', ids: ['welove-headquarters'] }]
   },
   werule: {
