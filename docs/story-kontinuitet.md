@@ -26,6 +26,15 @@
 
 Dateringen av 2 november avser **senaste nuvarande publicering i arkivet**, inte nödvändigtvis Märtas sista text som hon någonsin skrev.
 
+## Långsiktig expansion: Korsdalen (intern planering, ej etablerad storyhändelse)
+
+- **Korsdalen** är namnet på en stad som förekommer i WeAB:s mycket preliminära diskussioner om **framtida exploatering och utvidgning av koncernens inflytande**.
+- **Ingen kontakt har ännu etablerats med Korsdalen.** Det finns inga kontakter, överenskommelser, förhandlingar, verksamheter, anläggningar, färdvägar, avtal eller implementerade åtgärder att redovisa. Själva exploateringsplanen är fortfarande **under planering**, inte färdig eller godkänd.
+- **Berättelsens tidsgräns (redaktionell metainformation, inte offentlig världstext):** Korsdalen hör till en *senare Minecraft-server* där WeAB kom att spela en betydande roll. Den senare servern och dess förlopp **finns ännu inte i WeAB.nu:s nuvarande berättelsetid**. Framtida skeenden får inte skrivas bakåt i tiden som om de redan hade inträffat.
+- **Smygreferenser i publika texter är tillåtna**, exempelvis ett ortnamn i en marginalanteckning eller en tom kontaktkolumn. Hänvisningarna måste förbli lågmälda, utan att skapa en ny händelse, en bekräftad stadsbeskrivning eller en påstådd första kontakt. Nämn inte server- eller Minecraft-kopplingen i publika texter.
+- **Inget pressmeddelande, ingen separat Korsdalen-sida och inget nytt bolag.** Skriv inte heller in Korsdalen i nuvarande kartdata, byggnader, reselinjer, projektregister, press eller daterad koncernkronologi. Tills nya uttryckliga uppgifter kommer är detta endast en intern, odaterad möjlighet.
+- Om storyn någon gång faktiskt når Korsdalen krävs ett nytt och explicit händelseunderlag och en kontrollerad tidsövergång; använd då `src/data/storyCanon.ts` för att uppdatera statusen i samspel med övrig kanon.
+
 ## Gällande verksamhet och ekonomi
 
 - Koncernen har **ett moderbolag (WeAB) och exakt nio verkliga dotterbolag:** WeKill, WeSort, WeBox, WeLiveLaughLove, WeGamble, WeTravel, WeTrade, WeLove och WeRule.
@@ -51,6 +60,7 @@ Dateringen av 2 november avser **senaste nuvarande publicering i arkivet**, inte
 5. Är Märtas död tydligt skild från WeAB:s **påstående om olycksorsaken**?
 6. Har äldre tidningsarkiv fått korrekt historisk kontext utan att originalcitat skrivits om retroaktivt?
 7. Är ingen ny uppgift om datum, personer, kapacitet, kapital eller kontrakt presenterad som faktum utan grund?
-8. Har `npm run check` körts, och är kanon-kontrollerna i `scripts/validate-content.mjs` fortfarande godkända?
+8. Är Korsdalen fortfarande en okontaktad, odaterad exploateringsidé utan koppling till en ännu inte etablerad senare värld eller ett påstått genomförande?
+9. Har `npm run check` körts, och är kanon-kontrollerna i `scripts/validate-content.mjs` fortfarande godkända?
 
-**Olösta frågor:** grundläggningsdatum, exakt tid för tidigare bykonflikter, första Hungerspelen, fördelningen av koncernens intäkter, oberoende utredning av Märtas död och DGS-förslagets framtida utfall. Inget av detta fylls ut genom antaganden.
+**Olösta frågor:** grundläggningsdatum, exakt tid för tidigare bykonflikter, första Hungerspelen, fördelningen av koncernens intäkter, oberoende utredning av Märtas död, DGS-förslagets framtida utfall samt om, när och under vilka former Korsdalen alls kan bli aktuellt. Inget av detta fylls ut genom antaganden. Inget av detta fylls ut genom antaganden.

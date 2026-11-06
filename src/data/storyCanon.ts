@@ -28,3 +28,19 @@ export function needsPreTransferContext(slug: string, publicationDate: string): 
   return publicationDate < storyDates.weRuleTransfer &&
     (preTransferRiksdagArticleSlugs as readonly string[]).includes(slug);
 }
+
+/**
+ * Korsdalen hör till en senare berättelsemiljö som ännu inte existerar i
+ * WeAB-webbplatsens tidsläge. Namnet finns endast i koncernens preliminära
+ * expansionsöverväganden. Skapa inte bolag, myndigheter, kartpunkter, rutter,
+ * skatteintäkter eller pressnotiser för denna ort.
+ */
+export const korsdalenContinuity = {
+  proposedDestination: 'Korsdalen',
+  stage: 'preliminär exploateringsplanering',
+  contacted: false,
+  agreementReached: false,
+  expansionApproved: false,
+  expansionImplemented: false,
+  laterSettingNotYetEstablished: true
+} as const;

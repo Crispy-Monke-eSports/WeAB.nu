@@ -1,6 +1,6 @@
 # Pressarkivet – vilka händelser får bli pressmeddelanden?
 
-Pressrummet omfattar endast större, förankrade händelser i WeAB:s berättelse. En rutinmässig lagerkontroll, en skyltplan, en intern kapacitetsdiskussion eller en allmän framtidsvision är inte ett pressmeddelande, även om texten är formulerad som ett företagsutskick.
+Pressrummet omfattar endast större, förankrade händelser i WeAB:s berättelse. **Korsdalen är endast ett internt, okontaktat expansionsspår** och motiverar varken ett pressmeddelande eller en daterad storyhändelse. En rutinmässig lagerkontroll, en skyltplan, en intern kapacitetsdiskussion eller en allmän framtidsvision är inte ett pressmeddelande, även om texten är formulerad som ett företagsutskick.
 
 ## Storyunderlag
 

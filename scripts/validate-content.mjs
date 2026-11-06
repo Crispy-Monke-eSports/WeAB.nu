@@ -12,7 +12,7 @@ import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { wedgsProposal } from '../src/data/wedgsProposal.ts';
 import { martaEkPressRelease } from '../src/data/press-marta-ek.ts';
 import { weRuleMandatePressReleases } from '../src/data/press-werule-mandate.ts';
-import { storyDates, preTransferRiksdagArticleSlugs, needsPreTransferContext } from '../src/data/storyCanon.ts';
+import { storyDates, preTransferRiksdagArticleSlugs, needsPreTransferContext, korsdalenContinuity } from '../src/data/storyCanon.ts';
 import { arenaPhotos, hungerGames } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
 import { companyEditorial } from '../src/data/companyEditorial.ts';
@@ -244,6 +244,21 @@ assert.ok(gambleOpeningJob?.pitch.includes('spelverksamhet') &&
 assert.ok(readFileSync('src/data/companies.ts', 'utf8').includes('nya bybor till koncernens arbetsmarknad'),
   'WeLoves offentliga information ska använda världens term bybor');
 assert.ok(existsSync('docs/story-kontinuitet.md'), 'Kanon- och tidslinjedokumentet saknas');
+assert.equal(korsdalenContinuity.proposedDestination, 'Korsdalen');
+assert.equal(korsdalenContinuity.stage, 'preliminär exploateringsplanering');
+for (const field of ['contacted', 'agreementReached', 'expansionApproved', 'expansionImplemented']) {
+  assert.equal(korsdalenContinuity[field], false, 'Korsdalen får inte tillskrivas genomförd händelse: ' + field);
+}
+assert.equal(korsdalenContinuity.laterSettingNotYetEstablished, true,
+  'Den senare berättelsemiljön finns ännu inte i WeAB:s nuvarande tid');
+assert.ok(!companies.some(c => /korsdalen/i.test(JSON.stringify(c))), 'Korsdalen får inte vara registrerat bolag');
+assert.ok(!projects.some(p => /korsdalen/i.test(JSON.stringify(p))), 'Korsdalen får inte ligga bland byggda eller beslutade projekt');
+assert.ok(!news.some(n => /korsdalen/i.test(JSON.stringify(n))), 'Ingen pressnotis om Korsdalen innan en verklig storyhändelse');
+const korsdalenSource = readFileSync('docs/story-kontinuitet.md', 'utf8');
+assert.match(korsdalenSource, /Korsdalen[\s\S]*Ingen kontakt har ännu etablerats/, 'Korsdalens outredda kontaktstatus saknas i kanon');
+assert.ok(readFileSync('src/pages/investerare/rapporter.astro','utf8').includes('Korsdalen') &&
+  readFileSync('src/pages/strategi.astro','utf8').includes('kontaktperson'),
+  'Hänvisningarna till Korsdalen ska förbli diskreta och handla om oavslutad planering');
 assert.equal(news.length, 5, 'Pressarkivet ska innehålla fem storybärande utskick');
 assert.deepEqual(news.map(article => article.slug), storylinePressSlugs,
   'Pressarkivet ska spegla dokumenterade händelser i koncernens story');

@@ -53,6 +53,13 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 - **Märta Ek är avliden**, men ska behållas som skribent för sina sex äldre publiceringar. Publicera inte nya artiklar med hennes signatur efter dödsdatumet.
 - Vid ändrade sakuppgifter: uppdatera koncernhistorien, verksamhetssidor, press, skribentprofiler, förslagsstatus och innehållsvalidering tillsammans. Hitta inte på datum för äldre händelser, omgångar i Hungerspelen eller förklaringar till Märtas död.
 
+## Korsdalen – odaterad framtidstråd, inte en händelse i nuvarande tid
+
+- **Korsdalen** är ett tänkbart framtida mål för WeAB:s exploatering och expansion. Planen är fortfarande bara ett preliminärt underlag; **ingen kontakt har skapats med staden**, inga avtal finns och inget beslut eller genomförande har skett.
+- **Metakanon:** Korsdalen kommer från en senare Minecraft-server/berättelsemiljö där WeAB hade en stor roll, men denna senare miljö **existerar ännu inte i den aktuella webbplatsens tidslinje**. Dra inte in dess senare händelser, platser, karaktärer eller byggen i den nuvarande storyn.
+- Det är tillåtet med **några få, diskreta referenser** i befintliga offentliga texter, exempelvis ortnamnet i en preliminär kalkyl eller en tom kontaktkolumn. Skapa **inte** ett pressmeddelande, en ny nyhet, separat plats- eller projektsida, dotterbolag, myndighet, karta, transportlinje eller daterad milstolpe.
+- Nämn aldrig Minecraft, servrar eller berättelsens framtida ursprung i WeAB:s **publika** röst. Se `docs/story-kontinuitet.md` och statusen i `src/data/storyCanon.ts`. Framtida konkretisering kräver explicit nytt underlag.
+
 ## Pressutskick förankrade i storyn
 
 - Pressrummet innehåller endast **stora händelser med stöd i `docs/story-kontinuitet.md` och den dokumenterade koncernhistorien**, inte rutinmässiga verksamhetsuppdateringar, lagernotiser, stationsskyltning eller allmänt hållna utvecklingsplaner.
