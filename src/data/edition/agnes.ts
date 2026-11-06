@@ -8,7 +8,7 @@ export const agnesArticles: MagazineDraft[] = [
     "image": "/images/werule-riksdagshuset.webp",
     "body": [
       "Det börjar ofta med en droppe. Sedan kommer hinken, samtalet om vem som ska tömma hinken och till sist frågan om varför ingen lagade taket medan det fortfarande var torrt.",
-      "Riksdagshuset används av riksdagen. Fastigheten ägs av WeAB. Att de två förhållandena möts under samma tak kan säkert irritera den som helst vill att en offentlig byggnad också ska sakna en tydlig ägare. Men ägandet gör åtminstone underhållsfrågan möjlig att besvara innan hinken står på bordet.",
+      "Före omställningen vid riksvalet 2045 använde den folkvalda riksdagen byggnaden. Fastigheten ägdes redan då av WeAB, som fortfarande förvaltar den. Att de två förhållandena möts under samma tak kan säkert irritera den som helst vill att en offentlig byggnad också ska sakna en tydlig ägare. Men ägandet gör åtminstone underhållsfrågan möjlig att besvara innan hinken står på bordet.",
       "Ingen har visat att ett sammanträde blir friare av att taket får vänta på nästa sammanträde. WeRule ska kunna beställa en reparation, redovisa kostnaden och stå till svars för resultatet. Den ordningen är mindre romantisk än ett stort samtal om det gemensamma rummet. Den håller betydligt bättre i regn.",
       "Det offentliga behöver fungerande lokaler. Den som vill förändra vem som äger dem måste också förklara vem som då kommer med stegen när det läcker."
     ],
@@ -41,8 +41,8 @@ export const agnesArticles: MagazineDraft[] = [
     "summary": "Det låter självklart att möteslokaler behöver skötas. Ändå försvinner den insikten ofta i samtal om stora uppdrag.",
     "image": "/images/werule-riksdagssalen.webp",
     "body": [
-      "En riksdag kan besluta om stora saker. Den kan inte besluta bort draget från en trasig ruta.",
-      "I Huvudstaden sammanträder riksdagen i ett hus som ägs av WeAB. Den kombinationen säger något om hur WeRule blivit en del av det offentliga vardagsmaskineriet: någon annan än ledamöterna behöver hålla reda på lokalerna, även när alla vill tala om vad som sker inne i dem.",
+      "Den tidigare folkvalda riksdagen kunde besluta om stora saker. Den kunde däremot inte besluta bort draget från en trasig ruta.",
+      "Före riksvalet 2045 sammanträdde riksdagen i Huvudstaden, i ett hus som redan då ägdes av WeAB. Den kombinationen säger något om hur WeRule blivit en del av det offentliga vardagsmaskineriet: någon annan än ledamöterna behöver hålla reda på lokalerna, även när alla vill tala om vad som sker inne i dem.",
       "Det kan låta som en teknisk detalj. Men tillträde, belysning och underhåll avgör om ett möte blir av. Den som vill ge institutionen självständighet bör inte samtidigt förvänta sig att varje ledamot ska vara sin egen fastighetsskötare.",
       "WeRules uppdrag måste gå att granska. Ändå är alternativet till en tydlig förvaltare inte ett magiskt självgående hus. Det är en byggnad vars praktiska frågor till slut dyker upp på mötesdagordningen."
     ],

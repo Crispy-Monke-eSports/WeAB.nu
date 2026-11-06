@@ -40,7 +40,7 @@ export const dagmarArticles = makeMagazineArticles('dagmar-stenqvist', 50, [
     "summary": "Riksdagshuset visar varför två uppgifter som sker på samma plats inte måste vara samma organisatoriska fråga.",
     "image": "/images/werule-riksdagssalen.webp",
     "alt": "Riksdagssalen med talarstol och sittplatser i Huvudstaden",
-    "scene": "Riksdagshuset i Huvudstaden är en offentlig byggnad som används av riksdagen och samtidigt ägs av WeAB. Det är två skilda förhållanden.",
+    "scene": "Före maktskiftet 2045 användes Riksdagshuset i Huvudstaden av den demokratiska riksdagen medan WeAB ägde fastigheten. Den historiska skillnaden mellan användning och ägande är värd att dokumentera.",
     "context": "För den som följer förvaltningen är det därför viktigt att hålla isär institutionens arbete och fastighetsägarens frågor om själva lokalerna.",
     "tension": "Det kan finnas situationer där uppgifterna möts. Då blir det särskilt värdefullt att veta vilken fråga som hör hemma hos vilken ansvarig.",
     "ending": "Det avgörande är inte att alla frågor samlas i ett enda begrepp, utan att varje fråga kan följas till den funktion som faktiskt har möjlighet att ta hand om den."
