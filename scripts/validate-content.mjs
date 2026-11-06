@@ -10,7 +10,7 @@ import { publications, editorialFormats, publicationFormatLabels, additionalArti
 import { authors, getAuthor } from '../src/data/authors.ts';
 import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { wedgsProposal } from '../src/data/wedgsProposal.ts';
-import { arenaPhotos } from '../src/data/arena.ts';
+import { arenaPhotos, hungerGames } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
 import { companyEditorial } from '../src/data/companyEditorial.ts';
 import { companyContacts, headquarters, emailForCompany } from '../src/data/contacts.ts';
@@ -123,6 +123,14 @@ for (const place of locations) {
 }
 
 assert.equal(arenaPhotos.length, 3, 'Arenagalleriet ska ha tre bilder');
+assert.equal(hungerGames.contestantsPerVillage, 2, 'Hungerspelen ska ha två bybor per by');
+assert.ok(hungerGames.fightToTheDeath && hungerGames.earnsIncomeForWeAB, 'Hungerspelen är dödliga och en inkomstkälla');
+assert.ok(projects.find(item => item.id === 'huvudstadens-arena')?.description.includes('Hungerspelen'), 'Arenan ska beskriva Hungerspelen');
+for (const path of ['src/pages/arena.astro', 'src/pages/index.astro', 'src/pages/strategi.astro']) {
+  assert.ok(readFileSync(path, 'utf8').includes('Hungerspelen'), 'Saknar Hungerspelen på '+path);
+}
+assert.match(readFileSync('src/pages/strategi.astro', 'utf8'), /inget skattesystem/, 'Koncernen får inte tillskrivas skattesystem');
+assert.match(readFileSync('src/pages/strategi.astro', 'utf8'), /WeLiveLaughLove[\s\S]*WeGamble[\s\S]*Hungerspelen/, 'Koncernens tre inkomstkällor saknas');
 for (const photo of arenaPhotos) {
   assert.ok(photo.alt.trim(), 'Arena-bilder behöver alt-text');
   asset(photo.src, photo.alt);
@@ -190,6 +198,8 @@ for (const id of featuredProjectIds) {
 }
 assert.equal(news.length, 20, 'Det ska finnas 20 pressmeddelanden');
 assert.equal(wedgsProposal.proposer, 'ezzo13337', 'WeDGS-förslagets upphovsperson får inte tappas bort');
+assert.ok(news.find(item => item.slug === 'huvudstadens-arena')?.body.some(p => p.includes('Två bybor från varje by') && p.includes('till döden')), 'Arenapressen måste beskriva Hungerspelen korrekt');
+assert.ok(news.find(item => item.slug === wedgsProposal.pressSlug)?.body.some(p => p.includes('inget skattesystem')), 'DGS-pressen måste förklara att skatter saknas');
 assert.equal(wedgsProposal.originalName, 'DGS', 'DGS är förslagsställarens ursprungliga namn');
 assert.equal(wedgsProposal.proposedGroupName, 'WeDGS', 'WE-prefixet är ledningens förslag, inte ezzo13337:s');
 assert.equal(wedgsProposal.brandProposalBy, 'Store-W och koncernledningen');

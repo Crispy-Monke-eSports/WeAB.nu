@@ -11,6 +11,14 @@
 - Bilden för ezzo13337 är användarens originalbild, tekniskt omkodad utan pixelförändring för Astros bildpipeline. Personen ingår inte i koncernledningen.
 - De synliga bilderna visar sidorna 1–8 av totalt 9. Den nionde sidan tillhandahölls inte; tillskriv den inte något innehåll.
 
+## Etablerad ekonomi och Huvudstadens arena
+
+- **WeAB har inget befintligt skattesystem.** DGS är ett inkommet förslag om ett eventuellt första skattesystem, inte en ändring av gällande beskattning.
+- Nuvarande inkomstkällor: **exploatering av byborna inom WeLiveLaughLove**, **WeGambles spelverksamhet** och **Hungerspelen i Huvudstadens arena**.
+- **WeGamble Island är fortfarande under byggnation** och får inte presenteras som en redan invigd kasinoanläggning bara för att WeGamble har inkomster.
+- **Huvudstadens arena är en hungerspelsarena**, där **två bybor från varje by kämpar till döden**. Arrangemanget ger WeAB inkomster. Det är inte en fredlig tävlingsarena.
+- Inga datum, stridsresultat, vinnarnamn, publikpriser, avkastningsbelopp eller andra ekonomiska detaljer får hittas på.
+
 ## Föreslagen ordning enligt bilderna
 
 - Beskattning av försäljning, köp och handel, företag, fastigheter, gruvdrift och löner.
@@ -21,7 +29,7 @@
 
 ## Bindande redaktionella regler
 
-1. **Inget är beslutat eller implementerat.** Ingen skatt, ny myndighet, personal, skattesats, skattefrihet, påföljd, kontorsbyggnad eller betalningsrutin har inrättats.
+1. **Inget är beslutat eller implementerat.** Det finns inget befintligt skattesystem. Ingen skatt, ny myndighet, personal, skattesats, skattefrihet, påföljd, kontorsbyggnad eller betalningsrutin har inrättats.
 2. **Varken DGS eller WeDGS ska läggas till i `src/data/companies.ts`** förrän användaren uttryckligen meddelar beslut. Det finns fortsatt nio faktiska dotterbolag.
 3. `Under construction` avser en informationssida under uppbyggnad och en idé under beredning, inte fysisk byggnation.
 4. WeRules befintliga myndighetsmandat ska inte automatiskt tolkas som ett uppdrag för WeDGS.

@@ -53,6 +53,14 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 - Skilj mellan **angiven kapacitet**, **beräknad kapacitet** och **faktiskt uppmätt produktion**. Presentera aldrig en teoretisk siffra som mätning av WeAB:s anläggning. Bevara användarens korrigeringar: guldfarmens XP-uttag fungerar inte; hoglinfarmen är hälften så stor som referenskonstruktionen. Publicera inte användarens ungefärliga skattningar som driftstatistik utan uttrycklig begäran.
 - Interna videolänkar och kontrollanteckningar finns i `src/data/farmSources.ts`. Den filen är för redaktionellt arbete och ska inte importeras av publika sidor. Lägg till nya källor där, men låt det publicerade innehållet förbli inom WeAB:s värld.
 
+## Canon: finansiering och Huvudstadens arena
+
+- **WeAB har i dagsläget inget skattesystem.** WeRules myndighetsuppdrag innebär inte att beskattning redan införts.
+- Koncernens inkomster kommer från **exploateringen av byborna inom WeLiveLaughLove**, **WeGambles spelverksamhet** och **Hungerspelen i Huvudstadens arena**. Siffror eller fördelningar mellan intäktsströmmarna får inte hittas på.
+- **Huvudstadens arena är en hungerspelsarena, inte en vanlig tävlingsarena. Två bybor från varje by kämpar till döden.** Beskriv inte verksamheten som fredlig distriktsrivalitet. WeAB får inkomster från arrangemanget.
+- WeGamble har inkomster, men **WeGamble Island är fortfarande under uppbyggnad**. Presentera inte kasinoön som öppnad.
+- **DGS** är ezzo13337:s inkomna förslag om ett eventuellt första skattesystem. Store-W och ledningen förordar **WeDGS** som namn vid eventuellt införlivande. Inget är beslutat eller implementerat.
+
 ## Rikets säkerhet: belysningen
 
 - **Fastslagen koncernlinje:** Samtliga lampor är utmärkta. Inga fel finns.

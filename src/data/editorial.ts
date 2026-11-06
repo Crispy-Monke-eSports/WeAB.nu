@@ -132,14 +132,14 @@ export const editorials: EditorialItem[] = [
     "format": "kultur",
     "type": "KULTUR & NÖJE",
     "byline": "WeAB:s kulturredaktion",
-    "title": "En arena som gör varje distrikt större än sig självt",
-    "summary": "Huvudstadens blåvita arena erbjuder mer än tävlingar. Den ger lokala ambitioner en gemensam scen och en huvudman.",
+    "title": "Hungerspelen ger Huvudstadens arena dess verkliga uppdrag",
+    "summary": "Två bybor från varje by kämpar till döden i Hungerspelen. Koncernen får arrangemangets inkomster, men byarna står för deltagarna.",
     "image": "/images/huvudstadens-arena-interior.webp",
     "alt": "Inre läktare och tävlingsytor i Huvudstadens arena",
     "body": [
-      "Det blå och vita drar blicken mot mitten. Från en av de övre läktarna ser tävlingsytan nästan liten ut; där nere kommer den att kännas som hela världen för den som bär sitt distrikts färger.",
-      "Huvudstadens arena är ännu inte ett minne av en viss seger. Den är ett löfte om att det ska gå att se vem som faktiskt vann. Passagerna skiljer deltagare från publik, så att båda kan ta sin plats utan att trängas om samma entré. Även förväntan har fått en arkitektur.",
-      "En liten tävling hemma i byn kan ha sin egen charm. Men när flera distrikt möts behövs ett rum som alla känner igen och regler som gäller från samma startlinje. WeAB har byggt den ramen. Det återstår för byarna att fylla den med jubel, och kanske en lagom mängd missnöje när grannbyn vinner."
+      "Det blå och vita drar blicken mot mitten. Från en av de övre läktarna ser tävlingsytan nästan liten ut. Där nere pågår Hungerspelen: två bybor från varje by kämpar till döden. Arenans arkitektur gör det möjligt att uppleva hela förloppet utan att själv behöva beträda stridsytan.",
+      "WeAB kallar det ett arrangemang mellan byarna. Byarna står för deltagarna, medan Huvudstaden står för läktarna och koncernen för organisationen. Det är en praktisk fördelning av ansvar som blir betydligt enklare att försvara från den sida av avspärrningen där publiken sitter.",
+      "Intäkterna från Hungerspelen tillfaller WeAB. Det är en av de inkomstkällor koncernen redan har utan att behöva införa något skattesystem. Den officiella beskrivningen talar gärna om rivalitet och ära, men arenans verkliga innehåll är dödliga strider. Den som vill förstå koncernkulturen kan börja med att studera vem som står på golvet och vem som sitter på läktaren."
     ]
   },
   {

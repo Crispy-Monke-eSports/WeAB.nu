@@ -52,11 +52,11 @@ export const companies: Company[] = [
   },
   {
     slug:'wegamble',name:'WeGamble',kicker:'NÖJEN & ENTERTAINMENT',tagline:'Huset vinner. Vi äger huset.',
-    overview:'Diamanter kan ge glädje. De kan också bli våra. Vi erbjuder båda utfallen.',
-    description:'På WeGamble Island bygger vi en plats där alla kan bli vinnare. Med alla menar vi förstås WeAB. Gästerna bidrar med diamanter; vi bidrar med matematik.',
-    accent:'#D4A017',image:'/images/construction-coast.webp',imageAlt:'WeGamble Island under uppbyggnad vid kusten',location:'WeGamble Island',status:'Under uppbyggnad',
-    services:['Casinomiljö under utveckling','Underhållningskoncept','Framtida besöksverksamhet'],
-    facts:[{label:'Status',value:'Under uppbyggnad'},{label:'Affärsområde',value:'Underhållning'}]
+    overview:'WeGamble har redan inkomster från spelverksamhet. WeGamble Island byggs som nästa besöksmiljö.',
+    description:'Spelverksamheten ger redan diamanter till WeAB. Var spelen i dag bedrivs redovisas inte här. Samtidigt byggs WeGamble Island vid kusten som en framtida kasino- och besöksmiljö. Ön är inte öppnad, men huset arbetar redan för att vinna.',
+    accent:'#D4A017',image:'/images/construction-coast.webp',imageAlt:'WeGamble Island under uppbyggnad vid kusten',location:'WeGamble Island (under uppbyggnad)',status:'Spelverksamhet aktiv; kasinoön byggs',
+    services:['Spelverksamhet','Casinomiljö under utveckling','Framtida besöksverksamhet'],
+    facts:[{label:'Spelverksamhet',value:'Ger koncernen inkomster'},{label:'WeGamble Island',value:'Under uppbyggnad'},{label:'Affärsområde',value:'Spel och underhållning'}]
   },
   {
     slug:'wetravel',name:'WeTravel',kicker:'TRANSPORT & INFRASTRUKTUR',tagline:'Alla vägar leder genom oss.',

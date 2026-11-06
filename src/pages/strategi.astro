@@ -13,7 +13,7 @@ const supporting = [
   {slug:'welove',heading:'Framtidens kompetensförsörjning',body:'Långsiktig befolknings- och personalplanering säkerställer ett förutsägbart tillskott av arbetskraft.'},
   {slug:'welivelaughlove',heading:'Bostäder och samhällsstabilitet',body:'Gemensam planering skapar kapacitet för fler boende och minskar belastningen av individuella boendeval.'},
   {slug:'werule',heading:'Myndigheter och offentliga lokaler',body:'WeRule äger samtliga offentliga lokaler och utför all myndighetsutövning, inklusive våldsmonopolet. Kontrakten som tilldelades WeAB gäller på obestämd tid.'},
-  {slug:'wegamble',heading:'Nya kundupplevelser',body:'På WeGamble Island utvecklas ett erbjudande som skapar omsättning även efter att kundens ursprungliga behov är uppfyllt.'}
+  {slug:'wegamble',heading:'Nya kundupplevelser',body:'WeGamble bidrar till koncernens inkomster genom spelverksamheten. Den planerade kasinoön WeGamble Island är ännu inte öppnad.'}
 ];
 ---
 <BaseLayout title="Strategi och affärsmodell | WeAB Group" description="WeAB:s värdekedja från WeKill till WeTrade, och hur koncernens övriga bolag knyts till produktion och handel.">
@@ -21,7 +21,7 @@ const supporting = [
     <div class="shell">
       
       <h1>Hela värdekedjan.<br/>En enda ägare.</h1>
-      <p class="lead">WeKill tar fram material, WeSort fördelar det, WeBox lagrar det och WeTravel kör det vidare. I nästa led säljer WeTrade kunskap och förtrollningar. Samma koncern får intäkterna i varje steg.</p>
+      <p class="lead">WeKill tar fram material, WeSort fördelar det, WeBox lagrar det och WeTravel kör det vidare. I nästa led säljer WeTrade kunskap och förtrollningar. Resurserna stannar i samma koncern. De nuvarande intäkterna kommer från andra håll än skatter.</p>
       <a href="#affarsmodell" class="btn">Utforska affärsmodellen ↓</a>
     </div>
   </header>
@@ -41,6 +41,16 @@ const supporting = [
           </a>
         </li>)}
       </ol>
+      <div class="current-income" id="intakter">
+        <h2>Intäkter utan skattesystem.</h2>
+        <p class="lead">WeAB har i dagsläget inget skattesystem. Koncernens nuvarande inkomster kommer från exploateringen av byborna inom WeLiveLaughLove, från WeGambles spelverksamhet och från Hungerspelen i Huvudstadens arena.</p>
+        <dl class="strategy-principles">
+          <div><dt><a href="/verksamheter/welivelaughlove/">WeLiveLaughLove</a></dt><dd>Boendeordningen och utnyttjandet av byborna bidrar till koncernens inkomster.</dd></div>
+          <div><dt><a href="/verksamheter/wegamble/">WeGamble</a></dt><dd>Spelverksamheten ger inkomster. WeGamble Island är fortfarande under uppbyggnad.</dd></div>
+          <div><dt><a href="/arena/">Hungerspelen</a></dt><dd>Två bybor från varje by kämpar till döden i Huvudstadens arena. Arrangemanget ger inkomster till WeAB.</dd></div>
+        </dl>
+        <p>Det inkomna <a href="/forslag/wedgs/">DGS-förslaget</a> skulle kunna innebära koncernens första skattesystem. Det har inte godkänts och inget skatteuttag har införts.</p>
+      </div>
     </div>
   </section>
 
@@ -70,6 +80,12 @@ const supporting = [
 .value-chain a{display:flex;align-items:center;justify-content:space-between;gap:1rem;text-decoration:none;font-size:.84rem;font-weight:750;color:#c9e6eb}
 .value-chain a span{color:#79d6e4}
 .value-chain a:hover strong{text-decoration:underline;text-underline-offset:3px}
+.current-income{border-top:1px solid #405662;margin-top:3.5rem;padding-top:2.5rem;scroll-margin-top:100px;max-width:950px}
+.current-income h2{margin:0 0 1rem}
+.current-income .lead{max-width:77ch}
+.current-income .strategy-principles{margin:2rem 0}
+.current-income .strategy-principles a{color:#a6e4ec;text-decoration:underline;text-underline-offset:3px}
+.current-income>p:last-child a{color:#a6e4ec}
 .strategy-principles{margin:0;border-top:1px solid #47606b}
 .strategy-principles div{padding:1.2rem 0;border-bottom:1px solid #47606b}
 .strategy-principles dt{font-size:1.02rem;font-weight:800;margin-bottom:.5rem}

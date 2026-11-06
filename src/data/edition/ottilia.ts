@@ -4,12 +4,12 @@ export const ottiliaArticles = makeMagazineArticles('ottilia-glas', 30, [
     "slug": "arenans-bla-vita-ljus",
     "format": "kultur",
     "title": "När Huvudstadens arena blir en egen berättelse",
-    "summary": "De blåvita ytorna och läktarnas ordning ger distriktens tävlingar en scen som känns större än varje enskilt resultat.",
+    "summary": "Den blåvita arenan är scen för Hungerspelen, där två bybor från varje by kämpar till döden, och koncernen får intäkterna.",
     "image": "/images/huvudstadens-arena-interior.webp",
-    "scene": "En besökare på den översta raden lutar sig fram för att se var tävlingsytan börjar. Läktaren är ännu inte fylld av jubel, men blicken hittar ändå samma punkt som alla andra blickar kommer att söka.",
-    "context": "Huvudstadens arena är byggd för möten mellan distrikt som tidigare kunnat hålla sina tävlingar var för sig. Det blåvita rummet samlar dem utan att kräva att byarna slutar vara olika. Varje hemort kan bära sina färger in i samma byggnad.",
-    "tension": "Hur gör man en plats för rivalitet utan att själva huset tar ställning? Genom att ge deltagare och publik var sin tydlig väg och låta reglerna, inte arkitekturen, avgöra vem som vinner. WeAB har stått för ramen; den första stora berättelsen får distrikten skriva själva.",
-    "ending": "Jag ser mig om innan jag går. Det finns ännu inga officiella resultat att läsa upp, bara en arena som gör det lätt att föreställa sig hur någon en dag kommer att minnas exakt var hen satt."
+    "scene": "En besökare på den översta raden lutar sig fram för att se var stridsytan börjar. Här utkämpas Hungerspelen, där två bybor från varje by möter de andra i strider till döden. Arkitekturen gör skillnaden mellan åskådare och deltagare påtaglig.",
+    "context": "Huvudstadens arena är byggd för ett arrangemang som förenar byarna genom att varje by bidrar med två invånare. Det blåvita rummet ger publik och deltagare skilda vägar och förvandlar en dödlig strid till ett evenemang som kan betraktas från bekväma läktare.",
+    "tension": "Hur gör man dödliga strider till en koncernverksamhet? Genom att ordna byggnaden och arrangemanget så att byarna lämnar deltagarna och WeAB får intäkterna. Resultatet är ett exempel på hur långt en till synes neutral arkitektur kan bära ett mycket onyanserat beslut.",
+    "ending": "Jag ser mig om innan jag går. Läktaren är utformad med stor omsorg om åskådarens upplevelse. Deltagarnas förhållanden får ett mindre utrymme i den offentliga beskrivningen, fast det är de som betalar det högsta priset för att arenan ska fylla sin funktion."
   },
   {
     "slug": "riksdagshusets-fasad",

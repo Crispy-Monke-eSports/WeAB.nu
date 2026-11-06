@@ -17,3 +17,12 @@ export const arenaPhotos: ArenaPhoto[] = [
     alt: 'Interiör med stenpelare, ljusinstallationer och trappstegsformade läktare i Huvudstadens arena.'
   }
 ];
+
+/** Fastslagna sakuppgifter. Inga ogrundade datum, resultat eller intäktsbelopp. */
+export const hungerGames = {
+  name: 'Hungerspelen',
+  venue: 'Huvudstadens arena',
+  contestantsPerVillage: 2,
+  fightToTheDeath: true,
+  earnsIncomeForWeAB: true
+} as const;

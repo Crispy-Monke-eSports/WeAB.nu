@@ -2,12 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import { imageAsset, responsiveWidths } from '../data/imageAssets';
-import { arenaPhotos } from '../data/arena';
+import { arenaPhotos, hungerGames } from '../data/arena';
 ---
 
 <BaseLayout
   title="Huvudstadens arena | WeAB Group"
-  description="Upptäck Huvudstadens arena, där bybor från olika distrikt tävlar om att vinna ära till sin by."
+  description="Huvudstadens arena används för Hungerspelen: två bybor från varje by kämpar till döden. Arrangemanget ger intäkter till WeAB."
 >
   <section class="arena-hero" aria-labelledby="arena-heading">
     <Image
@@ -22,8 +22,8 @@ import { arenaPhotos } from '../data/arena';
     />
     <div class="arena-hero__shade" aria-hidden="true"></div>
     <div class="shell arena-hero__content">
-      <h1 id="arena-heading">Äran till byn.<br /><em>Scenen till huvudstaden.</em></h1>
-      <p class="lead">Bybor från koncernens olika distrikt möts för att tävla om ära till sin hemby. När distrikten gör upp finns det bara en sak som är säker: huvudstaden får uppmärksamheten.</p>
+      <h1 id="arena-heading">Två från varje by.<br /><em>Hungerspelen i Huvudstaden.</em></h1>
+      <p class="lead">Huvudstadens arena är platsen för Hungerspelen. Varje by skickar två bybor som tvingas kämpa mot de andra deltagarna till döden. WeAB ansvarar för arenan och tar emot inkomsterna från arrangemanget.</p>
       <a class="btn" href="#bildgalleri">Utforska arenan <span aria-hidden="true">↓</span></a>
     </div>
   </section>
@@ -31,15 +31,17 @@ import { arenaPhotos } from '../data/arena';
   <section class="section" aria-labelledby="arena-about">
     <div class="shell arena-intro">
       <div>
-        <h2 id="arena-about">En arena.<br />Många byar.</h2>
+        <h2 id="arena-about">Varje by bidrar.<br />WeAB tar emot.</h2>
       </div>
       <div>
-        <p class="lead">Här representerar byborna sina distrikt och tävlar om något som inte kan staplas i en kista: ära till sin hemby.</p>
-        <p>Den stora blåvita anläggningen har läktare, belysta passager och en interiör byggd för att göra intryck. Vem som vinner avgörs i tävlingen. Vem som tar åt sig äran i årsredovisningen är redan bestämt.</p>
+        <p class="lead">Hungerspelen bygger på en enkel ordning: två deltagare från varje by förs till arenan för en kamp till döden. Deras byar står för deltagarna. Koncernen står för anläggningen och intäktsredovisningen.</p>
+        <p>Den blåvita byggnaden har läktare, belysta passager och separata ytor för publik och deltagare. Striderna är dödliga; det är inte en vanlig idrottstävling. WeAB beskriver verksamheten som ett publikt arrangemang, och inkomsterna tillfaller koncernen. Några belopp, genomförandedatum eller officiella resultat publiceras inte här.</p>
         <dl class="arena-facts">
           <div><dt>Plats</dt><dd>Huvudstaden</dd></div>
-          <div><dt>Deltagare</dt><dd>Bybor från olika distrikt</dd></div>
-          <div><dt>Det står på spel</dt><dd>Äran till den egna byn</dd></div>
+          <div><dt>Deltagare</dt><dd>{hungerGames.contestantsPerVillage} bybor från varje by</dd></div>
+          <div><dt>Arrangemang</dt><dd>{hungerGames.name}</dd></div>
+          <div><dt>Utgång</dt><dd>Kamp till döden</dd></div>
+          <div><dt>Ekonomi</dt><dd>Intäkter till WeAB</dd></div>
         </dl>
       </div>
     </div>
@@ -65,7 +67,7 @@ import { arenaPhotos } from '../data/arena';
   <section class="arena-bottom">
     <div class="shell arena-bottom__inner">
       <div>
-        <h2>Ära kan inte köpas.<br />Detta har ännu inte prövats av ekonomiavdelningen.</h2>
+        <h2>Byarna tillhandahåller deltagarna.<br />WeAB behåller intäkterna.</h2>
       </div>
       <a href="/verksamheter/" class="btn btn-outline">Utforska koncernens verksamheter <span aria-hidden="true">↗</span></a>
     </div>

@@ -48,11 +48,11 @@ export const bjornArticles = makeMagazineArticles('bjorn-ralsund', 65, [
     "slug": "fragorna-om-arenan",
     "format": "intervju",
     "title": "Fem frågor som Huvudstadens arena väcker",
-    "summary": "Publikens väg genom arenan är tydlig, men nästa arrangemang måste fortfarande planeras.",
+    "summary": "Fem frågor om Hungerspelen: varför två bybor från varje by kämpar till döden och vem som får intäkterna.",
     "image": "/images/huvudstadens-arena-laktare.webp",
-    "scene": "Vem får gå genom den breda porten under läktaren? Vi frågar arenans planeringsfunktion på plats. Deltagare och funktionärer, är svaret; publiken leds från entrén till sina egna gångar.",
-    "context": "Var sitter byarnas supportrar? Det avgörs för varje arrangemang. Läktaren har plats för flera distrikt, men en fast fördelning innan anmälningarna kommit in vore mer ritning än rättvisa.",
-    "tension": "Kan vi redan boka en final? Nej. Arenan är byggd, men tävlingsregler, program och datum behöver fastställas innan någon kan sälja ett löfte om resultat.",
-    "ending": "Vad är då klart? Golvet, passagerna och huvudmannaskapet. Jag ser mig om från läktaren och konstaterar att det åtminstone är tre svar fler än man brukar få av en tom tävlingsyta."
+    "scene": "Vad används arenan till? Hungerspelen, får vi veta. Två bybor från varje by kämpar till döden på den centrala stridsytan. Publiken leds genom egna passager, ett arrangemang som underlättar för dem som bara kommit för att titta.",
+    "context": "Vem skickar deltagarna? Varje by står för två av sina invånare. Vem sköter själva arenan? WeAB. Hur hålls läktare och stridsyta åtskilda? Med separata passager, så att publiken inte behöver dela deltagarnas risker. Därmed har tre av våra fem frågor fått tydliga, om än något oroande, svar.",
+    "tension": "Vem får inkomsterna? WeAB får intäkterna från Hungerspelen, men några belopp offentliggörs inte här. Finns det ett skattesystem som finansierar detta? Nej, WeAB saknar ett sådant. Koncernens andra inkomster kommer från exploateringen av bybor inom WeLiveLaughLove och från WeGamble.",
+    "ending": "Det femte svaret är kanske det enklaste: ja, striderna är till döden. På väg ut genom den välbelysta läktargången funderar jag på varför informationen om var åskådaren ska gå är utförligare än informationen om vad deltagarna har att förlora."
   }
 ] satisfies StorySeed[]);

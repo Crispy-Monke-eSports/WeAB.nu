@@ -61,7 +61,7 @@ export const companyEditorial: Record<string, CompanyEditorial> = {
   },
   wegamble: {
     heading: 'WeGamble Island tar form.',
-    introduction: 'Casinoön byggs vid kusten. Spelbordet får vänta; kalkylerna är redan klara.',
+    introduction: 'WeGambles spelverksamhet ger redan intäkter till koncernen. Kasinoön byggs vid kusten och har ännu inte öppnat för besökare.',
     groups: [{ title: 'WeGamble Island', ids: ['wegamble-island'] }]
   },
   wetravel: {

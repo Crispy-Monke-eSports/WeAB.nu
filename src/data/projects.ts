@@ -17,8 +17,8 @@ export const projects: Project[] = [
     id: 'huvudstadens-arena',
     name: 'Huvudstadens arena',
     division: 'WeAB',
-    category: 'Tävling & samlingsplats',
-    description: 'Här möts bybor från olika distrikt och tävlar om att vinna ära till sin egen by. Den blåvita arenan ligger i huvudstaden.',
+    category: 'Hungerspelen · Huvudstaden',
+    description: 'Huvudstadens arena används för Hungerspelen. Två bybor från varje by tvingas kämpa till döden; WeAB tar emot arrangemangets inkomster. Den blåvita arenan står i Huvudstaden.',
     image: arenaPhotos[0].src,
     alt: arenaPhotos[0].alt,
     detailUrl: '/arena/'
