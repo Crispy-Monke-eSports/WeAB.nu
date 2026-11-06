@@ -26,6 +26,14 @@
 
 Dateringen av 2 november avser **senaste nuvarande publicering i arkivet**, inte nödvändigtvis Märtas sista text som hon någonsin skrev.
 
+## Motståndsrörelsen – en etablerad men ännu okänd motkraft
+
+- En motståndsrörelse finns och hoppas störta WeAB. Organisationens namn, ledning och samband med tidigare bymotstånd har **inte** fastställts.
+- Tre fysiska ARG-fynd är redan etablerade i denna följd: **hemlig tunnel i WeLiveLaughLove Sektion 1 Avdelning B**, **husruin med meddelande på bottenplanet** och **vrak med en kista där texten ”Valresultat Riks 2045” förekommer**. Innehållet i den första tunneln manar till att ”hålla ut” och säger att de ”kommer tillbaka”.
+- Vrakets `2045` är än så länge bara text på ett föremål och får **inte** tolkas som ett bekräftat historiskt val i framtiden; webbplatsens nuvarande tid är november 2026.
+- Den exakta startpositionen, olösta ordalydelser, spelledarfacit och kommande möjligheter att bygga vidare dokumenteras **endast internt** i `docs/internal/arg-motstandsrorelsen.md`.
+- Den officiella koncernhistorien och pressarkivet ändras inte av att motståndsrörelsens fysiska spår finns. När nya händelser etableras ska berättarens perspektiv och kanontid kontrolleras.
+
 ## Långsiktig expansion: Korsdalen (intern planering, ej etablerad storyhändelse)
 
 - **Korsdalen** är namnet på en stad som förekommer i WeAB:s mycket preliminära diskussioner om **framtida exploatering och utvidgning av koncernens inflytande**.

@@ -37,6 +37,12 @@ Tabellen är **intern positionsorientering**, inte tillståndsbevis. Ingen av de
 6. Kartan visar ett större vattenområde mellan delar av fastlandet och Huvudstaden. Den visar också vidsträckta orangefärgade badlandsområden söder/sydost om det centrala området. Terrängen får användas som geografisk orientering, men ingen exploatering eller markäganderätt får härledas ur färgerna.
 7. **Korsdalen saknar plats i dessa kartor och i nuvarande waypointregister.** Det är en möjlig, ännu okontaktad framtida expansionsidé från en senare berättelsetid. Placera den inte på kartan, tilldela den inte koordinater och anta ingen förbindelse dit.
 
+## Geografisk avgränsning för ARG (endast AI/spelledare)
+
+- En redan byggd hemlig tunnel finns vid `x 31, y 66, z -351` inom WeLiveLaughLove Sektion 1 Avdelning B, nära dess waypoint `x 62, z -350`. Detta är ett verkligt första ARG-fynd, **inte** en publik waypoint.
+- En husruin följer i ledtrådskedjan, och därefter ett vrak med kistan `Valresultat Riks 2045`. **Ingen exakt position för ruinen eller vraket är ännu fastslagen i denna referens**; gissa inte avstånd eller färdväg.
+- Se `docs/internal/arg-motstandsrorelsen.md` för kanon, pusseldesign och hur ARG-information får användas.
+
 ## Kontinuitetsregler för framtida AI-texter
 
 - Vid påståenden som ”på andra sidan staden”, ”norr om”, ”på vägen till” och ”vid kusten”: kontrollera riktningen här och, vid behov, de ursprungliga waypointvärdena i `src/data/locations.ts`. Hitta inte på restider, transportlänkar, vägar eller genomförda resor utifrån närhet i bilden.

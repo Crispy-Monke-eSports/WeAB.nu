@@ -60,6 +60,15 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 - Det är tillåtet med **några få, diskreta referenser** i befintliga offentliga texter, exempelvis ortnamnet i en preliminär kalkyl eller en tom kontaktkolumn. Skapa **inte** ett pressmeddelande, en ny nyhet, separat plats- eller projektsida, dotterbolag, myndighet, karta, transportlinje eller daterad milstolpe.
 - Nämn aldrig Minecraft, servrar eller berättelsens framtida ursprung i WeAB:s **publika** röst. Se `docs/story-kontinuitet.md` och statusen i `src/data/storyCanon.ts`. Framtida konkretisering kräver explicit nytt underlag.
 
+## Intern spelmästarkanon för motståndsrörelsens ARG
+
+- Det finns en **verklig motståndsrörelse i lore** som hoppas störta WeAB. Detta betyder inte att WeAB offentligt erkänt organisationen.
+- **Redan existerande ledtrådskedja:** hemlig tunnel vid `x 31, y 66, z -351` i WeLiveLaughLove Sektion 1 Avdelning B (budskap om ”hålla ut” och ”kommer tillbaka”) → husruin med text på bottenplanet → ett vrak med en kista som innehåller texten **`Valresultat Riks 2045`**.
+- Denna kedja är **befintlig**, inte en planerad konstruktion. Fastställ inte ordagranna ruintexter, koordinater, syftet med 2045 eller konspirationer som användaren ännu inte bekräftat.
+- Läs `docs/internal/arg-motstandsrorelsen.md` innan några ARG-ledtrådar, hemliga webbsidor eller videor skapas. Delar som föreslås där är *designförslag* och får inte automatiskt räknas som publicerat eller genomfört.
+- Användaren tillåter att facit och intern ARG-information lagras i det **offentliga GitHub-repot** under antagandet att deltagarna inte studerar kod. Länka **aldrig** till interna filer eller avslöja fysiska platser i den publika webbplatsen utan uttryckligt spelbeslut.
+- **Ingen automatisk pressnotis** om rörelsen: pressrummets fem stora händelser ska inte utökas bara för att ARG:et planeras.
+
 ## Pressutskick förankrade i storyn
 
 - Pressrummet innehåller endast **stora händelser med stöd i `docs/story-kontinuitet.md` och den dokumenterade koncernhistorien**, inte rutinmässiga verksamhetsuppdateringar, lagernotiser, stationsskyltning eller allmänt hållna utvecklingsplaner.
