@@ -45,9 +45,17 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 - `src/data/companies.ts`, `projects.ts` och `companyEditorial.ts` innehåller verksamheter och anläggningar. `src/data/news.ts` innehåller pressmeddelanden; `editorial.ts` och `edition/` innehåller signerade artiklar. `publications.ts` samlar arkivet.
 - Bevara etablerade bolagsnamn, platser, artikel-sluggar och kopplingar mellan verksamheter om inte användaren ber om en ändring. Arkivet innehåller **89 publikationer**: **5 storybärande officiella pressmeddelanden** och **84 redaktionella artiklar**, vilket valideras i `scripts/validate-content.mjs`.
 
+## Kanon och kronologi – läs före alla storyändringar
+
+- **Obligatorisk huvudkälla:** `docs/story-kontinuitet.md`. Den skiljer etablerade händelser, koncernens partiska versioner och obeslutade förslag. De fastslagna datumen finns också i `src/data/storyCanon.ts`.
+- **Kronologi:** Märta Ek avled **3 november 2026** (WeAB påstår olycka vid järnfarmen, men har sekretessbelagt underlag), den totala överlåtelsen av myndighetsutövning och våldsmonopol till WeRule offentliggjordes **4 november 2026**, och ezzo13337:s **DGS**-förslag inkom **6 november 2026**. Store-W:s och ledningens önskade WE-namn är **WeDGS**, men inget är beslutat.
+- Tidigare, daterade tidningsartiklar som beskriver riksdagens dåvarande beslutanderätt är **historiska samtidsskildringar**, inte falska uppgifter om dagens läge. Deras originaltexter bevaras och läsvyn förtydligar att förhållandena ändrades 4 november.
+- **Märta Ek är avliden**, men ska behållas som skribent för sina sex äldre publiceringar. Publicera inte nya artiklar med hennes signatur efter dödsdatumet.
+- Vid ändrade sakuppgifter: uppdatera koncernhistorien, verksamhetssidor, press, skribentprofiler, förslagsstatus och innehållsvalidering tillsammans. Hitta inte på datum för äldre händelser, omgångar i Hungerspelen eller förklaringar till Märtas död.
+
 ## Pressutskick förankrade i storyn
 
-- Pressrummet innehåller endast **stora händelser med stöd i den dokumenterade koncernhistorien**, inte rutinmässiga verksamhetsuppdateringar, lagernotiser, stationsskyltning eller allmänt hållna utvecklingsplaner.
+- Pressrummet innehåller endast **stora händelser med stöd i `docs/story-kontinuitet.md` och den dokumenterade koncernhistorien**, inte rutinmässiga verksamhetsuppdateringar, lagernotiser, stationsskyltning eller allmänt hållna utvecklingsplaner.
 - Använd koncernhistorien i `src/pages/koncernen.astro`, fastslagna världsfakta här i `AGENTS.md`, `src/data/arena.ts`, källorna i `docs/` och befintliga pressutskick. Läs `docs/press-policy.md` innan ett nytt pressmeddelande skapas.
 - De fem nuvarande utskicken är WeRules övertagande av myndighetsutövning, våldsmonopolet, Märtas död, Hungerspelen och ezzo13337:s obeslutade DGS-förslag.
 - Pressarkivet och WeAB Tidningen är olika genrer. De **84 signerade redaktionella texterna** ska behållas när pressarkivet renodlas.

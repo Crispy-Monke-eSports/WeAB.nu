@@ -103,15 +103,15 @@ export const jobs: JobPosting[] = [
   {
     id: 'GAMBLE-001', title: 'Chef för husets fördel', division: 'WeGamble', location: 'WeGamble Island', type: 'Projektanställning',
     compensation: 'Diamanter, förutsatt att huset vinner',
-    pitch: 'WeGamble öppnar snart. Någon måste säkerställa att slumpen uppför sig.',
+    pitch: 'WeGambles spelverksamhet ger redan intäkter. Kasinoön har däremot ännu inte öppnat, och någon måste säkerställa att slumpen uppför sig när den gör det.',
     responsibilities: ['Utforma underhållning med långsiktigt positivt kassaflöde.', 'Säkerställ att spelupplevelsen alltid är spännande för gästen och lönsam för oss.', 'Rapportera varje utbetalning som ett extraordinärt undantag.'],
     requirements: ['Redstonekunskap och ett intresse för sannolikhet.', 'Förstår skillnaden mellan tur och otillräcklig marginal.'],
-    perk: 'Personalingång till casinot. Utgång ingår i nästa etapp.'
+    perk: 'En personalingång finns med i planerna för kasinoön. Utgång ingår i en senare etapp.'
   },
   {
     id: 'GAMBLE-002', title: 'VIP-ansvarig för diamantåtervinning', division: 'WeGamble', location: 'WeGamble Island', type: 'Projektanställning',
     compensation: 'Prestationsbaserad provision i diamanter',
-    pitch: 'Vi värdesätter våra gäster. Framför allt det de bär i inventoryt.',
+    pitch: 'Vi värdesätter våra nuvarande och framtida gäster. Framför allt det de bär i fickorna.',
     responsibilities: ['Utveckla lojalitetsprogram som ingen vill lämna.', 'Föreslå bekväma vägar från gästernas fickor till våra valv.', 'Se till att förlust känns som en exklusiv upplevelse.'],
     requirements: ['Enastående servicekänsla och räkneförmåga.', 'Kan uttala ”en sista omgång” med fullständig övertygelse.'],
     perk: 'Representationsbudget som dras från framtida gästers vinster.'

@@ -88,13 +88,13 @@ export const companies: Company[] = [
     kicker: 'FRAMTIDENS PERSONALFÖRSÖRJNING',
     tagline: 'Vi älskar tillväxt. Bokstavligen.',
     overview: 'Framtidens arbetskraft börjar här. Vi planerar varje ny generation med samma omsorg som en kvartalsbudget.',
-    description: 'På WeLove är kärleken organiserad, framtiden schemalagd och rekryteringen ovanligt effektiv. Våra specialutformade familjemiljöer säkerställer ett kontinuerligt tillskott av nya villagers till koncernens arbetsmarknad. Varje ny invånare är ett löfte om en ljusare framtid — särskilt i resultaträkningen. WeLove förenar familjevärderingar med vertikal integration. Föräldraledigheten är under utredning. Utredaren arbetar numera på WeTrade.',
+    description: 'På WeLove är kärleken organiserad, framtiden schemalagd och rekryteringen ovanligt effektiv. Våra specialutformade familjemiljöer säkerställer ett kontinuerligt tillskott av nya bybor till koncernens arbetsmarknad. Varje ny invånare är ett löfte om en ljusare framtid — särskilt i resultaträkningen. WeLove förenar familjevärderingar med vertikal integration. Föräldraledigheten är under utredning. Utredaren arbetar numera på WeTrade.',
     accent: '#D65A98',
     image: '/images/welove-headquarters.webp',
     imageAlt: 'WeLoves anläggning med rosa WE-skylt i bergsterräng',
     location: 'WeLoves personalanläggning',
     status: 'Kontinuerlig drift',
-    services: ['Villager breeding', 'Långsiktig personalplanering', 'Generationsväxling', 'Arbetskraftsproduktion', 'Kapacitetsoptimering', 'Rekrytering från födseln'],
+    services: ['Tillförsel av nya bybor', 'Långsiktig personalplanering', 'Generationsväxling', 'Arbetskraftsproduktion', 'Kapacitetsoptimering', 'Rekrytering från födseln'],
     facts: [{label: 'Ansvarig för WeLove', value: 'Haapalainen'}, {label: 'Affärsområde', value: 'Personalproduktion'}, {label: 'Leveransmodell', value: 'Kontinuerlig'}, {label: 'Karriärstart', value: 'Så tidigt som möjligt'}]
   },
   {

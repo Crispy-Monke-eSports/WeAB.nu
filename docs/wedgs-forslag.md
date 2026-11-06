@@ -1,5 +1,7 @@
 # DGS – inkommet förslag; WeDGS är ledningens namnförslag
 
+**Kronologisk kanon:** Läs även `docs/story-kontinuitet.md`. DGS inkom den 6 november 2026, efter Märtas död den 3 november och WeRules maktövertagande den 4 november. Det är fortfarande ett förslag, inte ett skattesystem.
+
 ## Ursprung
 
 - Förslagsställare: **ezzo13337**.

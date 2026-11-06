@@ -4,7 +4,7 @@ Pressrummet omfattar endast större, förankrade händelser i WeAB:s berättelse
 
 ## Storyunderlag
 
-Utgå i första hand från den berättelse som faktiskt dokumenterats i projektet: `src/pages/koncernen.astro` (koncernhistorien), `AGENTS.md` (fastslagna fakta), `src/data/arena.ts` (Hungerspelen), `docs/wedgs-forslag.md` (DGS-frågan) och källfilerna för de viktigaste pressbeskeden i `src/data/press-*.ts`. Förslag, beslut och faktiskt genomförande är skilda saker. Om det finns ytterligare storydokument utanför repot måste de tillföras innan deras innehåll kan ligga till grund för ett utskick.
+Utgå först från `docs/story-kontinuitet.md` som samlar kronologi, berättarposition och olösta frågor. Fördjupa därefter i den berättelse som faktiskt dokumenterats i projektet: `src/pages/koncernen.astro` (koncernhistorien), `AGENTS.md` (fastslagna fakta), `src/data/arena.ts` (Hungerspelen), `docs/wedgs-forslag.md` (DGS-frågan) och källfilerna för de viktigaste pressbeskeden i `src/data/press-*.ts`. Förslag, beslut och faktiskt genomförande är skilda saker. Om det finns ytterligare storydokument utanför repot måste de tillföras innan deras innehåll kan ligga till grund för ett utskick.
 
 ## Publicerade utskick (5)
 
@@ -21,7 +21,7 @@ Utgå i första hand från den berättelse som faktiskt dokumenterats i projekte
 ## Regler för framtida AI-skribenter
 
 1. Läs `AGENTS.md`, denna fil och den relevanta storykällan innan något skrivs.
-2. Identifiera en **konkret och dokumenterad** händelse. Om händelsen bara är en routine, skriv ingen presspost.
+2. Identifiera en **konkret och dokumenterad** händelse. Om händelsen bara är en rutin, skriv ingen presspost.
 3. Skilj mellan inkommet förslag, pågående beredning, fattat beslut och genomfört uppdrag. Hitta inte på personer, datum, vinstbelopp, omröstningsresultat eller anläggningsstatus.
 4. Bevara nio registrerade dotterbolag till dess att uttryckligt beslut anger annat.
 5. Skriv med WeAB:s sakliga, koncerninterna röst. Nämn inte spel eller Minecraft i publik text.

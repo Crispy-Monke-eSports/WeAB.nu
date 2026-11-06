@@ -56,7 +56,7 @@ Engångsinställning innan första publiceringen:
 - `/investerare/` – Fiktiv investerarportal utan publicerad börskurs, med rapportarkiv och finansiell kalender
 - `/investerare/rapporter/` – Verksamhetsöversikt, kapitalpolicy och rapporteringsprinciper
 - `/karriar/` – Platsannonser inom rollspelet; inga ansökningar via webbplatsen
-- `/nyheter/` – WeAB Tidningen: 84 redaktionella texter (insändare, ledare, reportage och andra genrer); officiella pressmeddelanden listas separat i `/press/`
+- `/nyheter/` – WeAB Tidningen: 84 redaktionella texter (insändare, ledare, reportage och andra genrer), även arkivtexter av den avlidna Märta Ek; officiella pressmeddelanden listas separat i `/press/`
 - `/kontakt/` – Koncernens kontaktkatalog med mailto-länkar till huvudkontoret och nio dotterbolag
 - `/leverantorer/` – Inköpsprocess, leverantörskod och vanliga frågor för externa samarbeten
 
@@ -88,6 +88,8 @@ att de genererade sidorna behåller detta beteende.
 - `src/assets/we-logo.svg` – Den bifogade officiella WE-logotypen (gemensam för alla bolag)
 - `src/data/locations.ts` – Internt referensmaterial från JourneyMap-exporten (35 unika positioner, varav 14 WeKill-anläggningsplatser); visas inte på webbplatsen. Järnfarmen är en anläggning med 14 tregrupper av bybor. Två grupper delar en zombie, alltså sju zombier totalt — inte 14 separata järnfarmer.
 - `src/data/news.ts` – Fem centrala pressmeddelanden från Hungerspelen, WeRule, Märta Ek och DGS; urvalet beskrivs i `docs/press-policy.md`
+- `docs/story-kontinuitet.md` – Kanon, händelsekronologi, aktörernas status och källordning för framtida författare
+- `src/data/storyCanon.ts` – Daterade milstolpar och listan med äldre riksdagsartiklar som får arkivkommentar
 - `src/data/editorial.ts` – Tio fiktiva tidningstexter i åtta redaktionella genrer
 - `src/data/publications.ts` – Gemensamt, datumordnat tidningsarkiv med skribent- och formatmetadata
 - `src/data/authors.ts` – Femton fiktiva skribenter med unika röster och profiler

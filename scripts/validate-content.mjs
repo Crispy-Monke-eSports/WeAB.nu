@@ -10,6 +10,9 @@ import { publications, editorialFormats, publicationFormatLabels, additionalArti
 import { authors, getAuthor } from '../src/data/authors.ts';
 import { projects, featuredProjectIds } from '../src/data/projects.ts';
 import { wedgsProposal } from '../src/data/wedgsProposal.ts';
+import { martaEkPressRelease } from '../src/data/press-marta-ek.ts';
+import { weRuleMandatePressReleases } from '../src/data/press-werule-mandate.ts';
+import { storyDates, preTransferRiksdagArticleSlugs, needsPreTransferContext } from '../src/data/storyCanon.ts';
 import { arenaPhotos, hungerGames } from '../src/data/arena.ts';
 import { locations, locationGroups } from '../src/data/locations.ts';
 import { companyEditorial } from '../src/data/companyEditorial.ts';
@@ -203,6 +206,44 @@ const storylinePressSlugs = [
   'weab-marta-ek-olycka-jarnfarmen',
   'huvudstadens-arena'
 ];
+assert.deepEqual(Object.values(storyDates), ['2026-11-03', '2026-11-04', '2026-11-06'],
+  'Kronologin ska vara 3 november: Märta, 4 november: WeRule, 6 november: DGS');
+assert.equal(martaEkPressRelease.publishedAt, storyDates.martaEkDeath, 'Märtas dödsdatum stämmer inte');
+assert.ok(weRuleMandatePressReleases.every(article => article.publishedAt === storyDates.weRuleTransfer),
+  'WeRules maktöverföring hör till den 4 november');
+assert.equal(wedgsProposal.receivedAt, storyDates.dgsProposal, 'DGS inkom den 6 november');
+assert.ok(storyDates.martaEkDeath < storyDates.weRuleTransfer && storyDates.weRuleTransfer < storyDates.dgsProposal,
+  'Daterade händelser ligger i fel ordning');
+const martaBylines = authorPublications('marta-ek');
+assert.equal(martaBylines.length, 6, 'Märtas sex historiska artiklar ska finnas kvar');
+assert.ok(martaBylines.every(article => article.publishedAt < storyDates.martaEkDeath),
+  'Märta Ek får inte publicera efter sin död');
+assert.match(getAuthor('marta-ek').role, /avliden/i, 'Märtas nuvarande skribentstatus är fel');
+assert.match(getAuthor('marta-ek').biography, /3 november 2026/, 'Märtas dödsdatum saknas i profilen');
+assert.ok(preTransferRiksdagArticleSlugs.every(slug => {
+  const article = publications.find(item => item.slug === slug);
+  return article && article.format !== 'pressmeddelande' &&
+    needsPreTransferContext(article.slug, article.publishedAt);
+}), 'Alla utvalda riksdagsartiklar måste ha publicerats före maktöverföringen');
+assert.ok(readFileSync('src/pages/nyheter/[slug].astro', 'utf8').includes('historical-context'),
+  'Äldre riksdagstexter måste förses med en tydlig arkivkommentar');
+const historySource = readFileSync('src/pages/koncernen.astro', 'utf8');
+const martaIndex = historySource.indexOf('Märta Eks död vid järnfarmen');
+const transferIndex = historySource.indexOf('Den offentliga ordningen får en huvudman');
+const dgsIndex = historySource.indexOf('Förslaget som ännu inte blivit ett beslut');
+assert.ok(martaIndex > 0 && transferIndex > martaIndex && dgsIndex > transferIndex,
+  'Koncernhistoriens daterade händelser står i fel ordning');
+assert.ok(historySource.includes('storyDates.martaEkDeath') &&
+  historySource.includes('storyDates.weRuleTransfer') &&
+  historySource.includes('storyDates.dgsProposal'),
+  'Koncernhistoria och kanon måste dela datum');
+const gambleOpeningJob = jobs.find(job => job.id === 'GAMBLE-001');
+assert.ok(gambleOpeningJob?.pitch.includes('spelverksamhet') &&
+  gambleOpeningJob?.pitch.includes('ännu inte öppnat'),
+  'WeGambles spelverksamhet är aktiv medan kasinoön inte är öppnad');
+assert.ok(readFileSync('src/data/companies.ts', 'utf8').includes('nya bybor till koncernens arbetsmarknad'),
+  'WeLoves offentliga information ska använda världens term bybor');
+assert.ok(existsSync('docs/story-kontinuitet.md'), 'Kanon- och tidslinjedokumentet saknas');
 assert.equal(news.length, 5, 'Pressarkivet ska innehålla fem storybärande utskick');
 assert.deepEqual(news.map(article => article.slug), storylinePressSlugs,
   'Pressarkivet ska spegla dokumenterade händelser i koncernens story');
