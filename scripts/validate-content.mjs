@@ -190,6 +190,13 @@ for (const id of featuredProjectIds) {
 }
 assert.equal(news.length, 20, 'Det ska finnas 20 pressmeddelanden');
 assert.equal(wedgsProposal.proposer, 'ezzo13337', 'WeDGS-förslagets upphovsperson får inte tappas bort');
+assert.equal(wedgsProposal.originalName, 'DGS', 'DGS är förslagsställarens ursprungliga namn');
+assert.equal(wedgsProposal.proposedGroupName, 'WeDGS', 'WE-prefixet är ledningens förslag, inte ezzo13337:s');
+assert.equal(wedgsProposal.brandProposalBy, 'Store-W och koncernledningen');
+assert.equal(wedgsProposal.proposedBrandColor, '#613C20');
+assert.ok(!companies.some(company => company.accent.toLowerCase() === wedgsProposal.proposedBrandColor.toLowerCase()));
+asset('/logos/wedgs.svg', 'WeDGS konceptlogotyp');
+assert.ok(existsSync('src/assets/images/ezzo13337-profile.webp'), 'ezzo13337:s originalporträtt ska finnas');
 assert.ok(!wedgsProposal.approved && !wedgsProposal.implemented, 'WeDGS är inte beslutat eller implementerat');
 assert.ok(!companies.some(company => company.slug === wedgsProposal.slug), 'WeDGS får inte registreras som dotterbolag utan beslut');
 assert.equal(pressIssuerSlugs[wedgsProposal.pressSlug], 'weab', 'WeDGS-besked måste avsändas av WeAB');

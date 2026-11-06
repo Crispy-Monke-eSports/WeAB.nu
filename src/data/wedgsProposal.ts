@@ -1,7 +1,12 @@
 /** Inkommet förslag, ej beslut. WeDGS är inte ett registrerat dotterbolag. */
 export const wedgsProposal = {
   slug: 'wedgs',
-  name: 'WeDGS',
+  name: 'DGS',
+  originalName: 'DGS',
+  proposedGroupName: 'WeDGS',
+  proposedBrandColor: '#613C20',
+  proposedConcreteColor: 'minecraft:brown_concrete',
+  brandProposalBy: 'Store-W och koncernledningen',
   descriptiveName: 'Diamant- och gruvskatteverket',
   proposer: 'ezzo13337',
   receivedAt: '2026-11-06',

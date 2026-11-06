@@ -1,11 +1,14 @@
-# WeDGS – inkommet förslag, inte etablerad verksamhet
+# DGS – inkommet förslag; WeDGS är ledningens namnförslag
 
 ## Ursprung
 
 - Förslagsställare: **ezzo13337**.
 - Mottaget: **2026-11-06**.
 - Namn i det inlämnade bokunderlaget: **DGS – Diamant- och Gruvskatteverket**.
-- **WeDGS är ett arbetsnamn**, inte ett godkänt bolagsnamn.
+- **DGS är ezzo13337:s föreslagna namn.** Författaren har inte föreslagit namnet WeDGS.
+- **Store-W och koncernledningen förordar namnet WeDGS** om DGS skulle införlivas i WeAB. Något formellt beslut är ännu inte fattat.
+- Den bruna WE-symbolen är en **preliminär koncernlogotyp** i kulören för `minecraft:brown_concrete` (#613C20). Den är skapad genom kod från koncernens befintliga WE-SVG, inte med bildgenerering.
+- Bilden för ezzo13337 är användarens originalbild, tekniskt omkodad utan pixelförändring för Astros bildpipeline. Personen ingår inte i koncernledningen.
 - De synliga bilderna visar sidorna 1–8 av totalt 9. Den nionde sidan tillhandahölls inte; tillskriv den inte något innehåll.
 
 ## Föreslagen ordning enligt bilderna
@@ -19,7 +22,7 @@
 ## Bindande redaktionella regler
 
 1. **Inget är beslutat eller implementerat.** Ingen skatt, ny myndighet, personal, skattesats, skattefrihet, påföljd, kontorsbyggnad eller betalningsrutin har inrättats.
-2. **WeDGS ska inte läggas till i `src/data/companies.ts`** förrän användaren uttryckligen meddelar beslut. Det finns fortsatt nio faktiska dotterbolag.
+2. **Varken DGS eller WeDGS ska läggas till i `src/data/companies.ts`** förrän användaren uttryckligen meddelar beslut. Det finns fortsatt nio faktiska dotterbolag.
 3. `Under construction` avser en informationssida under uppbyggnad och en idé under beredning, inte fysisk byggnation.
 4. WeRules befintliga myndighetsmandat ska inte automatiskt tolkas som ett uppdrag för WeDGS.
 5. Alla siffror, undantag och sanktioner måste alltid anges som förslag, även i pressmeddelanden och historieskrivning.

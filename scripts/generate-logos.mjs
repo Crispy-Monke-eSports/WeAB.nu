@@ -10,6 +10,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { companies } from '../src/data/companies.ts';
+import { wedgsProposal } from '../src/data/wedgsProposal.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const master = await readFile(join(root, 'src/assets/we-logo.svg'), 'utf8');
@@ -26,6 +27,8 @@ const overrides = {
 const brands = [
   { slug: 'weab', name: 'WeAB', color: '#00BCD4' },
   ...companies.map(({ slug, name, accent }) => ({ slug, name, color: accent })),
+  // Endast preliminär konceptprofil: DGS finns ännu inte bland dotterbolagen.
+  { slug: wedgsProposal.slug, name: wedgsProposal.proposedGroupName, color: wedgsProposal.proposedBrandColor },
 ];
 
 const replaceExactly = (source, regex, replacement, description) => {
@@ -35,6 +38,8 @@ const replaceExactly = (source, regex, replacement, description) => {
 };
 
 assert.equal(new Set(brands.map(({ slug }) => slug)).size, brands.length);
+assert.ok(!companies.some(company => company.slug === wedgsProposal.slug), 'DGS is not an approved subsidiary');
+assert.ok(!companies.some(company => company.accent.toLowerCase() === wedgsProposal.proposedBrandColor.toLowerCase()), 'Use an unused concrete shade');
 assert.match(master, /viewBox="0 0 1200 830"/);
 for (const id of ['brand-color', 'brand-corners', 'brand-shadow', 'letter-W', 'letter-E']) {
   assert.ok(master.includes('id="' + id + '"'), 'Missing original SVG group: ' + id);

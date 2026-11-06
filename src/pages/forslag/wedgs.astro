@@ -1,20 +1,25 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { wedgsProposal } from '../../data/wedgsProposal.ts';
+import BrandMark from '../../components/BrandMark.astro';
+import { Image } from 'astro:assets';
+import { imageAsset } from '../../data/imageAssets';
 ---
 <BaseLayout
-  title="WeDGS – förslag under beredning | WeAB"
-  description="WeDGS är ett inkommet förslag från ezzo13337 om ett diamant- och gruvskatteverk. Inget beslut har fattats och ingen verksamhet har startat."
+  title="DGS och WeDGS – förslag under beredning | WeAB"
+  description="ezzo13337 har föreslagit DGS, ett diamant- och gruvskatteverk. Store-W och ledningen vill se WE-namnet WeDGS vid ett eventuellt införlivande. Inget beslut är fattat."
 >
   <header class="page-hero">
     <div class="shell proposal-header">
       <div>
-        <h1>WeDGS</h1>
-        <p class="lead">Förslag om ett diamant- och gruvskatteverk.</p>
+        <h1>DGS</h1>
+        <p class="lead">Diamant- och gruvskatteverket, föreslaget av ezzo13337. Store-W och koncernledningen vill se namnet WeDGS om förslaget blir verklighet.</p>
         <p class="proposal-state">Under construction · Inkommet förslag under beredning</p>
       </div>
       <dl class="proposal-facts" aria-label="Förslagets aktuella status">
         <div><dt>Förslagsställare</dt><dd>{wedgsProposal.proposer}</dd></div>
+        <div><dt>Föreslaget ursprungsnamn</dt><dd>{wedgsProposal.originalName}</dd></div>
+        <div><dt>Ledningens namnförslag</dt><dd>{wedgsProposal.proposedGroupName}</dd></div>
         <div><dt>Inkommet</dt><dd><time datetime={wedgsProposal.receivedAt}>6 november 2026</time></dd></div>
         <div><dt>Beslut</dt><dd>Ej fattat</dd></div>
         <div><dt>Genomförande</dt><dd>Inget påbörjat</dd></div>
@@ -22,10 +27,29 @@ import { wedgsProposal } from '../../data/wedgsProposal.ts';
     </div>
   </header>
 
+  <section class="section proposal-identity" aria-label="Förslagets upphov och namnfråga">
+    <div class="shell proposal-identity__grid">
+      <div>
+        <h2>ezzo13337 föreslår DGS.</h2>
+        <div class="identity-person">
+          <Image src={imageAsset('/images/ezzo13337-profile.webp')} alt="ezzo13337:s pixelporträtt med ett tvåfärgat svartvitt ansikte och orange cirkelformad bakgrund" layout="constrained" widths={[112, 224, 448]} sizes="112px" loading="lazy" />
+          <p>Förslaget kommer från <strong>ezzo13337</strong>. Namnet i originalunderlaget är <strong>DGS</strong>. Det är inte förslagsställaren som har begärt WE-prefixet.</p>
+        </div>
+      </div>
+      <div>
+        <h2>Ledningen föreslår WeDGS.</h2>
+        <div class="identity-brand">
+          <BrandMark slug="wedgs" name="WeDGS" size="org" />
+          <p>Store-W och koncernledningen driver frågan om att lägga en eventuell verksamhet under WE-namnet. Den bruna symbolen, i färg motsvarande brun betong, är en <strong>preliminär konceptlogotyp</strong>. Varken koncernnamn eller etablering är beslutade.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section">
     <div class="shell proposal-body">
       <h2>En idé på ledningens bord.</h2>
-      <p class="lead">WeAB har tagit emot ezzo13337:s förslag om en diamantbaserad skatteordning. Arbetsnamnet WeDGS används enbart för att hålla samman ärendet. Namnet är inte ett beslut om att bilda ett nytt dotterbolag.</p>
+      <p class="lead">WeAB har tagit emot ezzo13337:s förslag om en diamantbaserad skatteordning. Store-W och koncernledningen förordar namnet WeDGS om DGS skulle införlivas i koncernen. Det är ledningens inriktning i namnfrågan, inte ett fattat beslut om namn eller ett nytt dotterbolag.</p>
       <p>Underlaget föreslår att skatt ska kunna tas ut vid försäljning, köp och handel, företagsverksamhet, fastigheter, gruvdrift och löner. Förslaget sammanfattas med mottot ”Ingen diamant ska vara skattefri”. Koncernledningen har ännu inte tagit ställning till om förslaget är lämpligt, hur det i så fall skulle administreras eller om det ska avvisas.</p>
 
       <h2>Vad som står i förslaget.</h2>
@@ -52,9 +76,9 @@ import { wedgsProposal } from '../../data/wedgsProposal.ts';
       <h2>Vad händer nu?</h2>
       <ol class="steps">
         <li><strong>Förslaget har inkommit.</strong><span>Materialet från ezzo13337 är mottaget.</span></li>
-        <li><strong>Ledningen ska ta ställning.</strong><span>WeAB får avgöra om förslaget ska utredas, ändras eller avslås. Någon tidpunkt är inte fastställd.</span></li>
+        <li><strong>Ledningen ska ta ställning.</strong><span>Store-W och koncernledningen förordar WE-namnet WeDGS vid ett eventuellt införlivande, men måste först avgöra om förslaget ska utredas, ändras eller avslås. Någon tidpunkt är inte fastställd.</span></li>
         <li><strong>Eventuell fortsatt beredning.</strong><span>WeRules befintliga myndighetsuppdrag och frågan om organisationsform behöver prövas innan ett genomförande kan övervägas.</span></li>
-        <li><strong>Inget har genomförts.</strong><span>Det finns ingen WeDGS-verksamhet, inget skatteuttag, inga anställda och inget införandedatum.</span></li>
+        <li><strong>Inget har genomförts.</strong><span>Det finns ingen DGS- eller WeDGS-verksamhet, inget skatteuttag, inga anställda och inget införandedatum.</span></li>
       </ol>
       <p class="closing">Den här sidan är under uppbyggnad därför att förslaget ännu saknar beslut och fastställd inriktning. Den är inte en bygg- eller driftsrapport.</p>
       <a class="link-arrow" href={`/nyheter/${wedgsProposal.pressSlug}/`}>Läs WeAB:s pressmeddelande ↗</a>
@@ -62,6 +86,15 @@ import { wedgsProposal } from '../../data/wedgsProposal.ts';
   </section>
 </BaseLayout>
 <style>
+  .proposal-identity{padding-top:3.4rem;padding-bottom:3.4rem;border-bottom:1px solid #334b56;background:#101b23}
+  .proposal-identity__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3rem}
+  .proposal-identity__grid>div{border-top:1px solid #40545f;padding-top:1.4rem}
+  .proposal-identity__grid h2{font-size:clamp(1.45rem,2vw,1.95rem);margin:0 0 1.2rem}
+  .identity-person,.identity-brand{display:flex;gap:1.3rem;align-items:start}
+  .identity-person img{width:112px;height:112px;flex:none;object-fit:contain}
+  .identity-brand .brand-mark{width:112px;flex:none}
+  .identity-person p,.identity-brand p{font-size:.89rem;line-height:1.7;max-width:43ch;margin:0}
+  .identity-person strong,.identity-brand strong{color:#edf5f7}
   .proposal-header{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(270px,.7fr);gap:4rem;align-items:end}
   .proposal-header h1{margin-bottom:.9rem}
   .proposal-state{font-size:.87rem;line-height:1.5;border-left:3px solid var(--cyan);padding-left:1rem;color:#d3e6eb;margin:1.65rem 0 0}
@@ -84,5 +117,6 @@ import { wedgsProposal } from '../../data/wedgsProposal.ts';
   .steps li{display:grid;grid-template-columns:minmax(210px,.8fr) 1.2fr;gap:2rem;padding:1.4rem 0;border-bottom:1px solid #435966}
   .steps li span{color:#b7cad1;line-height:1.7}
   .closing{margin:1.5rem 0 1.2rem}
-  @media(max-width:760px){.proposal-header,.proposal-columns{grid-template-columns:1fr;gap:2rem}.steps li{grid-template-columns:1fr;gap:.4rem}}
+  @media(max-width:760px){.proposal-header,.proposal-columns,.proposal-identity__grid{grid-template-columns:1fr;gap:2rem}.steps li{grid-template-columns:1fr;gap:.4rem}}
+  @media(max-width:390px){.identity-person,.identity-brand{gap:.9rem}.identity-person img{width:84px;height:84px}.identity-brand .brand-mark{width:84px}}
 </style>
