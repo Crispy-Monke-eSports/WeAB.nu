@@ -18,7 +18,7 @@ export const ottiliaArticles = makeMagazineArticles('ottilia-glas', 30, [
     "summary": "Riksdagshusets arkitektur skapar en särskild tyngd åt ett uppdrag som annars lätt stannar i ord.",
     "image": "/images/werule-riksdagshuset.webp",
     "scene": "Den ljusa fasaden och de cyanblå detaljerna ger Riksdagshuset en tydlig närvaro i Huvudstaden. Byggnaden vill bli sedd.",
-    "context": "Före riksvalet 2045 användes lokalen av den folkvalda riksdagen, samtidigt som den redan förvaltades av WeAB. Fasaden finns kvar, men institutionen har förlorat sitt tidigare mandat.",
+    "context": "Före riksvalet 2045 användes lokalen av den dåvarande riksdagen, samtidigt som den redan förvaltades av WeAB. I dag används byggnaden inom WeRules samordnade offentliga förvaltning.",
     "tension": "Man kan förstås önska att en offentlig byggnad skulle vara alldeles anonym. Men då förloras också möjligheten att visa vad platsen betyder.",
     "ending": "När en institution får en igenkännbar form blir också omsorgen om själva byggnaden en del av det offentliga rummet."
   },

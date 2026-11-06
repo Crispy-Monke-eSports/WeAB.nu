@@ -40,7 +40,7 @@ export const editorials: EditorialItem[] = [
       "När stadshusets lykta slocknar är det inte en åsikt. Den är släckt tills någon byter den. Det är därför ägandefrågan förtjänar en mindre högtidlig diskussion än den brukar få.",
       "Riksdagshuset är en offentlig mötesplats i en byggnad som ägs av WeAB. Före 2045 var den formella skillnaden tydlig: fastighetsägaren hade ingen röst i riksdagen. Däremot innebär den att WeRule kan ta emot felanmälan, planera underhåll och hålla entrén användbar även mellan sammanträdena.",
       "Det finns ett legitimt skäl att fråga hur långt en ägares inflytande bör sträcka sig. Svaret blir bättre om det utgår från det som faktiskt behöver avgöras: vem bekostar reparationen, vem beställer arbetet och vem kan använda lokalen under tiden? Ett ständigt samtal om själva väggen lagar den inte.",
-      "När den folkvalda riksdagen ännu sammanträdde kunde ledamöterna ägna mötestiden åt beslut och fastighetsägaren åt underhållet. Byggnaden står kvar; den gamla ansvarsfördelningen gör det inte. Det är ingen stor teori, men en ganska hållbar fördelning."
+      "När den tidigare riksdagen sammanträdde kunde ledamöterna ägna mötestiden åt beslut och fastighetsägaren åt underhållet. Byggnaden står kvar, medan ansvaret nu är samlat inom WeRule. Det är ingen stor teori, men en ordning som gör förvaltningen lättare att följa."
     ]
   },
   {

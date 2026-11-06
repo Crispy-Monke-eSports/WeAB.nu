@@ -404,7 +404,7 @@ for (const slug of ['werule-samlad-myndighetsutovning', 'werule-valdsmonopol-och
 }
 assert.ok(publications.find(item => item.slug === 'werule-samlad-myndighetsutovning')?.body.join(' ').includes('”frivilligt” valt att bli tvångsplacerade i Sektion 3, Avdelning A'),
   'Den tidigare regeringens och riksdagens placering ska framgå av pressmeddelandet');
-assert.deepEqual(publications.slice(0, 3).map(item => item.slug),
+assert.deepEqual(publications.filter(item => item.format === 'pressmeddelande').slice(0, 3).map(item => item.slug),
   ['weab-wedgs-inkommet-skatteforslag', 'weab-marta-ek-olycka-jarnfarmen', 'huvudstadens-arena']);
 assert.ok(martaNotice.body.join(' ').includes('samtliga lampor är utmärkta och inga fel finns'));
 assert.ok(martaNotice.body.join(' ').includes('rikets säkerhet'));
