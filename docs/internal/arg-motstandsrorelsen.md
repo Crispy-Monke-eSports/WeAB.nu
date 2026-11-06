@@ -16,7 +16,7 @@
 
 **Start:** En hemlig tunnel finns i ett hus inom **WeLiveLaughLove, Sektion 1, Avdelning B**, vid **x 31, y 66, z -351** (Overworld). De avbildade skyltarna uppmanar spelaren att **agera normalt**, säger **”Vi kommer tillbaka”** och erbjuder hjälp för den som lyckas fly. Den senare texten avslutas med **`245 495`**. Bilden utgör primärkälla för exakt skyltformatering.
 
-**Fortsättning:** Dessa hänvisningar leder till **ett vanligt hus**, inte en ursprungligen övergiven motståndsbas. Huset är nu en ruin eftersom **WeAB sprängde det under 2051**, efter att ha påträffat och **avrättat gömda motståndspersoner** där. På bottenplanet finns den redan existerande rapporttexten, uppdelad på skyltar:
+**Fortsättning:** Dessa hänvisningar leder till **ett vanligt hus vid x 244, y 90, z 492**, inte en ursprungligen övergiven motståndsbas. Huset är nu en ruin eftersom **WeAB sprängde det under 2051**, efter att ha påträffat och **avrättat gömda motståndspersoner** där. På bottenplanet finns den redan existerande rapporttexten, uppdelad på skyltar:
 
 > Motståndsstyrka på 10 personer hittades i en gammal lokal.
 
@@ -24,19 +24,19 @@
 
 > RAPPORT SKRIVEN 21/11/2051
 
-Citaten återger läsbar innebörd av befintliga skyltar, inte nya skyltar som ska skrivas in. Den exakta positionen för husruinen är inte verifierad i det interna waypointregistret. Datumet **21/11/2051** får aldrig automatiskt tillskrivas räden som händelsedatum.
+Citaten återger läsbar innebörd av befintliga skyltar, inte nya skyltar som ska skrivas in. Husruinens koordinater är bekräftade av användaren, men platsen har inte stämts av mot waypointregistret. Datumet **21/11/2051** får aldrig automatiskt tillskrivas räden som händelsedatum.
 
 **Här slutar den bekräftade ledtrådsvägen.** Ingen känd text, karta eller koordinat i tunneln eller ruinen leder vidare till vraket. Bygg inte en sådan förbindelse retroaktivt.
 
 ### B. Separat, oberoende fynd: vraket
 
-I ett vrak på havsbotten finns en **kista** med texten **”Valresultat Riks 2045”**. Det syftar på det undanröjda resultatet från riksvalet då WeAB kuppade bort den demokratiska riksdagen. Resultatet är borttaget ur de tillgängliga offentliga arkiven.
+I ett vrak på havsbotten vid **x 2142, y 64, z 957** finns en **kista** med texten **”Valresultat Riks 2045”**. Det syftar på det undanröjda resultatet från riksvalet då WeAB kuppade bort den demokratiska riksdagen. Resultatet är borttaget ur de tillgängliga offentliga arkiven.
 
 **Ingen ledtråd leder till vraket.** Det ska förstås som ett separat fynd, inte som del tre i en redan existerande obligatorisk ARG-kedja. Att användaren visade bilderna efter varandra var **inte** en uppgift om geografisk, kronologisk eller pusselmässig förbindelse.
 
 Den andra skärmbilden visar delvis läsbara skyltar vid vraket, bland annat **”5 döda / 3 skadade”**, men det är **inte fastslaget att dessa uppgifter syftar på 2051 års husräd**. Hitta inte på ett samband eller vad de skadade skulle vara intagna för.
 
-Vrakets exakta koordinater, kistans fulla innehåll, vilka som placerade valresultatet i vraket och förhållandet mellan vraket och motståndsrörelsen är ännu inte fastslagna.
+Kistans fulla innehåll, vilka som placerade valresultatet i vraket och förhållandet mellan vraket och motståndsrörelsen är ännu inte fastslagna. Vrakets koordinater har lämnats direkt av användaren.
 
 ## Redaktionsmässig konsekvens
 
@@ -61,7 +61,6 @@ Möjliga medier är dolda dokument på WeAB.nu och eventuella YouTube-klipp i in
 
 - Kuppens exakta datum under 2045, verkligt valutfall och hur valresultatet transporterades till vraket.
 - Husrazzian, avrättningarnas och sprängningens exakta datum under 2051 (endast rapportdatumet 21 november är säkert).
-- Husruinens och vrakets exakta koordinater.
 - Om fynden har någon djupare organisatorisk koppling inom motståndsrörelsen.
 - Hur webbspår eller framtida videor kan komplettera två **separata**, redan existerande spår utan att falskeligen länka ihop dem.
 
