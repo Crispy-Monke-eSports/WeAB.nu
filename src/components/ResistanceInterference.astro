@@ -1,7 +1,7 @@
 ---
 /**
- * ARG-intrång. Avsiktligt skilt från WeAB:s publika redaktionella innehåll.
- * Renderas inte på 404-sidan: koordinat-URL:en måste få vara slutpunkten.
+ * Ett ARG-intrång från motståndsrörelsen, inte ett officiellt WeAB-meddelande.
+ * 404-sidan använder BaseLayout med enableInterference={false}.
  */
 ---
 <div
@@ -20,9 +20,11 @@
   import {
     resistanceSignal,
     createSignalSchedule,
+    advanceSignalSchedule,
     isSignalSchedule,
     isSignalOnCooldown,
-    type SignalSchedule
+    type SignalSchedule,
+    type SignalPhase
   } from '../data/resistanceSignal.ts';
 
   const overlay = document.querySelector<HTMLElement>('[data-resistance-interference]');
@@ -30,59 +32,72 @@
   if (overlay && messageElement) {
     const originalTitle = document.title;
     const lockable = [...document.querySelectorAll<HTMLElement>('body > header, body > main, body > footer')];
-    const storageRead = (storage: Storage, key: string): string | null => {
-      try { return storage.getItem(key); } catch { return null; }
-    };
-    const storageWrite = (storage: Storage, key: string, value: string): void => {
-      try { storage.setItem(key, value); } catch { /* Lagring är valfri. */ }
-    };
+    const initialInert = lockable.map(element => element.inert);
 
-    const lastShownRaw = storageRead(localStorage, resistanceSignal.lastShownKey);
-    const lastShown = lastShownRaw === null ? null : Number(lastShownRaw);
-    const preview = import.meta.env.DEV && new URLSearchParams(location.search).get('previewResistance') === '1';
+    function storageRead(storage: Storage, key: string): string | null {
+      try { return storage.getItem(key); } catch { return null; }
+    }
+    function storageWrite(storage: Storage, key: string, value: string): void {
+      try { storage.setItem(key, value); } catch { /* Lagring är valfri. */ }
+    }
+
+    const rawLastShown = storageRead(localStorage, resistanceSignal.lastShownKey);
+    const lastShown = rawLastShown === null ? null : Number(rawLastShown);
+    // Förhandsgranskning startar första steget tidigt men behåller ALLA pauser.
+    const preview = import.meta.env.DEV &&
+      new URLSearchParams(location.search).get('previewResistance') === '1';
+
     if (!isSignalOnCooldown(Date.now(), lastShown) || preview) {
       let schedule: SignalSchedule;
       try {
-        const previous = storageRead(sessionStorage, resistanceSignal.sessionKey);
-        const parsed: unknown = previous ? JSON.parse(previous) : null;
+        const old = storageRead(sessionStorage, resistanceSignal.sessionKey);
+        const parsed: unknown = old ? JSON.parse(old) : null;
         schedule = isSignalSchedule(parsed) ? parsed : createSignalSchedule();
       } catch {
         schedule = createSignalSchedule();
       }
+      if (preview) {
+        schedule = { activeMs: 0, nextPhase: 'title', nextAtMs: 1_000 };
+      }
 
       let running = false;
-      let intervalId: number | undefined;
       let originalTexts: Array<{ node: Text; value: string }> = [];
-
-      function after(ms: number, callback: () => void): void {
-        window.setTimeout(callback, ms);
-      }
 
       function saveSchedule(): void {
         storageWrite(sessionStorage, resistanceSignal.sessionKey, JSON.stringify(schedule));
       }
 
       function restoreText(): void {
-        for (const entry of originalTexts) entry.node.data = entry.value;
+        for (const { node, value } of originalTexts) node.data = value;
         originalTexts = [];
         document.body.classList.remove('resistance-corrupted');
       }
 
-      function markShown(): void {
-        storageWrite(localStorage, resistanceSignal.lastShownKey, String(Date.now()));
-        schedule = createSignalSchedule();
-        saveSchedule();
+      function runTitleChange(): void {
+        running = true;
+        const heading = document.querySelector<HTMLElement>('main h1, main h2');
+        const node = heading
+          ? (document.createTreeWalker(heading, NodeFilter.SHOW_TEXT).nextNode() as Text | null)
+          : null;
+        const oldText = node?.data;
+        if (node && oldText?.trim()) node.data = 'DU SER DET OCKSÅ.';
+        document.title = 'HÖR DU OSS?';
+        window.setTimeout(() => {
+          if (node && oldText !== undefined) node.data = oldText;
+          document.title = originalTitle;
+          running = false;
+        }, resistanceSignal.titleDurationMs);
       }
 
-      function corruptedText(): void {
-        const selector = 'script,style,noscript,svg,textarea,select,option,[aria-hidden="true"],.sr-only,.skip-link';
+      function corruptPage(): void {
+        const skip = 'script,style,noscript,svg,textarea,select,option,[aria-hidden="true"],.sr-only,.skip-link';
         for (const root of lockable) {
           const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
           let current: Node | null;
           while ((current = walker.nextNode())) {
             const node = current as Text;
             const value = node.data;
-            if (!value.trim() || node.parentElement?.closest(selector)) continue;
+            if (!value.trim() || node.parentElement?.closest(skip)) continue;
             originalTexts.push({ node, value });
             node.data = value.replace(/\S[\s\S]*\S|\S/u, 'DISOBEY');
           }
@@ -90,80 +105,85 @@
         document.body.classList.add('resistance-corrupted');
       }
 
-      function openOverlay(): void {
+      function runDisobey(): void {
+        running = true;
+        document.title = 'DISOBEY';
+        corruptPage();
+        window.setTimeout(() => {
+          restoreText();
+          document.title = originalTitle;
+          running = false;
+        }, resistanceSignal.corruptionMs);
+      }
+
+      function runFullscreen(): void {
         if (!overlay || !messageElement) return;
+        running = true;
+        const previousFocus = document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
+
         overlay.hidden = false;
         document.body.classList.add('resistance-interfering');
         for (const root of lockable) root.inert = true;
         overlay.focus({ preventScroll: true });
 
         let index = 0;
-        const next = (): void => {
-          if (!messageElement) return;
-          if (index === resistanceSignal.messages.length) {
-            redirect();
+        function nextMessage(): void {
+          if (!messageElement || !overlay) return;
+          if (index >= resistanceSignal.messages.length) {
+            overlay.hidden = true;
+            document.body.classList.remove('resistance-interfering');
+            for (let i = 0; i < lockable.length; i++) lockable[i].inert = initialInert[i];
+            document.title = originalTitle;
+            if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
+            running = false;
             return;
           }
-          const signal = resistanceSignal.messages[index++];
-          messageElement.textContent = signal.text;
-          document.title = signal.text;
-          after(signal.durationMs, next);
-        };
-        next();
+          const item = resistanceSignal.messages[index++];
+          messageElement.textContent = item.text;
+          document.title = item.text;
+          window.setTimeout(nextMessage, item.durationMs);
+        }
+        nextMessage();
       }
 
-      function redirect(): void {
-        // Denna adress finns medvetet inte som statisk Astro-sida.
-        // GitHub Pages visar den befintliga anpassade 404-sidan.
+      function redirectTo404(): void {
+        // Adressen är avsiktligt obefintlig. GitHub Pages visar befintlig 404.
+        storageWrite(localStorage, resistanceSignal.lastShownKey, String(Date.now()));
+        schedule = createSignalSchedule();
+        saveSchedule();
         window.location.assign(resistanceSignal.targetPath);
       }
 
-      function beginBreach(): void {
-        if (running) return;
-        running = true;
-        if (intervalId !== undefined) window.clearInterval(intervalId);
-        markShown();
-
-        document.title = 'DU SKULLE INTE HA SETT DET HÄR.';
-        corruptedText();
-        after(resistanceSignal.corruptionMs, () => {
-          restoreText(); // Hela WeAB-sidan återkommer kort före övertagandet.
-          after(resistanceSignal.returnMs, openOverlay);
-        });
+      function runPhase(phase: SignalPhase): void {
+        if (phase === 'redirect') {
+          redirectTo404();
+          return;
+        }
+        // Nästa tidpunkt ligger minst 22 sekunder EFTER denna effekts slut.
+        schedule = advanceSignalSchedule(schedule);
+        saveSchedule();
+        if (phase === 'title') runTitleChange();
+        else if (phase === 'disobey') runDisobey();
+        else if (phase === 'fullscreen') runFullscreen();
       }
 
-      function minorInterference(): void {
-        if (running) return;
-        const heading = document.querySelector<HTMLElement>('main h1, main h2');
-        if (!heading) return;
-        const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
-        const node = walker.nextNode() as Text | null;
-        if (!node || !node.data.trim()) return;
-        const oldText = node.data;
-        node.data = 'DU SER DET OCKSÅ.';
-        document.title = 'HÖR DU OSS?';
-        after(650, () => { node.data = oldText; });
-        after(950, () => { document.title = originalTitle; });
-      }
+      saveSchedule();
+      let previousTick = performance.now();
+      window.setInterval(() => {
+        const now = performance.now();
+        const elapsed = Math.max(0, Math.min(now - previousTick, 1_200));
+        previousTick = now;
+        if (document.visibilityState !== 'visible') return;
 
-      if (preview) {
-        after(1_000, beginBreach);
-      } else {
-        let previousTick = performance.now();
-        intervalId = window.setInterval(() => {
-          const now = performance.now();
-          const elapsed = Math.max(0, Math.min(now - previousTick, 1_200));
-          previousTick = now;
-          if (running || document.visibilityState !== 'visible') return;
-          schedule.activeMs += elapsed;
-          if (!schedule.minorShown && schedule.activeMs >= schedule.minorAtMs) {
-            schedule.minorShown = true;
-            minorInterference();
-          }
-          if (schedule.activeMs >= schedule.breachAtMs) beginBreach();
-          else saveSchedule();
-        }, 500);
-      }
+        schedule.activeMs += elapsed;
+        if (!running && schedule.activeMs >= schedule.nextAtMs) {
+          runPhase(schedule.nextPhase);
+        } else {
+          saveSchedule();
+        }
+      }, 500);
     }
   }
 </script>

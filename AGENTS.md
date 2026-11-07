@@ -64,7 +64,7 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 ## Avgränsat ARG-undantag: motståndsrörelsens digitala intrång
 
 - `src/components/ResistanceInterference.astro` och `src/data/resistanceSignal.ts` utgör ett **medvetet berättelsedrivet undantag** från förbudet mot dekorativ animation. Det är inte en ny generell animationsstil för WeAB:s webbplats.
-- Intrånget visas vid aktiv läsning men inte på 404-sidan. Det kan kortvarigt byta text och fliktitel, visa tre mörka helskärmsmeddelanden och navigera till en **avsiktligt icke-existerande koordinat-URL**. Kontrollera `docs/internal/resistance-interference.md` före ändring.
+- Intrånget visas vid aktiv läsning men inte på 404-sidan. Fyra olika steg – titeländring, DISOBEY, tre helskärmsmeddelanden och 404-omdirigering – är åtskilda av **minst 20 sekunders aktiv väntan efter varje föregående effekt**, med viss slumpvariation. Webbplatsens vanliga text återkommer i pauserna. Kontrollera `docs/internal/resistance-interference.md` före ändring.
 - Meddelanden får bara peka mot den sedan tidigare fastslagna tunneln i WeLiveLaughLove Sektion 1 Avdelning B. Skapa **aldrig** en ny ledtråd till vraket eller offentliggör spelmästarkanon på officiella sidor.
 - Inga starka blixtar, jumpscare-ljud eller upprepade snabba blinkningar. Intrånget visas i samma utförande för alla och kan inte avbrytas med Escape eller klick. Sekvensen får inte skapa en navigeringsslinga. Prova med `npm run test:resistance` och `npm run check`.
 - Intrånget måste saknas på `src/pages/404.astro` så att omdirigeringen inte bildar en slinga. Rotadressen med koordinater är avsiktligt inte en faktisk Astro-sida.

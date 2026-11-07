@@ -1,17 +1,20 @@
 /**
- * Visuellt intrång i WeAB.nu. Signalens innehåll är fiktion och hör endast
- * till motståndsrörelsens ARG, aldrig koncernens egna redaktionella texter.
- *
- * URL:en pekar på den kända tunneln i Sektion 1, Avdelning B. Adressen får
- * avsiktligt inte en egen sida: GitHub Pages visar då webbplatsens 404-sida.
+ * Motståndets intrång i WeAB:s webbplats, separat från koncernens nyheter.
+ * Den okända koordinatadressen ska landa i den befintliga 404-sidan.
  */
 export const resistanceSignal = {
   targetPath: '/31-66--351/',
-  sessionKey: 'weab:resistance:session:v1',
+  // Ny sessionsversion: gamla scheman med sammanslagen sekvens ska inte återanvändas.
+  sessionKey: 'weab:resistance:session:v2',
   lastShownKey: 'weab:resistance:last-shown:v1',
   cooldownMs: 15 * 60 * 1000,
+  firstEventMinMs: 30_000,
+  firstEventVariationMs: 40_000,
+  // Pausen räknas från det föregående intrångets SLUT, inte dess start.
+  minBetweenEventsMs: 22_000,
+  additionalGapMs: 12_000,
+  titleDurationMs: 950,
   corruptionMs: 1500,
-  returnMs: 450,
   messages: [
     { text: 'HÖR DU OSS?', durationMs: 1150 },
     { text: 'VI ÄR FORTFARANDE HÄR.', durationMs: 1350 },
@@ -19,21 +22,55 @@ export const resistanceSignal = {
   ]
 } as const;
 
+export const signalPhases = ['title', 'disobey', 'fullscreen', 'redirect'] as const;
+export type SignalPhase = (typeof signalPhases)[number];
+
 export interface SignalSchedule {
+  /** Förbrukade millisekunder i synlig, aktiv flik. */
   activeMs: number;
-  minorAtMs: number;
-  breachAtMs: number;
-  minorShown: boolean;
+  /** Nästa effekt. Även redan genomförda steg sparas mellan sidbyten. */
+  nextPhase: SignalPhase;
+  /** Aktiv tid då nästa effekt tidigast får börja. */
+  nextAtMs: number;
 }
 
-/** Ca 80 % av aktiva besök får intrånget inom 1:40–3:30; övriga senare. */
+export function phaseDurationMs(phase: SignalPhase): number {
+  switch (phase) {
+    case 'title': return resistanceSignal.titleDurationMs;
+    case 'disobey': return resistanceSignal.corruptionMs;
+    case 'fullscreen': return resistanceSignal.messages.reduce((sum, item) => sum + item.durationMs, 0);
+    case 'redirect': return 0;
+  }
+}
+
 export function createSignalSchedule(random: () => number = Math.random): SignalSchedule {
-  const early = random() < 0.8;
   return {
     activeMs: 0,
-    minorAtMs: Math.floor(30_000 + random() * 40_000),
-    breachAtMs: Math.floor((early ? 100_000 : 225_000) + random() * (early ? 110_000 : 95_000)),
-    minorShown: false
+    nextPhase: 'title',
+    nextAtMs: Math.floor(
+      resistanceSignal.firstEventMinMs + random() * resistanceSignal.firstEventVariationMs
+    )
+  };
+}
+
+/**
+ * Schemalägg nästa effekt minst 22 s efter att den nuvarande effekten
+ * FÖRVÄNTAS sluta. Ett nytt sidbesök behåller detta schema.
+ */
+export function advanceSignalSchedule(
+  schedule: SignalSchedule,
+  random: () => number = Math.random
+): SignalSchedule {
+  const index = signalPhases.indexOf(schedule.nextPhase);
+  if (index < 0 || index === signalPhases.length - 1) {
+    throw new Error('Det finns ingen nästa fas efter 404-navigeringen.');
+  }
+  const gap = resistanceSignal.minBetweenEventsMs +
+    Math.floor(random() * resistanceSignal.additionalGapMs);
+  return {
+    activeMs: schedule.activeMs,
+    nextPhase: signalPhases[index + 1],
+    nextAtMs: schedule.activeMs + phaseDurationMs(schedule.nextPhase) + gap
   };
 }
 
@@ -41,11 +78,9 @@ export function isSignalSchedule(value: unknown): value is SignalSchedule {
   if (!value || typeof value !== 'object') return false;
   const state = value as Partial<SignalSchedule>;
   return typeof state.activeMs === 'number' && Number.isFinite(state.activeMs) &&
-    state.activeMs >= 0 && typeof state.minorAtMs === 'number' &&
-    Number.isFinite(state.minorAtMs) && state.minorAtMs >= 0 &&
-    typeof state.breachAtMs === 'number' && Number.isFinite(state.breachAtMs) &&
-    state.breachAtMs > state.minorAtMs &&
-    typeof state.minorShown === 'boolean';
+    state.activeMs >= 0 && typeof state.nextAtMs === 'number' &&
+    Number.isFinite(state.nextAtMs) && state.nextAtMs >= 0 &&
+    signalPhases.includes(state.nextPhase as SignalPhase);
 }
 
 export function isSignalOnCooldown(now: number, lastShown: number | null): boolean {
