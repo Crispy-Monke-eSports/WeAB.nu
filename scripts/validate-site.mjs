@@ -28,8 +28,11 @@ if (!existsSync(join(dist, '404.html'))) {
     broken.push('404-sidan ska neka till adressen utan att utlösa det ordinarie intrånget');
   }
   // Enbart en färsk, tidsstämplad engångstrigger på koordinat-404 får utlösa Morse.
-  if (!notFound.includes('data-morse-veil') || !notFound.includes('data-morse-connect')) {
-    broken.push('ARG-404 saknar den separata Morse-finalens ljud-/korruptionslager');
+  if (!notFound.includes('data-morse-veil')) {
+    broken.push('ARG-404 saknar Morse-finalens visuella korruptionslager');
+  }
+  if (notFound.includes('data-morse-connect') || notFound.includes('SIGNAL BRUTEN.')) {
+    broken.push('ARG-404 får inte längre visa knappen för avbruten Morse-signal');
   }
 }
 if (existsSync(join(dist, '31-66--351')) || existsSync(join(dist, '31-66--351.html'))) {

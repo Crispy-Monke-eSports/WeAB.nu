@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   resistanceMorse, morseTimeline, morseDurationMs,
-  morseStartDelayMs, isValidMorseTrigger
+  morseStartDelayMs, isValidMorseTrigger, isMorseMarkActive
 } from '../src/data/resistanceMorse.ts';
 
 test('Morse kodar SOS med korrekta signal- och bokstavspauser', () => {
@@ -13,6 +13,19 @@ test('Morse kodar SOS med korrekta signal- och bokstavspauser', () => {
     [2200,100,'.'],[2400,100,'.'],[2600,100,'.']
   ]);
   assert.equal(morseDurationMs(marks),2700);
+});
+
+test('färginvertering är exakt aktiv på morseprickar och -streck, aldrig i pauserna', () => {
+  const marks = morseTimeline('E E', 100);
+  for (const time of [0, 50, 99, 800, 899]) {
+    assert.equal(isMorseMarkActive(marks, time), true, 'mark on at ' + time);
+  }
+  for (const time of [-1, 100, 250, 799, 900, NaN]) {
+    assert.equal(isMorseMarkActive(marks, time), false, 'mark off at ' + time);
+  }
+  const sos = morseTimeline('SOS', 100);
+  assert.equal(isMorseMarkActive(sos, 800), true);
+  assert.equal(isMorseMarkActive(sos, 1100), false);
 });
 
 test('ord avdelas med sju enheter och decimalpunkt är morsekodad', () => {

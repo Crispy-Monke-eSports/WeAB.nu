@@ -5,19 +5,15 @@
  */
 ---
 <div class="resistance-morse-veil" data-morse-veil hidden aria-hidden="true"></div>
-<button class="resistance-morse-connect" data-morse-connect type="button" hidden>
-  SIGNAL BRUTEN. ÅTERUPPRÄTTA FÖRBINDELSEN.
-</button>
 
 <script>
   import { resistanceSignal } from '../data/resistanceSignal.ts';
   import {
     resistanceMorse, morseTimeline, morseDurationMs,
-    morseStartDelayMs, isValidMorseTrigger
+    morseStartDelayMs, isValidMorseTrigger, isMorseMarkActive
   } from '../data/resistanceMorse.ts';
 
   const veil = document.querySelector<HTMLElement>('[data-morse-veil]');
-  const connectButton = document.querySelector<HTMLButtonElement>('[data-morse-connect]');
   const preview = import.meta.env.DEV &&
     new URLSearchParams(location.search).get('previewMorse') === '1';
 
@@ -32,7 +28,7 @@
   const isCoordinate404 = location.pathname === resistanceSignal.targetPath ||
     location.pathname === resistanceSignal.targetPath.slice(0, -1);
   const armed = isCoordinate404 && isValidMorseTrigger(takeTrigger(), Date.now());
-  if (isCoordinate404 && (armed || preview) && veil && connectButton) {
+  if (isCoordinate404 && (armed || preview) && veil) {
     // Passets 404 visas helt normalt i minst 22 sekunder efter navigeringen.
     let activeMs = 0;
     const startAfterMs = preview ? 1_000 : morseStartDelayMs();
@@ -53,7 +49,6 @@
 
     const marks = morseTimeline();
     const totalMs = morseDurationMs(marks);
-    const originalTitle = document.title;
     const paragraphs = [...document.querySelectorAll<HTMLElement>(
       '.not-found-content h1, .not-found-content p, .not-found-content a,' +
       ' .not-found-footer span, .site-header a, .footer-about p,' +
@@ -63,7 +58,6 @@
     let corrupted = 0;
 
     function corrupt(element: HTMLElement, index: number): void {
-      if (element.querySelector('[data-morse-connect]')) return;
       const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
       let next: Node | null;
       while ((next = walker.nextNode())) {
@@ -86,6 +80,9 @@
       veil.hidden = false;
       veil.style.opacity = String(Math.min(.9, Math.pow(portion, 1.6) * .95));
       document.body.classList.add('resistance-morse-active');
+      // Varje inverterad puls är exakt samma morsestreck/prick som radiosignalen.
+      // Inga separata slumpblixtar: paus i Morse = normala färger.
+      document.body.classList.toggle('resistance-morse-inverted', isMorseMarkActive(marks, elapsed));
       if (portion > .22) document.title = 'S I G N A L   F Ö R L O R A D';
       if (portion > .65) document.title = '████████████';
     }
@@ -107,8 +104,10 @@
 
     function animateByAudioClock(context: AudioContext, begins: number): void {
       function frame(): void {
-        const elapsed = Math.max(0, (context.currentTime - begins) * 1000);
-        progress(elapsed);
+        const elapsed = (context.currentTime - begins) * 1000;
+        // Första inverterade pulsen ska börja med ljudet, inte under ljudets
+        // inledande 80 ms schemaläggningsmarginal.
+        if (elapsed >= 0) progress(elapsed);
         if (elapsed < totalMs + 260) {
           window.requestAnimationFrame(frame);
           return;
@@ -189,7 +188,8 @@
     }
 
     function fallbackVisualOnly(): void {
-      // Bara om Web Audio API helt saknas. Autoplay-blockering hanteras med knapp.
+      // Samma Morse-timing även när webbläsaren förbjuder ljud utan klick.
+      // Inga knappar eller texter som förklarar att signalen inte kunde starta.
       const started = performance.now();
       function frame(now: number): void {
         progress(now - started);
@@ -200,27 +200,46 @@
     }
 
     function prepareSignal(): void {
-      if (!connectButton) return;
       if (typeof AudioContext === 'undefined') {
         fallbackVisualOnly();
         return;
       }
-      const context = new AudioContext();
+
+      let context: AudioContext;
+      try {
+        context = new AudioContext();
+      } catch {
+        fallbackVisualOnly();
+        return;
+      }
       if (context.state === 'running') {
         playCorruptedMorse(context);
         return;
       }
-      // Web Audio får inte kringgå webbläsarens autoplay-regler.
-      // En enda in-world-knapp visas ENDAST när ljudet annars blockeras.
-      connectButton.hidden = false;
-      connectButton.addEventListener('click', () => {
-        void context.resume().then(() => {
-          if (context.state !== 'running') return;
-          if (!connectButton) return;
-          connectButton.hidden = true;
-          document.title = originalTitle;
+
+      // Autoplay kan blockeras trots tidigare sidvisning. Ge Web Audio ett
+      // kort försök utan användarkontroll, fortsätt annars visuellt i takt.
+      let settled = false;
+      function useVisualFallback(): void {
+        if (settled) return;
+        settled = true;
+        void context.close().catch(() => {});
+        fallbackVisualOnly();
+      }
+      const timeout = window.setTimeout(useVisualFallback, 350);
+      void context.resume().then(() => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timeout);
+        if (context.state === 'running') {
           playCorruptedMorse(context);
-        }).catch(() => {});
+        } else {
+          void context.close().catch(() => {});
+          fallbackVisualOnly();
+        }
+      }).catch(() => {
+        window.clearTimeout(timeout);
+        useVisualFallback();
       });
     }
   }
@@ -242,22 +261,10 @@
     opacity: 0;
     transition: none;
   }
-  .resistance-morse-connect {
-    position: fixed;
-    z-index: 10000;
-    bottom: 9vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(88vw, 580px);
-    padding: 1.2rem 1.5rem;
-    color: #e4e5e5;
-    background: #050707;
-    border: 1px solid #7e4145;
-    font-family: ui-monospace, monospace;
-    font-size: clamp(.8rem, 2.2vw, 1rem);
-    letter-spacing: .04em;
-    cursor: pointer;
-    text-align: center;
+  /* Inverterade Morse-pulser utan bländande helskärmsvita blixtar.
+     Mörkhetsbegränsningen behåller färgväxlingen men minskar ljusstyrkan. */
+  :global(body.resistance-morse-inverted) {
+    filter: invert(1) brightness(.23) contrast(.78);
   }
   :global(.resistance-morse-corrupted) {
     color: #d0b7b7 !important;

@@ -14,7 +14,7 @@ Alla separata moment fram till 404 ligger **minst 22 sekunders aktiv läsning ef
 6. **VÄNTAN:** 22–34 sekunder vanlig webbplats.
 7. **404:** Navigera till `/31-66--351/`, ett avsiktligt obefintligt dokument. GitHub Pages serverar den vanliga, förnekande 404-sidan medan koordinatadressen visas i adressfältet.
 8. **VÄNTAN PÅ 404:** Den särskilda 404-sidan är helt normal under 22–34 sekunder av aktiv fliktid.
-9. **MORSE OCH NEDBRYTNING:** En förvrängd, överstyrd radioton med filtrerat brus skickar **internationell Morse**. Samtidigt blir textblock på 404-sidan korrupta ett efter ett: rubrik, ingress, länkar, navigation och sidfot. Fliktiteln förlorar läsbarhet och en mörk skärmslöja tilltar gradvis. Ingen stark blixt, stroboskop eller skrämselljud används.
+9. **MORSE OCH NEDBRYTNING:** En förvrängd, överstyrd radioton med filtrerat brus skickar **internationell Morse**. Samma Morse-tidslinje styr sidan: **inverterad färg medan varje prick eller streck ljuder, normal färg i pauserna**. Inverteringen mörkas ned kraftigt för att undvika bländande vita helskärmsblixtar. Samtidigt blir textblock på 404-sidan korrupta ett efter ett: rubrik, ingress, länkar, navigation och sidfot. Fliktiteln förlorar läsbarhet och en mörk skärmslöja tilltar gradvis.
 10. **SLUT:** Efter den sista morsebokstaven blir skärmen svart och skriptet försöker `window.close()`. Webbläsaren får normalt inte stänga en manuellt öppnad flik: fallback är `location.replace('about:blank')`, så sidan blir en tom flik i stället.
 
 Ingen Escape-knapp eller klickavbrytning har införts för standardintrånget.
@@ -35,7 +35,7 @@ Meddelandet nämner ett vrak men **inte dess koordinater, röstsiffror eller nå
 
 ## Ljud och webbläsarbegränsningar
 
-Koden använder Web Audio API: överstyrd oscillator, frekvensdrift och låg brusmatta, syntetiserat direkt i webbläsaren utan ljudfil. Om webbläsaren tillåter Web Audio startar signalen automatiskt. Om **autoplay blockeras** väntar intrånget i stället på ett klick på en kontextuell knapp: **SIGNAL BRUTEN. ÅTERUPPRÄTTA FÖRBINDELSEN.** Sidan börjar inte spela tyst och stängs inte innan ljuduppspelningen verkligen har genomförts. Om Web Audio inte stöds körs en visuell nedbrytning med samma tidslängd.
+Koden använder Web Audio API: överstyrd oscillator, frekvensdrift och låg brusmatta, syntetiserat direkt i webbläsaren utan ljudfil. Om ljudet tillåts startar det automatiskt. **Ingen knapp eller status om förlorad signal visas längre.** Om webbläsaren blockerar Web Audio görs ett kort försök att återuppta kontexten. Om det misslyckas fortsätter samma avkodningsbara Morse-rytm **visuellt utan ljud**, även på webbläsare som saknar Web Audio. Därmed stoppas inte skeendet av autoplay-regler. Det går inte att garantera automatiskt ljud i alla webbläsare utan en användargest.
 
 `window.close()` kan vanligen bara stänga flikar som öppnats av webbinnehåll, och får inte forcera stängning av en manuell flik. Fallback till `about:blank` ger det visuella avslut som begärts, men ändrar inte själva webbläsarens flikhantering.
 
@@ -51,4 +51,4 @@ Koden använder Web Audio API: överstyrd oscillator, frekvensdrift och låg bru
 
 ## Tester före och efter publicering
 
-Kör `npm run check` och verifiera GitHub Actions. Kontrollera på en riktig webbläsare att ljudet är hörbart och morserytmen går att avkoda. Testa både ljudtillåten och ljudblockerad autoplay. Besök en vanlig felaktig URL och kontrollera att Morse **inte** börjar där. Kontrollera mobil, att korruptionen sprider sig successivt och att fliken stängs endast om webbläsaren tillåter det. I utvecklingsläge kan `/?previewResistance=1` snabbstarta första titelfasen och `/31-66--351/?previewMorse=1` snabbstarta Morse-finalen separat; produktionsbygget tillåter inte dessa genvägar.
+Kör `npm run check` och verifiera GitHub Actions. Kontrollera på en riktig webbläsare att ljudet är hörbart och morserytmen går att avkoda. Testa både ljudtillåten och ljudblockerad autoplay. Ingen knapp ska visas; färgerna ska växla i exakt samma takt som pricken/strecket är aktivt och återgå till normalt under varje paus. Besök en vanlig felaktig URL och kontrollera att Morse **inte** börjar där. Kontrollera mobil, att korruptionen sprider sig successivt och att fliken stängs endast om webbläsaren tillåter det. I utvecklingsläge kan `/?previewResistance=1` snabbstarta första titelfasen och `/31-66--351/?previewMorse=1` snabbstarta Morse-finalen separat; produktionsbygget tillåter inte dessa genvägar.

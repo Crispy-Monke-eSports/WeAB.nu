@@ -55,6 +55,20 @@ export function morseTimeline(
   return marks;
 }
 
+/** Synkronisera färginverteringen med exakt samma prickar och streck som ljudet. */
+export function isMorseMarkActive(
+  marks: readonly MorseMark[],
+  elapsedMs: number
+): boolean {
+  if (!Number.isFinite(elapsedMs) || elapsedMs < 0) return false;
+  // Märken är tidsordnade och överlappar inte.
+  for (const mark of marks) {
+    if (elapsedMs < mark.atMs) return false;
+    if (elapsedMs < mark.atMs + mark.durationMs) return true;
+  }
+  return false;
+}
+
 export function morseDurationMs(marks: readonly MorseMark[]): number {
   const last = marks.at(-1);
   return last ? last.atMs + last.durationMs : 0;
