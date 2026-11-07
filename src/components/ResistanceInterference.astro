@@ -1,0 +1,227 @@
+---
+/**
+ * ARG-intrång. Avsiktligt skilt från WeAB:s publika redaktionella innehåll.
+ * Renderas inte på 404-sidan: koordinat-URL:en måste få vara slutpunkten.
+ */
+---
+<div
+  class="resistance-interference"
+  data-resistance-interference
+  role="dialog"
+  aria-modal="true"
+  aria-label="Ett främmande meddelande."
+  tabindex="-1"
+  hidden
+>
+  <p class="resistance-interference__message" data-resistance-message aria-live="polite" aria-atomic="true"></p>
+</div>
+
+<script>
+  import {
+    resistanceSignal,
+    createSignalSchedule,
+    isSignalSchedule,
+    isSignalOnCooldown,
+    type SignalSchedule
+  } from '../data/resistanceSignal.ts';
+
+  const overlay = document.querySelector<HTMLElement>('[data-resistance-interference]');
+  const messageElement = overlay?.querySelector<HTMLElement>('[data-resistance-message]');
+  if (overlay && messageElement) {
+    const originalTitle = document.title;
+    const lockable = [...document.querySelectorAll<HTMLElement>('body > header, body > main, body > footer')];
+    const storageRead = (storage: Storage, key: string): string | null => {
+      try { return storage.getItem(key); } catch { return null; }
+    };
+    const storageWrite = (storage: Storage, key: string, value: string): void => {
+      try { storage.setItem(key, value); } catch { /* Lagring är valfri. */ }
+    };
+
+    const lastShownRaw = storageRead(localStorage, resistanceSignal.lastShownKey);
+    const lastShown = lastShownRaw === null ? null : Number(lastShownRaw);
+    const preview = import.meta.env.DEV && new URLSearchParams(location.search).get('previewResistance') === '1';
+    if (!isSignalOnCooldown(Date.now(), lastShown) || preview) {
+      let schedule: SignalSchedule;
+      try {
+        const previous = storageRead(sessionStorage, resistanceSignal.sessionKey);
+        const parsed: unknown = previous ? JSON.parse(previous) : null;
+        schedule = isSignalSchedule(parsed) ? parsed : createSignalSchedule();
+      } catch {
+        schedule = createSignalSchedule();
+      }
+
+      let running = false;
+      let intervalId: number | undefined;
+      let originalTexts: Array<{ node: Text; value: string }> = [];
+
+      function after(ms: number, callback: () => void): void {
+        window.setTimeout(callback, ms);
+      }
+
+      function saveSchedule(): void {
+        storageWrite(sessionStorage, resistanceSignal.sessionKey, JSON.stringify(schedule));
+      }
+
+      function restoreText(): void {
+        for (const entry of originalTexts) entry.node.data = entry.value;
+        originalTexts = [];
+        document.body.classList.remove('resistance-corrupted');
+      }
+
+      function markShown(): void {
+        storageWrite(localStorage, resistanceSignal.lastShownKey, String(Date.now()));
+        schedule = createSignalSchedule();
+        saveSchedule();
+      }
+
+      function corruptedText(): void {
+        const selector = 'script,style,noscript,svg,textarea,select,option,[aria-hidden="true"],.sr-only,.skip-link';
+        for (const root of lockable) {
+          const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+          let current: Node | null;
+          while ((current = walker.nextNode())) {
+            const node = current as Text;
+            const value = node.data;
+            if (!value.trim() || node.parentElement?.closest(selector)) continue;
+            originalTexts.push({ node, value });
+            node.data = value.replace(/\S[\s\S]*\S|\S/u, 'DISOBEY');
+          }
+        }
+        document.body.classList.add('resistance-corrupted');
+      }
+
+      function openOverlay(): void {
+        if (!overlay || !messageElement) return;
+        overlay.hidden = false;
+        document.body.classList.add('resistance-interfering');
+        for (const root of lockable) root.inert = true;
+        overlay.focus({ preventScroll: true });
+
+        let index = 0;
+        const next = (): void => {
+          if (!messageElement) return;
+          if (index === resistanceSignal.messages.length) {
+            redirect();
+            return;
+          }
+          const signal = resistanceSignal.messages[index++];
+          messageElement.textContent = signal.text;
+          document.title = signal.text;
+          after(signal.durationMs, next);
+        };
+        next();
+      }
+
+      function redirect(): void {
+        // Denna adress finns medvetet inte som statisk Astro-sida.
+        // GitHub Pages visar den befintliga anpassade 404-sidan.
+        window.location.assign(resistanceSignal.targetPath);
+      }
+
+      function beginBreach(): void {
+        if (running) return;
+        running = true;
+        if (intervalId !== undefined) window.clearInterval(intervalId);
+        markShown();
+
+        document.title = 'DU SKULLE INTE HA SETT DET HÄR.';
+        corruptedText();
+        after(resistanceSignal.corruptionMs, () => {
+          restoreText(); // Hela WeAB-sidan återkommer kort före övertagandet.
+          after(resistanceSignal.returnMs, openOverlay);
+        });
+      }
+
+      function minorInterference(): void {
+        if (running) return;
+        const heading = document.querySelector<HTMLElement>('main h1, main h2');
+        if (!heading) return;
+        const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+        const node = walker.nextNode() as Text | null;
+        if (!node || !node.data.trim()) return;
+        const oldText = node.data;
+        node.data = 'DU SER DET OCKSÅ.';
+        document.title = 'HÖR DU OSS?';
+        after(650, () => { node.data = oldText; });
+        after(950, () => { document.title = originalTitle; });
+      }
+
+      if (preview) {
+        after(1_000, beginBreach);
+      } else {
+        let previousTick = performance.now();
+        intervalId = window.setInterval(() => {
+          const now = performance.now();
+          const elapsed = Math.max(0, Math.min(now - previousTick, 1_200));
+          previousTick = now;
+          if (running || document.visibilityState !== 'visible') return;
+          schedule.activeMs += elapsed;
+          if (!schedule.minorShown && schedule.activeMs >= schedule.minorAtMs) {
+            schedule.minorShown = true;
+            minorInterference();
+          }
+          if (schedule.activeMs >= schedule.breachAtMs) beginBreach();
+          else saveSchedule();
+        }, 500);
+      }
+    }
+  }
+</script>
+
+<style>
+  .resistance-interference {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: grid;
+    place-items: center;
+    background: #020304;
+    color: #e7e9e9;
+    padding: clamp(1.3rem, 5vw, 4rem);
+    text-align: center;
+    cursor: default;
+    isolation: isolate;
+  }
+  .resistance-interference::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 3px,
+      rgb(255 255 255 / .025) 4px,
+      transparent 5px
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+  .resistance-interference__message {
+    margin: 0;
+    max-width: 25ch;
+    color: #e7e9e9;
+    font-family: 'Press Start 2P', ui-monospace, monospace;
+    font-size: clamp(1.15rem, 4.4vw, 3rem);
+    font-weight: 400;
+    letter-spacing: .035em;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+    text-shadow: 2px 0 #633b45, -2px 0 #35545e;
+    animation: resistance-distortion 1.15s steps(2, end) both;
+  }
+  :global(body.resistance-corrupted > header),
+  :global(body.resistance-corrupted > main),
+  :global(body.resistance-corrupted > footer) {
+    pointer-events: none;
+    animation: resistance-shudder .23s steps(2, end) 2;
+  }
+  @keyframes resistance-shudder {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(2px); }
+  }
+  @keyframes resistance-distortion {
+    0%, 100% { transform: translateX(0); }
+    45% { transform: translateX(-2px); }
+    55% { transform: translateX(1px); }
+  }
+</style>
