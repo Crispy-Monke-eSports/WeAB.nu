@@ -79,6 +79,7 @@
     }
 
     function progress(elapsed: number): void {
+      if (!veil) return;
       const portion = Math.min(1, elapsed / totalMs);
       const expected = Math.min(paragraphs.length, Math.floor(portion * (paragraphs.length + 1)));
       while (corrupted < expected) corrupt(paragraphs[corrupted], corrupted++);
@@ -199,6 +200,7 @@
     }
 
     function prepareSignal(): void {
+      if (!connectButton) return;
       if (typeof AudioContext === 'undefined') {
         fallbackVisualOnly();
         return;
@@ -214,6 +216,7 @@
       connectButton.addEventListener('click', () => {
         void context.resume().then(() => {
           if (context.state !== 'running') return;
+          if (!connectButton) return;
           connectButton.hidden = true;
           document.title = originalTitle;
           playCorruptedMorse(context);
