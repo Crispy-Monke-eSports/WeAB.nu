@@ -47,6 +47,35 @@ Kistans fulla innehåll, vilka som placerade valresultatet i vraket och förhål
 - WeAB har inte infört skatt; DGS inkom 6 november 2051 och är fortfarande under beredning.
 - Korsdalen hör till en senare berättelsemiljö och har ännu inte kontaktats. Blanda inte in det i ARG:ets nuvarande händelser.
 
+
+## Redan utdelad första webbledtråd – serverns Discord
+
+**Publiceringsstatus enligt användarens uppgift:** Följande **två saker har redan delats tillsammans på serverns Discord-server** som ARG:ets första läcka och uppmaning att börja undersöka WeAB.nu. Det är ett genomfört steg i spelets verkliga distribution, **inte** en framtida idé och **inte** ett pressmeddelande från WeAB. Exakt Discord-kanal, meddelandelänk och publiceringstid är inte dokumenterade; hitta inte på dem.
+
+1. **PDF-bilaga:** `WeAB_IT_utkast_officiell_mall.pdf` – den senast framtagna, enbladiga A4-versionen med WeAB:s **officiella Writer-mall**, verkliga WE-logotyp och sidfot. Dokumentet är ett **ofärdigt internt IT-utkast**, inte en färdig felrapport. Texten blir successivt mer paranoid om något på hemsidan som inte beter sig normalt och upphör abrupt i okontrollerade tangenttryckningar, utan avslöjande facit. PDF:en har **delats externt på Discord** men har **inte lagts till i GitHub-repot eller gjorts till en publik dokumentlänk på webbplatsen**.
+2. **Tillhörande Discord-meddelande:** den avsiktligt korta, kraftigt korrumperade texten nedan. Motsägelsen mellan `[INGEN FIL HAR BIFOGATS]` och den faktiska PDF-bilagan är en del av den obehagliga utformningen, inte ett fel som behöver rättas.
+
+### Exakt text som skickades tillsammans med PDF:en
+
+```text
+W̷E̶A̸B̴ // ████_ERR
+
+[ÖVERFÖRING MISSLYCKADES]
+[Ö̷V̴E̶R̸F̷Ö̵R̶I̸N̷G̴ SLUTFÖRD]
+
+k̸ä̷l̶l̵a̴:̸ ̶o̷k̴ä̵n̶d̷
+mottagare: ███████
+
+d̷e̸t̶ ̵s̷k̴r̶i̸v̶e̴r̷ ̸f̵o̷r̸t̵f̶a̷r̵a̸n̴d̸e̶
+
+▓▒░ asdfghjklöä ██████
+
+[INGEN FIL HAR BIFOGATS]
+[DU HAR REDAN ÖPPNAT DEN]
+```
+
+**Ledtrådens funktion:** Ge spelarna anledning att öppna och undersöka den vanliga WeAB-hemsidan, utan att på förhand förklara de slumpade digitala intrången, morsekodens innehåll, vrakets plats eller motståndsrörelsens verkliga historia. Knyt inte denna första läcka till en namngiven dödsorsak, en utpekad gärningsperson, ett uppdiktat datum eller en automatisk ny ledtråd. Registrera detta som **redan utdelat ARG-material**, skilt från den officiella koncernens egen kommunikation.
+
 ## Nuvarande webbledtrådar och framtida ARG-design
 
 1. Den existerande tunnelvägen leder till det sprängda huset med rapport från 2051; **där slutar den fysiska ledtrådsvägen**.

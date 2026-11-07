@@ -78,6 +78,7 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 - Skilj på rädens händelseår **2051** och det kända **rapportdatumet 21 november 2051**. Inget exakt räddatum är bekräftat.
 - Läs `docs/internal/arg-motstandsrorelsen.md` för intern fakta, skylttexter, ledtrådskopplingar och eventuella *framtida* pusselidéer. Skapa inte hemliga sidor, länkar till vraket, pressutskick eller nya ledtrådar automatiskt.
 - ARG-information får ligga i GitHub enligt användarens förutsättning att spelarna inte läser repot, men **ska inte exponeras på webbplatsen**.
+- **Första ARG-läckan har redan delats på serverns Discord enligt användaren:** PDF:en `WeAB_IT_utkast_officiell_mall.pdf` (den senaste, ofärdiga interna IT-notisen i WeAB:s officiella dokumentmall) **tillsammans med** den korta, korrumperade Discord-texten som börjar `W̷E̶A̸B̴ // ████_ERR`. Ordagrann Discord-text och distributionsstatus finns i `docs/internal/arg-motstandsrorelsen.md`. Betrakta detta som etablerad första ledtråd, inte som ett framtida förslag. Uppfinn inga kanaler, tider, dödsorsaker eller kopplingar till hemliga fynd. Lägg inte in den läckta PDF:en som ett offentligt WeAB-pressdokument.
 
 ## Pressutskick förankrade i storyn
 
