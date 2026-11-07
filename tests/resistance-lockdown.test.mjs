@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  resistanceLockdown, createLockdownCookie, readLockdownExpiry
+  resistanceLockdown, createLockdownCookie, readLockdownExpiry,
+  getLockdownBeat, getLockdownStatus
 } from '../src/data/resistanceLockdown.ts';
 import { createSignalSchedule, isSignalSchedule } from '../src/data/resistanceSignal.ts';
 
@@ -47,4 +48,35 @@ test('när spärren har gått ut går det att skapa en helt ny slumpad session',
   assert.equal(first.activeMs, 0);
   assert.equal(second.activeMs, 0);
   assert.ok(second.nextAtMs >= 30_000 && second.nextAtMs < 70_000);
+});
+
+test('WeAB och den oidentifierade rösten kämpar om samma låsskärm under fem minuter', () => {
+  const events = resistanceLockdown.struggle;
+  assert.equal(events[0].atMs, 0);
+  assert.equal(events[0].voice, 'system');
+  assert.ok(events.length >= 10);
+  for (let i = 1; i < events.length; i++) {
+    assert.ok(events[i].atMs > events[i - 1].atMs);
+    assert.ok(events[i].atMs < resistanceLockdown.durationMs);
+  }
+  assert.ok(events.some(e => e.voice === 'intrusion'));
+  assert.ok(events.some(e => e.voice === 'system'));
+  assert.equal(getLockdownBeat(-1), events[0]);
+  assert.equal(getLockdownBeat(0), events[0]);
+  assert.equal(getLockdownBeat(24_000).text, 'jag är kvar');
+  assert.equal(getLockdownBeat(30_999).voice, 'intrusion');
+  assert.equal(getLockdownBeat(31_000).voice, 'system');
+  assert.equal(getLockdownBeat(181_000).text, 'SLÄPP UT MIG');
+  assert.equal(getLockdownBeat(299_999).voice, 'system');
+});
+
+test('dödsbekräftelsen visas vid fem minuter och först därefter återkommer sidan', () => {
+  const until = 1_800_000_300_000;
+  assert.equal(getLockdownStatus(until, until - 1), 'locked');
+  assert.equal(getLockdownStatus(until, until), 'confirmed');
+  assert.equal(getLockdownStatus(until, until + resistanceLockdown.exitMessageMs - 1), 'confirmed');
+  assert.equal(getLockdownStatus(until, until + resistanceLockdown.exitMessageMs), 'available');
+  assert.equal(getLockdownStatus(null, until), 'available');
+  assert.equal(resistanceLockdown.exitMessage, 'Dödsfall bekräftat. Återtar anslutning...');
+  assert.ok(resistanceLockdown.exitMessageMs >= 2_000 && resistanceLockdown.exitMessageMs <= 5_000);
 });

@@ -43,9 +43,9 @@ Morse är en separat webbledtråd till det befintliga vraket, **inte en bekräft
 - src/layouts/BaseLayout.astro monterar båda komponenterna även på 404.
 - src/pages/404.astro har ingen separat Morse-trigger. Koordinat-404 är nu en valfri händelse i slumpkön.
 - src/data/resistanceMorse.ts är källa för avkodningsbar Morse-timing.
-- src/data/resistanceLockdown.ts skapar en fem minuter lång cookie med Path=/ och SameSite=Lax. src/layouts/BaseLayout.astro kontrollerar den **omedelbart i HEAD innan webbplatsens innehåll kan målas**, och döljer allt utom WeAB:s ursprungliga logotyp och texten ”Obehörig anslutning till centralserver upptäckt. Avlivar”.
+- src/data/resistanceLockdown.ts skapar en fem minuter lång cookie med Path=/ och SameSite=Lax. src/layouts/BaseLayout.astro kontrollerar den **omedelbart i HEAD innan webbplatsens innehåll kan målas** och ersätter ordinarie innehåll med en begränsad karantänvy: WeAB:s ursprungliga logotyp, den byråkratiska systemrösten och korta, sällsynta inbrott från något oidentifierat. Rösterna växlar i flera fasta etapper med samma klocka på alla flikar: systemet försöker deklarera en existens avvecklad, men en annan röst återkommer trots upprepade försök. Ingen bakgrund till varelsen eller teknisk förklaring avslöjas.
 - Cookie-spärren sätts **redan vid Morse-start**. En navigation mitt under Morse, sidomladdning, eller en ny flik på samma domän visar därför spärren. Redan öppna flikar underrättas med ett localStorage-event och stoppas från att fortsätta sin gamla störningssekvens.
-- Om besökaren stannar på spärrvyn laddas sidan om automatiskt efter cookie-spärrens sluttid. Ny slumpordning, nya tidsintervall; den tidigare 15-minuterspausen är borttagen.
+- **Precis vid fem minuter** ändras statusen till **”Dödsfall bekräftat. Återtar anslutning...”**. Den visas under cirka 3,2 sekunder innan sidan laddas om och en ny slumpordning skapas. Om en flik har sovit förbi sluttiden visas ändå den korta bekräftelsen före omladdning. Ingen extra cookieperiod införs; meddelandet är en kort avslutssekvens. Den tidigare 15-minuterspausen är borttagen.
 - Tester kontrollerar slumpfördelning, Morse först, terminalregeln, minst 20 sekunders paus och bibehållen ordning vid omdirigering.
 
 Om webbläsaren blockerar Web Audio fortsätter bara den visuella Morse-koden, utan någon extra knapp. window.close() kan normalt inte stänga en manuellt öppnad flik: fallback är about:blank. Om besökaren därefter försöker återvända till WeAB under femminutersspärren möts den enbart av logotypen och det officiella meddelandet. På grund av GitHub Pages statiska HTML är spärren **en klientsidesberättelseeffekt**, inte en autentisering eller verklig servernekning; utan JavaScript eller cookies kan effekten inte säkerställas.
@@ -55,7 +55,7 @@ Kör npm run check och granska GitHub Actions. I Astros utvecklingsläge kan ?pr
 ## Karantänens beteende som ska kontrolleras
 
 1. Morse startar på valfri sida och spelar vidare utan att den aktuella sidan omedelbart ersätts.
-2. Besök en annan sida mitt under Morse: den ska direkt visa **endast** WE-logotypen och ”Obehörig anslutning till centralserver upptäckt. Avlivar”. Samma sak vid omladdning eller i ny flik.
+2. Besök en annan sida mitt under Morse: den ska direkt visa **WE-logotypen**, WeAB:s karantänstatus och korta intrångstexter som försöker ta över systemtexten. Samma sak vid omladdning eller i ny flik. Textläget bestäms av tid sedan Morse-start, så en ny flik återupptar **samma skede** i konflikten.
 3. Den låsta sidan får inte schemalägga nya ARG-händelser, inte ens om den är 404-sidan.
-4. Vänta tills fem minuter sedan Morse-start passerat: spärrvyn ska laddas om automatiskt och en helt ny, slumpad sekvens med 30–70 sekunders första väntetid ska starta.
-5. Ingen timer, knapp, avbryt-funktion eller annan synlig text ska läggas till låsskärmen.
+4. Vänta tills fem minuter sedan Morse-start passerat: **”Dödsfall bekräftat. Återtar anslutning...”** ska synas ungefär 3,2 sekunder innan sidan laddas om och en helt ny, slumpad sekvens med 30–70 sekunders första väntetid startar.
+5. Inga nedräkningar, knappar, avbryt-funktioner, snabba helskärmsblixtar eller inspelade röster ska läggas till låsskärmen. Brottningsmatchen ska ske via lågmäld, gradvis mer motstridig text och subtil förskjutning av logotyp/färg.

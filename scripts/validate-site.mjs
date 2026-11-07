@@ -48,9 +48,14 @@ for (const path of ['index.html', '404.html', 'koncernen/index.html', 'nyheter/i
   const html = readFileSync(join(dist, path), 'utf8');
   if (!html.includes('id="weab-quarantine"') ||
       !html.includes('src="/logos/weab.svg"') ||
-      !html.includes('Obehörig anslutning till centralserver upptäckt. Avlivar') ||
+      !html.includes('Oauktoriserad existens registrerad. Avveckling pågår.') ||
+      !html.includes('weab-quarantine-intrusion') ||
+      !html.includes('Dödsfall bekräftat. Återtar anslutning...') ||
       !html.includes('weab_centralserver_lock_until')) {
-    broken.push(path + ' saknar logotyp, text eller cookie-kontroll för WeAB-karantän');
+    broken.push(path + ' saknar WeAB-karantänens textkonflikt, slutmeddelande eller cookie');
+  }
+  if (html.includes('Obehörig anslutning till centralserver upptäckt. Avlivar')) {
+    broken.push(path + ' visar den gamla, förklarande karantäntexten');
   }
   if (html.indexOf('weab-quarantined') > html.indexOf('<body>')) {
     broken.push(path + ' måste kontrollera karantän innan BODY renderas');
