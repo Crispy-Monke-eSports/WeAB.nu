@@ -43,6 +43,20 @@ if (!homePage.includes('data-resistance-interference') ||
   broken.push('ARG:s slumpkontroller och Morse-effekt måste finnas på alla sidor');
 }
 
+// Fem minuters ARG-karantän måste kunna täcka varje statiskt dokument.
+for (const path of ['index.html', '404.html', 'koncernen/index.html', 'nyheter/index.html']) {
+  const html = readFileSync(join(dist, path), 'utf8');
+  if (!html.includes('id="weab-quarantine"') ||
+      !html.includes('src="/logos/weab.svg"') ||
+      !html.includes('Obehörig anslutning till centralserver upptäckt. Avlivar') ||
+      !html.includes('weab_centralserver_lock_until')) {
+    broken.push(path + ' saknar logotyp, text eller cookie-kontroll för WeAB-karantän');
+  }
+  if (html.indexOf('weab-quarantined') > html.indexOf('<body>')) {
+    broken.push(path + ' måste kontrollera karantän innan BODY renderas');
+  }
+}
+
 for (const page of pages) {
   const html = readFileSync(page, 'utf8');
   if (!/<html\s+lang="sv">/.test(html) || !/<main\s+id="main">/.test(html) || !/href="#main"/.test(html)) {

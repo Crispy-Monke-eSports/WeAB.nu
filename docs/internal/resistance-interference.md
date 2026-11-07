@@ -20,7 +20,7 @@ De fem händelserna får slumpmässig position, men bara effekterna **fram till 
 - Mellan varje par separata händelser väntar systemet **22–34 sekunder aktiv besökstid efter den föregående effektens SLUT**.
 - Slumpkö, återstående steg och förbrukad aktiv besökstid lagras i sessionStorage. Sessionens schema fortsätter vid navigering, inklusive koordinat-404.
 - Sidans timer räknar inte tid för dolda flikar.
-- När Morse startar avbryts hela schemat och en 15-minuters spärr sparas i localStorage.
+- När Morse startar avbryts hela schemat och en **cookie-spärr på exakt fem minuter** sätts för hela domänen. Efter fem minuter tas spärren bort av webbläsaren och en ny sidladdning skapar en helt ny slumpad händelsekö.
 - Manuella besök på en obefintlig adress utan pågående schema utlöser inga nya effekter.
 
 ## Morse – internt facit
@@ -43,8 +43,19 @@ Morse är en separat webbledtråd till det befintliga vraket, **inte en bekräft
 - src/layouts/BaseLayout.astro monterar båda komponenterna även på 404.
 - src/pages/404.astro har ingen separat Morse-trigger. Koordinat-404 är nu en valfri händelse i slumpkön.
 - src/data/resistanceMorse.ts är källa för avkodningsbar Morse-timing.
+- src/data/resistanceLockdown.ts skapar en fem minuter lång cookie med Path=/ och SameSite=Lax. src/layouts/BaseLayout.astro kontrollerar den **omedelbart i HEAD innan webbplatsens innehåll kan målas**, och döljer allt utom WeAB:s ursprungliga logotyp och texten ”Obehörig anslutning till centralserver upptäckt. Avlivar”.
+- Cookie-spärren sätts **redan vid Morse-start**. En navigation mitt under Morse, sidomladdning, eller en ny flik på samma domän visar därför spärren. Redan öppna flikar underrättas med ett localStorage-event och stoppas från att fortsätta sin gamla störningssekvens.
+- Om besökaren stannar på spärrvyn laddas sidan om automatiskt efter cookie-spärrens sluttid. Ny slumpordning, nya tidsintervall; den tidigare 15-minuterspausen är borttagen.
 - Tester kontrollerar slumpfördelning, Morse först, terminalregeln, minst 20 sekunders paus och bibehållen ordning vid omdirigering.
 
-Om webbläsaren blockerar Web Audio fortsätter bara den visuella Morse-koden, utan någon extra knapp. window.close() kan normalt inte stänga en manuellt öppnad flik: fallback är about:blank.
+Om webbläsaren blockerar Web Audio fortsätter bara den visuella Morse-koden, utan någon extra knapp. window.close() kan normalt inte stänga en manuellt öppnad flik: fallback är about:blank. Om besökaren därefter försöker återvända till WeAB under femminutersspärren möts den enbart av logotypen och det officiella meddelandet. På grund av GitHub Pages statiska HTML är spärren **en klientsidesberättelseeffekt**, inte en autentisering eller verklig servernekning; utan JavaScript eller cookies kan effekten inte säkerställas.
 
 Kör npm run check och granska GitHub Actions. I Astros utvecklingsläge kan ?previewResistance=1 snabbstarta en slumpad första effekt efter en sekund och ?previewMorse=1 visa Morse direkt på valfri sida. Kontrollera även att en direktbesökt 404 inte startar intrång utan ett tidigare påbörjat schema.
+
+## Karantänens beteende som ska kontrolleras
+
+1. Morse startar på valfri sida och spelar vidare utan att den aktuella sidan omedelbart ersätts.
+2. Besök en annan sida mitt under Morse: den ska direkt visa **endast** WE-logotypen och ”Obehörig anslutning till centralserver upptäckt. Avlivar”. Samma sak vid omladdning eller i ny flik.
+3. Den låsta sidan får inte schemalägga nya ARG-händelser, inte ens om den är 404-sidan.
+4. Vänta tills fem minuter sedan Morse-start passerat: spärrvyn ska laddas om automatiskt och en helt ny, slumpad sekvens med 30–70 sekunders första väntetid ska starta.
+5. Ingen timer, knapp, avbryt-funktion eller annan synlig text ska läggas till låsskärmen.

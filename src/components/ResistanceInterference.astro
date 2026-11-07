@@ -22,14 +22,14 @@
     createSignalSchedule,
     advanceSignalSchedule,
     isSignalSchedule,
-    isSignalOnCooldown,
     type SignalSchedule,
     type SignalPhase
   } from '../data/resistanceSignal.ts';
+  import { resistanceLockdown, createLockdownCookie } from '../data/resistanceLockdown.ts';
 
   const overlay = document.querySelector<HTMLElement>('[data-resistance-interference]');
   const messageElement = overlay?.querySelector<HTMLElement>('[data-resistance-message]');
-  if (overlay && messageElement) {
+  if (overlay && messageElement && !document.documentElement.classList.contains('weab-quarantined')) {
     const originalTitle = document.title;
     const lockable = [...document.querySelectorAll<HTMLElement>('body > header, body > main, body > footer')];
     const initialInert = lockable.map(element => element.inert);
@@ -41,8 +41,6 @@
       try { storage.setItem(key, value); } catch { /* Lagring är valfri. */ }
     }
 
-    const rawLastShown = storageRead(localStorage, resistanceSignal.lastShownKey);
-    const lastShown = rawLastShown === null ? null : Number(rawLastShown);
     const params = new URLSearchParams(location.search);
     const preview = import.meta.env.DEV && params.get('previewResistance') === '1';
     const morsePreview = import.meta.env.DEV && params.get('previewMorse') === '1';
@@ -52,9 +50,7 @@
     // Fristående 404-besök startar inte ett nytt intrång. På koordinat-404
     // fortsätter däremot schemat efter en tidigare omdirigering.
     const is404 = document.querySelector('.not-found') !== null;
-    if ((!is404 || isSignalSchedule(previous) || preview) &&
-        !morsePreview &&
-        (!isSignalOnCooldown(Date.now(), lastShown) || preview)) {
+    if ((!is404 || isSignalSchedule(previous) || preview) && !morsePreview) {
       let schedule: SignalSchedule = isSignalSchedule(previous) ? previous : createSignalSchedule();
       if (preview) schedule = { activeMs: 0, queue: createSignalSchedule().queue, nextAtMs: 1_000 };
 
@@ -152,7 +148,15 @@
           // startas. Ingen annan störning eller redirect får ske därefter.
           running = true;
           window.clearInterval(intervalId);
-          storageWrite(localStorage, resistanceSignal.lastShownKey, String(Date.now()));
+          document.documentElement.dataset.weabMorseRunning = '1';
+          const now = Date.now();
+          // Fem minuters KARANTÄN börjar när Morse startar – nästa sidbyte
+          // under signalen eller ett nytt fönster får bara visa WeAB:s spärr.
+          document.cookie = createLockdownCookie(now, location.protocol === 'https:');
+          // Storage-event meddelar redan öppna flikar på samma domän.
+          storageWrite(localStorage, resistanceLockdown.noticeKey,
+            String(now + resistanceLockdown.durationMs));
+          // När karantänen förfaller väljs en HELT NY händelseordning.
           try { sessionStorage.removeItem(resistanceSignal.sessionKey); } catch { /* Valfritt. */ }
           window.dispatchEvent(new Event('weab:resistance-morse-start'));
           return;
@@ -176,6 +180,12 @@
         const now = performance.now();
         const elapsed = Math.max(0, Math.min(now - previousTick, 1_200));
         previousTick = now;
+        // Redan öppna flikar får inte fortsätta en egen ARG-sekvens
+        // medan en annan flik är satt i karantän.
+        if (document.documentElement.classList.contains('weab-quarantined')) {
+          window.clearInterval(intervalId);
+          return;
+        }
         if (document.visibilityState !== 'visible') return;
 
         schedule.activeMs += elapsed;

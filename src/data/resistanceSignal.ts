@@ -5,8 +5,6 @@
 export const resistanceSignal = {
   targetPath: '/31-66--351/',
   sessionKey: 'weab:resistance:session:v3',
-  lastShownKey: 'weab:resistance:last-shown:v1',
-  cooldownMs: 15 * 60 * 1000,
   firstEventMinMs: 30_000,
   firstEventVariationMs: 40_000,
   minBetweenEventsMs: 22_000,
@@ -99,10 +97,4 @@ export function isSignalSchedule(value: unknown): value is SignalSchedule {
   return queue.length >= 1 && queue.length <= signalPhases.length &&
     queue.at(-1) === 'morse' && new Set(queue).size === queue.length &&
     queue.every(phase => signalPhases.includes(phase as SignalPhase));
-}
-
-export function isSignalOnCooldown(now: number, lastShown: number | null): boolean {
-  return lastShown !== null && Number.isFinite(lastShown) &&
-    lastShown > 0 && now >= lastShown &&
-    now - lastShown < resistanceSignal.cooldownMs;
 }

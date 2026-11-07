@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   resistanceSignal, signalPhases, createSignalOrder, createSignalSchedule,
-  advanceSignalSchedule, phaseDurationMs, isSignalSchedule, isSignalOnCooldown
+  advanceSignalSchedule, phaseDurationMs, isSignalSchedule
 } from '../src/data/resistanceSignal.ts';
 
 test('alla fem händelser blandas; Morse får ligga först och är alltid sist när den inträffar', () => {
@@ -75,15 +75,6 @@ test('sessionsdata avvisas om ordningen är korrupt, återupprepad eller har hä
   assert.equal(isSignalSchedule({ activeMs: 0, nextAtMs: 5, queue: ['title', 'title', 'morse'] }), false);
   assert.equal(isSignalSchedule({ activeMs: 0, nextAtMs: 5, queue: ['other', 'morse'] }), false);
   assert.equal(isSignalSchedule({ activeMs: 0, nextAtMs: 5, queue: ['morse'] }), true);
-});
-
-test('15 minuters spärr gäller efter Morse-finalen', () => {
-  const now = 1_800_000;
-  assert.equal(isSignalOnCooldown(now, now - 1000), true);
-  assert.equal(isSignalOnCooldown(now, now - resistanceSignal.cooldownMs + 1), true);
-  assert.equal(isSignalOnCooldown(now, now - resistanceSignal.cooldownMs), false);
-  assert.equal(isSignalOnCooldown(now, null), false);
-  assert.equal(isSignalOnCooldown(now, Number.NaN), false);
 });
 
 test('alla vanliga effekter behålls och koordinat-404 fortsätter vara tillgänglig', () => {

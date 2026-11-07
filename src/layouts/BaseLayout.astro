@@ -3,6 +3,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ResistanceInterference from '../components/ResistanceInterference.astro';
 import ResistanceMorse from '../components/ResistanceMorse.astro';
+import { resistanceLockdown } from '../data/resistanceLockdown.ts';
+import { resistanceSignal } from '../data/resistanceSignal.ts';
 import { companies } from '../data/companies';
 import '../styles/global.css';
 interface Props {title?:string;description?:string;enableInterference?:boolean;}
@@ -15,6 +17,97 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
 <!doctype html>
 <html lang="sv">
 <head>
+
+ <style is:inline>
+  /* Tidig cookie-spärr: ordinarie sidinnehåll hinner aldrig målas vid omladdning. */
+  #weab-quarantine { display:none; }
+  html.weab-quarantined { scroll-behavior:auto; }
+  html.weab-quarantined body {
+    margin:0!important;
+    background:#071019!important;
+    min-height:100svh!important;
+    overflow:hidden!important;
+  }
+  html.weab-quarantined body > :not(#weab-quarantine) { display:none!important; }
+  html.weab-quarantined #weab-quarantine {
+    position:fixed;
+    inset:0;
+    z-index:2147483647;
+    display:flex!important;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:clamp(2rem,5vw,3.5rem);
+    padding:2rem;
+    background:#071019;
+    color:#e6eef1;
+    text-align:center;
+  }
+  #weab-quarantine img {
+    display:block;
+    width:min(240px,65vw);
+    height:auto;
+    object-fit:contain;
+  }
+  #weab-quarantine p {
+    max-width:48ch;
+    margin:0;
+    color:#d4e0e5;
+    font:600 clamp(1rem,2.6vw,1.45rem)/1.65 "Segoe UI",Arial,sans-serif;
+    letter-spacing:.015em;
+  }
+ </style>
+ <script is:inline define:vars={{ lockCookieName: resistanceLockdown.cookieName, lockDurationMs: resistanceLockdown.durationMs, lockNoticeKey: resistanceLockdown.noticeKey, signalSessionKey: resistanceSignal.sessionKey }}>
+  (() => {
+    const root = document.documentElement;
+    let unlockTimer;
+    const cookiePrefix = lockCookieName + '=';
+    const readExpiry = () => {
+      const part = document.cookie.split(';').map(item => item.trim())
+        .find(item => item.startsWith(cookiePrefix));
+      if (!part) return 0;
+      const until = Number(part.slice(cookiePrefix.length));
+      const now = Date.now();
+      return Number.isSafeInteger(until) && until > now && until <= now + lockDurationMs
+        ? until : 0;
+    };
+
+    function applyLockdown() {
+      // Under pågående Morse får originalfliken fortsätta förstöras.
+      // Nästa navigering skapar ett nytt dokument som omedelbart spärras.
+      if (root.dataset.weabMorseRunning === '1') return;
+      const until = readExpiry();
+      const wasLocked = root.classList.contains('weab-quarantined');
+      if (until) {
+        // Alla flikar ska börja med en helt ny slumpordning när spärren släpper.
+        try { sessionStorage.removeItem(signalSessionKey); } catch { /* Privat läge. */ }
+        root.classList.add('weab-quarantined');
+        if (document.readyState !== 'loading') document.title = 'WeAB | Informationskontroll';
+        window.clearTimeout(unlockTimer);
+        // Återgå även om besökaren stannar på den spärrade sidan.
+        unlockTimer = window.setTimeout(() => location.reload(), until - Date.now() + 30);
+      } else if (wasLocked) {
+        // Ny sidladdning skapar ett helt nytt slumpat ARG-schema.
+        location.reload();
+      }
+    }
+
+    applyLockdown(); // Körs i HEAD innan sidans innehåll kan renderas.
+    window.addEventListener('storage', event => {
+      if (event.key === lockNoticeKey) applyLockdown();
+    });
+    window.addEventListener('pageshow', applyLockdown);
+    window.addEventListener('focus', applyLockdown);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) applyLockdown();
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      if (root.classList.contains('weab-quarantined')) {
+        document.title = 'WeAB | Informationskontroll';
+      }
+    });
+  })();
+ </script>
  <meta charset="UTF-8" />
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
  <meta name="description" content={description}/>
@@ -33,5 +126,11 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
   <link rel="icon" type="image/svg+xml" href={`/logos/${faviconSlug}.svg`} />
  <title>{title}</title>
 </head>
-<body><a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceMorse/>}</body>
+<body>
+ <div id="weab-quarantine" role="status" aria-live="polite">
+  <img src="/logos/weab.svg" alt="WeAB" width="240" height="166" />
+  <p>Obehörig anslutning till centralserver upptäckt. Avlivar</p>
+ </div>
+ <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceMorse/>}
+</body>
 </html>
