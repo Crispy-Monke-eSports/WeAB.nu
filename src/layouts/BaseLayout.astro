@@ -96,7 +96,15 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     window.addEventListener('storage', event => {
       if (event.key === lockNoticeKey) applyLockdown();
     });
-    window.addEventListener('pageshow', applyLockdown);
+    window.addEventListener('pageshow', event => {
+      if (event.persisted && root.dataset.weabMorseRunning === '1') {
+        // Bakåtknappen får aldrig återställa en frusen, redan förstörd Morse-sida.
+        // En riktig omladdning visar spärren eller nystartat innehåll.
+        location.reload();
+        return;
+      }
+      applyLockdown();
+    });
     window.addEventListener('focus', applyLockdown);
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) applyLockdown();
