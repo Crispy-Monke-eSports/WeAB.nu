@@ -24,12 +24,11 @@ if (!existsSync(join(dist, '404.html'))) {
   broken.push('ARG-intrånget behöver en publicerad 404.html');
 } else {
   const notFound = readFileSync(join(dist, '404.html'), 'utf8');
-  if (!notFound.includes('Den här sidan har') || notFound.includes('data-resistance-interference')) {
-    broken.push('404-sidan ska neka till adressen utan att utlösa det ordinarie intrånget');
-  }
-  // Enbart en färsk, tidsstämplad engångstrigger på koordinat-404 får utlösa Morse.
-  if (!notFound.includes('data-morse-veil')) {
-    broken.push('ARG-404 saknar Morse-finalens visuella korruptionslager');
+  // 404 ingår numera i den centrala layouten och kan återuppta en slumpkö.
+  if (!notFound.includes('Den här sidan har') ||
+      !notFound.includes('data-resistance-interference') ||
+      !notFound.includes('data-morse-veil')) {
+    broken.push('ARG-404 ska innehålla både slumpkontrollern och Morse-effekten');
   }
   if (notFound.includes('data-morse-connect') || notFound.includes('SIGNAL BRUTEN.')) {
     broken.push('ARG-404 får inte längre visa knappen för avbruten Morse-signal');
@@ -38,8 +37,10 @@ if (!existsSync(join(dist, '404.html'))) {
 if (existsSync(join(dist, '31-66--351')) || existsSync(join(dist, '31-66--351.html'))) {
   broken.push('Koordinatadressen måste sakna egen sida, annars visas inte 404');
 }
-if (!readFileSync(join(dist, 'index.html'), 'utf8').includes('data-resistance-interference')) {
-  broken.push('ARG-komponenten saknas från webbplatsens gemensamma layout');
+const homePage = readFileSync(join(dist, 'index.html'), 'utf8');
+if (!homePage.includes('data-resistance-interference') ||
+    !homePage.includes('data-morse-veil')) {
+  broken.push('ARG:s slumpkontroller och Morse-effekt måste finnas på alla sidor');
 }
 
 for (const page of pages) {

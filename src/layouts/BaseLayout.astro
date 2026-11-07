@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ResistanceInterference from '../components/ResistanceInterference.astro';
+import ResistanceMorse from '../components/ResistanceMorse.astro';
 import { companies } from '../data/companies';
 import '../styles/global.css';
 interface Props {title?:string;description?:string;enableInterference?:boolean;}
@@ -32,5 +33,5 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
   <link rel="icon" type="image/svg+xml" href={`/logos/${faviconSlug}.svg`} />
  <title>{title}</title>
 </head>
-<body><a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}</body>
+<body><a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceMorse/>}</body>
 </html>

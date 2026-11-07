@@ -32,7 +32,7 @@ Citaten återger läsbar innebörd av befintliga skyltar, inte nya skyltar som s
 
 I ett vrak på havsbotten vid **x 2142, y 64, z 957** finns en **kista** med texten **”Valresultat Riks 2045”**. Det syftar på det undanröjda resultatet från riksvalet då WeAB kuppade bort den demokratiska riksdagen. Resultatet är borttaget ur de tillgängliga offentliga arkiven.
 
-**En ny webb-ledtråd nämner numera vraket, men inget fysiskt spår kopplar tunneln eller husruinen till fyndet.** På den särskilda koordinat-404-sidan aktiveras efter minst 22 sekunder ett brutalt Morse-/textintrång med signalen `SOK VRAKET. DAR FINNS SVAR OM 2045.` Det pekar mot vraket utan exakta koordinater, röstsiffror eller andra avslöjanden. Webbspåret är ett uttryckligen beställt nytt ARG-element, inte en historiskt fastställd förbindelse mellan de fysiska platserna. De tidigare skärmbildernas ordning var fortfarande inte bevis för någon sådan förbindelse.
+**En ny webb-ledtråd nämner numera vraket, men inget fysiskt spår kopplar tunneln eller husruinen till fyndet.** En slumpmässigt placerad, terminal Morse-/textstörning kan aktiveras på valfri WeAB-sida, även som det allra första intrånget. Den skickar signalen `SOK VRAKET. DAR FINNS SVAR OM 2045.` Det pekar mot vraket utan exakta koordinater, röstsiffror eller andra avslöjanden. Webbspåret är ett uttryckligen beställt nytt ARG-element, inte en historiskt fastställd förbindelse mellan de fysiska platserna. De tidigare skärmbildernas ordning var fortfarande inte bevis för någon sådan förbindelse.
 
 Den andra skärmbilden visar delvis läsbara skyltar vid vraket, bland annat **”5 döda / 3 skadade”**, men det är **inte fastslaget att dessa uppgifter syftar på 2051 års husräd**. Hitta inte på ett samband eller vad de skadade skulle vara intagna för.
 
@@ -50,8 +50,8 @@ Kistans fulla innehåll, vilka som placerade valresultatet i vraket och förhål
 ## Nuvarande webbledtrådar och framtida ARG-design
 
 1. Den existerande tunnelvägen leder till det sprängda huset med rapport från 2051; **där slutar den fysiska ledtrådsvägen**.
-2. Den tidigare införda webbsekvensen visar titelstörning, DISOBEY, tre helskärmsmeddelanden och en koordinat-404 till tunneln.
-3. Den nya, avsiktligt separata Morse-finalen på samma 404-sida säger `SOK VRAKET. DAR FINNS SVAR OM 2045.` med kraftigt förvrängt ljud medan textblock förstörs. Efter signalen försöker sidan stänga fliken, annars blir den tom.
+2. Webbplatsens fem möjliga störningar är titelbyte, DISOBEY, tre helskärmsmeddelanden, en koordinat-404 till tunneln och Morse-finalen. Ordningen är slumpad och minst 22 sekunders aktiv väntan ligger mellan separata händelser. Om Morse väl inträffar avbryts resten av ordningen.
+3. Den avsiktligt separata Morse-finalen kan spelas på **vilken sida som helst**, inklusive först i händelseordningen. Den säger `SOK VRAKET. DAR FINNS SVAR OM 2045.` med kraftigt förvrängt ljud medan textblock förstörs. Efter signalen försöker sidan stänga fliken, annars blir den tom.
 4. Morsekoden pekar mot ett annat, redan existerande fynd. **Den avslöjar inte vrakets koordinater och etablerar inte en fysisk länk mellan tunneln och vraket.**
 
 En framtida webbgren kan bygga vidare på dessa spår men får inte hitta på valresultat, rädens exakta datum eller ett geografiskt samband som aldrig har fastslagits. Inga andra hemliga dokument- eller videosidor har skapats. Spelaren ska inte behöva bryta block eller besöka verkliga privata utrymmen.

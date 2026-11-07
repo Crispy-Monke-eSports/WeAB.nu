@@ -1,7 +1,7 @@
 ---
 /**
  * Ett ARG-intrång från motståndsrörelsen, inte ett officiellt WeAB-meddelande.
- * 404-sidan använder BaseLayout med enableInterference={false}.
+ * Slumpordningen fortsätter på koordinat-404, men Morse kan starta på alla sidor.
  */
 ---
 <div
@@ -26,7 +26,6 @@
     type SignalSchedule,
     type SignalPhase
   } from '../data/resistanceSignal.ts';
-  import { resistanceMorse } from '../data/resistanceMorse.ts';
 
   const overlay = document.querySelector<HTMLElement>('[data-resistance-interference]');
   const messageElement = overlay?.querySelector<HTMLElement>('[data-resistance-message]');
@@ -44,22 +43,20 @@
 
     const rawLastShown = storageRead(localStorage, resistanceSignal.lastShownKey);
     const lastShown = rawLastShown === null ? null : Number(rawLastShown);
-    // Förhandsgranskning startar första steget tidigt men behåller ALLA pauser.
-    const preview = import.meta.env.DEV &&
-      new URLSearchParams(location.search).get('previewResistance') === '1';
-
-    if (!isSignalOnCooldown(Date.now(), lastShown) || preview) {
-      let schedule: SignalSchedule;
-      try {
-        const old = storageRead(sessionStorage, resistanceSignal.sessionKey);
-        const parsed: unknown = old ? JSON.parse(old) : null;
-        schedule = isSignalSchedule(parsed) ? parsed : createSignalSchedule();
-      } catch {
-        schedule = createSignalSchedule();
-      }
-      if (preview) {
-        schedule = { activeMs: 0, nextPhase: 'title', nextAtMs: 1_000 };
-      }
+    const params = new URLSearchParams(location.search);
+    const preview = import.meta.env.DEV && params.get('previewResistance') === '1';
+    const morsePreview = import.meta.env.DEV && params.get('previewMorse') === '1';
+    const previousRaw = storageRead(sessionStorage, resistanceSignal.sessionKey);
+    let previous: unknown = null;
+    try { previous = previousRaw ? JSON.parse(previousRaw) : null; } catch { /* Nollställ korrupt sessionsdata. */ }
+    // Fristående 404-besök startar inte ett nytt intrång. På koordinat-404
+    // fortsätter däremot schemat efter en tidigare omdirigering.
+    const is404 = document.querySelector('.not-found') !== null;
+    if ((!is404 || isSignalSchedule(previous) || preview) &&
+        !morsePreview &&
+        (!isSignalOnCooldown(Date.now(), lastShown) || preview)) {
+      let schedule: SignalSchedule = isSignalSchedule(previous) ? previous : createSignalSchedule();
+      if (preview) schedule = { activeMs: 0, queue: createSignalSchedule().queue, nextAtMs: 1_000 };
 
       let running = false;
       let originalTexts: Array<{ node: Text; value: string }> = [];
@@ -149,32 +146,33 @@
         nextMessage();
       }
 
-      function redirectTo404(): void {
-        // Adressen är avsiktligt obefintlig. GitHub Pages visar befintlig 404.
-        // Armera en enda Morse-final på koordinatadressen, inte vanliga 404-besök.
-        storageWrite(sessionStorage, resistanceMorse.triggerKey, String(Date.now()));
-        storageWrite(localStorage, resistanceSignal.lastShownKey, String(Date.now()));
-        schedule = createSignalSchedule();
-        saveSchedule();
-        window.location.assign(resistanceSignal.targetPath);
-      }
-
       function runPhase(phase: SignalPhase): void {
-        if (phase === 'redirect') {
-          redirectTo404();
+        if (phase === 'morse') {
+          // Terminal händelse: avsluta schemat INNAN sidans Morse-komponent
+          // startas. Ingen annan störning eller redirect får ske därefter.
+          running = true;
+          window.clearInterval(intervalId);
+          storageWrite(localStorage, resistanceSignal.lastShownKey, String(Date.now()));
+          try { sessionStorage.removeItem(resistanceSignal.sessionKey); } catch { /* Valfritt. */ }
+          window.dispatchEvent(new Event('weab:resistance-morse-start'));
           return;
         }
-        // Nästa tidpunkt ligger minst 22 sekunder EFTER denna effekts slut.
+        // Varje effekt har minst 22 s aktiv läsning efter FÖREGÅENDE effekts slut.
         schedule = advanceSignalSchedule(schedule);
         saveSchedule();
         if (phase === 'title') runTitleChange();
         else if (phase === 'disobey') runDisobey();
         else if (phase === 'fullscreen') runFullscreen();
+        else if (phase === 'redirect') {
+          // Denna händelse finns endast en gång i slumpkön. Den sparade kön
+          // återupptas på 404-sidan, där Morse också kan inträffa.
+          window.location.assign(resistanceSignal.targetPath);
+        }
       }
 
       saveSchedule();
       let previousTick = performance.now();
-      window.setInterval(() => {
+      const intervalId = window.setInterval(() => {
         const now = performance.now();
         const elapsed = Math.max(0, Math.min(now - previousTick, 1_200));
         previousTick = now;
@@ -182,7 +180,7 @@
 
         schedule.activeMs += elapsed;
         if (!running && schedule.activeMs >= schedule.nextAtMs) {
-          runPhase(schedule.nextPhase);
+          runPhase(schedule.queue[0]);
         } else {
           saveSchedule();
         }
@@ -192,6 +190,7 @@
 </script>
 
 <style>
+  .resistance-interference[hidden] { display: none; }
   .resistance-interference {
     position: fixed;
     inset: 0;

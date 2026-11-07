@@ -1,60 +1,30 @@
 ---
 /**
- * ARG-final på WeAB:s 404-sida. Körs enbart efter den ordinarie intrångskedjan
- * och på exakt koordinat-URL:en; slumpmässiga 404-sidor lämnas i fred.
+ * Terminal ARG-effekt som kan ske på ALLA sidor. Startas som en slumpad
+ * händelse av ResistanceInterference, utan separat automatisk 404-trigger.
  */
 ---
 <div class="resistance-morse-veil" data-morse-veil hidden aria-hidden="true"></div>
 
 <script>
-  import { resistanceSignal } from '../data/resistanceSignal.ts';
-  import {
-    resistanceMorse, morseTimeline, morseDurationMs,
-    morseStartDelayMs, isValidMorseTrigger, isMorseMarkActive
-  } from '../data/resistanceMorse.ts';
+  import { morseTimeline, morseDurationMs, isMorseMarkActive } from '../data/resistanceMorse.ts';
 
   const veil = document.querySelector<HTMLElement>('[data-morse-veil]');
   const preview = import.meta.env.DEV &&
     new URLSearchParams(location.search).get('previewMorse') === '1';
 
-  function takeTrigger(): string | null {
-    try {
-      const value = sessionStorage.getItem(resistanceMorse.triggerKey);
-      sessionStorage.removeItem(resistanceMorse.triggerKey);
-      return value;
-    } catch { return null; }
-  }
-
-  const isCoordinate404 = location.pathname === resistanceSignal.targetPath ||
-    location.pathname === resistanceSignal.targetPath.slice(0, -1);
-  const armed = isCoordinate404 && isValidMorseTrigger(takeTrigger(), Date.now());
-  if (isCoordinate404 && (armed || preview) && veil) {
-    // Passets 404 visas helt normalt i minst 22 sekunder efter navigeringen.
-    let activeMs = 0;
-    const startAfterMs = preview ? 1_000 : morseStartDelayMs();
-    let starting = false;
-    let lastTick = performance.now();
-    const interval = window.setInterval(() => {
-      const now = performance.now();
-      const elapsed = Math.max(0, Math.min(1_200, now - lastTick));
-      lastTick = now;
-      if (document.visibilityState !== 'visible' || starting) return;
-      activeMs += elapsed;
-      if (activeMs >= startAfterMs) {
-        starting = true;
-        window.clearInterval(interval);
-        prepareSignal();
-      }
-    }, 500);
-
+  if (veil) {
     const marks = morseTimeline();
+
     const totalMs = morseDurationMs(marks);
+    // Välj textstycken i innehåll, navigering och sidfot på alla WeAB-sidor,
+    // även 404, inte bara klasser från den gamla 404-komponenten.
     const paragraphs = [...document.querySelectorAll<HTMLElement>(
-      '.not-found-content h1, .not-found-content p, .not-found-content a,' +
-      ' .not-found-footer span, .site-header a, .footer-about p,' +
-      ' .footer-about small, .footer-grid h3, .footer-grid a,' +
-      ' .footer-bottom span, .fiction-notice'
-    )];
+      'main h1, main h2, main h3, main h4, main p, main li,' +
+      ' main blockquote, main a, main button, main td, main th,' +
+      ' header a, header span, footer p, footer a, footer span,' +
+      ' footer small, footer h3, footer h4'
+    )].filter(element => element.textContent?.trim());
     let corrupted = 0;
 
     function corrupt(element: HTMLElement, index: number): void {
@@ -198,6 +168,17 @@
       }
       window.requestAnimationFrame(frame);
     }
+
+    let started = false;
+    function startSignal(): void {
+      if (started) return;
+      started = true;
+      prepareSignal();
+    }
+    // Morse är ett möjligt FÖRSTA steg. Efter signalen avslutar
+    // standardkomponenten schemat och inga andra händelser följer.
+    window.addEventListener('weab:resistance-morse-start', startSignal, { once: true });
+    if (preview) window.setTimeout(startSignal, 1_000);
 
     function prepareSignal(): void {
       if (typeof AudioContext === 'undefined') {

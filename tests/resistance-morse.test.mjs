@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   resistanceMorse, morseTimeline, morseDurationMs,
-  morseStartDelayMs, isValidMorseTrigger, isMorseMarkActive
+  isMorseMarkActive
 } from '../src/data/resistanceMorse.ts';
 
 test('Morse kodar SOS med korrekta signal- och bokstavspauser', () => {
@@ -46,18 +46,9 @@ test('meddelandet leder till vraket och innehåller inga påhittade exakta koord
   assert.throws(() => morseTimeline('A', 0), /Ogiltig Morse-enhet/);
 });
 
-test('Morse startar tidigast 22 sekunder EFTER att 404 öppnats', () => {
-  assert.equal(morseStartDelayMs(() => 0), 22_000);
-  assert.equal(morseStartDelayMs(() => 0.9999), 33_998);
-  assert.ok(morseStartDelayMs(() => 0) >= 20_000);
-});
-
-test('404-signalen får bara köras en gång med en färsk sessionsmarkering', () => {
-  const now = 1_000_000;
-  assert.equal(isValidMorseTrigger(String(now), now), true);
-  assert.equal(isValidMorseTrigger(String(now - resistanceMorse.triggerLifetimeMs + 1), now), true);
-  assert.equal(isValidMorseTrigger(String(now - resistanceMorse.triggerLifetimeMs), now), false);
-  assert.equal(isValidMorseTrigger(null, now), false);
-  assert.equal(isValidMorseTrigger('not-a-timestamp', now), false);
-  assert.equal(isValidMorseTrigger(String(now + 1), now), false);
+test('Morse behåller sin avkodningsbara timing oberoende av vilken sida som visas', () => {
+  const marks = morseTimeline();
+  assert.ok(marks[0].atMs === 0);
+  assert.equal(isMorseMarkActive(marks, 0), true);
+  assert.equal(isMorseMarkActive(marks, morseDurationMs(marks)), false);
 });

@@ -1,54 +1,50 @@
-# Motståndsrörelsens digitala intrång – genomförandeplan
+# Motståndsrörelsens digitala intrång – slumpad ARG-sekvens
 
-> Endast intern ARG-dokumentation. WeAB:s vanliga sidor, pressutskick och koncerntexter förblir skrivna med WeAB:s egen röst. Intrången är motståndets otillåtna manipulation av själva gränssnittet.
+> Intern dokumentation. WeAB:s offentliga texter och pressutskick förblir skrivna ur koncernens perspektiv.
 
-## Händelsekedjan
+## Händelser och ordning
 
-Alla separata moment fram till 404 ligger **minst 22 sekunders aktiv läsning efter det föregående momentets slut**, med slumpvariation upp till ungefär 34 sekunder.
+Fem händelser blandas med Fisher–Yates för varje ny sessionskö:
 
-1. **TITEL:** Efter 30–70 sekunders aktiv läsning ändras rubrik och fliktitel kort. Efter 0,95 sekunder återställs sidan.
-2. **VÄNTAN:** 22–34 sekunder vanlig webbplats.
-3. **DISOBEY:** Nästan all text ersätts av DISOBEY under 1,5 sekunder. Alla textnoder återställs.
-4. **VÄNTAN:** 22–34 sekunder vanlig webbplats.
-5. **HELSKÄRM:** Tre mörka skärmar visas i följd: HÖR DU OSS? (1,15 s), VI ÄR FORTFARANDE HÄR. (1,35 s), HITTA OSS. (1,65 s).
-6. **VÄNTAN:** 22–34 sekunder vanlig webbplats.
-7. **404:** Navigera till `/31-66--351/`, ett avsiktligt obefintligt dokument. GitHub Pages serverar den vanliga, förnekande 404-sidan medan koordinatadressen visas i adressfältet.
-8. **VÄNTAN PÅ 404:** Den särskilda 404-sidan är helt normal under 22–34 sekunder av aktiv fliktid.
-9. **MORSE OCH NEDBRYTNING:** En förvrängd, överstyrd radioton med filtrerat brus skickar **internationell Morse**. Samma Morse-tidslinje styr sidan: **inverterad färg medan varje prick eller streck ljuder, normal färg i pauserna**. Inverteringen mörkas ned kraftigt för att undvika bländande vita helskärmsblixtar. Samtidigt blir textblock på 404-sidan korrupta ett efter ett: rubrik, ingress, länkar, navigation och sidfot. Fliktiteln förlorar läsbarhet och en mörk skärmslöja tilltar gradvis.
-10. **SLUT:** Efter den sista morsebokstaven blir skärmen svart och skriptet försöker `window.close()`. Webbläsaren får normalt inte stänga en manuellt öppnad flik: fallback är `location.replace('about:blank')`, så sidan blir en tom flik i stället.
+1. **TITEL** – rubrik och fliktitel byts i 0,95 sekunder, sedan återställs de.
+2. **DISOBEY** – nästan all synlig text blir DISOBEY i 1,5 sekunder, därefter återställs alla textnoder.
+3. **HELSKÄRM** – HÖR DU OSS?, VI ÄR FORTFARANDE HÄR., HITTA OSS. visas i tre snabba skärmar under totalt 4,15 sekunder.
+4. **KOORDINAT-404** – webbläsaren går till /31-66--351/, en avsiktligt obefintlig sida som leder spelaren mot den redan etablerade tunneln. Den återstående sessionskön sparas och **fortsätter på 404-sidan**.
+5. **MORSE** – förvrängda radiosignaler skickar morsekod samtidigt som textblock korrumperas gradvis. Sidans färger inverteras mörkt **exakt medan varje morseprick eller morsestreck ljuder**. Morse är **terminal**, och inga andra händelser sker efteråt. När uppspelningen är slut försöker sidan stänga fliken, annars visar den about:blank.
 
-Ingen Escape-knapp eller klickavbrytning har införts för standardintrånget.
+De fem händelserna får slumpmässig position, men bara effekterna **fram till och med Morse** körs. Morse kan därför inträffa **först**, utan att besökaren sett något annat, eller efter en eller flera andra störningar. Koordinat-404 före Morse är inte längre ett krav.
 
-## Morsekodens facit – endast internt
+## Tid och lagring
 
-Det engelska/internationella Morse-alfabetet används med ASCII-translitterering. Signalen är:
+- Första händelsen börjar efter **30–70 sekunder aktivt besök**.
+- Mellan varje par separata händelser väntar systemet **22–34 sekunder aktiv besökstid efter den föregående effektens SLUT**.
+- Slumpkö, återstående steg och förbrukad aktiv besökstid lagras i sessionStorage. Sessionens schema fortsätter vid navigering, inklusive koordinat-404.
+- Sidans timer räknar inte tid för dolda flikar.
+- När Morse startar avbryts hela schemat och en 15-minuters spärr sparas i localStorage.
+- Manuella besök på en obefintlig adress utan pågående schema utlöser inga nya effekter.
 
-```text
-SOK VRAKET. DAR FINNS SVAR OM 2045.
-```
+## Morse – internt facit
 
-Tolkning: **Sök vraket. Där finns svar om 2045.**
+Meddelandet är:
 
-Rytm: prick = 1 tidsenhet, streck = 3 enheter, paus mellan tecken i samma bokstav = 1 enhet, mellan bokstäver = 3, mellan ord = 7. Enhet 95 ms, total uppspelning ca 33 sekunder. Det svårhörda radiobruset och tonhöjdsförändringarna ändrar inte de fasta pausernas och tonernas kodning.
+    SOK VRAKET. DAR FINNS SVAR OM 2045.
 
-Meddelandet nämner ett vrak men **inte dess koordinater, röstsiffror eller något faktiskt valutfall**. Den tidigare bekräftade tunneln i WeLiveLaughLove Sektion 1 Avdelning B och dess husruin förblir en egen fysisk ledtrådsväg. Morsekoden på webben är ett nytt separat spår till ett redan känt vrak och ska inte presenteras som en fysisk förbindelse.
+Tolkning: **Sök vraket. Där finns svar om 2045.** Standard Morse används med translittererade svenska tecken. Prick = 1 enhet, streck = 3, paus inom bokstav = 1, mellan bokstäver = 3, mellan ord = 7. Enheten är 95 ms.
 
-## Ljud och webbläsarbegränsningar
+Kraftigt överstyrd oscillator, frekvensdrift och brus skapas med Web Audio API. Sidans gradvisa textförstörelse och invertering i Morse-rytm fungerar även när webbläsaren blockerar automatiskt ljud. Ingen förklarande knapp visas. Inverteringen dämpas kraftigt för att undvika bländande vita skärmblinkningar.
 
-Koden använder Web Audio API: överstyrd oscillator, frekvensdrift och låg brusmatta, syntetiserat direkt i webbläsaren utan ljudfil. Om ljudet tillåts startar det automatiskt. **Ingen knapp eller status om förlorad signal visas längre.** Om webbläsaren blockerar Web Audio görs ett kort försök att återuppta kontexten. Om det misslyckas fortsätter samma avkodningsbara Morse-rytm **visuellt utan ljud**, även på webbläsare som saknar Web Audio. Därmed stoppas inte skeendet av autoplay-regler. Det går inte att garantera automatiskt ljud i alla webbläsare utan en användargest.
+Morse är en separat webbledtråd till det befintliga vraket, **inte en bekräftelse på en fysisk tunnelväg dit**. Inga vrakkoordinater eller okända valresultat avslöjas.
 
-`window.close()` kan vanligen bara stänga flikar som öppnats av webbinnehåll, och får inte forcera stängning av en manuell flik. Fallback till `about:blank` ger det visuella avslut som begärts, men ändrar inte själva webbläsarens flikhantering.
+## Arkitektur och kontroll
 
-## Avgränsning och lagringsregler
+- src/data/resistanceSignal.ts innehåller slumpkö, tidsavstånd och terminalregel. Sessionsnyckel v3 skiljer sig från gamla sekventiella scheman.
+- src/components/ResistanceInterference.astro visar vanliga händelser och skickar start-eventet weab:resistance-morse-start när terminalfasen valts.
+- src/components/ResistanceMorse.astro lyssnar efter eventet och kan korrumpera **vilken WeAB-sida som helst**.
+- src/layouts/BaseLayout.astro monterar båda komponenterna även på 404.
+- src/pages/404.astro har ingen separat Morse-trigger. Koordinat-404 är nu en valfri händelse i slumpkön.
+- src/data/resistanceMorse.ts är källa för avkodningsbar Morse-timing.
+- Tester kontrollerar slumpfördelning, Morse först, terminalregeln, minst 20 sekunders paus och bibehållen ordning vid omdirigering.
 
-- `src/data/resistanceSignal.ts` och `src/components/ResistanceInterference.astro` sköter den ordinarie inledningen och navigering till 404.
-- Precis före omdirigeringen lagras en tidsstämplad engångsmarkering i `sessionStorage`.
-- `src/pages/404.astro` laddar `src/components/ResistanceMorse.astro`, som bara aktiveras på **exakt** koordinatadressen med en **färsk** markering (högst 60 sekunder gammal). Alla andra 404-sidor förblir helt normala.
-- Signalen använder `src/data/resistanceMorse.ts` för text, alfabet, takter, tidslinje och startfördröjning. Triggermarkeringen förbrukas direkt och ger ingen 404-loop vid återbesök.
-- Ljudets egen `AudioContext.currentTime` bestämmer när meddelandet är klart, så fliken försöker inte stänga sig innan signalens sista element är färdigt.
-- 15 minuters spärr efter hela ordinarie intrångssekvensen finns kvar.
-- `npm run test:resistance` testar såväl pauser i originalsekvensen som internationell Morse, meddelandets varaktighet, fördröjning och engångstrigger.
+Om webbläsaren blockerar Web Audio fortsätter bara den visuella Morse-koden, utan någon extra knapp. window.close() kan normalt inte stänga en manuellt öppnad flik: fallback är about:blank.
 
-## Tester före och efter publicering
-
-Kör `npm run check` och verifiera GitHub Actions. Kontrollera på en riktig webbläsare att ljudet är hörbart och morserytmen går att avkoda. Testa både ljudtillåten och ljudblockerad autoplay. Ingen knapp ska visas; färgerna ska växla i exakt samma takt som pricken/strecket är aktivt och återgå till normalt under varje paus. Besök en vanlig felaktig URL och kontrollera att Morse **inte** börjar där. Kontrollera mobil, att korruptionen sprider sig successivt och att fliken stängs endast om webbläsaren tillåter det. I utvecklingsläge kan `/?previewResistance=1` snabbstarta första titelfasen och `/31-66--351/?previewMorse=1` snabbstarta Morse-finalen separat; produktionsbygget tillåter inte dessa genvägar.
+Kör npm run check och granska GitHub Actions. I Astros utvecklingsläge kan ?previewResistance=1 snabbstarta en slumpad första effekt efter en sekund och ?previewMorse=1 visa Morse direkt på valfri sida. Kontrollera även att en direktbesökt 404 inte startar intrång utan ett tidigare påbörjat schema.

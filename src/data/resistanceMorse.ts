@@ -5,11 +5,7 @@
  */
 export const resistanceMorse = {
   message: 'SOK VRAKET. DAR FINNS SVAR OM 2045.',
-  unitMs: 95,
-  initialPauseMinMs: 22_000,
-  initialPauseVariationMs: 12_000,
-  triggerKey: 'weab:resistance:morse-pending:v1',
-  triggerLifetimeMs: 60_000
+  unitMs: 95
 } as const;
 
 const alphabet: Record<string, string> = {
@@ -74,14 +70,3 @@ export function morseDurationMs(marks: readonly MorseMark[]): number {
   return last ? last.atMs + last.durationMs : 0;
 }
 
-export function morseStartDelayMs(random: () => number = Math.random): number {
-  return resistanceMorse.initialPauseMinMs +
-    Math.floor(random() * resistanceMorse.initialPauseVariationMs);
-}
-
-export function isValidMorseTrigger(raw: string | null, now: number): boolean {
-  if (raw === null) return false;
-  const issuedAt = Number(raw);
-  return Number.isFinite(issuedAt) && issuedAt > 0 && now >= issuedAt &&
-    now - issuedAt < resistanceMorse.triggerLifetimeMs;
-}
