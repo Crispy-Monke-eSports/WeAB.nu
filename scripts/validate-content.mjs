@@ -249,8 +249,13 @@ assert.ok(historySource.includes('storyDates.martaEkDeath') &&
   historySource.includes('storyDates.dgsProposal'),
   'Koncernhistorien måste använda rätt tidsangivelser');
 const argDoc = readFileSync('docs/internal/arg-motstandsrorelsen.md','utf8');
-assert.match(argDoc, /Ingen ledtråd leder till vraket/i,
-  'Ingen redan existerande ledtråd får leda till vraket');
+assert.match(argDoc, /inget fysiskt spår kopplar tunneln eller husruinen till fyndet/i,
+  'Tunneln och husruinen får inte påstås ha en fysisk förbindelse till vraket');
+assert.match(argDoc, /SOK VRAKET\. DAR FINNS SVAR OM 2045\./,
+  'Den uttryckligen beställda Morse-ledtråden ska dokumenteras i intern ARG-kanon');
+assert.match(readFileSync('src/data/resistanceMorse.ts', 'utf8'),
+  /SOK VRAKET\. DAR FINNS SVAR OM 2045\./,
+  'Den publicerade Morse-signalen ska matcha det interna facit');
 assert.match(argDoc, /avrättade personerna och sprängde huset/,
   'WeAB:s räd, avrättningar och sprängningen 2051 måste finnas i ARG-kanon');
 assert.match(argDoc, /RAPPORT SKRIVEN 21\/11\/2051/,
