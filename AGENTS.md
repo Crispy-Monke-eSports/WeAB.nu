@@ -61,6 +61,14 @@ WeAB ska se ut som en **faktisk koncernwebbplats**, och satiren ska ligga i konc
 - Det är tillåtet med **några få, diskreta referenser** i befintliga offentliga texter, exempelvis ortnamnet i en preliminär kalkyl eller en tom kontaktkolumn. Skapa **inte** ett pressmeddelande, en ny nyhet, separat plats- eller projektsida, dotterbolag, myndighet, karta, transportlinje eller daterad milstolpe.
 - Nämn aldrig Minecraft, servrar eller berättelsens framtida ursprung i WeAB:s **publika** röst. Se `docs/story-kontinuitet.md` och statusen i `src/data/storyCanon.ts`. Framtida konkretisering kräver explicit nytt underlag.
 
+## Avgränsat ARG-undantag: motståndsrörelsens digitala intrång
+
+- `src/components/ResistanceInterference.astro` och `src/data/resistanceSignal.ts` utgör ett **medvetet berättelsedrivet undantag** från förbudet mot dekorativ animation. Det är inte en ny generell animationsstil för WeAB:s webbplats.
+- Intrånget visas vid aktiv läsning men inte på 404-sidan. Det kan kortvarigt byta text och fliktitel, visa tre mörka helskärmsmeddelanden och navigera till en **avsiktligt icke-existerande koordinat-URL**. Kontrollera `docs/internal/resistance-interference.md` före ändring.
+- Meddelanden får bara peka mot den sedan tidigare fastslagna tunneln i WeLiveLaughLove Sektion 1 Avdelning B. Skapa **aldrig** en ny ledtråd till vraket eller offentliggör spelmästarkanon på officiella sidor.
+- Inga starka blixtar, jumpscare-ljud eller upprepade snabba blinkningar. Intrånget visas i samma utförande för alla och kan inte avbrytas med Escape eller klick. Sekvensen får inte skapa en navigeringsslinga. Prova med `npm run test:resistance` och `npm run check`.
+- Intrånget måste saknas på `src/pages/404.astro` så att omdirigeringen inte bildar en slinga. Rotadressen med koordinater är avsiktligt inte en faktisk Astro-sida.
+
 ## Intern spelmästarkanon för motståndsrörelsens ARG
 
 - Det finns en motståndsrörelse som hoppas störta WeAB, men den är inte offentligt erkänd i koncernens pressarkiv.

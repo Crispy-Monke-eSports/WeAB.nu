@@ -19,6 +19,22 @@ const required = ['index.html', 'koncernen/index.html', 'verksamheter/index.html
 const missing = required.filter(path => !existsSync(join(dist, path)));
 const broken = [];
 
+// ARG: en ogiltig koordinat-URL ska behålla sin adress men visa 404.html.
+if (!existsSync(join(dist, '404.html'))) {
+  broken.push('ARG-intrånget behöver en publicerad 404.html');
+} else {
+  const notFound = readFileSync(join(dist, '404.html'), 'utf8');
+  if (!notFound.includes('Den här sidan har') || notFound.includes('data-resistance-interference')) {
+    broken.push('404-sidan ska neka till adressen utan att utlösa ett nytt intrång');
+  }
+}
+if (existsSync(join(dist, '31-66--351')) || existsSync(join(dist, '31-66--351.html'))) {
+  broken.push('Koordinatadressen måste sakna egen sida, annars visas inte 404');
+}
+if (!readFileSync(join(dist, 'index.html'), 'utf8').includes('data-resistance-interference')) {
+  broken.push('ARG-komponenten saknas från webbplatsens gemensamma layout');
+}
+
 for (const page of pages) {
   const html = readFileSync(page, 'utf8');
   if (!/<html\s+lang="sv">/.test(html) || !/<main\s+id="main">/.test(html) || !/href="#main"/.test(html)) {
