@@ -50,9 +50,13 @@ for (const path of ['index.html', '404.html', 'koncernen/index.html', 'nyheter/i
       !html.includes('src="/logos/weab.svg"') ||
       !html.includes('Oauktoriserad existens registrerad. Avveckling pågår.') ||
       !html.includes('weab-quarantine-intrusion') ||
+      !html.includes('weab-quarantine__spinner') ||
+      !html.includes('weab-quarantine__fragment') ||
+      !html.includes('weab-glitching') ||
+      !html.includes('lockSpiritLate') ||
       !html.includes('Dödsfall bekräftat. Återtar anslutning...') ||
       !html.includes('weab_centralserver_lock_until')) {
-    broken.push(path + ' saknar WeAB-karantänens textkonflikt, slutmeddelande eller cookie');
+    broken.push(path + ' saknar WeAB-karantänens rörliga laddningsikon, visuella glitches, textkonflikt, slutmeddelande eller cookie');
   }
   if (html.includes('Obehörig anslutning till centralserver upptäckt. Avlivar')) {
     broken.push(path + ' visar den gamla, förklarande karantäntexten');

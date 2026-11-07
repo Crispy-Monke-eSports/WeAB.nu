@@ -93,12 +93,112 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     color: #e6eef1;
     text-decoration: none;
   }
+
+  /* DDLC-inspirerad, men egen WeAB-form: sönderrivna textrader och
+     färgkanalsförskjutningar istället för strobeljus eller skrämselfoton. */
+  #weab-quarantine .weab-quarantine__copy {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 54ch);
+  }
+  #weab-quarantine .weab-quarantine__system,
+  #weab-quarantine .weab-quarantine__intrusion { position: relative; }
+  #weab-quarantine .weab-quarantine__spinner {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #35515e;
+    border-top-color: #a2d5df;
+    border-radius: 50%;
+    animation: weab-quarantine-spin 1.2s linear infinite;
+    flex-shrink: 0;
+  }
+  #weab-quarantine .weab-quarantine__fragment {
+    display: none;
+    position: absolute;
+    inset: auto auto -1.7rem 13%;
+    max-width: 85%;
+    color: #9d6570;
+    font: 700 .77rem ui-monospace,monospace;
+    letter-spacing: .18em;
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  html.weab-critical #weab-quarantine {
+    background: linear-gradient(175deg, #071019, #110d15 52%, #071019);
+  }
+  html.weab-critical #weab-quarantine::before { opacity: .68; }
+  html.weab-overrun #weab-quarantine .weab-quarantine__system {
+    opacity: .73;
+    text-decoration: line-through;
+    text-decoration-color: #844858;
+  }
+  html.weab-glitching #weab-quarantine::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    top: var(--weab-tear-y, 47%);
+    left: -4%;
+    right: -4%;
+    height: clamp(12px, 2.7vh, 25px);
+    transform: translateX(var(--weab-tear-x, 3px));
+    background:
+      linear-gradient(0deg, transparent, #5b253b35 44%, #90acbc22 50%, transparent),
+      repeating-linear-gradient(90deg, #861d3722 0 9px, #152a3922 9px 20px);
+    box-shadow: 0 -2px 0 #7a26301a, 0 3px 0 #91bfbe12;
+  }
+  html.weab-glitching #weab-quarantine img {
+    transform: translateX(var(--weab-tear-x, 3px)) skewX(-1deg);
+    filter: drop-shadow(4px 0 #72344075) drop-shadow(-4px 0 #3879865c);
+  }
+  html.weab-glitching #weab-quarantine .weab-quarantine__system,
+  html.weab-glitching #weab-quarantine .weab-quarantine__intrusion {
+    transform: translateX(calc(var(--weab-tear-x, 3px) * -.6));
+    text-shadow: 3px 0 #723440a6, -3px 0 #3879868c;
+  }
+  html.weab-glitching #weab-quarantine .weab-quarantine__system::after,
+  html.weab-glitching #weab-quarantine .weab-quarantine__intrusion:not([hidden])::after {
+    content: attr(data-echo);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: #ac8b94;
+    opacity: .8;
+    clip-path: inset(42% 0 27% 0);
+    transform: translateX(calc(var(--weab-tear-x, 3px) * -1.5));
+    text-decoration: none;
+  }
+  html.weab-glitching #weab-quarantine .weab-quarantine__fragment { display: block; }
+  html.weab-death-confirmed #weab-quarantine {
+    background: #071019;
+  }
+  @keyframes weab-quarantine-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    #weab-quarantine .weab-quarantine__spinner { animation: none; }
+    html.weab-glitching #weab-quarantine img,
+    html.weab-glitching #weab-quarantine .weab-quarantine__system,
+    html.weab-glitching #weab-quarantine .weab-quarantine__intrusion {
+      transform: none;
+    }
+    html.weab-glitching #weab-quarantine::after,
+    html.weab-glitching #weab-quarantine .weab-quarantine__fragment {
+      display: none;
+    }
+  }
  </style>
  <script is:inline define:vars={{
    lockCookieName: resistanceLockdown.cookieName,
    lockDurationMs: resistanceLockdown.durationMs,
    lockNoticeKey: resistanceLockdown.noticeKey,
-   lockBeats: resistanceLockdown.struggle,
+   lockOpening: resistanceLockdown.opening,
+   lockSystemEarly: resistanceLockdown.systemEarly,
+   lockSystemLate: resistanceLockdown.systemLate,
+   lockSpiritEarly: resistanceLockdown.spiritEarly,
+   lockSpiritLate: resistanceLockdown.spiritLate,
    exitMessage: resistanceLockdown.exitMessage,
    exitMessageMs: resistanceLockdown.exitMessageMs,
    signalSessionKey: resistanceSignal.sessionKey
@@ -107,7 +207,101 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     const root = document.documentElement;
     const cookiePrefix = lockCookieName + '=';
     let lockTimer;
+    let glitchTimer;
+    let microTearTimer;
     let confirmedDisplayed = false;
+    let lastBeatKey = '';
+    let timelineExpiry = 0;
+    let timeline = [];
+
+    function seededRandom(seed) {
+      let state = seed | 0;
+      return () => {
+        state = (state + 0x6D2B79F5) | 0;
+        let value = Math.imul(state ^ (state >>> 15), 1 | state);
+        value ^= value + Math.imul(value ^ (value >>> 7), 61 | value);
+        return ((value ^ (value >>> 14)) >>> 0) / 0x100000000;
+      };
+    }
+
+    function shuffled(source, random) {
+      const values = [...source];
+      for (let i = values.length - 1; i > 0; i--) {
+        const j = Math.floor(random() * (i + 1));
+        [values[i], values[j]] = [values[j], values[i]];
+      }
+      return values;
+    }
+
+    // Samma seed (cookie-sluttid) ger samma kamp i alla flikar,
+    // men olika ordning och pauser vid nästa övertagandeförsök.
+    function getTimeline(until) {
+      if (timelineExpiry === until && timeline.length) return timeline;
+      timelineExpiry = until;
+      const random = seededRandom(Math.trunc(until) ^ 0x5e4b110d);
+      const earlySystem = shuffled(lockSystemEarly, random);
+      const lateSystem = shuffled(lockSystemLate, random);
+      const earlySpirit = shuffled(lockSpiritEarly, random);
+      const lateSpirit = shuffled(lockSpiritLate, random);
+      timeline = [{ atMs: 0, voice: 'system', text: lockOpening }];
+      const used = new Set([lockOpening]);
+      let elapsed = 0;
+      let eventIndex = 0;
+      while (true) {
+        const gap = elapsed < 170_000
+          ? 6_000 + Math.floor(random() * 5_400)
+          : elapsed < 270_000
+            ? 3_800 + Math.floor(random() * 5_000)
+            : 2_000 + Math.floor(random() * 3_100);
+        elapsed += gap;
+        if (elapsed >= lockDurationMs - 1_000) break;
+        const late = elapsed >= 170_000;
+        const voice = eventIndex % 4 === 3 ? 'system' : 'intrusion';
+        const preferred = voice === 'system'
+          ? (late ? lateSystem : earlySystem)
+          : (late ? lateSpirit : earlySpirit);
+        const fallback = voice === 'system'
+          ? (late ? earlySystem : lateSystem)
+          : (late ? earlySpirit : lateSpirit);
+        const text = preferred.pop() ?? fallback.pop();
+        if (!text || used.has(text)) break;
+        timeline.push({ atMs: elapsed, voice, text });
+        used.add(text);
+        eventIndex++;
+      }
+      return timeline;
+    }
+
+    function pulseGlitch(level) {
+      if (!root.classList.contains('weab-quarantined') ||
+          root.classList.contains('weab-death-confirmed')) return;
+      window.clearTimeout(glitchTimer);
+      root.classList.remove('weab-glitching');
+      // Vilken del av bilden som slits sönder ändras varje gång.
+      root.style.setProperty('--weab-tear-y', (18 + Math.random() * 66).toFixed(1) + '%');
+      root.style.setProperty('--weab-tear-x', (Math.random() * 14 - 7).toFixed(1) + 'px');
+      const fragment = document.getElementById('weab-quarantine-fragment');
+      if (fragment) {
+        const artifacts = ['▓▓░▒ 0x██', '///////', '0000 ▒▒ ██', '███ NUL ██', '░░░█▓█'];
+        fragment.textContent = artifacts[Math.floor(Math.random() * artifacts.length)];
+      }
+      root.classList.add('weab-glitching');
+      glitchTimer = window.setTimeout(() => root.classList.remove('weab-glitching'),
+        180 + Math.floor(Math.random() * (level >= 2 ? 250 : 110)));
+    }
+
+    function scheduleMicroTears() {
+      window.clearTimeout(microTearTimer);
+      if (!root.classList.contains('weab-quarantined') ||
+          root.classList.contains('weab-death-confirmed')) return;
+      const progress = Number(root.dataset.weabCorruption || '0');
+      const delay = 3_200 - Math.floor(progress * 1_900) +
+        Math.floor(Math.random() * 3_300);
+      microTearTimer = window.setTimeout(() => {
+        if (document.visibilityState === 'visible') pulseGlitch(progress > .68 ? 2 : 1);
+        scheduleMicroTears();
+      }, delay);
+    }
 
     function readCookieExpiry(now) {
       const part = document.cookie.split(';').map(item => item.trim())
@@ -131,23 +325,31 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     function showSystem(text, intrusionText) {
       const status = document.getElementById('weab-quarantine-status');
       const breach = document.getElementById('weab-quarantine-intrusion');
-      if (status) status.textContent = text;
+      if (status) {
+        status.textContent = text;
+        status.dataset.echo = text;
+      }
       if (breach) {
         breach.hidden = !intrusionText;
         breach.textContent = intrusionText || '';
+        breach.dataset.echo = intrusionText || '';
       }
     }
 
     function renderStruggle(until, now) {
+      const beats = getTimeline(until);
       const elapsed = Math.max(0, lockDurationMs - (until - now));
-      let latestSystem = lockBeats[0].text;
+      const progress = Math.min(1, elapsed / lockDurationMs);
+      let latestSystem = lockOpening;
       let latestIntrusion = '';
+      let currentBeat = beats[0];
       let nextAt = lockDurationMs;
-      for (const beat of lockBeats) {
+      for (const beat of beats) {
         if (beat.atMs > elapsed) {
           nextAt = beat.atMs;
           break;
         }
+        currentBeat = beat;
         if (beat.voice === 'system') {
           latestSystem = beat.text;
           latestIntrusion = '';
@@ -155,15 +357,31 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
           latestIntrusion = beat.text;
         }
       }
+      root.dataset.weabCorruption = String(progress);
       root.classList.toggle('weab-intruding', Boolean(latestIntrusion));
+      root.classList.toggle('weab-overrun', progress > .62 && Boolean(latestIntrusion));
+      root.classList.toggle('weab-critical', progress > .54);
       root.classList.remove('weab-death-confirmed');
       showSystem(latestSystem, latestIntrusion);
+      const status = document.getElementById('weab-quarantine-status');
+      if (status) status.dataset.echo = latestSystem;
+      const intrusion = document.getElementById('weab-quarantine-intrusion');
+      if (intrusion) intrusion.dataset.echo = latestIntrusion;
+      const key = until + ':' + currentBeat.atMs;
+      if (key !== lastBeatKey) {
+        lastBeatKey = key;
+        pulseGlitch(progress > .62 || currentBeat.voice === 'intrusion' ? 2 : 1);
+      }
       return Math.min(until - now, Math.max(0, nextAt - elapsed));
     }
 
     function showConfirmed(now, until) {
       root.classList.add('weab-quarantined', 'weab-death-confirmed');
-      root.classList.remove('weab-intruding');
+      root.classList.remove('weab-intruding', 'weab-overrun',
+        'weab-critical', 'weab-glitching');
+      root.dataset.weabCorruption = '0';
+      window.clearTimeout(glitchTimer);
+      window.clearTimeout(microTearTimer);
       showSystem(exitMessage, '');
       if (document.readyState !== 'loading') document.title = 'WeAB | Anslutningen återupptas';
       if (confirmedDisplayed) return;
@@ -191,6 +409,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         root.classList.add('weab-quarantined');
         if (document.readyState !== 'loading') document.title = 'WeAB | Informationskontroll';
         const nextBeatMs = renderStruggle(until, now);
+        if (!wasLocked) scheduleMicroTears();
         lockTimer = window.setTimeout(applyLockdown, Math.max(50, nextBeatMs + 12));
       } else if (notice && now >= notice) {
         showConfirmed(now, notice);
@@ -217,7 +436,13 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) applyLockdown();
     });
-    document.addEventListener('DOMContentLoaded', applyLockdown);
+    document.addEventListener('DOMContentLoaded', () => {
+      applyLockdown();
+      if (root.classList.contains('weab-quarantined') &&
+          !root.classList.contains('weab-death-confirmed')) {
+        scheduleMicroTears();
+      }
+    });
   })();
  </script>
  <meta charset="UTF-8" />
@@ -244,7 +469,9 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
   <div class="weab-quarantine__copy">
    <p class="weab-quarantine__system" id="weab-quarantine-status">Oauktoriserad existens registrerad. Avveckling pågår.</p>
    <p class="weab-quarantine__intrusion" id="weab-quarantine-intrusion" hidden></p>
+   <span class="weab-quarantine__fragment" id="weab-quarantine-fragment" aria-hidden="true"></span>
   </div>
+  <span class="weab-quarantine__spinner" aria-hidden="true"></span>
  </div>
  <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceMorse/>}
 </body>

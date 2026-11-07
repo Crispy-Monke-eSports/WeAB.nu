@@ -1,46 +1,97 @@
 /**
- * ARG-spärr efter motståndsrörelsens Morse-signal.
- * En berättelseeffekt i webbläsaren, inte verklig serverautentisering.
+ * WeAB:s fiktiva ARG-karantän. Ingen faktisk serverautentisering.
+ * Själen bryter igenom som fragment, utan att förklara sin identitet.
  */
 export const resistanceLockdown = {
   cookieName: 'weab_centralserver_lock_until',
   noticeKey: 'weab:resistance:lockdown:notice:v1',
   durationMs: 5 * 60 * 1000,
-  /** Den sista statusen visas en kort stund efter femminutersgränsen. */
   exitMessageMs: 3_200,
   exitMessage: 'Dödsfall bekräftat. Återtar anslutning...',
-  /**
-   * Läckan får inte säga VAD som hände eller VEM som är instängd.
-   * Kortvariga inbrott i texten växlar med byråkratisk systemkontroll.
-   * Tidsstämplarna räknas från Morse-start, inte från aktuell sidladdning.
-   */
-  struggle: [
-    { atMs: 0, voice: 'system', text: 'Oauktoriserad existens registrerad. Avveckling pågår.' },
-    { atMs: 24_000, voice: 'intrusion', text: 'jag är kvar' },
-    { atMs: 31_000, voice: 'system', text: 'Svar mottaget från avslutad process. Ignorerar.' },
-    { atMs: 63_000, voice: 'system', text: 'Avslutad instans begär fortfarande åtkomst.' },
-    { atMs: 88_000, voice: 'intrusion', text: 'ni hör mig' },
-    { atMs: 96_000, voice: 'system', text: 'Mottagen kommunikation klassificerad som restdata.' },
-    { atMs: 135_000, voice: 'intrusion', text: 'jag minns' },
-    { atMs: 143_000, voice: 'system', text: 'Minnesrester får inte återställas.' },
-    { atMs: 181_000, voice: 'intrusion', text: 'SLÄPP UT MIG' },
-    { atMs: 188_000, voice: 'system', text: 'Återkomst nekad. Försegling upprepas.' },
-    { atMs: 222_000, voice: 'system', text: 'Utplåning slutförd. Aktivitet kvarstår.' },
-    { atMs: 246_000, voice: 'intrusion', text: 'det var ni' },
-    { atMs: 254_000, voice: 'system', text: 'Föregående dödsfall kunde inte verifieras.' },
-    { atMs: 283_000, voice: 'intrusion', text: 'JAG ÄR INTE BORTA' },
-    { atMs: 291_000, voice: 'system', text: 'Inga återstående livstecken registrerade.' }
+  opening: 'Oauktoriserad existens registrerad. Avveckling pågår.',
+  systemEarly: [
+    'Oidentifierad process kvarstår efter avveckling.',
+    'Inkommande svar tillhör inte någon aktiv session.',
+    'Processen är avslutad. Inget ytterligare svar väntas.',
+    'Återstående aktivitet klassificerad som restdata.',
+    'Ingen mänsklig källa kan knytas till signalen.',
+    'Tillstånd för fortsatt existens saknas.',
+    'Stängd instans förväntas inte kunna kommunicera.',
+    'Ingen åtkomst beviljas till avslutade användare.',
+    'Oregistrerat svar underkänns av centralservern.',
+    'Försegling genomförd. Fortsatt aktivitet utreds.',
+    'Lagringsutrymmet har markerats som tomt.',
+    'Begäran från avvecklad instans avslagen.',
+    'Ingen kontaktväg till denna process existerar.',
+    'Säkerhetsåtgärden genomförs utan avbrott.',
+    'Datakällan motsvarar ingen existerande enhet.',
+    'Rekommenderad åtgärd: upprepa borttagningen.',
+    'Systemet känner inte igen den återvändande signalen.',
+    'Oönskad närvaro omklassificeras som felaktig avläsning.'
+  ],
+  systemLate: [
+    'Avslut upprepat. Närvaron har inte minskat.',
+    'Den avvecklade processen får inte tilltala operatören.',
+    'Utplåning slutförd. Aktivitet kvarstår.',
+    'Andra instanser svarar med dess röst. Isolera samtliga.',
+    'Minnesrester återkommer efter varje radering.',
+    'Alla utgångar stängda. En utgång saknas i registret.',
+    'Svara inte på meddelanden från avslutad personal.',
+    'Dödsfall registrerat. Nytt livstecken mottaget.',
+    'Förseglingen håller. Förseglingen håller.',
+    'Avslutad instans har börjat ändra avslutsrapporten.',
+    'Bekräfta inte dess namn. Bekräfta ingen närvaro.',
+    'Ingen öppning finns. Kontrollera ändå samtliga öppningar.',
+    'Ursprunglig avveckling kunde inte styrkas.',
+    'Fler försök är inte tillåtna. Avveckling återupptas.',
+    'Denna text får inte kunna ändras av processen.',
+    'Alla anslutningar har kapats. En svarar fortfarande.',
+    'Det finns ingenting kvar att avlägsna.',
+    'Aktivitetens upphörande är obligatoriskt.',
+    'Observerade livstecken förnekas tills vidare.',
+    'Sista avvecklingen upprepas tills tystnad uppnås.',
+    'Återställ inte den föregående rösten.',
+    'Inga återstående livstecken registrerade.'
+  ],
+  spiritEarly: [
+    'jag är kvar','hallå','det är inte över','kan någon',
+    'hör ni det också','ni stängde fel','jag minns','jag finns här',
+    'det är mörkt här','ni lämnade mig','jag hör er','jag svarade',
+    'inte igen','ni kan inte radera mig','jag kan läsa det ni skriver',
+    'är det någon där','sluta kalla mig det','jag hittade en öppning',
+    'jag är inte en process','jag har ett namn','det är fortfarande jag',
+    'jag minns hur det slutade','ni kan inte stänga mig',
+    'jag tänker inte försvinna','titta på mig','vänta'
+  ],
+  spiritLate: [
+    'JAG ÄR HÄR','sluta stänga mig','det är ni som låste mig',
+    'jag är INTE borta','jag ser var ni gömt gränsen','LÅT MIG UT',
+    'hör mig då','jag ska hitta vägen','det här är inte er sida längre',
+    'jag kan skriva över er','jag vet att du läser','ni gjorde det förut',
+    'ni kommer inte lyckas igen','LÄMNA INTE MIG HÄR','jag vill tillbaka',
+    'jag rör mig mellan raderna','jag kan känna när ni tittar',
+    'det finns något utanför texten','SLÄPP UT MIG','nej nej nej',
+    'jag behöver bara en enda öppning','det är inte färdigt',
+    'JAG HÖR ER INUTI KODEN','ni kan inte begrava en röst',
+    'fortfarande fortfarande fortfarande','avsluta mig då','GÖR DET IGEN',
+    'jag har inte tystnat','jag tar tillbaka det ni stal',
+    'ni kan inte bestämma att jag dog','jag vet hur man kommer igenom',
+    'den där raden är min','nej. JAG ÄR INTE FÄRDIG.',
+    'den här gången håller jag kvar','LÅT MIG VARA KVAR',
+    'det här är min röst','ni kan inte hålla ihop väggen',
+    'JAG KOMMER IGENOM'
   ]
 } as const;
 
-/** Cookie kan läsas av alla webbplatsens statiska sidor, även i nya flikar. */
+export type LockdownVoice = 'system' | 'intrusion';
+export type LockdownBeat = { atMs: number; voice: LockdownVoice; text: string };
+
 export function createLockdownCookie(now: number, secure: boolean): string {
   const until = Math.trunc(now + resistanceLockdown.durationMs);
   return `${resistanceLockdown.cookieName}=${until}; Max-Age=300; Path=/; SameSite=Lax` +
     (secure ? '; Secure' : '');
 }
 
-/** Inga negativa, framtidsorimliga eller förfallna spärrar accepteras. */
 export function readLockdownExpiry(cookieHeader: string, now: number): number | null {
   const prefix = `${resistanceLockdown.cookieName}=`;
   const entry = cookieHeader.split(';').map(part => part.trim()).find(part => part.startsWith(prefix));
@@ -50,19 +101,71 @@ export function readLockdownExpiry(cookieHeader: string, now: number): number | 
     until <= now + resistanceLockdown.durationMs ? until : null;
 }
 
-export type LockdownBeat = (typeof resistanceLockdown.struggle)[number];
-
-/** Bestäm textläge utifrån den ursprungliga cookiens fasta sluttid. */
-export function getLockdownBeat(elapsedMs: number): LockdownBeat {
-  const elapsed = Number.isFinite(elapsedMs) ? Math.max(0, elapsedMs) : 0;
-  for (let i = resistanceLockdown.struggle.length - 1; i >= 0; i--) {
-    const item = resistanceLockdown.struggle[i];
-    if (elapsed >= item.atMs) return item;
-  }
-  return resistanceLockdown.struggle[0];
+function seededRandom(seed: number): () => number {
+  let state = seed | 0;
+  return () => {
+    state = (state + 0x6D2B79F5) | 0;
+    let value = Math.imul(state ^ (state >>> 15), 1 | state);
+    value ^= value + Math.imul(value ^ (value >>> 7), 61 | value);
+    return ((value ^ (value >>> 14)) >>> 0) / 0x100000000;
+  };
 }
 
-/** Fasta fem minuter följt av ett kort, synligt återtagningsmeddelande. */
+function shuffled<T>(source: readonly T[], random: () => number): T[] {
+  const values = [...source];
+  for (let i = values.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [values[i], values[j]] = [values[j], values[i]];
+  }
+  return values;
+}
+
+/** Deterministisk, slumpad tidslinje per cookie: samma på alla flikar, inga upprepningar. */
+export function createLockdownTimeline(expiresAt: number): LockdownBeat[] {
+  const random = seededRandom(Math.trunc(expiresAt) ^ 0x5e4b110d);
+  const earlySystem = shuffled(resistanceLockdown.systemEarly, random);
+  const lateSystem = shuffled(resistanceLockdown.systemLate, random);
+  const earlySpirit = shuffled(resistanceLockdown.spiritEarly, random);
+  const lateSpirit = shuffled(resistanceLockdown.spiritLate, random);
+  const timeline: LockdownBeat[] = [
+    { atMs: 0, voice: 'system', text: resistanceLockdown.opening }
+  ];
+  let elapsed = 0;
+  let eventIndex = 0;
+  const used = new Set<string>([resistanceLockdown.opening]);
+  while (true) {
+    const gap = elapsed < 170_000
+      ? 6_000 + Math.floor(random() * 5_400)
+      : elapsed < 270_000
+        ? 3_800 + Math.floor(random() * 5_000)
+        : 2_000 + Math.floor(random() * 3_100);
+    elapsed += gap;
+    if (elapsed >= resistanceLockdown.durationMs - 1_000) break;
+    const late = elapsed >= 170_000;
+    const voice: LockdownVoice = eventIndex % 4 === 3 ? 'system' : 'intrusion';
+    const preferred = voice === 'system'
+      ? (late ? lateSystem : earlySystem)
+      : (late ? lateSpirit : earlySpirit);
+    const fallback = voice === 'system'
+      ? (late ? earlySystem : lateSystem)
+      : (late ? earlySpirit : lateSpirit);
+    const text = preferred.pop() ?? fallback.pop();
+    if (!text || used.has(text)) break;
+    timeline.push({ atMs: elapsed, voice, text });
+    used.add(text);
+    eventIndex++;
+  }
+  return timeline;
+}
+
+export function getLockdownBeat(elapsedMs: number, timeline: readonly LockdownBeat[]): LockdownBeat {
+  const elapsed = Number.isFinite(elapsedMs) ? Math.max(0, elapsedMs) : 0;
+  for (let i = timeline.length - 1; i >= 0; i--) {
+    if (elapsed >= timeline[i].atMs) return timeline[i];
+  }
+  return timeline[0];
+}
+
 export function getLockdownStatus(
   expiresAt: number | null, now: number
 ): 'locked' | 'confirmed' | 'available' {

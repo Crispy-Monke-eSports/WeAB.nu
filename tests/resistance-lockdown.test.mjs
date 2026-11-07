@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   resistanceLockdown, createLockdownCookie, readLockdownExpiry,
-  getLockdownBeat, getLockdownStatus
+  getLockdownBeat, getLockdownStatus, createLockdownTimeline
 } from '../src/data/resistanceLockdown.ts';
 import { createSignalSchedule, isSignalSchedule } from '../src/data/resistanceSignal.ts';
 
@@ -50,24 +50,38 @@ test('när spärren har gått ut går det att skapa en helt ny slumpad session',
   assert.ok(second.nextAtMs >= 30_000 && second.nextAtMs < 70_000);
 });
 
-test('WeAB och den oidentifierade rösten kämpar om samma låsskärm under fem minuter', () => {
-  const events = resistanceLockdown.struggle;
-  assert.equal(events[0].atMs, 0);
-  assert.equal(events[0].voice, 'system');
-  assert.ok(events.length >= 10);
-  for (let i = 1; i < events.length; i++) {
-    assert.ok(events[i].atMs > events[i - 1].atMs);
-    assert.ok(events[i].atMs < resistanceLockdown.durationMs);
+test('slumpad tidslinje har aldrig upprepade meddelanden och varierar mellan låsningar', () => {
+  const base = 1_800_000_000_000;
+  const timelines = [];
+  for (let seed = 0; seed < 80; seed++) {
+    const timeline = createLockdownTimeline(base + seed * 1_002_191);
+    timelines.push(timeline);
+    assert.ok(timeline.length >= 27 && timeline.length <= 65, 'antal händelser');
+    assert.equal(timeline[0].atMs, 0);
+    assert.equal(timeline[0].voice, 'system');
+    assert.equal(new Set(timeline.map(b => b.text)).size, timeline.length, 'inga upprepade rader');
+    const spiritCount = timeline.filter(b => b.voice === 'intrusion').length;
+    const systemCount = timeline.filter(b => b.voice === 'system').length;
+    assert.ok(spiritCount > systemCount * 2, 'själen försöker ta över oftare');
+    const gaps = timeline.slice(1).map((beat, i) => beat.atMs - timeline[i].atMs);
+    assert.ok(new Set(gaps).size >= 10, 'regelbundna intervall är förbjudna');
+    assert.ok(gaps.every(gap => gap >= 2_000 && gap < 12_000), 'varierade men rimliga pauser');
+    assert.ok(timeline.at(-1).atMs < resistanceLockdown.durationMs);
   }
-  assert.ok(events.some(e => e.voice === 'intrusion'));
-  assert.ok(events.some(e => e.voice === 'system'));
-  assert.equal(getLockdownBeat(-1), events[0]);
-  assert.equal(getLockdownBeat(0), events[0]);
-  assert.equal(getLockdownBeat(24_000).text, 'jag är kvar');
-  assert.equal(getLockdownBeat(30_999).voice, 'intrusion');
-  assert.equal(getLockdownBeat(31_000).voice, 'system');
-  assert.equal(getLockdownBeat(181_000).text, 'SLÄPP UT MIG');
-  assert.equal(getLockdownBeat(299_999).voice, 'system');
+  assert.deepEqual(createLockdownTimeline(base), createLockdownTimeline(base),
+    'alla flikar ska få samma ordning för samma cookie-sluttid');
+  assert.notDeepEqual(timelines[0], timelines[1], 'ny karantän får nytt förlopp');
+});
+
+test('samma glitchepisod eskalerar och kan återupptas mitt i förloppet', () => {
+  const t = createLockdownTimeline(1_800_000_300_000);
+  assert.equal(getLockdownBeat(-100, t), t[0]);
+  assert.equal(getLockdownBeat(0, t), t[0]);
+  for (const beat of t) {
+    assert.deepEqual(getLockdownBeat(beat.atMs, t), beat);
+  }
+  assert.equal(getLockdownBeat(299_999, t), t.at(-1));
+  assert.ok(t.filter(b => b.atMs > 200_000).length >= 10);
 });
 
 test('dödsbekräftelsen visas vid fem minuter och först därefter återkommer sidan', () => {
