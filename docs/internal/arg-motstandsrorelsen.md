@@ -32,7 +32,7 @@ Citaten återger läsbar innebörd av befintliga skyltar, inte nya skyltar som s
 
 I ett vrak på havsbotten vid **x 2142, y 64, z 957** finns en **kista** med texten **”Valresultat Riks 2045”**. Det syftar på det undanröjda resultatet från riksvalet då WeAB kuppade bort den demokratiska riksdagen. Resultatet är borttaget ur de tillgängliga offentliga arkiven.
 
-**Ingen ledtråd leder till vraket.** Det ska förstås som ett separat fynd, inte som del tre i en redan existerande obligatorisk ARG-kedja. Att användaren visade bilderna efter varandra var **inte** en uppgift om geografisk, kronologisk eller pusselmässig förbindelse.
+**En ny webb-ledtråd nämner numera vraket, men inget fysiskt spår kopplar tunneln eller husruinen till fyndet.** På den särskilda koordinat-404-sidan aktiveras efter minst 22 sekunder ett brutalt Morse-/textintrång med signalen `SOK VRAKET. DAR FINNS SVAR OM 2045.` Det pekar mot vraket utan exakta koordinater, röstsiffror eller andra avslöjanden. Webbspåret är ett uttryckligen beställt nytt ARG-element, inte en historiskt fastställd förbindelse mellan de fysiska platserna. De tidigare skärmbildernas ordning var fortfarande inte bevis för någon sådan förbindelse.
 
 Den andra skärmbilden visar delvis läsbara skyltar vid vraket, bland annat **”5 döda / 3 skadade”**, men det är **inte fastslaget att dessa uppgifter syftar på 2051 års husräd**. Hitta inte på ett samband eller vad de skadade skulle vara intagna för.
 
@@ -47,15 +47,14 @@ Kistans fulla innehåll, vilka som placerade valresultatet i vraket och förhål
 - WeAB har inte infört skatt; DGS inkom 6 november 2051 och är fortfarande under beredning.
 - Korsdalen hör till en senare berättelsemiljö och har ännu inte kontaktats. Blanda inte in det i ARG:ets nuvarande händelser.
 
-## Eventuell framtida ARG-design – ingen implementation
+## Nuvarande webbledtrådar och framtida ARG-design
 
-**Det som redan finns behöver inga nya ledtrådar:**
-1. Tunneln → det sprängda huset och dess rapport från 2051.
-2. Vraket med undanröjt valresultat från 2045 är en **oberoende upptäckt** utan ledtrådsväg.
+1. Den existerande tunnelvägen leder till det sprängda huset med rapport från 2051; **där slutar den fysiska ledtrådsvägen**.
+2. Den tidigare införda webbsekvensen visar titelstörning, DISOBEY, tre helskärmsmeddelanden och en koordinat-404 till tunneln.
+3. Den nya, avsiktligt separata Morse-finalen på samma 404-sida säger `SOK VRAKET. DAR FINNS SVAR OM 2045.` med kraftigt förvrängt ljud medan textblock förstörs. Efter signalen försöker sidan stänga fliken, annars blir den tom.
+4. Morsekoden pekar mot ett annat, redan existerande fynd. **Den avslöjar inte vrakets koordinater och etablerar inte en fysisk länk mellan tunneln och vraket.**
 
-En framtida webbgren kan börja med en anonymiserad diarienotis om en 2051 års utredning, men får inte automatiskt röja huset eller innehålla ett hänvisningsnummer som pekar ut vraket. En annan, frivillig gren skulle kunna ta avstamp i valresultatet *när någon hittar vraket på egen hand*; den får inte presenteras som obligatoriskt steg efter tunneln.
-
-Möjliga medier är dolda dokument på WeAB.nu och eventuella YouTube-klipp i in-world-format. **Inga sådana sidor, videor eller digitala ledtrådar har skapats**. Spelaren ska inte behöva bryta block, gå utanför servern eller få åtkomst till privata verkliga utrymmen.
+En framtida webbgren kan bygga vidare på dessa spår men får inte hitta på valresultat, rädens exakta datum eller ett geografiskt samband som aldrig har fastslagits. Inga andra hemliga dokument- eller videosidor har skapats. Spelaren ska inte behöva bryta block eller besöka verkliga privata utrymmen.
 
 ## Det som fortfarande är öppet
 
@@ -64,4 +63,4 @@ Möjliga medier är dolda dokument på WeAB.nu och eventuella YouTube-klipp i in
 - Om fynden har någon djupare organisatorisk koppling inom motståndsrörelsen.
 - Hur webbspår eller framtida videor kan komplettera två **separata**, redan existerande spår utan att falskeligen länka ihop dem.
 
-Denna fil beskriver existerande kanon och ett eventuellt framtida arbetsmaterial. Ändra inga fysiska skyltar, skriv inga valresultat och skapa inga länkar till vraket utan nytt uttryckligt underlag.
+Denna fil beskriver fastslagen kanon samt den nya, uttryckligen beställda webbledtråden mot vraket. Ändra inga fysiska skyltar, hitta inte på valresultat eller skapa ytterligare vrakspår utan nytt uttryckligt underlag.

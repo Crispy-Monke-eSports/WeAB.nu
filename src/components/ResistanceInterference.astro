@@ -26,6 +26,7 @@
     type SignalSchedule,
     type SignalPhase
   } from '../data/resistanceSignal.ts';
+  import { resistanceMorse } from '../data/resistanceMorse.ts';
 
   const overlay = document.querySelector<HTMLElement>('[data-resistance-interference]');
   const messageElement = overlay?.querySelector<HTMLElement>('[data-resistance-message]');
@@ -150,6 +151,8 @@
 
       function redirectTo404(): void {
         // Adressen är avsiktligt obefintlig. GitHub Pages visar befintlig 404.
+        // Armera en enda Morse-final på koordinatadressen, inte vanliga 404-besök.
+        storageWrite(sessionStorage, resistanceMorse.triggerKey, String(Date.now()));
         storageWrite(localStorage, resistanceSignal.lastShownKey, String(Date.now()));
         schedule = createSignalSchedule();
         saveSchedule();

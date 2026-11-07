@@ -25,7 +25,11 @@ if (!existsSync(join(dist, '404.html'))) {
 } else {
   const notFound = readFileSync(join(dist, '404.html'), 'utf8');
   if (!notFound.includes('Den här sidan har') || notFound.includes('data-resistance-interference')) {
-    broken.push('404-sidan ska neka till adressen utan att utlösa ett nytt intrång');
+    broken.push('404-sidan ska neka till adressen utan att utlösa det ordinarie intrånget');
+  }
+  // Enbart en färsk, tidsstämplad engångstrigger på koordinat-404 får utlösa Morse.
+  if (!notFound.includes('data-morse-veil') || !notFound.includes('data-morse-connect')) {
+    broken.push('ARG-404 saknar den separata Morse-finalens ljud-/korruptionslager');
   }
 }
 if (existsSync(join(dist, '31-66--351')) || existsSync(join(dist, '31-66--351.html'))) {

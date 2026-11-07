@@ -1,0 +1,271 @@
+---
+/**
+ * ARG-final på WeAB:s 404-sida. Körs enbart efter den ordinarie intrångskedjan
+ * och på exakt koordinat-URL:en; slumpmässiga 404-sidor lämnas i fred.
+ */
+---
+<div class="resistance-morse-veil" data-morse-veil hidden aria-hidden="true"></div>
+<button class="resistance-morse-connect" data-morse-connect type="button" hidden>
+  SIGNAL BRUTEN. ÅTERUPPRÄTTA FÖRBINDELSEN.
+</button>
+
+<script>
+  import { resistanceSignal } from '../data/resistanceSignal.ts';
+  import {
+    resistanceMorse, morseTimeline, morseDurationMs,
+    morseStartDelayMs, isValidMorseTrigger
+  } from '../data/resistanceMorse.ts';
+
+  const veil = document.querySelector<HTMLElement>('[data-morse-veil]');
+  const connectButton = document.querySelector<HTMLButtonElement>('[data-morse-connect]');
+  const preview = import.meta.env.DEV &&
+    new URLSearchParams(location.search).get('previewMorse') === '1';
+
+  function takeTrigger(): string | null {
+    try {
+      const value = sessionStorage.getItem(resistanceMorse.triggerKey);
+      sessionStorage.removeItem(resistanceMorse.triggerKey);
+      return value;
+    } catch { return null; }
+  }
+
+  const isCoordinate404 = location.pathname === resistanceSignal.targetPath ||
+    location.pathname === resistanceSignal.targetPath.slice(0, -1);
+  const armed = isCoordinate404 && isValidMorseTrigger(takeTrigger(), Date.now());
+  if (isCoordinate404 && (armed || preview) && veil && connectButton) {
+    // Passets 404 visas helt normalt i minst 22 sekunder efter navigeringen.
+    let activeMs = 0;
+    const startAfterMs = preview ? 1_000 : morseStartDelayMs();
+    let starting = false;
+    let lastTick = performance.now();
+    const interval = window.setInterval(() => {
+      const now = performance.now();
+      const elapsed = Math.max(0, Math.min(1_200, now - lastTick));
+      lastTick = now;
+      if (document.visibilityState !== 'visible' || starting) return;
+      activeMs += elapsed;
+      if (activeMs >= startAfterMs) {
+        starting = true;
+        window.clearInterval(interval);
+        prepareSignal();
+      }
+    }, 500);
+
+    const marks = morseTimeline();
+    const totalMs = morseDurationMs(marks);
+    const originalTitle = document.title;
+    const paragraphs = [...document.querySelectorAll<HTMLElement>(
+      '.not-found-content h1, .not-found-content p, .not-found-content a,' +
+      ' .not-found-footer span, .site-header a, .footer-about p,' +
+      ' .footer-about small, .footer-grid h3, .footer-grid a,' +
+      ' .footer-bottom span, .fiction-notice'
+    )];
+    let corrupted = 0;
+
+    function corrupt(element: HTMLElement, index: number): void {
+      if (element.querySelector('[data-morse-connect]')) return;
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+      let next: Node | null;
+      while ((next = walker.nextNode())) {
+        const node = next as Text;
+        if (!node.data.trim() || node.parentElement?.closest('.sr-only,[aria-hidden="true"]')) continue;
+        node.data = [...node.data].map((c, i) => {
+          if (/\s/u.test(c)) return c;
+          const glyphs = ['█', '▒', '/', '0', '1', '░'];
+          return glyphs[(i + index * 3) % glyphs.length];
+        }).join('');
+      }
+      element.classList.add('resistance-morse-corrupted');
+    }
+
+    function progress(elapsed: number): void {
+      const portion = Math.min(1, elapsed / totalMs);
+      const expected = Math.min(paragraphs.length, Math.floor(portion * (paragraphs.length + 1)));
+      while (corrupted < expected) corrupt(paragraphs[corrupted], corrupted++);
+      veil.hidden = false;
+      veil.style.opacity = String(Math.min(.9, Math.pow(portion, 1.6) * .95));
+      document.body.classList.add('resistance-morse-active');
+      if (portion > .22) document.title = 'S I G N A L   F Ö R L O R A D';
+      if (portion > .65) document.title = '████████████';
+    }
+
+    function terminate(): void {
+      // Webbläsare kan bara stänga flikar som deras policy tillåter.
+      document.title = '';
+      document.documentElement.style.background = '#000';
+      document.body.replaceChildren();
+      document.body.style.background = '#000';
+      try { window.close(); } catch { /* En vanlig användarflik kan inte stängas. */ }
+      // När window.close() nekas lämnas en tom flik, aldrig en falsk systemdialog.
+      window.setTimeout(() => {
+        if (!window.closed) {
+          try { location.replace('about:blank'); } catch { /* Sidan är redan svart. */ }
+        }
+      }, 220);
+    }
+
+    function animateByAudioClock(context: AudioContext, begins: number): void {
+      function frame(): void {
+        const elapsed = Math.max(0, (context.currentTime - begins) * 1000);
+        progress(elapsed);
+        if (elapsed < totalMs + 260) {
+          window.requestAnimationFrame(frame);
+          return;
+        }
+        void context.close().catch(() => {});
+        terminate();
+      }
+      window.requestAnimationFrame(frame);
+    }
+
+    function playCorruptedMorse(context: AudioContext): void {
+      const begins = context.currentTime + .08;
+      const ends = begins + totalMs / 1000;
+      const master = context.createGain();
+      master.gain.value = .13;
+      master.connect(context.destination);
+
+      const filter = context.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 710;
+      filter.Q.value = .62;
+      filter.connect(master);
+
+      // Hård överstyrning: distinkt gammal radiosignal, inte ren pipton.
+      const distortion = context.createWaveShaper();
+      const curve = new Float32Array(512);
+      for (let i = 0; i < curve.length; i++) {
+        const x = 2 * i / (curve.length - 1) - 1;
+        curve[i] = Math.tanh(x * 6.5);
+      }
+      distortion.curve = curve;
+      distortion.connect(filter);
+
+      marks.forEach((mark, i) => {
+        const at = begins + mark.atMs / 1000;
+        const length = mark.durationMs / 1000;
+        const oscillator = context.createOscillator();
+        oscillator.type = i % 6 === 0 ? 'square' : 'sawtooth';
+        const frequency = 530 + Math.sin(i * 13.7) * 42;
+        oscillator.frequency.setValueAtTime(frequency, at);
+        oscillator.frequency.linearRampToValueAtTime(frequency - 26, at + length);
+        const volume = context.createGain();
+        volume.gain.setValueAtTime(0.001, at);
+        volume.gain.linearRampToValueAtTime(.60, at + Math.min(.008, length * .15));
+        volume.gain.setValueAtTime(.60, at + Math.max(.01, length - .012));
+        volume.gain.linearRampToValueAtTime(.001, at + length);
+        oscillator.connect(volume);
+        volume.connect(distortion);
+        oscillator.start(at);
+        oscillator.stop(at + length + .002);
+        oscillator.onended = () => { oscillator.disconnect(); volume.disconnect(); };
+      });
+
+      // Låg, filtrerad radiostatik under meddelandet ger trasig inspelningskänsla.
+      const sampleCount = context.sampleRate * 2;
+      const noiseBuffer = context.createBuffer(1, sampleCount, context.sampleRate);
+      const samples = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < samples.length; i++) {
+        const raw = Math.random() * 2 - 1;
+        samples[i] = raw * (i % 191 < 8 ? .95 : .22);
+      }
+      const noise = context.createBufferSource();
+      noise.buffer = noiseBuffer;
+      noise.loop = true;
+      const noiseFilter = context.createBiquadFilter();
+      noiseFilter.type = 'highpass';
+      noiseFilter.frequency.value = 500;
+      const noiseGain = context.createGain();
+      noiseGain.gain.value = .028;
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(master);
+      noise.start(begins);
+      noise.stop(ends + .08);
+      noise.onended = () => { noise.disconnect(); noiseFilter.disconnect(); noiseGain.disconnect(); };
+
+      animateByAudioClock(context, begins);
+    }
+
+    function fallbackVisualOnly(): void {
+      // Bara om Web Audio API helt saknas. Autoplay-blockering hanteras med knapp.
+      const started = performance.now();
+      function frame(now: number): void {
+        progress(now - started);
+        if (now - started < totalMs + 260) window.requestAnimationFrame(frame);
+        else terminate();
+      }
+      window.requestAnimationFrame(frame);
+    }
+
+    function prepareSignal(): void {
+      if (typeof AudioContext === 'undefined') {
+        fallbackVisualOnly();
+        return;
+      }
+      const context = new AudioContext();
+      if (context.state === 'running') {
+        playCorruptedMorse(context);
+        return;
+      }
+      // Web Audio får inte kringgå webbläsarens autoplay-regler.
+      // En enda in-world-knapp visas ENDAST när ljudet annars blockeras.
+      connectButton.hidden = false;
+      connectButton.addEventListener('click', () => {
+        void context.resume().then(() => {
+          if (context.state !== 'running') return;
+          connectButton.hidden = true;
+          document.title = originalTitle;
+          playCorruptedMorse(context);
+        }).catch(() => {});
+      });
+    }
+  }
+</script>
+
+<style>
+  .resistance-morse-veil {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+      176deg,
+      transparent 0,
+      rgb(0 0 0 / .55) 16px,
+      rgb(0 0 0 / .94) 20px,
+      transparent 27px
+    ), #020304;
+    opacity: 0;
+    transition: none;
+  }
+  .resistance-morse-connect {
+    position: fixed;
+    z-index: 10000;
+    bottom: 9vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(88vw, 580px);
+    padding: 1.2rem 1.5rem;
+    color: #e4e5e5;
+    background: #050707;
+    border: 1px solid #7e4145;
+    font-family: ui-monospace, monospace;
+    font-size: clamp(.8rem, 2.2vw, 1rem);
+    letter-spacing: .04em;
+    cursor: pointer;
+    text-align: center;
+  }
+  :global(.resistance-morse-corrupted) {
+    color: #d0b7b7 !important;
+    text-shadow: -2px 0 #4e141d, 2px 0 #154d58;
+    filter: contrast(160%);
+    transform: translateX(2px) skew(-.8deg);
+  }
+  :global(body.resistance-morse-active) {
+    overflow: hidden;
+  }
+  :global(body.resistance-morse-active .not-found-image) {
+    filter: saturate(0) contrast(200%) brightness(.35);
+  }
+</style>

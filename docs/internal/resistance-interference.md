@@ -1,44 +1,54 @@
-# Motståndsrörelsens digitala intrång – plan och implementation
+# Motståndsrörelsens digitala intrång – genomförandeplan
 
-> Intern ARG-dokumentation. Koncernens officiella texter förblir skrivna ur WeAB:s perspektiv. Intrånget är motståndsrörelsens tillfälliga kontroll över webbplatsens gränssnitt, inte en offentlig nyhet.
+> Endast intern ARG-dokumentation. WeAB:s vanliga sidor, pressutskick och koncerntexter förblir skrivna med WeAB:s egen röst. Intrången är motståndets otillåtna manipulation av själva gränssnittet.
 
-## Upplevelse och garanterat mellanrum
+## Händelsekedjan
 
-Alla händelser är **separata**. En paus på **22–34 sekunders aktiv läsning** infaller efter att varje effekt avslutats, alltså alltid **minst 20 sekunder** mellan händelserna:
+Alla separata moment fram till 404 ligger **minst 22 sekunders aktiv läsning efter det föregående momentets slut**, med slumpvariation upp till ungefär 34 sekunder.
 
-1. **TITELÄNDRING:** Efter 30–70 sekunders aktiv läsning byts webbläsarflikens titel till **HÖR DU OSS?** och sidans första rubrik till **DU SER DET OCKSÅ.** under 0,95 sekunder. Båda återställs.
-2. **PAUS:** 22–34 sekunder med en helt normal WeAB-sida.
-3. **DISOBEY:** Nästan all synlig text i huvudmeny, innehåll och sidfot ersätts av **DISOBEY** i 1,5 sekunder; fliktiteln ändras också. Sidan återställs helt.
-4. **PAUS:** 22–34 sekunder med en helt normal sida.
-5. **HELSKÄRM:** Ett mörkt lager täcker webbplatsen. Tre texter visas snabbt i följd: **HÖR DU OSS?** (1,15 s), **VI ÄR FORTFARANDE HÄR.** (1,35 s) och **HITTA OSS.** (1,65 s). Fliktiteln följer texten. Lagret försvinner efter totalt 4,15 sekunder och WeAB-sidan återkommer.
-6. **PAUS:** 22–34 sekunder med en helt normal sida.
-7. **404:** Webbläsaren navigerar till **\`/31-66--351/\`**. Ingen sådan Astro-sida byggs; GitHub Pages visar WeAB:s befintliga 404-sida, som förnekar att adressen existerar. Koordinaterna finns kvar i adressfältet.
+1. **TITEL:** Efter 30–70 sekunders aktiv läsning ändras rubrik och fliktitel kort. Efter 0,95 sekunder återställs sidan.
+2. **VÄNTAN:** 22–34 sekunder vanlig webbplats.
+3. **DISOBEY:** Nästan all text ersätts av DISOBEY under 1,5 sekunder. Alla textnoder återställs.
+4. **VÄNTAN:** 22–34 sekunder vanlig webbplats.
+5. **HELSKÄRM:** Tre mörka skärmar visas i följd: HÖR DU OSS? (1,15 s), VI ÄR FORTFARANDE HÄR. (1,35 s), HITTA OSS. (1,65 s).
+6. **VÄNTAN:** 22–34 sekunder vanlig webbplats.
+7. **404:** Navigera till `/31-66--351/`, ett avsiktligt obefintligt dokument. GitHub Pages serverar den vanliga, förnekande 404-sidan medan koordinatadressen visas i adressfältet.
+8. **VÄNTAN PÅ 404:** Den särskilda 404-sidan är helt normal under 22–34 sekunder av aktiv fliktid.
+9. **MORSE OCH NEDBRYTNING:** En förvrängd, överstyrd radioton med filtrerat brus skickar **internationell Morse**. Samtidigt blir textblock på 404-sidan korrupta ett efter ett: rubrik, ingress, länkar, navigation och sidfot. Fliktiteln förlorar läsbarhet och en mörk skärmslöja tilltar gradvis. Ingen stark blixt, stroboskop eller skrämselljud används.
+10. **SLUT:** Efter den sista morsebokstaven blir skärmen svart och skriptet försöker `window.close()`. Webbläsaren får normalt inte stänga en manuellt öppnad flik: fallback är `location.replace('about:blank')`, så sidan blir en tom flik i stället.
 
-Det finns alltså **aldrig en direkt övergång från DISOBEY till helskärmsmeddelandena eller från sista helskärmstexten till 404**. Intervallet slumpas för att kännas oförutsägbart, men understiger aldrig 22 sekunder efter förra effektens slut.
+Ingen Escape-knapp eller klickavbrytning har införts för standardintrånget.
 
-## ARG-kontinuitet
+## Morsekodens facit – endast internt
 
-Koordinaterna **31, 66, -351** avser den tidigare fastställda **hemliga tunneln** i WeLiveLaughLove Sektion 1 Avdelning B. Adressen är ett nytt webbspår till en redan existerande fysisk ledtråd. Den säger **ingenting** om husrädens hemliga detaljer och leder **inte till vraket**. Vraket är ett separat fynd som saknar ledtrådskedja.
+Det engelska/internationella Morse-alfabetet används med ASCII-translitterering. Signalen är:
 
-## Tid, återbesök och implementation
+```text
+SOK VRAKET. DAR FINNS SVAR OM 2045.
+```
 
-- Första titelförändringen planeras efter **30–70 sekunders aktiv tid**. Alla mellanliggande pauser är **22–34 sekunder efter att den föregående händelsen avslutats**.
-- Schemat (nästa steg, tidigare förbrukad aktiv tid och tidigaste start) sparas i \`sessionStorage\` för att behålla pauserna vid sidbyten. Sessionsnyckeln är versionerad, så äldre tätt sammankopplade sekvenser återanvänds inte.
-- Ingen aktiv tid räknas i bakgrundsflikar. En körande textanimation kan slutföras medan fliken är dold, men det efterföljande steget kräver fortfarande sin aktiva väntetid.
-- Efter omdirigeringen registreras **15 minuters spärr** i \`localStorage\`.
-- \`src/data/resistanceSignal.ts\` beskriver varje fas och dess varaktighet och räknar fram nästa fas med en separat minsta väntetid.
-- \`src/components/ResistanceInterference.astro\` tillämpar faserna en åt gången och återställer samtliga DOM-textnoder, rubrik, fliktitel, fokus och \`inert\`-tillstånd efter respektive effekt.
-- \`src/layouts/BaseLayout.astro\` laddar komponenten centralt. \`src/pages/404.astro\` utesluter den för att inte bilda en loop.
-- \`tests/resistance-signal.test.mjs\` testar uttryckligen minsta möjliga paus efter **var och en** av de tre effekterna, variation, sessionsdata och spärr. \`scripts/validate-site.mjs\` kontrollerar 404-sidan och att koordinatadressen inte genereras.
+Tolkning: **Sök vraket. Där finns svar om 2045.**
 
-Alla besökare får samma sekvens; den kan inte avbrytas med Escape eller klick, enligt beställningen. Den innehåller inga skrämselljud, strobljus eller kraftiga blinkningar. Webbläsarens vanliga navigering fungerar fortfarande.
+Rytm: prick = 1 tidsenhet, streck = 3 enheter, paus mellan tecken i samma bokstav = 1 enhet, mellan bokstäver = 3, mellan ord = 7. Enhet 95 ms, total uppspelning ca 33 sekunder. Det svårhörda radiobruset och tonhöjdsförändringarna ändrar inte de fasta pausernas och tonernas kodning.
 
-## Testning
+Meddelandet nämner ett vrak men **inte dess koordinater, röstsiffror eller något faktiskt valutfall**. Den tidigare bekräftade tunneln i WeLiveLaughLove Sektion 1 Avdelning B och dess husruin förblir en egen fysisk ledtrådsväg. Morsekoden på webben är ett nytt separat spår till ett redan känt vrak och ska inte presenteras som en fysisk förbindelse.
 
-Kör \`npm run check\`. I Astro-utvecklingsläge (\`npm run dev\`) kan \`/?previewResistance=1\` förkorta **endast väntan till titeländringen** till ungefär en sekund. **Alla tre senare pauser på 22–34 sekunder gäller även i förhandsvisningen.** Förhandsvisningen är inte aktiv i produktion.
+## Ljud och webbläsarbegränsningar
 
-Kontrollera manuellt på dator och mobil att rubrik och fliktitel återställs, att DISOBEY återställs, att de tre meddelandena visas efter den andra pausen, att vanlig sida återkommer under den tredje pausen, och att koordinatadressen ger den befintliga 404-sidan.
+Koden använder Web Audio API: överstyrd oscillator, frekvensdrift och låg brusmatta, syntetiserat direkt i webbläsaren utan ljudfil. Om webbläsaren tillåter Web Audio startar signalen automatiskt. Om **autoplay blockeras** väntar intrånget i stället på ett klick på en kontextuell knapp: **SIGNAL BRUTEN. ÅTERUPPRÄTTA FÖRBINDELSEN.** Sidan börjar inte spela tyst och stängs inte innan ljuduppspelningen verkligen har genomförts. Om Web Audio inte stöds körs en visuell nedbrytning med samma tidslängd.
 
-## Publiceringsstatus
+`window.close()` kan vanligen bara stänga flikar som öppnats av webbinnehåll, och får inte forcera stängning av en manuell flik. Fallback till `about:blank` ger det visuella avslut som begärts, men ändrar inte själva webbläsarens flikhantering.
 
-Funktionaliteten är avsedd att ligga på \`main\` efter användarens uttryckliga instruktion att lägga ändringarna direkt där. Den interna ARG-dokumentationen ska inte exponeras som en offentlig webbplatslänk.
+## Avgränsning och lagringsregler
+
+- `src/data/resistanceSignal.ts` och `src/components/ResistanceInterference.astro` sköter den ordinarie inledningen och navigering till 404.
+- Precis före omdirigeringen lagras en tidsstämplad engångsmarkering i `sessionStorage`.
+- `src/pages/404.astro` laddar `src/components/ResistanceMorse.astro`, som bara aktiveras på **exakt** koordinatadressen med en **färsk** markering (högst 60 sekunder gammal). Alla andra 404-sidor förblir helt normala.
+- Signalen använder `src/data/resistanceMorse.ts` för text, alfabet, takter, tidslinje och startfördröjning. Triggermarkeringen förbrukas direkt och ger ingen 404-loop vid återbesök.
+- Ljudets egen `AudioContext.currentTime` bestämmer när meddelandet är klart, så fliken försöker inte stänga sig innan signalens sista element är färdigt.
+- 15 minuters spärr efter hela ordinarie intrångssekvensen finns kvar.
+- `npm run test:resistance` testar såväl pauser i originalsekvensen som internationell Morse, meddelandets varaktighet, fördröjning och engångstrigger.
+
+## Tester före och efter publicering
+
+Kör `npm run check` och verifiera GitHub Actions. Kontrollera på en riktig webbläsare att ljudet är hörbart och morserytmen går att avkoda. Testa både ljudtillåten och ljudblockerad autoplay. Besök en vanlig felaktig URL och kontrollera att Morse **inte** börjar där. Kontrollera mobil, att korruptionen sprider sig successivt och att fliken stängs endast om webbläsaren tillåter det. I utvecklingsläge kan `/?previewResistance=1` snabbstarta första titelfasen och `/31-66--351/?previewMorse=1` snabbstarta Morse-finalen separat; produktionsbygget tillåter inte dessa genvägar.

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ResistanceMorse from '../components/ResistanceMorse.astro';
 ---
 <BaseLayout title="404 | WeAB Informationskontroll" description="WeAB har granskat din förfrågan. Någon sida på den här adressen har aldrig existerat." enableInterference={false}>
   <section class="not-found" aria-labelledby="not-found-heading">
@@ -12,6 +13,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="not-found-footer"><span>ÄRENDE 404 · AVSLUTAT UTAN ÖVERKLAGANDE</span><span>WEAB INFORMATION ASSURANCE</span></div>
     </div>
   </section>
+  <ResistanceMorse/>
 </BaseLayout>
 <style>
   .not-found{position:relative;min-height:min(850px,calc(100svh - 80px));display:flex;align-items:center;overflow:hidden;background:#0b1922;border-bottom:1px solid #2e4854}
