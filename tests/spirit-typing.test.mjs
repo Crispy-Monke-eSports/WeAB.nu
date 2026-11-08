@@ -38,7 +38,7 @@ test('huvudlayouten skriver texten gradvis med kontinuerliga ljud- och bildhänd
   assert.match(layout, /visibleLetters \+ '▌'/);
   assert.match(layout, /showSystem\(latestSystem, displayed\)/);
   assert.match(layout, /updateTypingSound\(typing && document\.visibilityState === 'visible'/);
-  assert.match(layout, /return typing \? Math\.min\(untilNext, spiritTypingFrameMs\) : untilNext/);
+  assert.match(layout, /return typing \|\| reacting/);
   assert.match(layout, /root\.classList\.toggle\('weab-spirit-typing'/);
   assert.match(layout, /if \(document\.readyState === 'loading'\) return/);
   assert.match(radio, /weab:spirit-typing/);
