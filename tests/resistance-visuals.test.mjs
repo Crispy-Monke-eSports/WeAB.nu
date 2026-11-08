@@ -107,7 +107,7 @@ test('själens varje synliga sidintrång får radio + analog bildstörning', () 
   assert.match(radio, /window\.addEventListener\('weab:spirit-burst'/);
   assert.match(radio, /radio\.type = 'bandpass'/);
   assert.match(radio, /ghost\.frequency\.linearRampToValueAtTime/);
-  assert.match(radio, /master\.gain\.value = \.09/);
+  assert.match(radio, /master\.gain\.value = \.19/);
 });
 
 test('gemensam visuell effekt fungerar även utan AudioContext och i karantänen', () => {

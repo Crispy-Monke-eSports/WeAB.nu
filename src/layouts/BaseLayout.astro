@@ -8,6 +8,7 @@ import SpiritTransmission from '../components/SpiritTransmission.astro';
 import BuilderDiagnostics from '../components/BuilderDiagnostics.astro';
 import { resistanceLockdown } from '../data/resistanceLockdown.ts';
 import { resistanceSignal } from '../data/resistanceSignal.ts';
+import { spiritTyping } from '../data/spiritTyping.ts';
 import { companies } from '../data/companies';
 import '../styles/global.css';
 interface Props {title?:string;description?:string;enableInterference?:boolean;}
@@ -83,6 +84,24 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     text-shadow: 2px 0 #491722, -2px 0 #23414e;
   }
   #weab-quarantine .weab-quarantine__intrusion[hidden] { display: none !important; }
+  /* Sammanhängande analoga störningar medan själens bokstäver skrivs. */
+  html.weab-spirit-typing #weab-quarantine .weab-quarantine__intrusion {
+    text-shadow: -2px 0 #236b77, 2px 0 #943749, 0 0 9px rgb(192 73 98 / .45);
+    animation: weab-spirit-text-drift .43s steps(3, end) infinite;
+  }
+  html.weab-spirit-typing #weab-quarantine::before {
+    background:
+      repeating-linear-gradient(0deg, transparent 0 3px,
+        rgb(102 174 190 / .07) 4px, transparent 5px 9px),
+      linear-gradient(176deg, transparent 18%,
+        rgb(124 25 48 / .06) 40%, transparent 64%);
+    opacity: .6;
+  }
+  @keyframes weab-spirit-text-drift {
+    0%, 100% { transform: translateX(0); }
+    34% { transform: translateX(-1px); }
+    67% { transform: translateX(1px); }
+  }
   html.weab-intruding #weab-quarantine img {
     filter: grayscale(.85) brightness(.6);
     transform: translateX(2px);
@@ -181,6 +200,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
   }
   @keyframes weab-quarantine-spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) {
+    html.weab-spirit-typing #weab-quarantine .weab-quarantine__intrusion { animation: none; }
     #weab-quarantine .weab-quarantine__spinner { animation: none; }
     html.weab-glitching #weab-quarantine img,
     html.weab-glitching #weab-quarantine .weab-quarantine__system,
@@ -204,7 +224,12 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
    lockSpiritLate: resistanceLockdown.spiritLate,
    exitMessage: resistanceLockdown.exitMessage,
    exitMessageMs: resistanceLockdown.exitMessageMs,
-   signalSessionKey: resistanceSignal.sessionKey
+   signalSessionKey: resistanceSignal.sessionKey,
+   spiritTypingMinMs: spiritTyping.minMs,
+   spiritTypingPerCharacterMs: spiritTyping.perCharacterMs,
+   spiritTypingMaxMs: spiritTyping.maxMs,
+   spiritTypingMarginMs: spiritTyping.nextBeatMarginMs,
+   spiritTypingFrameMs: spiritTyping.frameMs
  }}>
   (() => {
     const root = document.documentElement;
@@ -214,6 +239,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     let microTearTimer;
     let confirmedDisplayed = false;
     let lastBeatKey = '';
+    let activeTypingKey = '';
     let timelineExpiry = 0;
     let timeline = [];
 
@@ -325,6 +351,19 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       }
     }
 
+    function updateTypingSound(active, beatKey, strength) {
+      // Vid första renderingen i HEAD finns ljudlyssnaren ännu inte.
+      // DOMContentLoaded anropar renderStruggle igen.
+      if (document.readyState === 'loading') return;
+      const key = active ? beatKey : '';
+      root.classList.toggle('weab-spirit-typing', Boolean(active));
+      if (activeTypingKey === key) return;
+      activeTypingKey = key;
+      window.dispatchEvent(new CustomEvent('weab:spirit-typing', {
+        detail: { active: Boolean(active), strength }
+      }));
+    }
+
     function showSystem(text, intrusionText) {
       const status = document.getElementById('weab-quarantine-status');
       const breach = document.getElementById('weab-quarantine-intrusion');
@@ -365,31 +404,46 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       root.classList.toggle('weab-overrun', progress > .62 && Boolean(latestIntrusion));
       root.classList.toggle('weab-critical', progress > .54);
       root.classList.remove('weab-death-confirmed');
-      showSystem(latestSystem, latestIntrusion);
-      const status = document.getElementById('weab-quarantine-status');
-      if (status) status.dataset.echo = latestSystem;
-      const intrusion = document.getElementById('weab-quarantine-intrusion');
-      if (intrusion) intrusion.dataset.echo = latestIntrusion;
-      const key = until + ':' + currentBeat.atMs;
-      if (key !== lastBeatKey) {
-        lastBeatKey = key;
+      const beatKey = until + ':' + currentBeat.atMs;
+      const isSpirit = currentBeat.voice === 'intrusion' && Boolean(latestIntrusion);
+      const duration = isSpirit
+        ? Math.min(
+          Math.max(spiritTypingMinMs, Math.min(spiritTypingMaxMs,
+            [...latestIntrusion].length * spiritTypingPerCharacterMs)),
+          Math.max(330, nextAt - currentBeat.atMs - spiritTypingMarginMs))
+        : 0;
+      const age = Math.max(0, elapsed - currentBeat.atMs);
+      const typing = Boolean(isSpirit && age < duration &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      const visibleLetters = typing
+        ? [...latestIntrusion].slice(0,
+          Math.floor([...latestIntrusion].length * age / duration)).join('')
+        : latestIntrusion;
+      // data-echo måste använda samma SYNLIGA text, annars visar
+      // glitchens överlagring hela meddelandet innan det har skrivits.
+      const displayed = typing ? visibleLetters + '▌' : visibleLetters;
+      showSystem(latestSystem, displayed);
+      const strength = progress > .70 ? 'harsh' : progress > .38 ? 'medium' : 'soft';
+      updateTypingSound(typing && document.visibilityState === 'visible',
+        beatKey, strength);
+      if (beatKey !== lastBeatKey && document.readyState !== 'loading') {
+        lastBeatKey = beatKey;
         pulseGlitch(progress > .62 || currentBeat.voice === 'intrusion' ? 2 : 1);
-        // Nya rader från själen har ett kort analogt radiobrus OCH
-        // synkroniserad bildstörning. WeAB:s egna rader är ljudlösa.
-        if (currentBeat.voice === 'intrusion' && document.visibilityState === 'visible') {
-          const strength = progress > .70 ? 'harsh' : progress > .38 ? 'medium' : 'soft';
+        if (isSpirit && document.visibilityState === 'visible') {
           window.dispatchEvent(new CustomEvent('weab:spirit-burst', {
             detail: { strength }
           }));
         }
       }
-      return Math.min(until - now, Math.max(0, nextAt - elapsed));
+      const untilNext = Math.min(until - now, Math.max(0, nextAt - elapsed));
+      return typing ? Math.min(untilNext, spiritTypingFrameMs) : untilNext;
     }
 
     function showConfirmed(now, until) {
       root.classList.add('weab-quarantined', 'weab-death-confirmed');
       root.classList.remove('weab-intruding', 'weab-overrun',
         'weab-critical', 'weab-glitching');
+      updateTypingSound(false, '', 'soft');
       root.dataset.weabCorruption = '0';
       window.clearTimeout(glitchTimer);
       window.clearTimeout(microTearTimer);

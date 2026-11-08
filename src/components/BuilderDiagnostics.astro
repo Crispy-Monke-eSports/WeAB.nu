@@ -6,10 +6,6 @@
  */
 ---
 <aside class="builder-diagnostics" data-builder-diagnostics hidden aria-hidden="true">
-  <div class="builder-diagnostics__heading">
-    <span class="builder-diagnostics__source">WEAB / site-builder</span>
-    <span class="builder-diagnostics__status">runtime diagnostics</span>
-  </div>
   <div class="builder-diagnostics__lines" data-builder-diagnostics-lines></div>
 </aside>
 
@@ -114,80 +110,57 @@
 <style>
   .builder-diagnostics[hidden] { display: none; }
   .builder-diagnostics {
+    /* Ingen terminalbox: bara feltext som börjar skrivas över vänstra
+       delen av sidan och efter hand skjuter de gamla raderna uppåt. */
     position: fixed;
-    right: clamp(8px, 2.4vw, 28px);
-    bottom: clamp(8px, 2.4vh, 24px);
+    top: clamp(92px, 15vh, 180px);
+    left: clamp(14px, 3.5vw, 65px);
     z-index: 10012;
-    width: min(690px, calc(100vw - 16px));
-    max-height: min(57vh, 530px);
-    display: flex;
-    flex-direction: column;
+    width: min(760px, 61vw);
+    max-height: min(74vh, 680px);
+    display: block;
     overflow: hidden;
     pointer-events: none;
-    color: #c7d5d6;
+    color: #c5d4d8;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
     font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
-    font-size: clamp(10px, 1.2vw, 12px);
-    line-height: 1.42;
-    background: rgb(3 10 15 / .87);
-    border: 1px solid rgb(100 145 154 / .37);
-    border-left: 2px solid rgb(126 179 183 / .7);
-    box-shadow: 0 8px 40px rgb(0 0 0 / .68),
-      inset 0 0 30px rgb(13 35 44 / .3);
+    font-size: clamp(10px, 1.12vw, 12px);
+    line-height: 1.4;
     text-align: left;
     contain: layout style;
   }
-  .builder-diagnostics::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(to bottom,
-      transparent 0 3px, rgb(111 171 180 / .025) 4px,
-      transparent 5px 8px);
-  }
-  .builder-diagnostics__heading {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 8px 12px;
-    background: rgb(30 50 59 / .82);
-    border-bottom: 1px solid rgb(104 157 167 / .22);
-    font-size: 10px;
-    letter-spacing: .045em;
-  }
-  .builder-diagnostics__source {
-    color: #d0e1e3;
-    font-weight: 700;
-  }
-  .builder-diagnostics__status { color: #ddad96; }
   .builder-diagnostics__lines {
+    max-height: min(74vh, 680px);
     overflow: hidden auto;
-    min-height: 18px;
-    max-height: min(51vh, 470px);
     scrollbar-width: none;
-    padding: 7px 11px 12px;
+    padding: 0;
     overflow-wrap: anywhere;
   }
+  .builder-diagnostics__lines::-webkit-scrollbar { display: none; }
   .builder-diagnostics__entry {
-    padding: 2px 0;
+    margin: 0 0 4px;
+    padding: 0;
     white-space: pre-wrap;
-    border-bottom: 1px solid rgb(111 151 158 / .07);
+    border: 0;
+    background: transparent !important;
+    text-shadow: 0 1px 3px #020407, 1px 0 2px #020407;
   }
-  .builder-diagnostics__entry--info { color: #83a8ae; }
-  .builder-diagnostics__entry--warn { color: #c9bd8e; }
-  .builder-diagnostics__entry--error { color: #e89e92; }
-  .builder-diagnostics__entry--critical {
-    color: #ff9aab;
-    background: rgb(113 21 36 / .19);
-  }
+  .builder-diagnostics__entry--info { color: #91aeb6; }
+  .builder-diagnostics__entry--warn { color: #cdbb88; }
+  .builder-diagnostics__entry--error { color: #e3a7a1; }
+  .builder-diagnostics__entry--critical { color: #f58e9f; }
   @media (max-width: 650px) {
     .builder-diagnostics {
-      max-height: 43vh;
+      top: 12vh;
+      left: 12px;
+      width: calc(100vw - 24px);
+      max-height: 68vh;
       font-size: 10px;
     }
-    .builder-diagnostics__lines { max-height: 37vh; }
-    .builder-diagnostics__heading { padding: 7px 9px; }
+    .builder-diagnostics__lines { max-height: 68vh; }
   }
   @media (prefers-reduced-motion: reduce) {
     .builder-diagnostics,

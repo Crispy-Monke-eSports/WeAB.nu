@@ -8,8 +8,21 @@
 <script>
   type Strength = 'soft' | 'medium' | 'harsh';
   type SpiritBurst = { strength?: Strength };
+  type SpiritTyping = { active: boolean; strength?: Strength };
   let audio: AudioContext | null = null;
   let noise: AudioBuffer | null = null;
+  let typingLive = false;
+  let typingVisualTimer = 0;
+  let typingNodes: {
+    source: AudioBufferSourceNode;
+    filter: BiquadFilterNode;
+    gate: GainNode;
+    compressor: DynamicsCompressorNode;
+    tone: OscillatorNode;
+    toneGain: GainNode;
+    lfo: OscillatorNode;
+    drift: GainNode;
+  } | null = null;
 
   function primeRadio(): void {
     if (typeof AudioContext === 'undefined' || document.hidden) return;
@@ -18,7 +31,13 @@
         audio = new AudioContext();
         noise = null;
       }
-      if (audio.state === 'suspended') void audio.resume().catch(() => {});
+      if (audio.state === 'suspended') {
+        void audio.resume().then(() => {
+          if (typingLive) startTypingAudio();
+        }).catch(() => {});
+      } else if (typingLive) {
+        startTypingAudio();
+      }
     } catch { /* Web Audio är valfritt; bildstörningen körs ändå. */ }
   }
 
@@ -73,7 +92,7 @@
     const amount = strength === 'soft' ? .38 : strength === 'harsh' ? .78 : .55;
     const begin = ctx.currentTime + .008;
     const master = ctx.createGain();
-    master.gain.value = .09; // Mycket svag, aldrig ett högt jumpscare-ljud.
+    master.gain.value = .19; // Tydlig radiovolym, utan höga jumpscare-toppar.
     master.connect(ctx.destination);
 
     const pulses = strength === 'harsh' ? 4 : strength === 'soft' ? 2 : 3;
@@ -124,6 +143,115 @@
     };
   }
 
+  function startTypingAudio(): void {
+    const ctx = audio;
+    if (!typingLive || typingNodes || !ctx || ctx.state !== 'running') return;
+    const buffer = analogNoise();
+    if (!buffer) return;
+
+    // Löpande, lågmält AM-/kortvågsbrus med en instabil, nästan mänsklig
+    // underton. Ljudet går i en mjuk kompressor och saknar plötsliga toppar.
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 1160;
+    filter.Q.value = .68;
+    const gate = ctx.createGain();
+    gate.gain.setValueAtTime(.0001, ctx.currentTime);
+    gate.gain.setTargetAtTime(.48, ctx.currentTime, .075);
+    const compressor = ctx.createDynamicsCompressor();
+    compressor.threshold.value = -24;
+    compressor.knee.value = 14;
+    compressor.ratio.value = 3.8;
+    compressor.attack.value = .004;
+    compressor.release.value = .16;
+    source.connect(filter);
+    filter.connect(gate);
+    gate.connect(compressor);
+    compressor.connect(ctx.destination);
+
+    const tone = ctx.createOscillator();
+    tone.type = 'sine';
+    tone.frequency.value = 156;
+    const toneGain = ctx.createGain();
+    toneGain.gain.value = .085;
+    const lfo = ctx.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.value = 5.7;
+    const drift = ctx.createGain();
+    drift.gain.value = 13;
+    lfo.connect(drift);
+    drift.connect(tone.frequency);
+    tone.connect(toneGain);
+    toneGain.connect(compressor);
+
+    typingNodes = { source, filter, gate, compressor, tone, toneGain, lfo, drift };
+    source.start();
+    tone.start();
+    lfo.start();
+  }
+
+  function stopTypingAudio(): void {
+    const nodes = typingNodes;
+    typingNodes = null;
+    if (!nodes || !audio) return;
+    const now = audio.currentTime;
+    nodes.gate.gain.setTargetAtTime(.0001, now, .045);
+    nodes.toneGain.gain.setTargetAtTime(.0001, now, .045);
+    const end = now + .22;
+    try { nodes.source.stop(end); } catch { /* Sidan har redan stängts. */ }
+    try { nodes.tone.stop(end); } catch { /* Sidan har redan stängts. */ }
+    try { nodes.lfo.stop(end); } catch { /* Sidan har redan stängts. */ }
+    nodes.source.onended = () => {
+      nodes.source.disconnect();
+      nodes.filter.disconnect();
+      nodes.gate.disconnect();
+      nodes.tone.disconnect();
+      nodes.toneGain.disconnect();
+      nodes.lfo.disconnect();
+      nodes.drift.disconnect();
+      nodes.compressor.disconnect();
+    };
+  }
+
+  function typingScreenTear(): void {
+    if (!typingLive || document.hidden) return;
+    // Även när webbläsaren blockerar Web Audio fortsätter dessa analoga
+    // bildbrott under precis hela tiden som tecknen renderas fram.
+    analogTear('medium');
+    typingVisualTimer = window.setTimeout(typingScreenTear,
+      340 + Math.floor(Math.random() * 250));
+  }
+
+  window.addEventListener('weab:spirit-typing', (event: Event) => {
+    const detail = (event as CustomEvent<SpiritTyping>).detail;
+    const active = Boolean(detail?.active);
+    if (active && !typingLive) {
+      typingLive = true;
+      document.documentElement.classList.add('weab-spirit-transmitting');
+      typingScreenTear();
+      primeRadio();
+      startTypingAudio();
+    } else if (!active && typingLive) {
+      typingLive = false;
+      document.documentElement.classList.remove('weab-spirit-transmitting');
+      window.clearTimeout(typingVisualTimer);
+      stopTypingAudio();
+    }
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      window.clearTimeout(typingVisualTimer);
+      stopTypingAudio();
+    } else if (typingLive) {
+      typingScreenTear();
+      primeRadio();
+      startTypingAudio();
+    }
+  });
+
   // Den här händelsen avfyras ENDAST när själen försöker nå fram.
   // Visuell störning skapas först och ljud får aldrig köras ensamt.
   window.addEventListener('weab:spirit-burst', (event: Event) => {
@@ -133,6 +261,9 @@
     playRadio(strength);
   });
   window.addEventListener('pagehide', () => {
+    typingLive = false;
+    window.clearTimeout(typingVisualTimer);
+    stopTypingAudio();
     if (audio) void audio.close().catch(() => {});
     audio = null;
     noise = null;
@@ -198,6 +329,10 @@
     0%, 100% { transform: translateX(0); }
     33% { transform: translateX(9px); }
     66% { transform: translateX(-9px); }
+  }
+  :global(html.weab-spirit-transmitting #weab-quarantine .weab-quarantine__intrusion) {
+    text-shadow: -2px 0 rgb(24 129 140 / .55),
+      2px 0 rgb(183 35 69 / .62), 0 0 13px rgb(183 35 69 / .28);
   }
   @media (prefers-reduced-motion: reduce) {
     :global(.weab-analog-tear),
