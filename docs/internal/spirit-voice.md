@@ -1,0 +1,21 @@
+# Själens lokala röstlager
+
+Detta är intern teknisk dokumentation, inte en offentlig ARG-ledtråd.
+
+## Generering och licens
+
+Installerade verktyg: eSpeak NG 1.52.0 (svenska `sv`, mekanisk regelbaserad talsyntes; [GPL-3.0-or-later](https://github.com/espeak-ng/espeak-ng/blob/master/COPYING)) och FFmpeg med libvorbis. Ingen modell eller körbar TTS distribueras till besökaren. Filerna är här genererade ljudinspelningar av projektets egna repliker; upphovsrätten till de egna texterna ändras inte av att syntesverktyget är GPL. För en annan motor/modell: kontrollera modellens separata licens innan distribution.
+
+Kör `python3 scripts/generate-spirit-voice.py` från valfri katalog efter att `espeak-ng`, `ffmpeg` och Node (minst projektets angivna version) installerats. Skriptet hämtar repliker direkt från de befintliga datalistorna, syntetiserar varje ord i svensk röst med exakt originalstavning (engelsk eSpeak-röst endast för `DISOBEY`), skär bort tystnad, lägger till korta avsiktliga ordpauser och skriver Ogg Vorbis i `public/audio/spirit/` samt metadata i `src/data/spiritVoice.json`. Varje text har en hashbaserad filadress. Ordens start/slut följer de sammansatta PCM-provens antal, inte en linjär gissning utifrån hela meningens längd. FFmpeg-filtrering före komprimering ger smalbandig radio. Regenerering med samma verktygsversion och indata ger samma manus och tidsmarkörer; exakt binär Ogg-identitet kan bero på FFmpeg/libvorbis-version.
+
+När nya fasta själsrepliker tillkommer: lägg till texten i rätt datafil (utan att ändra befintlig kanon), låt skriptets urval omfatta listan, regenerera och kör `npm run check`. Kontrollera uttal och ordmarkörer genom att lyssna på Ogg-filen och granska JSON. `tests/spirit-voice.test.mjs` kräver en faktisk ljudfil per replik. WeAB:s egna repliker väljs inte ut för inspelning.
+
+## Uppspelning och synk
+
+`BaseLayout.astro` behåller exakt cookie-seedad ARG-tidslinje, kamera- och ledtrådspositioner och femminutersgränsen. För en själsreplik väljer den endast en *intern* längd inom tiden till nästa beat (minus befintlig marginal). `spiritVoice.json` styr bokstäverna ord för ord; i tystnaderna mellan ord står texten stilla. Om ett klipp inte får plats komprimeras uppspelningshastigheten och samma faktor används för ordmarkörerna. Nästa beat kapas aldrig av talet. Vid återbesök räknas textpositionen ur cookie-tiden och ljudets offset ur samma replikålder; avkodning/fetch-tid räknas bort från kvarvarande uppspelning. Om autoplay blockeras fortsätter all text och alla bildbrott. Sänkta rörelseinställningar visar som tidigare hela texten direkt, men stänger inte av befintligt ljud.
+
+`SpiritTransmission.astro` laddar endast aktuell fil och spelar den genom Web Audio med bandpass, sample-hold-reduktion, trappstegskvantisering, två lätt detunerade lager, korta signalglapp, kompressor och mjuk in-/uttoning. Befintlig radiosus- och skärmglitch-kod körs oförändrat. Profilen `weak`, `broken` eller `desperate` kommer från ARG-händelsen; besökaren får ingen ljudkontroll. Navigation, osynlig flik, nytt beat och karantänens slut stoppar aktiva ljudnoder och avbryter pågående hämtning. Morse fortsätter med sitt separata ljud.
+
+Lokalt valda webbläsarvarningar har bara ljud när **exakt samma text** finns i det förgenererade biblioteket. Variabeln med faktiskt fönsterbreddstal kan inte förgenereras för alla värden; den är avsiktligt tyst och visas som tidigare. Inga browser-uppgifter skickas till TTS, server eller extern tjänst. Inget nytt visuellt gränssnitt tillkom.
+
+Verifiera med `npm run test:resistance` och `npm run check`, därefter manuellt i en webbläsare med och utan tidigare användarinteraktion, vid reload mitt i karantänen samt vid nekad kamera. GitHub Pages serverar Ogg-filerna som statiska resurser. Webbläsare utan Ogg/Web Audio eller med spärrad autoplay faller tillbaka till befintlig visuell ARG-upplevelse.

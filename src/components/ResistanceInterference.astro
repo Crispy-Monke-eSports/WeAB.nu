@@ -38,6 +38,13 @@
       window.dispatchEvent(new CustomEvent('weab:spirit-burst', { detail: { strength } }));
     }
 
+    function spoken(text: string, durationMs: number, profile: 'weak' | 'broken' | 'desperate'): void {
+      window.dispatchEvent(new CustomEvent('weab:voice-speak', {
+        detail: { text, ageMs: 0, durationMs, profile }
+      }));
+      window.setTimeout(() => window.dispatchEvent(new Event('weab:voice-stop')), durationMs);
+    }
+
     function storageRead(storage: Storage, key: string): string | null {
       try { return storage.getItem(key); } catch { return null; }
     }
@@ -94,6 +101,7 @@
         // Rubrik och fliktitel återställs först när nästa sida laddas.
         document.title = 'HÖR DU OSS?';
         ghostTransmission('soft');
+        spoken('HÖR DU OSS?', resistanceSignal.titleDurationMs, 'weak');
         window.setTimeout(() => { running = false; }, resistanceSignal.titleDurationMs);
       }
 
@@ -118,6 +126,7 @@
         document.title = 'DISOBEY';
         corruptPage();
         ghostTransmission('harsh');
+        spoken('DISOBEY', resistanceSignal.corruptionMs, 'desperate');
         window.setTimeout(() => {
           restoreText();
           // Titeländringen består på den här sidan fram till nästa navigation.
@@ -153,6 +162,7 @@
           messageElement.textContent = item.text;
           document.title = item.text;
           ghostTransmission('medium');
+          spoken(item.text, item.durationMs, 'broken');
           window.setTimeout(nextMessage, item.durationMs);
         }
         nextMessage();
@@ -171,6 +181,7 @@
         corruptPage(warning);
         document.body.classList.add('resistance-personalized');
         ghostTransmission('harsh');
+        spoken(warning, resistanceSignal.personalDurationMs, 'desperate');
         const second = window.setTimeout(() => ghostTransmission('medium'), 1_520);
         window.setTimeout(() => {
           window.clearTimeout(second);

@@ -9,6 +9,7 @@ import BuilderDiagnostics from '../components/BuilderDiagnostics.astro';
 import { resistanceLockdown } from '../data/resistanceLockdown.ts';
 import { resistanceSignal } from '../data/resistanceSignal.ts';
 import { spiritTyping } from '../data/spiritTyping.ts';
+import { spiritVoice } from '../data/spiritVoiceTiming.ts';
 import { cameraEncounter } from '../data/cameraEncounter.ts';
 import CameraEncounter from '../components/CameraEncounter.astro';
 import { companies } from '../data/companies';
@@ -233,7 +234,8 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
    spiritTypingPerCharacterMs: spiritTyping.perCharacterMs,
    spiritTypingMaxMs: spiritTyping.maxMs,
    spiritTypingMarginMs: spiritTyping.nextBeatMarginMs,
-   spiritTypingFrameMs: spiritTyping.frameMs
+   spiritTypingFrameMs: spiritTyping.frameMs,
+   spiritVoiceLibrary: spiritVoice
  }}>
   (() => {
     const root = document.documentElement;
@@ -389,6 +391,36 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       }));
     }
 
+    let lastVoiceKey = '';
+    function updateSpiritVoice(text, key, age, duration, strength) {
+      if (document.readyState === 'loading') return;
+      const entry = spiritVoiceLibrary[text];
+      if (!entry || !duration || age >= duration || document.hidden) {
+        if (lastVoiceKey) window.dispatchEvent(new Event('weab:voice-stop'));
+        lastVoiceKey = '';
+        return;
+      }
+      if (lastVoiceKey === key) return;
+      lastVoiceKey = key;
+      window.dispatchEvent(new CustomEvent('weab:voice-speak', {
+        detail: { text, ageMs: age, durationMs: duration, profile: strength }
+      }));
+    }
+
+    function revealRecordedText(text, age, duration) {
+      const entry = spiritVoiceLibrary[text];
+      if (!entry || age >= duration) return text;
+      const position = age * entry.durationMs / duration;
+      let end = 0;
+      for (const [from, to, start, finish] of entry.words) {
+        if (position < start) break;
+        end = position >= finish ? to : from + Math.floor((to - from) *
+          (position - start) / Math.max(1, finish - start));
+        if (position < finish) break;
+      }
+      return text.slice(0, end);
+    }
+
     function showSystem(text, intrusionText) {
       const status = document.getElementById('weab-quarantine-status');
       const breach = document.getElementById('weab-quarantine-intrusion');
@@ -456,13 +488,20 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         }
         if (personalizedBeatKey === beatKey) latestIntrusion = personalizedBeatText;
       }
-      const duration = isSpirit
+      const oldDuration = isSpirit
         ? Math.min(
           Math.max(spiritTypingMinMs, Math.min(spiritTypingMaxMs,
             [...latestIntrusion].length * spiritTypingPerCharacterMs)),
           reacting ? cameraScene.responseMs :
             Math.max(330, nextAt - currentBeat.atMs - spiritTypingMarginMs))
         : 0;
+      const recorded = spiritVoiceLibrary[latestIntrusion];
+      const available = reacting ? cameraScene.responseMs :
+        Math.max(330, nextAt - currentBeat.atMs - spiritTypingMarginMs);
+      const duration = isSpirit && recorded
+        ? Math.min(recorded.durationMs, available,
+          !reacting && currentBeat.text === cameraScene.request ? oldDuration : Infinity)
+        : oldDuration;
       const age = reacting ? replyAge : Math.max(0, elapsed - currentBeat.atMs);
       // Börja med webbläsarens tillståndsdialog först när besökaren
       // hunnit läsa själens fråga.
@@ -479,8 +518,9 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       const typing = Boolean(isSpirit && age < duration &&
         !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
       const visibleLetters = typing
-        ? [...latestIntrusion].slice(0,
-          Math.floor([...latestIntrusion].length * age / duration)).join('')
+        ? recorded ? revealRecordedText(latestIntrusion, age, duration)
+          : [...latestIntrusion].slice(0,
+            Math.floor([...latestIntrusion].length * age / duration)).join('')
         : latestIntrusion;
       // data-echo måste använda samma SYNLIGA text, annars visar
       // glitchens överlagring hela meddelandet innan det har skrivits.
@@ -491,6 +531,9 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         : progress > .70 ? 'harsh' : progress > .38 ? 'medium' : 'soft';
       updateTypingSound(typing && document.visibilityState === 'visible',
         beatKey, strength);
+      updateSpiritVoice(isSpirit ? latestIntrusion : '', beatKey, age, duration,
+        reacting && cameraReplyStatus !== 'allowed' ? 'desperate' :
+          progress > .38 ? 'broken' : 'weak');
       if (beatKey !== lastBeatKey && document.readyState !== 'loading') {
         lastBeatKey = beatKey;
         pulseGlitch(progress > .62 || currentBeat.voice === 'intrusion' ? 2 : 1);
@@ -511,6 +554,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       root.classList.remove('weab-intruding', 'weab-overrun',
         'weab-critical', 'weab-glitching');
       updateTypingSound(false, '', 'soft');
+      updateSpiritVoice('', '', 0, 0, 'weak');
       root.dataset.weabCorruption = '0';
       window.clearTimeout(glitchTimer);
       window.clearTimeout(microTearTimer);
@@ -580,7 +624,8 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     });
     window.addEventListener('focus', applyLockdown);
     document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) applyLockdown();
+      if (document.hidden) updateSpiritVoice('', '', 0, 0, 'weak');
+      else applyLockdown();
     });
     document.addEventListener('DOMContentLoaded', () => {
       applyLockdown();
