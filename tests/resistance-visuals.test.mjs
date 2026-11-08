@@ -30,7 +30,15 @@ test('själen får en sporadisk ögonfas med synliga inline-ögon, utan blockera
   assert.match(eyes, /main p, main li/);
   assert.match(eyes, /getBoundingClientRect/);
   assert.match(eyes, /range\.insertNode\(span\)/);
-  assert.match(eyes, /resistance-eyes-inline__dot/);
+  assert.match(eyes, /data-resistance-eye-pair/);
+  assert.match(eyes, /resistance-eye-pair__dot/);
+  assert.match(eyes, /resistance-eyes-blink/);
+  assert.match(eyes, /positionEyes\(\)/);
+  assert.match(eyes, /window\.innerHeight \* \.47/);
+  assert.match(eyes, /veil\.hidden = false/);
+  assert.match(eyes, /15%, 28%/);
+  assert.match(eyes, /43%, 59%/);
+  assert.match(eyes, /75%, 92%/);
   assert.match(eyes, /pointer-events: none/);
   assert.match(eyes, /prefers-reduced-motion: reduce/);
   assert.match(eyes, /pagehide', finish/);
@@ -50,6 +58,18 @@ test('den förstörda Morse-sidan kan fortfarande scrollas och förblir klickbar
   assert.match(morse, /overflow-y: auto !important/);
   assert.match(morse, /pointer-events: none/);
   assert.doesNotMatch(morse, /body\.resistance-morse-active\)\s*\{\s*overflow: hidden/);
+});
+
+test('Morse avslutas med direkt navigering till brottningsmatchen, inte en blank flik', () => {
+  const morse = source('src/components/ResistanceMorse.astro');
+  assert.match(morse, /function finishSignal\(\)/);
+  assert.match(morse, /location\.replace\('\/'\)/);
+  assert.match(morse, /createLockdownCookie/);
+  assert.match(morse, /ensureQuarantineCookie\(\)/);
+  assert.match(morse, /finishSignal\(\)/);
+  assert.doesNotMatch(morse, /location\.replace\('about:blank'\)/);
+  assert.doesNotMatch(morse, /window\.close\(/);
+  assert.doesNotMatch(morse, /document\.body\.replaceChildren\(/);
 });
 
 test('nya meddelanden förblir kryptiska; själen avslöjar inte slutfacit', () => {

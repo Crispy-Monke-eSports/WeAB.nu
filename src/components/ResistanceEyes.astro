@@ -4,12 +4,18 @@
  * Ingen berättelseförklaring exponeras för besökaren.
  */
 ---
-<div class="resistance-eye-noise" data-resistance-eye-noise hidden aria-hidden="true"></div>
+<div class="resistance-eye-noise" data-resistance-eye-noise hidden aria-hidden="true">
+  <span class="resistance-eye-pair" data-resistance-eye-pair>
+    <span class="resistance-eye-pair__dot"></span>
+    <span class="resistance-eye-pair__dot"></span>
+  </span>
+</div>
 
 <script>
   import { resistanceSignal } from '../data/resistanceSignal.ts';
 
   const veil = document.querySelector<HTMLElement>('[data-resistance-eye-noise]');
+  const eyePair = veil?.querySelector<HTMLElement>('[data-resistance-eye-pair]');
   const preview = import.meta.env.DEV &&
     new URLSearchParams(location.search).get('previewEyes') === '1';
 
@@ -53,12 +59,6 @@
         const span = document.createElement('span');
         span.className = 'resistance-eyes-inline';
         span.setAttribute('aria-hidden', 'true');
-        for (let i = 0; i < 2; i++) {
-          const dot = document.createElement('span');
-          dot.className = 'resistance-eyes-inline__dot';
-          span.appendChild(dot);
-        }
-
         const range = document.createRange();
         range.setStart(target, at);
         range.collapse(true);
@@ -75,6 +75,19 @@
         return span;
       }
       return null;
+    }
+
+    function positionEyes(): void {
+      if (!eyePair) return;
+      const rect = eyes?.getBoundingClientRect();
+      const visible = rect && rect.height > 0 &&
+        rect.bottom > 12 && rect.top < window.innerHeight - 12;
+      // Visa tydliga ögon OVANPÅ glitchlagret, vid texten om möjligt.
+      // Om en läsbar textnod saknas används skärmens mitt som reserv.
+      const x = visible ? rect.left + rect.width / 2 : window.innerWidth / 2;
+      const y = visible ? rect.top + rect.height / 2 : window.innerHeight * .47;
+      eyePair.style.left = Math.max(48, Math.min(window.innerWidth - 48, x)) + 'px';
+      eyePair.style.top = Math.max(28, Math.min(window.innerHeight - 28, y)) + 'px';
     }
 
     function playGlitchSound(): void {
@@ -160,8 +173,9 @@
         document.documentElement.classList.contains('weab-quarantined') ||
         document.documentElement.dataset.weabMorseRunning === '1') return;
       eyes = placeEyes();
-      if (!eyes || !veil) return;
+      if (!veil || !eyePair) return;
       active = true;
+      positionEyes();
       veil.hidden = false;
       document.body.classList.add('resistance-watched');
       playGlitchSound();
@@ -171,6 +185,8 @@
     window.addEventListener('weab:resistance-eyes-start', startEyes);
     if (preview) window.setTimeout(startEyes, 1_000);
     window.addEventListener('pagehide', finish);
+    window.addEventListener('resize', () => { if (active) positionEyes(); });
+    window.addEventListener('scroll', () => { if (active) positionEyes(); }, { passive: true });
   }
 </script>
 
@@ -185,7 +201,7 @@
     background: repeating-linear-gradient(
       0deg, transparent 0 5px, rgb(140 25 42 / .055) 6px 7px, transparent 8px 15px
     );
-    animation: resistance-noise .22s steps(3, end) infinite;
+    /* Ingen opacity-animering på hela overlayn: annars försvinner ögonen. */
   }
   .resistance-eye-noise::before,
   .resistance-eye-noise::after {
@@ -203,7 +219,8 @@
       rgb(120 15 39 / .18) 0 19px, rgb(21 140 156 / .14) 20px 29px,
       transparent 30px 43px);
     box-shadow: 0 1px 0 rgb(160 20 36 / .22), 0 -2px 0 rgb(40 180 196 / .19);
-    animation: resistance-tear-one .31s steps(2, end) infinite;
+    animation: resistance-tear-one .31s steps(2, end) infinite,
+      resistance-noise .22s steps(3, end) infinite;
   }
   .resistance-eye-noise::after {
     top: 65%;
@@ -211,35 +228,49 @@
     background: repeating-linear-gradient(90deg,
       rgb(25 120 135 / .2) 0 6px, transparent 6px 13px,
       rgb(142 18 42 / .15) 13px 19px);
-    animation: resistance-tear-two .17s steps(3, end) infinite;
+    animation: resistance-tear-two .17s steps(3, end) infinite,
+      resistance-noise .27s steps(2, end) infinite;
   }
+  /* Den dolda textmarkören används bara för positionering.
+     Själva ögonen ligger över störningslagret i stället för bakom det. */
   :global(.resistance-eyes-inline) {
-    display: inline-flex;
+    display: inline-block;
+    width: 1px;
+    height: 1em;
+    vertical-align: middle;
+    margin: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .resistance-eye-pair {
+    position: absolute;
+    z-index: 5;
+    top: 47%;
+    left: 50%;
+    display: flex;
+    gap: clamp(21px, 4.2vw, 40px);
     align-items: center;
     justify-content: center;
-    gap: .55em;
-    margin: 0 .25em;
-    line-height: 1;
-    vertical-align: .05em;
-    white-space: nowrap;
+    transform: translate(-50%, -50%);
     pointer-events: none;
-    filter: drop-shadow(0 0 5px rgb(255 26 60 / .85));
+    filter: drop-shadow(0 0 13px rgb(238 0 42 / .84));
   }
-  :global(.resistance-eyes-inline__dot) {
-    display: inline-block;
-    height: .45em;
-    width: .45em;
-    min-height: 7px;
-    min-width: 7px;
-    max-height: 12px;
-    max-width: 12px;
-    border-radius: 50%;
-    background: #ed1536;
-    box-shadow: 0 0 5px #e91a3d, 0 0 16px rgb(232 12 57 / .9);
-    transform: scaleY(.02);
-    animation: resistance-eyes-open 3.3s steps(3, end) both;
+  .resistance-eye-pair__dot {
+    display: block;
+    width: clamp(27px, 4vw, 38px);
+    height: clamp(17px, 2.6vw, 24px);
+    border-radius: 52% / 72%;
+    background: radial-gradient(ellipse at 52% 42%,
+      #ffd1d4 0 7%, #ff5470 9% 19%, #ff0f3b 32%, #87041f 76%, #210009 100%);
+    border: 1px solid rgb(255 84 111 / .9);
+    box-shadow: 0 0 8px 3px rgb(255 15 54 / .95),
+      0 0 21px 8px rgb(226 6 45 / .65),
+      0 0 42px 15px rgb(130 0 37 / .4);
+    transform: scaleY(.025);
+    opacity: 0;
+    animation: resistance-eyes-blink 3.3s linear both;
   }
-  :global(.resistance-eyes-inline__dot:nth-child(2)) {
+  .resistance-eye-pair__dot:nth-child(2) {
     animation-delay: .09s;
   }
   :global(body.resistance-watched > header),
@@ -248,12 +279,14 @@
     animation: resistance-page-break .14s steps(2, end) infinite;
     text-shadow: 2px 0 rgb(205 19 48 / .58), -2px 0 rgb(20 169 186 / .5);
   }
-  @keyframes resistance-eyes-open {
-    0%, 10% { transform: scaleY(.02); opacity: .1; }
-    17%, 66% { transform: scaleY(1); opacity: 1; }
-    70%, 80% { transform: scaleY(.16); opacity: .7; }
-    83%, 92% { transform: scaleY(.95); opacity: 1; }
-    100% { transform: scaleY(.02); opacity: 0; }
+  @keyframes resistance-eyes-blink {
+    0%, 8% { transform: scaleY(.025); opacity: 0; }
+    15%, 28% { transform: scaleY(1); opacity: 1; }
+    30%, 37% { transform: scaleY(.03); opacity: .16; }
+    43%, 59% { transform: scaleY(1); opacity: 1; }
+    61%, 69% { transform: scaleY(.025); opacity: .1; }
+    75%, 92% { transform: scaleY(1); opacity: 1; }
+    98%, 100% { transform: scaleY(.025); opacity: 0; }
   }
   @keyframes resistance-noise {
     0%, 100% { opacity: .2; }
@@ -278,16 +311,18 @@
     75% { transform: translateX(2px); filter: contrast(1.1); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .resistance-eye-noise { display: none; }
+    .resistance-eye-noise::before,
+    .resistance-eye-noise::after { display: none; }
     :global(body.resistance-watched > header),
     :global(body.resistance-watched > main),
     :global(body.resistance-watched > footer) {
       animation: none;
       text-shadow: none;
     }
-    :global(.resistance-eyes-inline__dot) {
+    .resistance-eye-pair__dot {
       animation: none;
       transform: scaleY(1);
+      opacity: 1;
     }
   }
 </style>

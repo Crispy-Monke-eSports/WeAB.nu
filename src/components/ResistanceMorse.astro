@@ -9,6 +9,9 @@
 
 <script>
   import { morseTimeline, morseDurationMs, isMorseMarkActive } from '../data/resistanceMorse.ts';
+  import {
+    resistanceLockdown, createLockdownCookie, readLockdownExpiry
+  } from '../data/resistanceLockdown.ts';
 
   const veil = document.querySelector<HTMLElement>('[data-morse-veil]');
   const preview = import.meta.env.DEV &&
@@ -58,19 +61,24 @@
       if (portion > .65) document.title = '████████████';
     }
 
-    function terminate(): void {
-      // Webbläsare kan bara stänga flikar som deras policy tillåter.
-      document.title = '';
-      document.documentElement.style.background = '#000';
-      document.body.replaceChildren();
-      document.body.style.background = '#000';
-      try { window.close(); } catch { /* En vanlig användarflik kan inte stängas. */ }
-      // När window.close() nekas lämnas en tom flik, aldrig en falsk systemdialog.
-      window.setTimeout(() => {
-        if (!window.closed) {
-          try { location.replace('about:blank'); } catch { /* Sidan är redan svart. */ }
-        }
-      }, 220);
+    function ensureQuarantineCookie(): void {
+      const now = Date.now();
+      // Den ordinarie kontrollern startar femminutersklockan VID Morse-start.
+      // Bevara den sluttiden. För direkt förhandsvisning och ovanligt långa
+      // bakgrundspauser skapas den endast om en giltig spärr saknas.
+      if (readLockdownExpiry(document.cookie, now) !== null) return;
+      document.cookie = createLockdownCookie(now, location.protocol === 'https:');
+      try {
+        localStorage.setItem(resistanceLockdown.noticeKey,
+          String(now + resistanceLockdown.durationMs));
+      } catch { /* Lokal lagring är valfri. */ }
+    }
+
+    function finishSignal(): void {
+      // Samma flik går DIREKT till WeAB:s brottningsmatch mot själen.
+      // Ingen flikstängning, omväg via blank sida eller svart tomt dokument.
+      ensureQuarantineCookie();
+      location.replace('/');
     }
 
     function animateByAudioClock(context: AudioContext, begins: number): void {
@@ -84,7 +92,7 @@
           return;
         }
         void context.close().catch(() => {});
-        terminate();
+        finishSignal();
       }
       window.requestAnimationFrame(frame);
     }
@@ -165,7 +173,7 @@
       function frame(now: number): void {
         progress(now - started);
         if (now - started < totalMs + 260) window.requestAnimationFrame(frame);
-        else terminate();
+        else finishSignal();
       }
       window.requestAnimationFrame(frame);
     }
@@ -174,10 +182,11 @@
     function startSignal(): void {
       if (started) return;
       started = true;
+      ensureQuarantineCookie();
       prepareSignal();
     }
-    // Morse är ett möjligt FÖRSTA steg. Efter signalen avslutar
-    // standardkomponenten schemat och inga andra händelser följer.
+    // Morse är ett möjligt FÖRSTA steg. Efter signalens sista markering
+    // går samma flik automatiskt till WeAB:s karantänvy.
     window.addEventListener('weab:resistance-morse-start', startSignal, { once: true });
     if (preview) window.setTimeout(startSignal, 1_000);
 
