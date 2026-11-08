@@ -4,7 +4,7 @@
 
 ## Den dolda berättelsen bakom störningarna
 
-**Det ser ut som ett motståndsintrång, men organisationen är i hemlighet WeAB-kontrollerad.** Dess vanliga medlemmar tror att de hackar sig in och kan läcka information om koncernens övergrepp. De flesta känner inte till att WeAB själv använder rörelsen för att kartlägga samtliga oppositionella och redan vet var alla befinner sig.
+**Det ser ut som ett motståndsintrång, men organisationen är i hemlighet WeAB-kontrollerad.** WeAB:s interna kodnamn för planen att skapa en skenbar motståndsstyrka är **WeMourn**. Detta **är inte rörelsens eget namn**. Den redan existerande monumentsignaturen **/WeMourn** i Sektion 1, Avdelning B är en diskret ledtråd till slutfacit, inte en ursäkt att avslöja kodnamnets betydelse på hemsidan. Dess vanliga medlemmar tror att de hackar sig in och kan läcka information om koncernens övergrepp. De flesta känner inte till att WeAB själv använder rörelsen för att kartlägga samtliga oppositionella och redan vet var alla befinner sig.
 
 **Den konkurrerande rösten kommer från en verklig död person:** En tidigare WeAB-infiltratör i motståndsstyrkan började sympatisera med medlemmarna och var på väg att byta sida. WeAB avslöjade personen innan något hann läcka, torterade denne i Huvudstaden, och personen dog där. **Själen hemsöker nu webbplatsen för att försöka stoppa motståndets fortsatta infiltration, varna dem för fällan och rädda deras liv.** WeAB försöker censurera själen eftersom den kan avslöja den hemliga övervakningen.
 

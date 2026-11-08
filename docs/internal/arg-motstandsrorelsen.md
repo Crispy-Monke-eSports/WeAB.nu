@@ -19,7 +19,7 @@
 
 ## Det verkliga ARG-upplägget – strikt hemligt slutfacit
 
-**Den hemliga motståndsrörelsen är WeAB:s egen fälla.** Koncernen står bakom rörelsens struktur för att kunna registrera vilka som fortfarande är emot WeAB. **Alla motståndsmedlemmars platser är kända av WeAB.** De flesta av rörelsens egna medlemmar **vet inte** att nätverket kontrolleras av den fiende de tror sig bekämpa; deras motstånd är verkligt. Denna uppgift ska hållas hemlig till ARG:ets stora avslöjande.
+**Den hemliga motståndsrörelsen är WeAB:s egen fälla.** WeAB:s interna plan har **kodnamnet WeMourn**; detta är **inte namnet som motståndsrörelsens vanliga medlemmar använder**. Koncernen står bakom rörelsens struktur för att kunna registrera vilka som fortfarande är emot WeAB. **Alla motståndsmedlemmars platser är kända av WeAB.** De flesta av rörelsens egna medlemmar **vet inte** att nätverket kontrolleras av den fiende de tror sig bekämpa; deras motstånd är verkligt. Denna uppgift ska hållas hemlig till ARG:ets stora avslöjande.
 
 **Själens verkliga ursprung:** En infiltratör som arbetade åt WeAB inne i motståndsstyrkan blev sympatisk mot de andra och tänkte hoppa av för att avslöja WeAB:s plan. Personen **avslöjades innan någon information läckte**, blev **torterad i Huvudstaden** och **dog**. Det är **den personen** som nu hemsöker WeAB.nu, fångad i systemet. Namn, kön och exakt tidpunkt är inte fastställda. Personen är **inte en av de sju oskyldiga bybor som dog vid Huvudstadens misslyckade tankekontrollförsök** bara för att båda historierna innehåller döda offer.
 
@@ -53,9 +53,15 @@ Citaten återger läsbar innebörd av befintliga skyltar, inte nya skyltar som s
 
 ### B. Bekräftat monument: Sektion 1, Avdelning B
 
-**Ny användarbekräftelse:** Ett **redan byggt monument** finns i **WeLiveLaughLove, Sektion 1, Avdelning B**. Användaren har visat det på en bild i konversationen. Detta är en faktisk miljödetalj i Minecraft-världen, inte en föreslagen ny byggnation. **Exakt koordinat, vad monumentet restes för, när det byggdes, om det har någon inskrift och om det är ett officiellt WeAB-monument eller ett dolt motståndsminne är inte fastslaget i textunderlaget.** Hitta inte på dessa uppgifter, och tolka inte motivet som en bekräftad minnesmarkering för 2047 års uppror förrän användaren säger det.
+**Bekräftat befintligt monument:** I **WeLiveLaughLove, Sektion 1, Avdelning B** finns ett monument som redan är byggt i Minecraft-världen. Användaren har visat det på bild och lämnat **ordagrann inskription**:
 
-Monumentet kan vara en lämplig plats för **framtida miljöbaserad ARG-ledtråd** om 2047 års uppror och minnesförlusterna, eller för ett missvisande spår mot de sju döda försöksbyborna, men inget av detta är ännu beslutat eller inbyggt. Föreslå ändringar separat och bevara det som redan syns i byggnaden. Monumentet är **inte automatiskt kopplat** till tunnelns ledtrådsväg, de tio döda 2051, vraket eller hemsökelsens verkliga identitet.
+> Minnesplats för huvudstads-invånarna som dog på grund av ert motstånd. Må det aldrig ske igen. /WeMourn
+
+**Dubbla betydelser och slutfacit:** Inskriptionen framställer motstånd som orsaken till huvudstadsinvånarnas död, riktar skulden mot byborna och har en varnande underton. **WeMourn är inte motståndsrörelsens namn, inte heller ett fastslaget nytt dotterbolag eller en offentlig begravningsorganisation.** **WeMourn är WeAB:s interna kodnamn för planen att skapa en skenbar, av WeAB styrd motståndsstyrka** för att lokalisera alla kvarvarande oppositionella. Signaturen **/WeMourn** är därför en **avsiktligt utplacerad ledtråd mitt framför spelarna (*hidden in plain sight*)** till ARG:ets stora slutavslöjande. Läsaren kan först tolka den som en oskyldig avsändare till ett minnesmärke; efter slutavslöjandet får signaturen en helt annan betydelse.
+
+**Tolkning av monumentets funktion:** Monumentet förefaller vara en **huvudstadsanknuten propagandapåminnelse** riktad mot Sektion 1:s bybor: deras motstånd framställs som skulden till dödsfall och som något som aldrig får upprepas. Det är en stark berättelsetolkning, **inte** en ännu fastslagen byggorder eller officiellt invigningsbeslut. Att monumentet uttryckligen syftar på **2047 års uppror**, när det restes och vem som byggde det har **inte** specificerats med säkerhet. Dess påstående om döda huvudstadsinvånare ska **inte** automatiskt betraktas som oberoende bevis för ett sådant dödstal eller en viss händelse. Det är skilt från den fastslagna historiska uppgiften att cirka 25 % av **bybefolkningen i Sektion 1** dog efter Huvudstadens förgiftning av ån.
+
+**Bevara hemligheten:** Koppla gärna ihop signaturen med framtida mycket subtila WeMourn-referenser, men **identifiera inte det interna projektnamnet öppet** på webbplatsen eller i en tidig Discord-läcka. Inga nya skyltar, byggnader eller länkar är skapade. **Exakta monumentkoordinater är inte givna.** Det befintliga fysiska fyndet innebär inte en bevisad väg från tunneln till husruinen eller vraket.
 
 ### C. Separat, oberoende fynd: vraket
 
