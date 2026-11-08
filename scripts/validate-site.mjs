@@ -28,8 +28,9 @@ if (!existsSync(join(dist, '404.html'))) {
   if (!notFound.includes('Den här sidan har') ||
       !notFound.includes('data-resistance-interference') ||
       !notFound.includes('data-morse-veil') ||
-      !notFound.includes('data-resistance-eye-noise')) {
-    broken.push('ARG-404 ska innehålla slumpkontrollern, ögonen och Morse-effekten');
+      !notFound.includes('data-resistance-eye-noise') ||
+      !notFound.includes('data-builder-diagnostics')) {
+    broken.push('ARG-404 ska innehålla slumpkontrollern, ögonen, Morse och byggdiagnostiken');
   }
   if (notFound.includes('data-morse-connect') || notFound.includes('SIGNAL BRUTEN.')) {
     broken.push('ARG-404 får inte längre visa knappen för avbruten Morse-signal');
@@ -41,8 +42,9 @@ if (existsSync(join(dist, '31-66--351')) || existsSync(join(dist, '31-66--351.ht
 const homePage = readFileSync(join(dist, 'index.html'), 'utf8');
 if (!homePage.includes('data-resistance-interference') ||
     !homePage.includes('data-morse-veil') ||
-    !homePage.includes('data-resistance-eye-noise')) {
-  broken.push('ARG:s slumpkontroller, ögon och Morse måste finnas på alla sidor');
+    !homePage.includes('data-resistance-eye-noise') ||
+    !homePage.includes('data-builder-diagnostics')) {
+  broken.push('ARG:s slumpkontroller, ögon, Morse och byggdiagnostik måste finnas på alla sidor');
 }
 
 // Fem minuters ARG-karantän måste kunna täcka varje statiskt dokument.

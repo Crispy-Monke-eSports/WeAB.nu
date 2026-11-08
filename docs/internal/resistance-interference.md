@@ -50,6 +50,18 @@ Varje gång **själen** får fram ett nytt synligt meddelande eller orsakar en s
 
 Föreställ dig en gammal analog mottagare som nästan hittar en mänsklig signal, men bara ger ett svagt radioprassel. **Alla ljud ska alltid ha en synlig analog glitch samtidigt.** Inga sådana effekter ska användas för normala WeAB-repliker.
 
+## Fiktiv bygg-/runtime-diagnostik i F12 och på skärmen
+
+En ny ARG-komponent `src/components/BuilderDiagnostics.astro` visar **simulerade men tekniskt trovärdiga** problemrapporter från WeAB:s webbplattform. Dessa är **inte verkliga Astro-byggfel**; de genereras i webbläsaren för berättelsen. De blir ett sätt att ana att webbkoden uppför sig som om den försöker agera självständigt, **utan att säga vem eller vad som ligger bakom och utan att nämna WeMourn**.
+
+- **Under vanligt besök:** en lågmäld men kontinuerlig F12-ström ungefär var **4–7 sekund**, med `console.info`, `console.warn` eller `console.error`. Den nämner kontrollsummor, DOM-hydrering, okända textmutationer, renderingsköer och händelser utan registrerad avsändare. **Ingen synlig panel förrän Morse startar.**
+- **När Morse startar:** `ResistanceMorse.astro` skickar `weab:builder-diagnostics-start` med signalens verkliga varaktighet. Diagnostikpanelen visas genast ovanpå den nedbrytande sidan, med de senaste bakgrundsraderna som inledning. Loggen växer **kontinuerligt ungefär var 0,56–1,23 sekund**; samma text fortsätter att komma i F12.
+- **Dramatisk stegring:** först rimliga skillnader mellan DOM och byggd markup; senare okända skrivrättigheter och uppdateringar som fortsätter efter avveckling; mot slutet `POSSIBLE_AUTONOMOUS_PROCESS`, `AWARENESS_HEURISTIC_TRIGGERED` och andra tvetydiga, tekniska varningar om att processer agerar utan anrop. **Ingen rad kan avslöja hemliga planen, personens identitet, de sju försöksbyborna eller pusslets koordinater.**
+- **Utseende:** mörk diagnostikpanel som växer uppåt medan tidsstämplade felrader fylls på. Färgskilda `INFO`/`WARN`/`ERROR`/`CRITICAL`, felkoder, delsystem och löpnummer. Den visar de senaste raderna automatiskt och begränsar synlig DOM till **190 rader** för att inte låsa webbläsaren. Den tar **inga klick eller scrollning** från besökaren. Morses invertering drabbar ordinarie webbinnehåll, inte panelen, så den förblir läsbar. `aria-hidden` förhindrar att en lång, snabbt uppdaterad logg läses upp av skärmläsare.
+- **Efter Morse:** samma flik går fortfarande direkt till WeAB:s befintliga femminuterskarantän och själsstrid. Där återgår diagnostiken till diskreta F12-rader; ingen ny publik loggpanel ligger över striden. Ingen ändring av Morse-pusslets innehåll eller övriga effekters slumpordning.
+
+All loggtext förvaltas i `src/data/builderDiagnostics.ts`; `tests/builder-diagnostics.test.mjs` verifierar utskrift, innehåll, stegring, DOM-gräns och oförändrat Morse-pussel. **Äkta programfel ska fortfarande kunna särskiljas från de avsiktligt simulerade ARG-raderna genom prefixet `[site-builder/...]`.**
+
 ## Morse – internt facit
 
 Meddelandet är:

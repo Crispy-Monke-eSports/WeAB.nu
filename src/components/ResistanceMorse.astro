@@ -183,6 +183,11 @@
       if (started) return;
       started = true;
       ensureQuarantineCookie();
+      // När den fångade rösten börjar sända syns även webbplattformens
+      // simulerade diagnostikflöde, som redan har läckt till F12 tidigare.
+      window.dispatchEvent(new CustomEvent('weab:builder-diagnostics-start', {
+        detail: { durationMs: totalMs }
+      }));
       prepareSignal();
     }
     // Morse är ett möjligt FÖRSTA steg. Efter signalens sista markering
@@ -254,7 +259,11 @@
   }
   /* Inverterade Morse-pulser utan bländande helskärmsvita blixtar.
      Mörkhetsbegränsningen behåller färgväxlingen men minskar ljusstyrkan. */
-  :global(body.resistance-morse-inverted) {
+  /* Påverka sidans innehåll, inte diagnostikpanelen ovanpå signalen.
+     Därmed förblir de växande felmeddelandena läsbara även under Morse. */
+  :global(body.resistance-morse-inverted > header),
+  :global(body.resistance-morse-inverted > main),
+  :global(body.resistance-morse-inverted > footer) {
     filter: invert(1) brightness(.23) contrast(.78);
   }
   :global(.resistance-morse-corrupted) {
