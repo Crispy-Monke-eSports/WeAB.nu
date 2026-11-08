@@ -3,6 +3,11 @@ import Logo from './Logo.astro';
 const currentSection = Astro.url.pathname.split('/')[1];
 const links=[{href:'/koncernen/',label:'Koncernen'},{href:'/verksamheter/',label:'Verksamheter'},{href:'/hallbarhet/',label:'Hållbarhet'},{href:'/press/',label:'Press'},{href:'/investerare/',label:'Investerare'},{href:'/karriar/',label:'Karriär'}];
 ---
+<aside class="site-notice" aria-label="Driftmeddelande från WeAB">
+  <div class="shell">
+    <p>Vi har mottagit rapporter om återgivningsfel och missförstånd kring vissa livsformer. Ärendet hanteras. – WeAB</p>
+  </div>
+</aside>
 <header class="site-header">
   <div class="shell topbar">
     <Logo />
@@ -17,6 +22,9 @@ const links=[{href:'/koncernen/',label:'Koncernen'},{href:'/verksamheter/',label
   </div>
 </header>
 <style>
+  .site-notice{background:#14212a;border-bottom:1px solid #2b3b45}
+  .site-notice .shell{padding:.6rem 0}
+  .site-notice p{margin:0;color:#b8c9d1;font-size:.75rem;line-height:1.45}
   .site-header{position:sticky;top:0;z-index:100;border-bottom:1px solid #32414b;background:#0b151d}
   .topbar{display:flex;align-items:center;gap:1.8rem;min-height:77px}
   .desktop-links{display:flex;align-items:center;gap:1.45rem;margin-left:auto}
