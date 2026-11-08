@@ -63,6 +63,10 @@
     voiceSources = [];
     for (const node of voiceNodes) node.disconnect();
     voiceNodes = [];
+    if (typingNodes && audio?.state === 'running') {
+      typingNodes.gate.gain.setTargetAtTime(typingStrength === 'harsh' ? .60 :
+        typingStrength === 'soft' ? .32 : .48, audio.currentTime, .07);
+    }
   }
 
   async function speak(request: VoiceRequest): Promise<void> {
@@ -82,15 +86,8 @@
       if (!response.ok) return;
       const decoded = await ctx.decodeAudioData(await response.arrayBuffer());
       if (generation !== voiceGeneration || document.hidden || ctx.state !== 'running') return;
-      // Hold every few original samples: genuine sample-rate reduction without
-      // another network asset or a deprecated ScriptProcessor on the main thread.
-      const crushed = ctx.createBuffer(decoded.numberOfChannels, decoded.length, decoded.sampleRate);
-      const step = request.profile === 'weak' ? 3 : request.profile === 'desperate' ? 6 : 4;
-      for (let channel = 0; channel < decoded.numberOfChannels; channel++) {
-        const original = decoded.getChannelData(channel);
-        const reduced = crushed.getChannelData(channel);
-        for (let i = 0; i < original.length; i += step) reduced.fill(original[i], i, Math.min(i + step, original.length));
-      }
+      // Distortion, detuned layers and continuous radio hiss are baked into
+      // the Ogg file. Playback only handles timing, a soft fade and a limiter.
       // Fetch/decode may have taken time: align with the cookie clock, not network time.
       // Quarantine calls supply an age relative to its beat; advance by elapsed wall time.
       const age = request.ageMs + (Date.now() - requestedAt);
@@ -103,58 +100,25 @@
       compressor.attack.value = .006;
       compressor.release.value = .14;
       output.gain.setValueAtTime(.0001, ctx.currentTime);
-      output.gain.linearRampToValueAtTime(.13, ctx.currentTime + .045);
+      output.gain.linearRampToValueAtTime(.72, ctx.currentTime + .045);
       const remaining = (timing.durationMs - age) / 1000;
-      output.gain.setValueAtTime(.13, ctx.currentTime + Math.max(.045, remaining - .065));
+      output.gain.setValueAtTime(.72, ctx.currentTime + Math.max(.045, remaining - .065));
       output.gain.linearRampToValueAtTime(.0001, ctx.currentTime + remaining);
       output.connect(compressor);
       compressor.connect(ctx.destination);
 
-      const profile = request.profile;
-      const band = ctx.createBiquadFilter();
-      band.type = 'bandpass';
-      band.frequency.value = profile === 'weak' ? 1050 : profile === 'desperate' ? 1650 : 1300;
-      band.Q.value = .45;
-      const crusher = ctx.createWaveShaper();
-      // Stair-step quantization distorts the *recorded phonemes*, not an oscillator.
-      const levels = profile === 'weak' ? 48 : profile === 'desperate' ? 14 : 22;
-      const curve = new Float32Array(1024);
-      for (let i = 0; i < curve.length; i++) {
-        const x = 2 * i / (curve.length - 1) - 1;
-        curve[i] = Math.round(Math.tanh(x * 2.3) * levels) / levels;
-      }
-      crusher.curve = curve;
-      band.connect(crusher);
-      crusher.connect(output);
-      voiceNodes = [output, compressor, band, crusher];
-
-      for (let layer = 0; layer < 2; layer++) {
-        const source = ctx.createBufferSource();
-        source.buffer = crushed;
-        source.playbackRate.value = timing.rate * (layer ? .985 : 1);
-        if (layer) {
-          for (let t = 0; t < remaining; t += .29) {
-            source.playbackRate.setValueAtTime(timing.rate * .96, ctx.currentTime + t);
-            source.playbackRate.linearRampToValueAtTime(timing.rate * 1.01,
-              ctx.currentTime + Math.min(remaining, t + .21));
-          }
-        }
-        const level = ctx.createGain();
-        level.gain.value = layer ? .22 : .86;
-        // Predictable short signal dropouts; the original speech remains recognizable.
-        if (!layer) for (let t = .18; t < remaining - .07; t += .43) {
-          level.gain.setValueAtTime(.86, ctx.currentTime + t);
-          level.gain.setValueAtTime(profile === 'weak' ? .32 : .09, ctx.currentTime + t + .004);
-          level.gain.setValueAtTime(.86, ctx.currentTime + t + .034);
-        }
-        source.connect(level);
-        voiceNodes.push(level);
-        level.connect(band);
-        source.start(ctx.currentTime + (layer ? .028 : 0), offset);
-        source.stop(ctx.currentTime + remaining);
-        voiceSources.push(source);
-        source.onended = () => { source.disconnect(); level.disconnect(); };
-      }
+      voiceNodes = [output, compressor];
+      const source = ctx.createBufferSource();
+      source.buffer = decoded;
+      source.playbackRate.value = timing.rate;
+      source.connect(output);
+      source.start(ctx.currentTime, offset);
+      // Originalradion fortsätter, men duckas under tal så att konsonanter
+      // faktiskt går att uppfatta genom det redan inbakade kortvågsbruset.
+      if (typingNodes) typingNodes.gate.gain.setTargetAtTime(.06, ctx.currentTime, .05);
+      source.stop(ctx.currentTime + remaining);
+      voiceSources.push(source);
+      source.onended = () => source.disconnect();
     } catch { /* Fil, dekodning och autoplay är valfria; ARG-tiden fortsätter. */ }
   }
 

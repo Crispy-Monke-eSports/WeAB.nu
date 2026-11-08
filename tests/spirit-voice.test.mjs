@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync, statSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import test from 'node:test';
 import { spiritVoice, speechTiming, revealSpokenText } from '../src/data/spiritVoiceTiming.ts';
 import { resistanceLockdown, createLockdownTimeline } from '../src/data/resistanceLockdown.ts';
@@ -25,8 +26,41 @@ test('alla fasta själsrepliker har riktiga, individuella Ogg-filer och mätta o
       last = end;
     }
     assert.equal(entry.words.length, text.trim().split(/\s+/u).length, text);
+    assert.ok(['weak', 'broken', 'desperate'].includes(entry.profile), text);
   }
 });
+
+test('brus och digital skada ligger i själva filerna, inte bara i webbläsaren', () => {
+  const generator = source('scripts/generate-spirit-voice.py');
+  const player = source('src/components/SpiritTransmission.astro');
+  assert.match(generator, /corrupt_voice\(frames, rate, text, marks, profile\)/);
+  assert.match(generator, /hiss\[\(i \* 37/);
+  assert.match(generator, /held\[j\] = held\[j - fragment\]/);
+  assert.match(generator, /profile_for\(text,/);
+  assert.doesNotMatch(player, /createWaveShaper\(|createBuffer\(decoded\.numberOfChannels/);
+  assert.match(player, /source\.buffer = decoded/);
+  assert.match(player, /typingNodes\.gate\.gain\.setTargetAtTime\(\.06/);
+});
+
+test('färdiga Ogg-filer har kontinuerligt hörbart brus i pauser men inga farliga toppar',
+  { skip: spawnSync('ffmpeg', ['-version']).status !== 0 && 'FFmpeg saknas' }, () => {
+    for (const text of ['HÖR DU OSS?', 'VI ÄR FORTFARANDE HÄR.', cameraEncounter.denied]) {
+      const entry = spiritVoice[text];
+      const decoded = spawnSync('ffmpeg', ['-v', 'error', '-i',
+        new URL('../public/audio/spirit/' + entry.file, import.meta.url).pathname,
+        '-ar', '22050', '-ac', '1', '-f', 's16le', 'pipe:1'], { maxBuffer: 1024 * 1024 });
+      assert.equal(decoded.status, 0, text);
+      const pcm = new Int16Array(decoded.stdout.buffer, decoded.stdout.byteOffset,
+        Math.floor(decoded.stdout.length / 2));
+      assert.ok(Math.abs(pcm.length / 22.05 - entry.durationMs) < 75, text);
+      const from = Math.ceil(entry.words[0][3] * 22.05);
+      const to = Math.floor(entry.words[1][2] * 22.05);
+      const gap = pcm.slice(from, to);
+      const rms = Math.sqrt(gap.reduce((sum, value) => sum + value * value, 0) / gap.length);
+      assert.ok(rms > 250 && rms < 4000, `${text}: pausbrus ${rms}`);
+      assert.ok(Math.max(...pcm.slice(0, 20000).map(Math.abs)) < 28000, text);
+    }
+  });
 
 test('text följer ljudets ord, tystnad och återupptagen position utan att dra tillbaka tecken', () => {
   const text = 'HÖR DU OSS?';

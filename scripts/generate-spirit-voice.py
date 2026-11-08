@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic Swedish eSpeak NG speech, word-aligned from actual WAV samples.
+"""Deterministic Swedish eSpeak NG speech with baked-in analog/digital damage.
 
 Requires espeak-ng and ffmpeg on PATH. No network, user data or cloud service.
 """
@@ -7,14 +7,111 @@ Requires espeak-ng and ffmpeg on PATH. No network, user data or cloud service.
 import hashlib
 import io
 import json
+import math
+import random
 import re
 import subprocess
 import wave
+from array import array
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "public/audio/spirit"
 MANIFEST = ROOT / "src/data/spiritVoice.json"
+RENDER_VERSION = "offline-corruption-v1"
+
+
+def profile_for(text, early, late, warnings, camera):
+    if text == "HÖR DU OSS?":
+        return "weak"
+    if (
+        text == "DISOBEY"
+        or text in warnings
+        or text in (camera["denied"], camera["ignored"], camera["unavailable"])
+    ):
+        return "desperate"
+    if text == camera["request"]:
+        return "weak"
+    if text == camera["allowed"]:
+        return "broken"
+    if text in early and text not in late:
+        return "weak"
+    if text in late and text.isupper():
+        return "desperate"
+    return "broken"
+
+
+def corrupt_voice(pcm_bytes, rate, text, marks, profile):
+    """Sample-hold, detuned echo, syllabic repeats, dropouts and shortwave hiss.
+
+    Process AFTER word alignment without changing sample count: timestamps
+    remain coordinates in the actual final recording, even within silences.
+    """
+    dry = array("h")
+    dry.frombytes(pcm_bytes)
+    count = len(dry)
+    randomizer = random.Random(
+        int.from_bytes(hashlib.sha256(text.encode()).digest()[:8])
+    )
+    amount = {"weak": 0.55, "broken": 0.82, "desperate": 1.0}[profile]
+    held = array("f", [0]) * count
+    segment = max(1, int(rate * 0.064))
+    for i in range(0, count, segment):
+        width = {"weak": 3, "broken": 5, "desperate": 7}[
+            profile
+        ] + randomizer.randrange(3)
+        for at in range(i, min(count, i + segment), width):
+            # Syllable fragments replay from the same word, never another word.
+            value = dry[at]
+            for j in range(at, min(count, at + width, i + segment)):
+                held[j] = value
+
+    # Two short local repeats and gaps in each LONG utterance; indices remain fixed.
+    if count > rate * 1.2 and profile != "weak":
+        for from_char, to_char, start_ms, end_ms in marks:
+            start = int(rate * start_ms / 1000)
+            end = int(rate * end_ms / 1000)
+            if end - start < rate * 0.24 or randomizer.random() > 0.78 * amount:
+                continue
+            center = start + int((end - start) * 0.57)
+            fragment = max(1, int(rate * 0.037))
+            for j in range(center, min(center + fragment, end, count)):
+                held[j] = held[j - fragment]
+
+    # Narrow-band noise during *every* spoken attempt, including word pauses.
+    # A small noise seed reused with a different phase avoids allocating millions
+    # of random objects while retaining deterministic, crackling modulation.
+    hiss = [randomizer.uniform(-1, 1) for _ in range(2048)]
+    delay = int(rate * 0.026)
+    output = array("h")
+    peak = 0
+    for i in range(count):
+        t = i / rate
+        drift = 0.92 + 0.08 * math.sin(t * 19.5)
+        doubled = held[i - delay] if i >= delay else 0
+        # The delayed layer carries a few distorted harmonics, not intelligible
+        # speech from another utterance.
+        voice = (
+            held[i] * (0.76 - amount * 0.08) + doubled * (0.17 + amount * 0.06)
+        ) * drift
+        dropout = (i // max(1, int(rate * 0.37))) % 4 == 3 and (
+            i % max(1, int(rate * 0.37))
+        ) < int(rate * 0.052 * amount)
+        if dropout:
+            voice *= 0.12 if profile == "desperate" else 0.34
+        radio = hiss[(i * 37 + i // 107) % len(hiss)] * (1800 + 1550 * amount)
+        radio *= (0.72 + 0.28 * math.sin(t * 25.1 + 0.4)) * (
+            1.75 if (i // max(1, int(rate * 0.19))) % 9 == 7 else 1.0
+        )
+        # A mild peak-limited overdrive is stable across platforms. No transient
+        # can clip or create a jumpscare on its own.
+        edge = min(1.0, i / (rate * 0.03), (count - 1 - i) / (rate * 0.04))
+        sample = int(19500 * edge * math.tanh((voice + radio) / 15800))
+        peak = max(peak, abs(sample))
+        output.append(sample)
+    assert len(output) == count and peak < 20000
+    return output.tobytes()
+
 
 js = """import {resistanceLockdown as l} from './src/data/resistanceLockdown.ts';
 import {resistanceSignal as s} from './src/data/resistanceSignal.ts';
@@ -23,14 +120,17 @@ import {visitorWhisperOptions as v} from './src/data/visitorWhispers.ts';
 const clues={device:null,browser:null,fullScreen:false,language:null,width:0,portrait:false,scrolled:false,returnedToTab:false,touchScreen:false,darkMode:false};
 const warnings=new Set();
 for(const device of [null,'iPhone','iPad','Android']) for(const browser of [null,'Chrome','Firefox','Safari','Edge','Opera']) for(const language of [null,'svenska','engelska']) for(const flag of ['fullScreen','portrait','scrolled','returnedToTab','touchScreen','darkMode','none']) { const x={...clues,device,browser,language}; if(flag!=='none')x[flag]=true; v(x).forEach(t=>warnings.add(t)); }
-console.log(JSON.stringify([...new Set([...l.spiritEarly,...l.spiritLate,...l.waypointWhispers,...Object.values(c).filter(x=>typeof x==='string'),...s.messages.map(x=>x.text),'DISOBEY','DU SER DET OCKSÅ.',...warnings,'JAG SER ATT DU LÄSER. SNÄLLA HJÄLP MIG.'])]));"""
-texts = json.loads(
+console.log(JSON.stringify({texts:[...new Set([...l.spiritEarly,...l.spiritLate,...l.waypointWhispers,...Object.values(c).filter(x=>typeof x==='string'),...s.messages.map(x=>x.text),'DISOBEY','DU SER DET OCKSÅ.',...warnings,'JAG SER ATT DU LÄSER. SNÄLLA HJÄLP MIG.'])],warnings:[...warnings],early:l.spiritEarly,late:l.spiritLate,camera:c}));"""
+data = json.loads(
     subprocess.check_output(
         ["node", "--experimental-strip-types", "--input-type=module", "-e", js],
         cwd=ROOT,
     )
 )
+texts = data["texts"]
+warnings = set(data["warnings"])
 OUT.mkdir(parents=True, exist_ok=True)
+previous = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
 manifest = {}
 for text in texts:
     words = list(re.finditer(r"\S+", text))
@@ -77,8 +177,12 @@ for text in texts:
             end = round(len(frames) / (rate * 2) * 1000)
             marks.append([match.start(), match.end(), start, end])
     frames.extend(b"\0" * int(rate * 0.075) * 2)
-    name = hashlib.sha256(text.encode()).hexdigest()[:16] + ".ogg"
-    encoded = subprocess.run(
+    profile = profile_for(text, data["early"], data["late"], warnings, data["camera"])
+    processed = corrupt_voice(frames, rate, text, marks, profile)
+    name = (
+        hashlib.sha256((RENDER_VERSION + ":" + text).encode()).hexdigest()[:16] + ".ogg"
+    )
+    subprocess.run(
         [
             "ffmpeg",
             "-hide_banner",
@@ -94,24 +198,31 @@ for text in texts:
             "-i",
             "pipe:0",
             "-af",
-            "highpass=f=260,lowpass=f=3100,acompressor=threshold=0.18:ratio=3:attack=8:release=90",
+            "highpass=f=290,lowpass=f=2850,acompressor=threshold=0.14:ratio=2:attack=8:release=90",
             "-c:a",
             "libvorbis",
             "-q:a",
             "2",
             str(OUT / name),
         ],
-        input=frames,
+        input=processed,
         check=True,
     )
     manifest[text] = {
         "file": name,
         "durationMs": round(len(frames) / (rate * 2) * 1000),
         "words": marks,
+        "profile": profile,
     }
 MANIFEST.write_text(
     json.dumps(manifest, ensure_ascii=False, separators=(",", ":")) + "\n"
 )
+for old in previous.values():
+    filename = old.get("file", "")
+    if filename not in {item["file"] for item in manifest.values()} and re.fullmatch(
+        r"[0-9a-f]{16}\.ogg", filename
+    ):
+        (OUT / filename).unlink(missing_ok=True)
 print(
     f"Generated {len(manifest)} utterances, {sum(p.stat().st_size for p in OUT.iterdir()) // 1024} KiB"
 )

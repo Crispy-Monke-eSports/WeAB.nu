@@ -1,7 +1,7 @@
 import voice from './spiritVoice.json' with { type: 'json' };
 
 export type VoiceProfile = 'weak' | 'broken' | 'desperate';
-export type VoiceEntry = { file: string; durationMs: number; words: number[][] };
+export type VoiceEntry = { file: string; durationMs: number; words: number[][]; profile: VoiceProfile };
 export const spiritVoice = voice as Record<string, VoiceEntry>;
 
 /** The scheduled ARG beat remains authoritative; only speech inside it is compressed. */
