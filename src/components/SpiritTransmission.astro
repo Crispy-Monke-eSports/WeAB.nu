@@ -1,0 +1,207 @@
+---
+/**
+ * Gemensam ARG-signal: varje försök från den fångade rösten får ett kort
+ * analogt bildbrott. Ljud är en valfri, lågmäld komplettering till bilden.
+ * Ingen berättelseidentitet eller förklaring skrivs ut i besökarens DOM.
+ */
+---
+<script>
+  type Strength = 'soft' | 'medium' | 'harsh';
+  type SpiritBurst = { strength?: Strength };
+  let audio: AudioContext | null = null;
+  let noise: AudioBuffer | null = null;
+
+  function primeRadio(): void {
+    if (typeof AudioContext === 'undefined' || document.hidden) return;
+    try {
+      if (!audio || audio.state === 'closed') {
+        audio = new AudioContext();
+        noise = null;
+      }
+      if (audio.state === 'suspended') void audio.resume().catch(() => {});
+    } catch { /* Web Audio är valfritt; bildstörningen körs ändå. */ }
+  }
+
+  // En normal interaktion får lov att aktivera ljudet för kommande händelser.
+  // Ingen begäran om ljudtillstånd, ingen knapp och inget automatiskt högt ljud.
+  window.addEventListener('pointerdown', primeRadio, { passive: true });
+  window.addEventListener('keydown', primeRadio);
+  window.addEventListener('touchstart', primeRadio, { passive: true });
+
+  function analogTear(strength: Strength): void {
+    const quarantine = document.documentElement.classList.contains('weab-quarantined');
+    const parent = quarantine
+      ? document.getElementById('weab-quarantine')
+      : document.querySelector<HTMLElement>('[data-resistance-interference]:not([hidden])') ??
+        document.querySelector<HTMLElement>('[data-resistance-eye-noise]:not([hidden])') ??
+        document.body;
+    if (!parent) return;
+
+    const strip = document.createElement('span');
+    strip.className = 'weab-analog-tear' +
+      (parent === document.body ? ' weab-analog-tear--page' : '');
+    strip.setAttribute('aria-hidden', 'true');
+    strip.style.setProperty('--analog-y', (13 + Math.random() * 69).toFixed(1) + '%');
+    strip.style.setProperty('--analog-offset', (Math.random() * 22 - 11).toFixed(0) + 'px');
+    strip.style.setProperty('--analog-ghost', strength === 'harsh' ? '.35' : '.19');
+    parent.appendChild(strip);
+    window.setTimeout(() => strip.remove(), strength === 'harsh' ? 530 : 410);
+  }
+
+  function analogNoise(): AudioBuffer | null {
+    if (!audio) return null;
+    if (noise && noise.sampleRate === audio.sampleRate) return noise;
+    const buffer = audio.createBuffer(1, Math.ceil(audio.sampleRate * .32), audio.sampleRate);
+    const samples = buffer.getChannelData(0);
+    // Ojämnt radiosus med snabba glapp och gamla AM-liknande artefakter.
+    for (let i = 0; i < samples.length; i++) {
+      const dropout = i % 503 < 11 ? .14 : 1;
+      samples[i] = (Math.random() * 2 - 1) * dropout;
+    }
+    noise = buffer;
+    return noise;
+  }
+
+  function playRadio(strength: Strength): void {
+    if (document.hidden) return;
+    primeRadio();
+    if (!audio || audio.state !== 'running') return;
+    const ctx = audio;
+    const buffer = analogNoise();
+    if (!buffer) return;
+
+    const amount = strength === 'soft' ? .38 : strength === 'harsh' ? .78 : .55;
+    const begin = ctx.currentTime + .008;
+    const master = ctx.createGain();
+    master.gain.value = .09; // Mycket svag, aldrig ett högt jumpscare-ljud.
+    master.connect(ctx.destination);
+
+    const pulses = strength === 'harsh' ? 4 : strength === 'soft' ? 2 : 3;
+    for (let i = 0; i < pulses; i++) {
+      const at = begin + i * .092 + Math.random() * .027;
+      const duration = .065 + Math.random() * .067;
+      const crackle = ctx.createBufferSource();
+      crackle.buffer = buffer;
+      crackle.playbackRate.value = .78 + Math.random() * .38;
+      const radio = ctx.createBiquadFilter();
+      radio.type = 'bandpass';
+      radio.frequency.value = 570 + Math.random() * 1250;
+      radio.Q.value = 1.4 + Math.random() * 3.2;
+      const gate = ctx.createGain();
+      gate.gain.setValueAtTime(.0001, at);
+      gate.gain.linearRampToValueAtTime(amount * (.28 + Math.random() * .19), at + .012);
+      gate.gain.exponentialRampToValueAtTime(.0001, at + duration);
+      crackle.connect(radio);
+      radio.connect(gate);
+      gate.connect(master);
+      crackle.start(at);
+      crackle.stop(at + duration);
+      crackle.onended = () => {
+        crackle.disconnect();
+        radio.disconnect();
+        gate.disconnect();
+      };
+    }
+
+    // En nästan röstliknande, instabil bärvåg bakom bruset.
+    // Formantbrus, inte inspelat tal eller syntetiskt begripliga stavelser.
+    const ghost = ctx.createOscillator();
+    ghost.type = 'sine';
+    const ghostGain = ctx.createGain();
+    ghost.frequency.setValueAtTime(185 + Math.random() * 70, begin);
+    ghost.frequency.linearRampToValueAtTime(116 + Math.random() * 60, begin + .29);
+    ghostGain.gain.setValueAtTime(.0001, begin);
+    ghostGain.gain.linearRampToValueAtTime(.045 * amount, begin + .06);
+    ghostGain.gain.exponentialRampToValueAtTime(.0001, begin + .34);
+    ghost.connect(ghostGain);
+    ghostGain.connect(master);
+    ghost.start(begin);
+    ghost.stop(begin + .35);
+    ghost.onended = () => {
+      ghost.disconnect();
+      ghostGain.disconnect();
+      master.disconnect();
+    };
+  }
+
+  // Den här händelsen avfyras ENDAST när själen försöker nå fram.
+  // Visuell störning skapas först och ljud får aldrig köras ensamt.
+  window.addEventListener('weab:spirit-burst', (event: Event) => {
+    const raw = (event as CustomEvent<SpiritBurst>).detail?.strength;
+    const strength: Strength = raw === 'soft' || raw === 'harsh' ? raw : 'medium';
+    analogTear(strength);
+    playRadio(strength);
+  });
+  window.addEventListener('pagehide', () => {
+    if (audio) void audio.close().catch(() => {});
+    audio = null;
+    noise = null;
+  });
+</script>
+
+<style>
+  :global(.weab-analog-tear) {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    display: block;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(0deg,
+        transparent 0 3px, rgb(36 54 66 / .13) 4px,
+        rgb(2 8 13 / .20) 5px, transparent 6px 11px),
+      linear-gradient(92deg,
+        transparent 22%, rgb(25 121 133 / .07) 48%,
+        rgb(172 35 58 / .09) 51%, transparent 81%);
+    animation: weab-radio-scan .37s steps(4, end) both;
+  }
+  :global(.weab-analog-tear--page) {
+    z-index: 2147483646;
+  }
+  :global(.weab-analog-tear::before) {
+    content: '';
+    position: absolute;
+    left: -3%;
+    right: -3%;
+    top: var(--analog-y, 41%);
+    height: clamp(11px, 3.8vh, 36px);
+    transform: translateX(var(--analog-offset, 5px));
+    background:
+      repeating-linear-gradient(90deg,
+        rgb(158 45 64 / .28) 0 15px, rgb(21 93 112 / .21) 15px 30px,
+        transparent 30px 37px);
+    box-shadow: 0 -2px 0 rgb(181 64 78 / .21), 0 3px 0 rgb(60 159 177 / .18);
+    animation: weab-radio-tear .17s steps(3, end) infinite;
+  }
+  :global(.weab-analog-tear::after) {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(180deg,
+        transparent 0 13px, rgb(169 55 73 / .045) 14px 15px,
+        transparent 16px 29px),
+      linear-gradient(180deg,
+        transparent 42%, rgb(83 137 150 / .06) 48%,
+        rgb(148 38 59 / .08) 51%, transparent 60%);
+    opacity: var(--analog-ghost, .19);
+  }
+  @keyframes weab-radio-scan {
+    0% { opacity: .12; }
+    25% { opacity: .83; }
+    54% { opacity: .48; }
+    74% { opacity: .94; }
+    100% { opacity: 0; }
+  }
+  @keyframes weab-radio-tear {
+    0%, 100% { transform: translateX(0); }
+    33% { transform: translateX(9px); }
+    66% { transform: translateX(-9px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.weab-analog-tear),
+    :global(.weab-analog-tear::before) { animation: none; }
+    :global(.weab-analog-tear) { opacity: .34; }
+  }
+</style>

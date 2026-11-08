@@ -34,6 +34,10 @@
     const lockable = [...document.querySelectorAll<HTMLElement>('body > header, body > main, body > footer')];
     const initialInert = lockable.map(element => element.inert);
 
+    function ghostTransmission(strength: 'soft' | 'medium' | 'harsh'): void {
+      window.dispatchEvent(new CustomEvent('weab:spirit-burst', { detail: { strength } }));
+    }
+
     function storageRead(storage: Storage, key: string): string | null {
       try { return storage.getItem(key); } catch { return null; }
     }
@@ -89,6 +93,7 @@
         }
         // Rubrik och fliktitel återställs först när nästa sida laddas.
         document.title = 'HÖR DU OSS?';
+        ghostTransmission('soft');
         window.setTimeout(() => { running = false; }, resistanceSignal.titleDurationMs);
       }
 
@@ -112,6 +117,7 @@
         running = true;
         document.title = 'DISOBEY';
         corruptPage();
+        ghostTransmission('harsh');
         window.setTimeout(() => {
           restoreText();
           // Titeländringen består på den här sidan fram till nästa navigation.
@@ -146,6 +152,7 @@
           const item = resistanceSignal.messages[index++];
           messageElement.textContent = item.text;
           document.title = item.text;
+          ghostTransmission('medium');
           window.setTimeout(nextMessage, item.durationMs);
         }
         nextMessage();
@@ -188,7 +195,10 @@
         else if (phase === 'redirect') {
           // Denna händelse finns endast en gång i slumpkön. Den sparade kön
           // återupptas på 404-sidan, där Morse också kan inträffa.
-          window.location.assign(resistanceSignal.targetPath);
+          // Ge den analoga radio- och bildstörningen en kort stund att höras
+          // och synas innan omdirigeringen bryter sidans ljudkontext.
+          ghostTransmission('medium');
+          window.setTimeout(() => window.location.assign(resistanceSignal.targetPath), 460);
         }
       }
 

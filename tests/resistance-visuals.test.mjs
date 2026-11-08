@@ -44,13 +44,21 @@ test('själen får en sporadisk ögonfas med synliga inline-ögon, utan blockera
   assert.match(eyes, /pagehide', finish/);
 });
 
-test('ögonens glitchljud faller tillbaka till tyst visuell effekt utan autoplay', () => {
+test('ögonens tre öppningar får analog radio- och bildstörning, eller enbart bild', () => {
   const eyes = source('src/components/ResistanceEyes.astro');
-  assert.match(eyes, /typeof AudioContext === 'undefined'/);
-  assert.match(eyes, /context\.state !== 'running'/);
-  assert.match(eyes, /context\.close\(\)\.catch/);
+  const radio = source('src/components/SpiritTransmission.astro');
+  assert.match(eyes, /for \(const phase of \[\.15, \.43, \.75\]\)/);
+  assert.match(eyes, /weab:spirit-burst/);
   assert.match(eyes, /document\.body\.classList\.add\('resistance-watched'\)/);
   assert.match(eyes, /resistance-eye-noise/);
+  assert.doesNotMatch(eyes, /new AudioContext\(/, 'ögonen använder den delade audiomotorn');
+  assert.match(radio, /typeof AudioContext === 'undefined'/);
+  assert.match(radio, /audio\.state !== 'running'/);
+  assert.match(radio, /analogTear\(strength\);\s*playRadio\(strength\);/);
+  assert.match(radio, /pointer-events: none/);
+  assert.match(radio, /prefers-reduced-motion: reduce/);
+  assert.match(radio, /weab-radio-scan/);
+  assert.match(radio, /weab-radio-tear/);
 });
 
 test('den förstörda Morse-sidan kan fortfarande scrollas och förblir klickbar', () => {
@@ -82,4 +90,34 @@ test('nya meddelanden förblir kryptiska; själen avslöjar inte slutfacit', () 
   assert.ok(resistanceLockdown.spiritLate.includes('SLUTA ÖPPNA DEN'));
   assert.ok(resistanceLockdown.spiritLate.includes('JAG FÖRSÖKER NÅ ER'));
   assert.ok(!resistanceLockdown.systemLate.some(x => x.includes('avslutad personal')));
+});
+
+test('själens varje synliga sidintrång får radio + analog bildstörning', () => {
+  const signal = source('src/components/ResistanceInterference.astro');
+  const layout = source('src/layouts/BaseLayout.astro');
+  const radio = source('src/components/SpiritTransmission.astro');
+  assert.match(layout, /import SpiritTransmission from/);
+  assert.match(layout, /<SpiritTransmission\/>/);
+  assert.match(signal, /document\.title = 'HÖR DU OSS\?';\s*ghostTransmission\('soft'\)/);
+  assert.match(signal, /corruptPage\(\);\s*ghostTransmission\('harsh'\)/);
+  assert.match(signal, /document\.title = item\.text;\s*ghostTransmission\('medium'\)/);
+  assert.match(signal, /ghostTransmission\('medium'\);\s*window\.setTimeout\(\(\) => window\.location\.assign/);
+  assert.match(layout, /if \(currentBeat\.voice === 'intrusion' && document\.visibilityState === 'visible'\)/);
+  assert.match(layout, /weab:spirit-burst/);
+  assert.match(radio, /window\.addEventListener\('weab:spirit-burst'/);
+  assert.match(radio, /radio\.type = 'bandpass'/);
+  assert.match(radio, /ghost\.frequency\.linearRampToValueAtTime/);
+  assert.match(radio, /master\.gain\.value = \.09/);
+});
+
+test('gemensam visuell effekt fungerar även utan AudioContext och i karantänen', () => {
+  const radio = source('src/components/SpiritTransmission.astro');
+  assert.match(radio, /analogTear\(strength\);\s*playRadio\(strength\)/);
+  assert.match(radio, /document\.getElementById\('weab-quarantine'\)/);
+  assert.match(radio, /data-resistance-interference/);
+  assert.match(radio, /data-resistance-eye-noise/);
+  assert.match(radio, /document\.body/);
+  assert.match(radio, /window\.addEventListener\('pointerdown', primeRadio/);
+  assert.match(radio, /window\.addEventListener\('keydown', primeRadio/);
+  assert.doesNotMatch(radio, /\b(?:speechSynthesis|playRecording|MediaRecorder)\b/);
 });

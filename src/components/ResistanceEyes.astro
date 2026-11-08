@@ -22,7 +22,7 @@
   if (veil && !document.documentElement.classList.contains('weab-quarantined')) {
     let active = false;
     let eyes: HTMLElement | null = null;
-    let sound: AudioContext | null = null;
+    const eyeBurstTimers: number[] = [];
     let finishTimer = 0;
 
     function placeEyes(): HTMLElement | null {
@@ -90,70 +90,20 @@
       eyePair.style.top = Math.max(28, Math.min(window.innerHeight - 28, y)) + 'px';
     }
 
-    function playGlitchSound(): void {
-      // Web Audio startas ENDAST när webbläsaren faktiskt tillåter uppspelning.
-      // Inget samtyckesmodal, ingen autoplay-loop, inget felmeddelande.
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-        typeof AudioContext === 'undefined') return;
-      let context: AudioContext;
-      try { context = new AudioContext(); } catch { return; }
-      if (context.state !== 'running') {
-        void context.close().catch(() => {});
-        return;
-      }
-      sound = context;
-      const master = context.createGain();
-      master.gain.value = .11; // Flera korta, tysta datastörningar; aldrig jumpscarevolym.
-      master.connect(context.destination);
-
-      const samples = context.createBuffer(1, Math.floor(context.sampleRate * .17), context.sampleRate);
-      const data = samples.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-
-      const start = context.currentTime + .035;
-      for (let i = 0; i < 15; i++) {
-        const at = start + i * .205 + Math.random() * .055;
-        const duration = .045 + Math.random() * .095;
-
-        // Digitalt knaster i många små ojämna fragment.
-        const source = context.createBufferSource();
-        source.buffer = samples;
-        source.playbackRate.value = .8 + Math.random() * 2;
-        const filter = context.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.value = 430 + Math.random() * 3100;
-        filter.Q.value = 1.3 + Math.random() * 5;
-        const gain = context.createGain();
-        gain.gain.setValueAtTime(.0001, at);
-        gain.gain.linearRampToValueAtTime(.15 + Math.random() * .2, at + .008);
-        gain.gain.linearRampToValueAtTime(.0001, at + duration);
-        source.connect(filter);
-        filter.connect(gain);
-        gain.connect(master);
-        source.start(at);
-        source.stop(at + duration);
-
-        if (i % 2 === 0) {
-          // Korta metalliska felsignaler, inte tonmelodi.
-          const oscillator = context.createOscillator();
-          oscillator.type = i % 4 === 0 ? 'square' : 'sawtooth';
-          oscillator.frequency.value = 180 + Math.random() * 1300;
-          const pip = context.createGain();
-          pip.gain.setValueAtTime(.0001, at);
-          pip.gain.linearRampToValueAtTime(.08, at + .01);
-          pip.gain.linearRampToValueAtTime(.0001, at + duration);
-          oscillator.connect(pip);
-          pip.connect(master);
-          oscillator.start(at);
-          oscillator.stop(at + duration);
-        }
-      }
+    function eyeTransmission(): void {
+      // Ögonen är en annan kanal för samma fångade röst.
+      // Det gemensamma ljudet avfyras endast med motsvarande analog bildglitch.
+      window.dispatchEvent(new CustomEvent('weab:spirit-burst', {
+        detail: { strength: 'harsh' }
+      }));
     }
 
     function finish(): void {
       if (!active) return;
       active = false;
       window.clearTimeout(finishTimer);
+      for (const id of eyeBurstTimers) window.clearTimeout(id);
+      eyeBurstTimers.length = 0;
       document.body.classList.remove('resistance-watched');
       if (veil) veil.hidden = true;
       if (eyes) {
@@ -161,10 +111,6 @@
         eyes.remove();
         parent?.normalize();
         eyes = null;
-      }
-      if (sound) {
-        void sound.close().catch(() => {});
-        sound = null;
       }
     }
 
@@ -178,7 +124,13 @@
       positionEyes();
       veil.hidden = false;
       document.body.classList.add('resistance-watched');
-      playGlitchSound();
+      // Synkronisera tre korta radiostörningar med ögonens öppningar.
+      // Om ljud är blockerat får varje puls ändå sitt analoga bildbrott.
+      for (const phase of [.15, .43, .75]) {
+        eyeBurstTimers.push(window.setTimeout(() => {
+          if (active && document.visibilityState === 'visible') eyeTransmission();
+        }, resistanceSignal.eyesDurationMs * phase));
+      }
       finishTimer = window.setTimeout(finish, resistanceSignal.eyesDurationMs);
     }
 

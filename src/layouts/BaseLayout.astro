@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import ResistanceInterference from '../components/ResistanceInterference.astro';
 import ResistanceMorse from '../components/ResistanceMorse.astro';
 import ResistanceEyes from '../components/ResistanceEyes.astro';
+import SpiritTransmission from '../components/SpiritTransmission.astro';
 import { resistanceLockdown } from '../data/resistanceLockdown.ts';
 import { resistanceSignal } from '../data/resistanceSignal.ts';
 import { companies } from '../data/companies';
@@ -372,6 +373,14 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       if (key !== lastBeatKey) {
         lastBeatKey = key;
         pulseGlitch(progress > .62 || currentBeat.voice === 'intrusion' ? 2 : 1);
+        // Nya rader från själen har ett kort analogt radiobrus OCH
+        // synkroniserad bildstörning. WeAB:s egna rader är ljudlösa.
+        if (currentBeat.voice === 'intrusion' && document.visibilityState === 'visible') {
+          const strength = progress > .70 ? 'harsh' : progress > .38 ? 'medium' : 'soft';
+          window.dispatchEvent(new CustomEvent('weab:spirit-burst', {
+            detail: { strength }
+          }));
+        }
       }
       return Math.min(until - now, Math.max(0, nextAt - elapsed));
     }
@@ -474,6 +483,6 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
   </div>
   <span class="weab-quarantine__spinner" aria-hidden="true"></span>
  </div>
- <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceEyes/>}{enableInterference && <ResistanceMorse/>}
+ <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceEyes/>}{enableInterference && <ResistanceMorse/>}<SpiritTransmission/>
 </body>
 </html>
