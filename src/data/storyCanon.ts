@@ -6,6 +6,9 @@
  */
 export const storyDates = {
   coupElectionYear: 2045,
+  weLiveLaughLoveSectionOneUprisingYear: 2047,
+  // Förgiftningen och återtagandet sker under upproret 2047.
+  // Sju dödliga tankekontrollexperiment hör till följderna, men saknar exakt datum.
   martaEkDeath: '2051-11-03',
   // Publicerat under 2045; ingen exakt publiceringsdag är fastslagen.
   weRuleMandatePublished: '2045',

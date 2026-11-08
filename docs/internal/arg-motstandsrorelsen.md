@@ -6,9 +6,13 @@
 
 - **Riksvalet 2045**: WeAB genomförde en **kupp**, fördrev den demokratiska riksdagen och lade myndighetsutövning och våldsmonopol under WeRule. Detta var **inte** en demokratisk och frivillig överlåtelse, oavsett vad koncernens officiella dokument antyder.
 - **Valresultatet från Riks 2045** undanröjdes av WeAB. Det återfinns på **havets botten**, i en **kista i ett vrak**, där texten **”Valresultat Riks 2045”** förekommer. Resultatets röstsiffror, vem som skulle ha vunnit och exakt valdag har inte lämnats; hitta inte på dem.
+- **2047 – WeLiveLaughLove, Sektion 1:** Bybor gjorde uppror, överväldigade vakterna och hade **tillfällig kontroll över Sektion 1**. Huvudstaden använde då **ett starkt gift i ån som löper genom sektionen**. Följderna var koncentrationssvårigheter, minnesförluster och att **ungefär 25 % av befolkningen dog**. Huvudstaden kunde därefter återta sektionen. WeLiveLaughLove skärpte reglerna, isolerade byarna och de överlevande uppvisar ännu 2051 återkommande cykler av arbete och sömn samt påtaglig glömska. Detta är mörklagd historisk kanon, inte en offentlig företagsversion.
+- **Efter upproret, datum okänt – tankekontroll:** WeAB forskar på **central styrning av människors/bybors tankar** enligt koncernens vilja. **Sju helt oskyldiga bybor som inte deltog i upproret** fördes till Huvudstaden för experiment. **Alla sju dog**, och försöken misslyckades. Detta ska inte presenteras som om WeAB redan har en fungerande central tankekontroll.
 - **Under 2051** upptäckte WeAB motståndspersoner som gömde sig i **ett vanligt hus**. WeAB **avrättade personerna och sprängde huset**. Ruinens skyltar anger att en motståndsstyrka på **tio personer** påträffades i en gammal lokal.
 - En skylt i ruinen lyder **”RAPPORT SKRIVEN 21/11/2051”**. Detta daterar rapporten, **inte säkert räden eller sprängningen**.
 - Motståndsrörelsen finns fortfarande som en loremässig motkraft med målet att störta WeAB. Namn, övergripande ledare och vilka delar av rörelsen som känner till de olika fynden är inte fastslagna.
+
+**Avgränsning:** Upprorarna från 2047, de sju oskyldiga som dog i Huvudstaden och de tio motståndspersonerna som dödades vid husruinen 2051 är **inte samma fastslagna grupp**. Det är **inte bestämt** att själen i WeAB.nu är någon av de sju, någon av upprorarna eller någon av de tio. Hitta inte på namn, försöksmetoder, exakta datum, en fungerande tankekontrollteknik eller en fysisk koppling till vraket. Detta är potentiella framtida berättelsetrådar, ännu inte belagda länkar.
 
 ## Spelvärldens existerande fysiska fynd
 
@@ -44,6 +48,7 @@ Kistans fulla innehåll, vilka som placerade valresultatet i vraket och förhål
 - De två officiella WeRule-pressutskicken är **publicerade 2045** och beskriver koncernens partiska version **samtidigt med maktskiftet**. Endast publiceringsåret är känt; inget exakt datum får hittas på. De får inte kompletteras med offentlig arkivkommentar som avslöjar kuppen.
 - Den demokratiska riksdagens ledamöter har fördrivits. WeRule förvaltar den faktiska statsapparaten. Håll isär detta från hur bolaget framställer det som administrativ kontinuitet.
 - Den sprängda husruinen och valresultatet i vraket är interna ARG-avslöjanden och får inte publiceras som öppna officiella nyheter i WeAB:s eget pressrum.
+- Detsamma gäller 2047 års byuppror, Huvudstadens förgiftning av ån, massdödligheten, de bestående kognitiva skadorna och de sju dödliga tankekontrollexperimenten. Dessa uppgifter är fastslagen **intern kanon**, inte färdigt offentligt innehåll att automatiskt publicera på webbplatsen.
 - WeAB har inte infört skatt; DGS inkom 6 november 2051 och är fortfarande under beredning.
 - Korsdalen hör till en senare berättelsemiljö och har ännu inte kontaktats. Blanda inte in det i ARG:ets nuvarande händelser.
 
@@ -90,6 +95,8 @@ En framtida webbgren kan bygga vidare på dessa spår men får inte hitta på va
 - Kuppens exakta datum under 2045, verkligt valutfall och hur valresultatet transporterades till vraket.
 - Husrazzian, avrättningarnas och sprängningens exakta datum under 2051 (endast rapportdatumet 21 november är säkert).
 - Om fynden har någon djupare organisatorisk koppling inom motståndsrörelsen.
+- Om 2047 års uppror, de sju misslyckade experimenten och den digitala själen hänger ihop; detta är **ännu inte fastslaget**.
+- De sju försökspersonernas identiteter, experimentens exakta tidpunkt och vad WeAB tekniskt försökte genomföra (förutom det övergripande målet).
 - Hur webbspår eller framtida videor kan komplettera två **separata**, redan existerande spår utan att falskeligen länka ihop dem.
 
 Denna fil beskriver fastslagen kanon samt den nya, uttryckligen beställda webbledtråden mot vraket. Ändra inga fysiska skyltar, hitta inte på valresultat eller skapa ytterligare vrakspår utan nytt uttryckligt underlag.
