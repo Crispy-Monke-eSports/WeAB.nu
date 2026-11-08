@@ -1,6 +1,14 @@
 # Motståndsrörelsens digitala intrång – slumpad ARG-sekvens
 
-> Intern dokumentation. WeAB:s offentliga texter och pressutskick förblir skrivna ur koncernens perspektiv.
+> Intern dokumentation. WeAB:s offentliga texter och pressutskick förblir skrivna ur koncernens perspektiv. **OBS: Slutspoiler för ARG:et.**
+
+## Den dolda berättelsen bakom störningarna
+
+**Det ser ut som ett motståndsintrång, men organisationen är i hemlighet WeAB-kontrollerad.** Dess vanliga medlemmar tror att de hackar sig in och kan läcka information om koncernens övergrepp. De flesta känner inte till att WeAB själv använder rörelsen för att kartlägga samtliga oppositionella och redan vet var alla befinner sig.
+
+**Den konkurrerande rösten kommer från en verklig död person:** En tidigare WeAB-infiltratör i motståndsstyrkan började sympatisera med medlemmarna och var på väg att byta sida. WeAB avslöjade personen innan något hann läcka, torterade denne i Huvudstaden, och personen dog där. **Själen hemsöker nu webbplatsen för att försöka stoppa motståndets fortsatta infiltration, varna dem för fällan och rädda deras liv.** WeAB försöker censurera själen eftersom den kan avslöja den hemliga övervakningen.
+
+**Spelarnas gradvisa upplevelse:** Den slumpade serien av titelbyten, DISOBEY, helskärmsmeddelanden, 404 och Morse kan fortfarande *uppfattas som* motståndsrörelsens hackningsförsök. De desperata fragmenten som bryter in på karantänskärmen tillhör däremot den före detta infiltratörens själ. Att systemet påstår `Dödsfall bekräftat` behöver inte betyda att det lyckas tysta den. **Berätta inte denna förklaring på webbplatsen och ändra inte existerande meddelanden för att ge bort slutet.**
 
 ## Händelser och ordning
 

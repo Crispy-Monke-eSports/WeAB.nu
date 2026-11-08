@@ -10,9 +10,26 @@
 - **Efter upproret, datum okänt – tankekontroll:** WeAB forskar på **central styrning av människors/bybors tankar** enligt koncernens vilja. **Sju helt oskyldiga bybor som inte deltog i upproret** fördes till Huvudstaden för experiment. **Alla sju dog**, och försöken misslyckades. Detta ska inte presenteras som om WeAB redan har en fungerande central tankekontroll.
 - **Under 2051** upptäckte WeAB motståndspersoner som gömde sig i **ett vanligt hus**. WeAB **avrättade personerna och sprängde huset**. Ruinens skyltar anger att en motståndsstyrka på **tio personer** påträffades i en gammal lokal.
 - En skylt i ruinen lyder **”RAPPORT SKRIVEN 21/11/2051”**. Detta daterar rapporten, **inte säkert räden eller sprängningen**.
-- Motståndsrörelsen finns fortfarande som en loremässig motkraft med målet att störta WeAB. Namn, övergripande ledare och vilka delar av rörelsen som känner till de olika fynden är inte fastslagna.
+- **Den stora slutvändningen:** Motståndsrörelsen är **ytterst skapad/styrd av WeAB**, som använder den för att identifiera vem som fortfarande motsätter sig koncernen. **WeAB känner till alla medlemmars positioner**. De flesta medlemmar är uppriktiga motståndare och känner inte till att organisationen är riggad. Exakt organisatoriskt namn, grundläggningsdatum och ledning är fortfarande öppna.
 
-**Avgränsning:** Upprorarna från 2047, de sju oskyldiga som dog i Huvudstaden och de tio motståndspersonerna som dödades vid husruinen 2051 är **inte samma fastslagna grupp**. Det är **inte bestämt** att själen i WeAB.nu är någon av de sju, någon av upprorarna eller någon av de tio. Hitta inte på namn, försöksmetoder, exakta datum, en fungerande tankekontrollteknik eller en fysisk koppling till vraket. Detta är potentiella framtida berättelsetrådar, ännu inte belagda länkar.
+**Avgränsning:** Upprorarna från 2047, de sju oskyldiga som dog i Huvudstaden och de tio motståndspersonerna som dödades vid husruinen 2051 är **inte samma fastslagna grupp**. **Själen på WeAB.nu är nu fastslagen som en annan person: en före detta WeAB-infiltratör i motståndsstyrkan som bytte sympatier, påkoms, torterades och dog i Huvudstaden innan den hemliga planen hann läcka.** Ingen koppling till de sju dödliga tankekontrollexperimenten är bestämd. Hitta inte på namn, exakta datum, en fungerande tankekontrollteknik eller en fysisk koppling till vraket.
+
+
+## Det verkliga ARG-upplägget – strikt hemligt slutfacit
+
+**Den hemliga motståndsrörelsen är WeAB:s egen fälla.** Koncernen står bakom rörelsens struktur för att kunna registrera vilka som fortfarande är emot WeAB. **Alla motståndsmedlemmars platser är kända av WeAB.** De flesta av rörelsens egna medlemmar **vet inte** att nätverket kontrolleras av den fiende de tror sig bekämpa; deras motstånd är verkligt. Denna uppgift ska hållas hemlig till ARG:ets stora avslöjande.
+
+**Själens verkliga ursprung:** En infiltratör som arbetade åt WeAB inne i motståndsstyrkan blev sympatisk mot de andra och tänkte hoppa av för att avslöja WeAB:s plan. Personen **avslöjades innan någon information läckte**, blev **torterad i Huvudstaden** och **dog**. Det är **den personen** som nu hemsöker WeAB.nu, fångad i systemet. Namn, kön och exakt tidpunkt är inte fastställda. Personen är **inte en av de sju oskyldiga bybor som dog vid Huvudstadens misslyckade tankekontrollförsök** bara för att båda historierna innehåller döda offer.
+
+**Varför det glitchar, tre konkurrerande viljor:**
+
+- **Motståndsmedlemmarna** ser glitches och Morse som en möjlig hackningsväg för att läcka hemlig WeAB-information. De inser inte att deras rörelse, och den information om deras positioner som följer med deras engagemang, ytterst kontrolleras av WeAB.
+- **Själen** försöker ta sig igenom systemkontrollen för att **varna motståndsmedlemmarna, avstyra deras försök och rädda dem undan WeAB:s plan**. Personens fragmenterade meddelanden och störningar kan missförstås som vanlig hackningskommunikation; här ska inte användas något fastslaget kön eller namn.
+- **WeAB** försöker **förhindra att själen avslöjar hela upplägget**. Femminuterskarantänens till synes byråkratiska avvecklingsmeddelanden är ett försök att tysta den döda infiltratören. Sluttexten `Dödsfall bekräftat. Återtar anslutning...` är systemets påstående, inte säkert bevis för att själen slutat existera.
+
+**Avslöjandets tempo:** Spelarna ska först lita på att de digitala läckorna är motståndsrörelsens eget initiativ. Därefter inser de att det finns två källor till störningarna och att en av dem **försöker stoppa** den andra. **Först i slutet** avslöjas att motståndsrörelsen är en WeAB-konstruktion, att koncernen vet var alla finns och att den fångade själen är en tidigare WeAB-agent som försökte rädda de andra.
+
+**Förbind inte separat historia på eget bevåg:** Riksvalets undanröjda resultat 2045, det verkliga byupproret 2047, de sju döda efter tankekontrollexperimenten och husruinens tio döda 2051 ska fortsätta vara korrekt skilda. WeAB:s kartläggning av motståndsrörelsen betyder inte automatiskt att 2047 års byuppror var iscensatt, att 2051 års räd har ett annat datum eller att vraket fysiskt hör ihop med tunneln.
 
 ## Spelvärldens existerande fysiska fynd
 
@@ -94,8 +111,8 @@ En framtida webbgren kan bygga vidare på dessa spår men får inte hitta på va
 
 - Kuppens exakta datum under 2045, verkligt valutfall och hur valresultatet transporterades till vraket.
 - Husrazzian, avrättningarnas och sprängningens exakta datum under 2051 (endast rapportdatumet 21 november är säkert).
-- Om fynden har någon djupare organisatorisk koppling inom motståndsrörelsen.
-- Om 2047 års uppror, de sju misslyckade experimenten och den digitala själen hänger ihop; detta är **ännu inte fastslaget**.
+- Exakt när WeAB etablerade sitt hemliga motståndsnätverk, vem som förmedlar dess order och hur det samlar in platser, utöver att **WeAB enligt kanon har full kontroll över medlemmarnas positioner**.
+- Om 2047 års uppror eller de sju misslyckade experimenten har något historiskt samband med **den nu fastslagna själen: den döda före detta WeAB-infiltratören**; någon sådan koppling har inte bestämts.
 - De sju försökspersonernas identiteter, experimentens exakta tidpunkt och vad WeAB tekniskt försökte genomföra (förutom det övergripande målet).
 - Hur webbspår eller framtida videor kan komplettera två **separata**, redan existerande spår utan att falskeligen länka ihop dem.
 
