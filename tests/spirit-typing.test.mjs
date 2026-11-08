@@ -47,7 +47,7 @@ test('huvudlayouten skriver texten gradvis med kontinuerliga ljud- och bildhänd
   assert.match(radio, /stopTypingAudio\(\)/);
   assert.match(radio, /DynamicsCompressor/);
   assert.match(radio, /master\.gain\.value = \.19/);
-  assert.match(radio, /gate\.gain\.setTargetAtTime\(\.48/);
+  assert.match(radio, /gate\.gain\.setTargetAtTime\(typingStrength === 'harsh'/);
   assert.match(radio, /window\.clearTimeout\(typingVisualTimer\)/);
 });
 
