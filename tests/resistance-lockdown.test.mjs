@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
   resistanceLockdown, createLockdownCookie, readLockdownExpiry,
@@ -98,13 +99,43 @@ test('dödsbekräftelsen visas vid fem minuter och först därefter återkommer 
 test('själen antyder talarstolens hemlighet utan att avslöja bok eller plats', () => {
   const early = resistanceLockdown.spiritEarly;
   const late = resistanceLockdown.spiritLate;
-  assert.ok(early.includes('jag minns var de talade'));
+  assert.ok(early.includes('de räknade röster där en gång'));
   assert.ok(early.includes('inte alla ord försvann'));
-  assert.ok(late.includes('de ser bara den som talar'));
-  assert.ok(late.includes('inte rösten. det som bär den'));
-  const spoken = [...early, ...late].join(' ');
-  assert.doesNotMatch(spoken, /podium|podiet|riksdag|huvudstad|talarstol|atbash|base64|2142|957|Felvänd avskrift/i);
-  // Webb-ledtråden ska inte formulera ett helt pusselsvar.
-  assert.ok([...early, ...late].filter(line =>
-    /ord|tal|röst/i.test(line)).length >= 4);
+  assert.ok(late.includes('de tog rösterna. inte huset'));
+  assert.ok(late.includes('salen är kvar. besluten är borta'));
+  assert.equal(resistanceLockdown.waypointWhispers.length, 2);
+  // En riktad viskning ska hjälpa spelaren till riksdagen,
+  // men inte avslöja gömstället inuti den eller kodlagren.
+  assert.ok(resistanceLockdown.waypointWhispers.every(x =>
+    /huvudstaden/.test(x) && /sal/.test(x) &&
+    /beslut|röst/.test(x)));
+  const spoken = [...early, ...late, ...resistanceLockdown.waypointWhispers].join(' ');
+  assert.doesNotMatch(spoken,
+    /podium|podiet|riksdag|talarstol|atbash|base64|2142|957|Felvänd avskrift/i);
+});
+
+test('minst en riktad riksdagsledtråd kommer under varje femminuterskarantän', () => {
+  const options = new Set(resistanceLockdown.waypointWhispers);
+  const observed = new Set();
+  for (let seed = 0; seed < 120; seed++) {
+    const timeline = createLockdownTimeline(1_800_000_000_000 + seed * 1_002_191);
+    const hints = timeline.filter(beat => options.has(beat.text));
+    assert.equal(hints.length, 1, 'exakt en väganvisning per karantän');
+    assert.equal(hints[0].voice, 'intrusion');
+    assert.ok(hints[0].atMs >= 130_000 && hints[0].atMs < 190_000,
+      'väganvisningen visas ungefär mitt i karantänen');
+    observed.add(hints[0].text);
+    assert.equal(new Set(timeline.map(b => b.text)).size, timeline.length);
+  }
+  assert.deepEqual(observed, options, 'båda varianterna ska användas');
+});
+
+test('HTML-layoutens faktiska karantän respekterar och visar ledtråden', () => {
+  const layout = readFileSync(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
+  assert.match(layout, /lockWaypointWhispers: resistanceLockdown\.waypointWhispers/);
+  assert.match(layout, /const waypoint = timeline\.find\(beat =>/);
+  assert.match(layout, /beat\.voice === 'intrusion' && beat\.atMs >= 130_000/);
+  assert.match(layout, /waypoint\.text = lockWaypointWhispers\[/);
+  assert.match(layout, /!lockWaypointWhispers\.includes\(latestIntrusion\)/,
+    'personliga webbläsarrepliker får inte skriva över riksdagsledtråden');
 });

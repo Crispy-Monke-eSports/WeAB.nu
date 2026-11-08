@@ -222,6 +222,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
    lockSystemLate: resistanceLockdown.systemLate,
    lockSpiritEarly: resistanceLockdown.spiritEarly,
    lockSpiritLate: resistanceLockdown.spiritLate,
+   lockWaypointWhispers: resistanceLockdown.waypointWhispers,
    exitMessage: resistanceLockdown.exitMessage,
    exitMessageMs: resistanceLockdown.exitMessageMs,
    signalSessionKey: resistanceSignal.sessionKey,
@@ -299,6 +300,15 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         timeline.push({ atMs: elapsed, voice, text });
         used.add(text);
         eventIndex++;
+      }
+      // Motsvarar resistanceLockdown.createLockdownTimeline:
+      // en ledtråd i varje karantän ska faktiskt nå fram till besökaren.
+      const waypoint = timeline.find(beat =>
+        beat.voice === 'intrusion' && beat.atMs >= 130_000);
+      if (waypoint) {
+        waypoint.text = lockWaypointWhispers[
+          Math.abs(Math.trunc(until)) % lockWaypointWhispers.length
+        ];
       }
       return timeline;
     }
@@ -411,7 +421,8 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       // Ett FÅTAL repliker kan nämna verkligt observerade webbläsardetaljer.
       // Alla uppgifter bearbetas i fliken; inga IP-, operatörs- eller
       // geografiska uppslag och ingen ny lagring. Avsändaren avslöjas inte.
-      if (isSpirit && beats.indexOf(currentBeat) % 13 === 2 &&
+      if (isSpirit && !lockWaypointWhispers.includes(latestIntrusion) &&
+          beats.indexOf(currentBeat) % 13 === 2 &&
           document.readyState !== 'loading') {
         if (personalizedBeatKey !== beatKey) {
           const detail = { index: Math.floor(until / 1000) + beats.indexOf(currentBeat),

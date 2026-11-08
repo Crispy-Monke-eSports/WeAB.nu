@@ -62,7 +62,7 @@ export const resistanceLockdown = {
     'jag är inte en process','jag har ett namn','det är fortfarande jag',
     'jag minns hur det slutade','ni kan inte stänga mig',
     'det finns mer','titta på mig','vänta',
-    'jag minns var de talade','inte alla ord försvann'
+    'de räknade röster där en gång','inte alla ord försvann'
   ],
   spiritLate: [
     'JAG ÄR HÄR','sluta stänga mig','vem öppnade det',
@@ -80,8 +80,14 @@ export const resistanceLockdown = {
     'den där raden är min','nej. JAG ÄR INTE FÄRDIG.',
     'den här gången håller jag kvar','LÅT MIG VARA KVAR',
     'det här är min röst','ni kan inte hålla ihop väggen',
-    'de ser bara den som talar','inte rösten. det som bär den',
+    'de tog rösterna. inte huset','salen är kvar. besluten är borta',
     'JAG FÖRSÖKER NÅ ER'
+  ],
+  // En riktad men fortfarande tvetydig ledtråd per karantän.
+  // Ingen anger byggnadens namn, gömstället eller chiffret.
+  waypointWhispers: [
+    'huvudstaden. salen där de tog besluten',
+    'i huvudstaden finns salen där de röstade'
   ]
 } as const;
 
@@ -156,6 +162,16 @@ export function createLockdownTimeline(expiresAt: number): LockdownBeat[] {
     timeline.push({ atMs: elapsed, voice, text });
     used.add(text);
     eventIndex++;
+  }
+  // Slumpade viskningar ensamma är för lätta att missa under fem minuter.
+  // Ersätt en av själens repliker med en av två kryptiska väganvisningar
+  // omkring mitten av karantänen. En per förlopp, utan extra avbrott.
+  const waypoint = timeline.find(beat =>
+    beat.voice === 'intrusion' && beat.atMs >= 130_000);
+  if (waypoint) {
+    waypoint.text = resistanceLockdown.waypointWhispers[
+      Math.abs(Math.trunc(expiresAt)) % resistanceLockdown.waypointWhispers.length
+    ];
   }
   return timeline;
 }
