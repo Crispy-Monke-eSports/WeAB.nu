@@ -61,7 +61,8 @@ export const resistanceLockdown = {
     'är det någon där','sluta kalla mig det','den öppningen är fel',
     'jag är inte en process','jag har ett namn','det är fortfarande jag',
     'jag minns hur det slutade','ni kan inte stänga mig',
-    'det finns mer','titta på mig','vänta'
+    'det finns mer','titta på mig','vänta',
+    'jag minns var de talade','inte alla ord försvann'
   ],
   spiritLate: [
     'JAG ÄR HÄR','sluta stänga mig','vem öppnade det',
@@ -79,6 +80,7 @@ export const resistanceLockdown = {
     'den där raden är min','nej. JAG ÄR INTE FÄRDIG.',
     'den här gången håller jag kvar','LÅT MIG VARA KVAR',
     'det här är min röst','ni kan inte hålla ihop väggen',
+    'de ser bara den som talar','inte rösten. det som bär den',
     'JAG FÖRSÖKER NÅ ER'
   ]
 } as const;

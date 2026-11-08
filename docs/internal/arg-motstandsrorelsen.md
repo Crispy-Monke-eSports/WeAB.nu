@@ -73,6 +73,12 @@ Den andra skärmbilden visar delvis läsbara skyltar vid vraket, bland annat **�
 
 Kistans fulla innehåll, vilka som placerade valresultatet i vraket och förhållandet mellan vraket och motståndsrörelsen är ännu inte fastslagna. Vrakets koordinater har lämnats direkt av användaren.
 
+### D. Den gömda boken i Huvudstadens riksdag
+
+**Nytt bekräftat fysiskt ARG-fynd:** Den anonyma Scribble-boken **”Felvänd avskrift”**, skriven ur motståndsstyrkans perspektiv, ligger **i podiet i Huvudstadens riksdag**. Bokens ledtråd använder **Atbash som yttre lager** och därefter **Base64** för att uttrycka de befintliga koordinaterna till vraket (**x 2142, y 64, z 957**). Det är en separat ledtrådsväg till samma vrak med valresultatet från 2045. **Ingen ny tunnel eller fysisk länk från Sektion 1/husruinen till vraket uppstår.** Det är inte fastslaget vem som placerade boken där, när den placerades eller hur texten skyddades från WeAB.
+
+**Själen får nu endast antyda denna plats ytterst kryptiskt** genom ett fåtal befintliga karantänrepliker i `src/data/resistanceLockdown.ts`: exempelvis ”jag minns var de talade” och ”inte rösten. det som bär den”. Replikerna får inte säga riksdag, huvudstad, podium, talarstol, bok, chiffer, Base64, Atbash eller koordinater. De ska även gå att tolka som själens generella kamp mot censuren. Inga publika pressmeddelanden, kartmarkörer eller explicita pusselinstruktioner ska skapas.
+
 ## Redaktionsmässig konsekvens
 
 - Den aktuella webbplatsen och pressarkivet befinner sig i **2051 års berättelsevärld**. **2045** är ett redan inträffat val och en redan genomförd kupp.

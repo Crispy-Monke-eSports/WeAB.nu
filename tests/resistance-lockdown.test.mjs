@@ -94,3 +94,17 @@ test('dödsbekräftelsen visas vid fem minuter och först därefter återkommer 
   assert.equal(resistanceLockdown.exitMessage, 'Dödsfall bekräftat. Återtar anslutning...');
   assert.ok(resistanceLockdown.exitMessageMs >= 2_000 && resistanceLockdown.exitMessageMs <= 5_000);
 });
+
+test('själen antyder talarstolens hemlighet utan att avslöja bok eller plats', () => {
+  const early = resistanceLockdown.spiritEarly;
+  const late = resistanceLockdown.spiritLate;
+  assert.ok(early.includes('jag minns var de talade'));
+  assert.ok(early.includes('inte alla ord försvann'));
+  assert.ok(late.includes('de ser bara den som talar'));
+  assert.ok(late.includes('inte rösten. det som bär den'));
+  const spoken = [...early, ...late].join(' ');
+  assert.doesNotMatch(spoken, /podium|podiet|riksdag|huvudstad|talarstol|atbash|base64|2142|957|Felvänd avskrift/i);
+  // Webb-ledtråden ska inte formulera ett helt pusselsvar.
+  assert.ok([...early, ...late].filter(line =>
+    /ord|tal|röst/i.test(line)).length >= 4);
+});

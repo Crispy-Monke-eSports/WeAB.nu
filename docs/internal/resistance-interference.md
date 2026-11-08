@@ -85,6 +85,12 @@ Kraftigt överstyrd oscillator, frekvensdrift och brus skapas med Web Audio API.
 
 Morse är en separat webbledtråd till det befintliga vraket, **inte en bekräftelse på en fysisk tunnelväg dit**. Inga vrakkoordinater eller okända valresultat avslöjas.
 
+### Den dolda riksdagsboken – subtila repliker från själen
+
+**Internt facit:** Motståndsrörelsens Scribble-bok `Felvänd avskrift` ligger **i podiet i Huvudstadens riksdag**. Boken använder Atbash följt av Base64 för att leda till vrakets redan fastslagna koordinater. Den är ett separat fysiskt ledtrådssteg, inte en ny länk från tunneln.
+
+**Publik webbplats:** Endast **fyra nya tvetydiga fragment** bland många andra repliker i `resistanceLockdown.spiritEarly` och `spiritLate`: ”jag minns var de talade”, ”inte alla ord försvann”, ”de ser bara den som talar”, ”inte rösten. det som bär den”. De har **ingen garanterad ordning** och är **inte reserverade** som en exposition som förklarar platsen. Inga direkta ord som ”podium”, ”riksdag”, ”bok”, ”Atbash” eller ”Base64” och inga fysiska koordinater i själens repliker. Håll själens varningsmotiv i förgrunden.
+
 ## Arkitektur och kontroll
 
 - src/data/resistanceSignal.ts innehåller slumpkö, tidsavstånd och terminalregel. Sessionsnyckel v5 inför den fristående ögonfasen utan återanvändning av gammal ködata.
