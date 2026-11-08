@@ -102,7 +102,7 @@ test('själens varje synliga sidintrång får radio + analog bildstörning', () 
   assert.match(signal, /corruptPage\(\);\s*ghostTransmission\('harsh'\)/);
   assert.match(signal, /document\.title = item\.text;\s*ghostTransmission\('medium'\)/);
   assert.match(signal, /ghostTransmission\('medium'\);\s*window\.setTimeout\(\(\) => window\.location\.assign/);
-  assert.match(layout, /if \(currentBeat\.voice === 'intrusion' && document\.visibilityState === 'visible'\)/);
+  assert.match(layout, /if \(isSpirit && document\.visibilityState === 'visible'\)/);
   assert.match(layout, /weab:spirit-burst/);
   assert.match(radio, /window\.addEventListener\('weab:spirit-burst'/);
   assert.match(radio, /radio\.type = 'bandpass'/);
