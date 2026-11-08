@@ -1,6 +1,7 @@
 ---
 /**
- * Ett ARG-intrång från motståndsrörelsen, inte ett officiellt WeAB-meddelande.
+ * Ett oförklarat ARG-intrång som spelarna kan missta för ett motståndsangrepp.
+ * Samma fångade röst försöker nå fram på flera sätt, inklusive Morse.
  * Slumpordningen fortsätter på koordinat-404, men Morse kan starta på alla sidor.
  */
 ---
@@ -30,7 +31,6 @@
   const overlay = document.querySelector<HTMLElement>('[data-resistance-interference]');
   const messageElement = overlay?.querySelector<HTMLElement>('[data-resistance-message]');
   if (overlay && messageElement && !document.documentElement.classList.contains('weab-quarantined')) {
-    const originalTitle = document.title;
     const lockable = [...document.querySelectorAll<HTMLElement>('body > header, body > main, body > footer')];
     const initialInert = lockable.map(element => element.inert);
 
@@ -70,17 +70,26 @@
       function runTitleChange(): void {
         running = true;
         const heading = document.querySelector<HTMLElement>('main h1, main h2');
-        const node = heading
-          ? (document.createTreeWalker(heading, NodeFilter.SHOW_TEXT).nextNode() as Text | null)
-          : null;
-        const oldText = node?.data;
-        if (node && oldText?.trim()) node.data = 'DU SER DET OCKSÅ.';
+        // Ersätt HELA rubrikens läsbara text även om den innehåller flera
+        // textnoder och <em>/<span>. Behåll övrig struktur och sidans länkar.
+        if (heading) {
+          const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+          let current: Node | null;
+          let replaced = false;
+          while ((current = walker.nextNode())) {
+            const node = current as Text;
+            if (!node.data.trim()) continue;
+            if (!replaced) {
+              node.data = 'DU SER DET OCKSÅ.';
+              replaced = true;
+            } else {
+              node.data = '';
+            }
+          }
+        }
+        // Rubrik och fliktitel återställs först när nästa sida laddas.
         document.title = 'HÖR DU OSS?';
-        window.setTimeout(() => {
-          if (node && oldText !== undefined) node.data = oldText;
-          document.title = originalTitle;
-          running = false;
-        }, resistanceSignal.titleDurationMs);
+        window.setTimeout(() => { running = false; }, resistanceSignal.titleDurationMs);
       }
 
       function corruptPage(): void {
@@ -105,7 +114,7 @@
         corruptPage();
         window.setTimeout(() => {
           restoreText();
-          document.title = originalTitle;
+          // Titeländringen består på den här sidan fram till nästa navigation.
           running = false;
         }, resistanceSignal.corruptionMs);
       }
@@ -129,7 +138,7 @@
             overlay.hidden = true;
             document.body.classList.remove('resistance-interfering');
             for (let i = 0; i < lockable.length; i++) lockable[i].inert = initialInert[i];
-            document.title = originalTitle;
+            // Låt det sista fragmentet leva kvar som fliktitel tills sidbyte.
             if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
             running = false;
             return;
@@ -140,6 +149,14 @@
           window.setTimeout(nextMessage, item.durationMs);
         }
         nextMessage();
+      }
+
+      function runEyes(): void {
+        running = true;
+        window.dispatchEvent(new Event('weab:resistance-eyes-start'));
+        // Inlineögonen, bildstörningarna och eventuellt tillåtet ljud
+        // försvinner efter samma varaktighet utan att blockera scrolling.
+        window.setTimeout(() => { running = false; }, resistanceSignal.eyesDurationMs);
       }
 
       function runPhase(phase: SignalPhase): void {
@@ -167,6 +184,7 @@
         if (phase === 'title') runTitleChange();
         else if (phase === 'disobey') runDisobey();
         else if (phase === 'fullscreen') runFullscreen();
+        else if (phase === 'eyes') runEyes();
         else if (phase === 'redirect') {
           // Denna händelse finns endast en gång i slumpkön. Den sparade kön
           // återupptas på 404-sidan, där Morse också kan inträffa.

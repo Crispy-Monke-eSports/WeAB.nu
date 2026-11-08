@@ -1,7 +1,8 @@
 ---
 /**
- * Terminal ARG-effekt som kan ske på ALLA sidor. Startas som en slumpad
- * händelse av ResistanceInterference, utan separat automatisk 404-trigger.
+ * Samma fångade avsändare använder även en avkodningsbar Morse-signal.
+ * Terminal ARG-effekt på ALLA sidor som startas av ResistanceInterference.
+ * Scrolling och länkar ska fungera medan sidan gradvis korrumperas.
  */
 ---
 <div class="resistance-morse-veil" data-morse-veil hidden aria-hidden="true"></div>
@@ -253,8 +254,10 @@
     filter: contrast(160%);
     transform: translateX(2px) skew(-.8deg);
   }
+  /* Korrumperingen får aldrig låsa sidans scroll, vare sig med mus,
+     pekskärm, tangentbord eller medan Morse-pulserna visas. */
   :global(body.resistance-morse-active) {
-    overflow: hidden;
+    overflow-y: auto !important;
   }
   :global(body.resistance-morse-active .not-found-image) {
     filter: saturate(0) contrast(200%) brightness(.35);

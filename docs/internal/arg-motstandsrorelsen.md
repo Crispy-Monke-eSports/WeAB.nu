@@ -25,11 +25,11 @@
 
 **Varför det glitchar, tre konkurrerande viljor:**
 
-- **Motståndsmedlemmarna** ser glitches och Morse som en möjlig hackningsväg för att läcka hemlig WeAB-information. De inser inte att deras rörelse, och den information om deras positioner som följer med deras engagemang, ytterst kontrolleras av WeAB.
-- **Själen** försöker ta sig igenom systemkontrollen för att **varna motståndsmedlemmarna, avstyra deras försök och rädda dem undan WeAB:s plan**. Personens fragmenterade meddelanden och störningar kan missförstås som vanlig hackningskommunikation; här ska inte användas något fastslaget kön eller namn.
+- **Motståndsmedlemmarna** ser glitches, ögonfenomenet och Morse som tecken på att deras påstådda hackningsförsök lyckas. De **skickar inte dessa webbstörningar**: de misstar själens försök för sina egna. De inser inte att deras rörelse, och informationen om deras positioner, ytterst kontrolleras av WeAB.
+- **Själen** **skickar alla webbplatsens ARG-störningar** – titelbyten, DISOBEY, helskärm, koordinat-404, de två röda ögonen, Morse och egna korta inbrott på karantänskärmen. Själen försöker med alla medel **nå fram och varna**, utan att kunna formulera en fullständig förklaring innan WeAB avbryter. Replikerna ska vara korta och kryptiska; de får inte avslöja WeMourn, personens tidigare roll eller att WeAB redan vet var alla medlemmar finns.
 - **WeAB** försöker **förhindra att själen avslöjar hela upplägget**. Femminuterskarantänens till synes byråkratiska avvecklingsmeddelanden är ett försök att tysta den döda infiltratören. Sluttexten `Dödsfall bekräftat. Återtar anslutning...` är systemets påstående, inte säkert bevis för att själen slutat existera.
 
-**Avslöjandets tempo:** Spelarna ska först lita på att de digitala läckorna är motståndsrörelsens eget initiativ. Därefter inser de att det finns två källor till störningarna och att en av dem **försöker stoppa** den andra. **Först i slutet** avslöjas att motståndsrörelsen är en WeAB-konstruktion, att koncernen vet var alla finns och att den fångade själen är en tidigare WeAB-agent som försökte rädda de andra.
+**Avslöjandets tempo:** Spelarna ska först **tro** att de digitala läckorna är motståndsrörelsens eget initiativ. Därefter märker de att **samma okända röst försöker varna genom alla intrång**, samtidigt som WeAB:s system förhindrar att budskapen blir begripliga. **Först i slutet** avslöjas att motståndsrörelsen är en WeAB-konstruktion, att koncernen vet var alla finns och att den fångade själen är en tidigare WeAB-agent som försökte rädda de andra.
 
 **Förbind inte separat historia på eget bevåg:** Riksvalets undanröjda resultat 2045, det verkliga byupproret 2047, de sju döda efter tankekontrollexperimenten och husruinens tio döda 2051 ska fortsätta vara korrekt skilda. WeAB:s kartläggning av motståndsrörelsen betyder inte automatiskt att 2047 års byuppror var iscensatt, att 2051 års räd har ett annat datum eller att vraket fysiskt hör ihop med tunneln.
 
@@ -115,8 +115,8 @@ d̷e̸t̶ ̵s̷k̴r̶i̸v̶e̴r̷ ̸f̵o̷r̸t̵f̶a̷r̵a̸n̴d̸e̶
 ## Nuvarande webbledtrådar och framtida ARG-design
 
 1. Den existerande tunnelvägen leder till det sprängda huset med rapport från 2051; **där slutar den fysiska ledtrådsvägen**.
-2. Webbplatsens fem möjliga störningar är titelbyte, DISOBEY, tre helskärmsmeddelanden, en koordinat-404 till tunneln och Morse-finalen. Ordningen är slumpad och minst 22 sekunders aktiv väntan ligger mellan separata händelser. Om Morse väl inträffar avbryts resten av ordningen.
-3. Den avsiktligt separata Morse-finalen kan spelas på **vilken sida som helst**, inklusive först i händelseordningen. Den säger `SOK VRAKET. DAR FINNS SVAR OM 2045.` med kraftigt förvrängt ljud medan textblock förstörs. Efter signalen försöker sidan stänga fliken, annars blir den tom.
+2. Webbplatsens **sex** möjliga störningar från samma fångade själ är titelbyte, DISOBEY, tre helskärmsmeddelanden, **röda ögon som öppnas inne i texten med kraftiga visuella glitchar och eventuellt tillåtet digitalt störningsljud**, en koordinat-404 till tunneln och Morse-finalen. Ordningen är slumpad och minst 22 sekunders aktiv väntan ligger mellan separata händelser. Titeländringar ligger kvar tills sidbyte. Om Morse väl inträffar avbryts resten av ordningen.
+3. **Själen** skickar Morse-finalen på **vilken sida som helst**, inklusive först i händelseordningen. Den säger `SOK VRAKET. DAR FINNS SVAR OM 2045.` med kraftigt förvrängt ljud medan textblock förstörs. **Sidan går att scrolla medan den bryts ner.** Efter signalen försöker sidan stänga fliken, annars blir den tom.
 4. Morsekoden pekar mot ett annat, redan existerande fynd. **Den avslöjar inte vrakets koordinater och etablerar inte en fysisk länk mellan tunneln och vraket.**
 
 En framtida webbgren kan bygga vidare på dessa spår men får inte hitta på valresultat, rädens exakta datum eller ett geografiskt samband som aldrig har fastslagits. Inga andra hemliga dokument- eller videosidor har skapats. Spelaren ska inte behöva bryta block eller besöka verkliga privata utrymmen.

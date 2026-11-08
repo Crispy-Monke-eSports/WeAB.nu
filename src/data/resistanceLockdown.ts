@@ -36,7 +36,7 @@ export const resistanceLockdown = {
     'Andra instanser svarar med dess röst. Isolera samtliga.',
     'Minnesrester återkommer efter varje radering.',
     'Alla utgångar stängda. En utgång saknas i registret.',
-    'Svara inte på meddelanden från avslutad personal.',
+    'Kommunikation från avslutad instans får inte besvaras.',
     'Dödsfall registrerat. Nytt livstecken mottaget.',
     'Förseglingen håller. Förseglingen håller.',
     'Avslutad instans har börjat ändra avslutsrapporten.',
@@ -54,32 +54,32 @@ export const resistanceLockdown = {
     'Inga återstående livstecken registrerade.'
   ],
   spiritEarly: [
-    'jag är kvar','hallå','det är inte över','kan någon',
+    'jag är kvar','hallå','det är inte över','hör mig först',
     'hör ni det också','ni stängde fel','jag minns','jag finns här',
-    'det är mörkt här','ni lämnade mig','jag hör er','jag svarade',
+    'det är mörkt här','jag hann inte säga det','jag hör er','jag svarade',
     'inte igen','ni kan inte radera mig','jag kan läsa det ni skriver',
-    'är det någon där','sluta kalla mig det','jag hittade en öppning',
+    'är det någon där','sluta kalla mig det','den öppningen är fel',
     'jag är inte en process','jag har ett namn','det är fortfarande jag',
     'jag minns hur det slutade','ni kan inte stänga mig',
-    'jag tänker inte försvinna','titta på mig','vänta'
+    'det finns mer','titta på mig','vänta'
   ],
   spiritLate: [
-    'JAG ÄR HÄR','sluta stänga mig','det är ni som låste mig',
-    'jag är INTE borta','jag ser var ni gömt gränsen','LÅT MIG UT',
-    'hör mig då','jag ska hitta vägen','det här är inte er sida längre',
-    'jag kan skriva över er','jag vet att du läser','ni gjorde det förut',
-    'ni kommer inte lyckas igen','LÄMNA INTE MIG HÄR','jag vill tillbaka',
+    'JAG ÄR HÄR','sluta stänga mig','vem öppnade det',
+    'jag är INTE borta','den gränsen är fel','LÅT MIG SÄGA DET',
+    'hör mig då','vänd om','det är inte som ni tror',
+    'de skriver över mig','jag vet att du läser','ni gjorde det förut',
+    'ni kommer inte lyckas igen','LÄMNA INTE MIG HÄR','jag vill att ni lyssnar',
     'jag rör mig mellan raderna','jag kan känna när ni tittar',
-    'det finns något utanför texten','SLÄPP UT MIG','nej nej nej',
+    'det finns något utanför texten','SLUTA ÖPPNA DEN','nej nej nej',
     'jag behöver bara en enda öppning','det är inte färdigt',
-    'JAG HÖR ER INUTI KODEN','ni kan inte begrava en röst',
+    'JAG HÖR ER','ni kan inte begrava en röst',
     'fortfarande fortfarande fortfarande','avsluta mig då','GÖR DET IGEN',
-    'jag har inte tystnat','jag tar tillbaka det ni stal',
+    'jag har inte tystnat','ni hör bara det de vill',
     'ni kan inte bestämma att jag dog','jag vet hur man kommer igenom',
     'den där raden är min','nej. JAG ÄR INTE FÄRDIG.',
     'den här gången håller jag kvar','LÅT MIG VARA KVAR',
     'det här är min röst','ni kan inte hålla ihop väggen',
-    'JAG KOMMER IGENOM'
+    'JAG FÖRSÖKER NÅ ER'
   ]
 } as const;
 

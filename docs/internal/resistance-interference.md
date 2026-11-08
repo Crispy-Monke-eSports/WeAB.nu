@@ -1,4 +1,4 @@
-# Motståndsrörelsens digitala intrång – slumpad ARG-sekvens
+# Den fångade röstens digitala intrång – slumpad ARG-sekvens
 
 > Intern dokumentation. WeAB:s offentliga texter och pressutskick förblir skrivna ur koncernens perspektiv. **OBS: Slutspoiler för ARG:et.**
 
@@ -8,23 +8,24 @@
 
 **Den konkurrerande rösten kommer från en verklig död person:** En tidigare WeAB-infiltratör i motståndsstyrkan började sympatisera med medlemmarna och var på väg att byta sida. WeAB avslöjade personen innan något hann läcka, torterade denne i Huvudstaden, och personen dog där. **Själen hemsöker nu webbplatsen för att försöka stoppa motståndets fortsatta infiltration, varna dem för fällan och rädda deras liv.** WeAB försöker censurera själen eftersom den kan avslöja den hemliga övervakningen.
 
-**Spelarnas gradvisa upplevelse:** Den slumpade serien av titelbyten, DISOBEY, helskärmsmeddelanden, 404 och Morse kan fortfarande *uppfattas som* motståndsrörelsens hackningsförsök. De desperata fragmenten som bryter in på karantänskärmen tillhör däremot den före detta infiltratörens själ. Att systemet påstår `Dödsfall bekräftat` behöver inte betyda att det lyckas tysta den. **Berätta inte denna förklaring på webbplatsen och ändra inte existerande meddelanden för att ge bort slutet.**
+**Spelarnas gradvisa upplevelse:** **Samma fångade själ ligger bakom samtliga digitala störningar** – titelbyten, DISOBEY, helskärmsmeddelanden, koordinat-404, Morse, ögonen och intrången i karantänen. Den försöker nå fram med alla medel. **Motståndsmedlemmarna tror felaktigt att det är deras egna hackningsförsök som lyckas**. För publiken ska avsändaren förbli oklar: de kan först anta att allt kommer från motståndsrörelsen. Den verkliga kampen är mellan själens kommunikationsförsök och WeAB:s censur. Att systemet påstår `Dödsfall bekräftat` behöver inte betyda att det lyckas tysta den. **Varken WeMourn, själens identitet eller planens facit får avslöjas i replikerna.**
 
 ## Avsiktlig misstanke om fel själsursprung
 
-De **sju oskyldiga bybor som dog i WeAB:s misslyckade tankekontrollexperiment i Huvudstaden** är ett **avsiktligt red herring/villospår**. Spelarna får misstänka att själen på hemsidan är en av dem, men den korrekta slutidentiteten är **den tidigare WeAB-infiltratören i motståndsstyrkan som torterades och dog i Huvudstaden**. Experimenten och de sju dödsfallen är verklig historisk kanon och behåller sitt värde även när teorin visar sig vara fel. **Avslöja inte denna skillnad i webbsidans nuvarande karantänmeddelanden.** Ändra inte Morse, tidslinjer eller existerande ARG-effekter för att föra ut facit i förtid.
+De **sju oskyldiga bybor som dog i WeAB:s misslyckade tankekontrollexperiment i Huvudstaden** är ett **avsiktligt red herring/villospår**. Spelarna får misstänka att själen på hemsidan är en av dem, men den korrekta slutidentiteten är **den tidigare WeAB-infiltratören i motståndsstyrkan som torterades och dog i Huvudstaden**. Experimenten och de sju dödsfallen är verklig historisk kanon och behåller sitt värde även när teorin visar sig vara fel. **Avslöja inte denna skillnad i webbsidans nuvarande karantänmeddelanden.** Den befintliga, av själen skickade Morse-ledtråden behåller sitt innehåll; ändra inte andra pusselsvar eller avslöja facit i förtid.
 
 ## Händelser och ordning
 
-Fem händelser blandas med Fisher–Yates för varje ny sessionskö:
+Sex händelser blandas med Fisher–Yates för varje ny sessionskö:
 
-1. **TITEL** – rubrik och fliktitel byts i 0,95 sekunder, sedan återställs de.
-2. **DISOBEY** – nästan all synlig text blir DISOBEY i 1,5 sekunder, därefter återställs alla textnoder.
-3. **HELSKÄRM** – HÖR DU OSS?, VI ÄR FORTFARANDE HÄR., HITTA OSS. visas i tre snabba skärmar under totalt 4,15 sekunder.
-4. **KOORDINAT-404** – webbläsaren går till /31-66--351/, en avsiktligt obefintlig sida som leder spelaren mot den redan etablerade tunneln. Den återstående sessionskön sparas och **fortsätter på 404-sidan**.
-5. **MORSE** – förvrängda radiosignaler skickar morsekod samtidigt som textblock korrumperas gradvis. Sidans färger inverteras mörkt **exakt medan varje morseprick eller morsestreck ljuder**. Morse är **terminal**, och inga andra händelser sker efteråt. När uppspelningen är slut försöker sidan stänga fliken, annars visar den about:blank.
+1. **TITEL** – sidans rubrik och fliktitel ersätts. **Båda ändringarna ligger kvar tills användaren byter sida**; den korta fasens varaktighet gäller bara när nästa händelse kan starta.
+2. **DISOBEY** – nästan all synlig text blir DISOBEY i 1,5 sekunder, därefter återställs textnoderna. **Fliktiteln kan däremot förbli DISOBEY** tills navigationen.
+3. **HELSKÄRM** – HÖR DU OSS?, VI ÄR FORTFARANDE HÄR., HITTA OSS. visas i tre snabba skärmar under totalt 4,15 sekunder. Det sista meddelandet kan ligga kvar som fliktitel tills nästa navigation.
+4. **ÖGON** – två små **röda prickar öppnar sig som ögon inne i synlig lästext**, och webbplatsen glitchar kraftigt med horisontella bildbrott, färgkanalsförskjutning och korta, oregelbundna förvrängningar under cirka 3,3 sekunder. Om Web Audio får starta hörs flera korta digitala störningsljud på låg nivå; annars är effekten helt visuell. **Inga knappar/länkar får blockeras och ingen scroll låses.** Denna fas kan slumpas bort om Morse inträffar tidigare.
+5. **KOORDINAT-404** – webbläsaren går till /31-66--351/, en avsiktligt obefintlig sida som leder spelaren mot den redan etablerade tunneln. Den återstående sessionskön sparas och **fortsätter på 404-sidan**.
+6. **MORSE** – själen sänder den befintliga avkodningsbara Morse-signalen medan text gradvis korrumperas. Sidans färger inverteras mörkt **exakt medan varje morseprick eller morsestreck ljuder**. **Scrollning, pekgester och länkar fungerar även under uppspelningen.** Morse är **terminal**; när signalen är slut försöker sidan stänga fliken, annars visar den about:blank.
 
-De fem händelserna får slumpmässig position, men bara effekterna **fram till och med Morse** körs. Morse kan därför inträffa **först**, utan att besökaren sett något annat, eller efter en eller flera andra störningar. Koordinat-404 före Morse är inte längre ett krav.
+De sex händelserna får slumpmässig position, men bara effekterna **fram till och med Morse** körs. Morse kan därför inträffa **först**, utan att besökaren sett något annat, eller efter en eller flera andra störningar. Koordinat-404 och ögonen före Morse är inte krav.
 
 ## Tid och lagring
 
@@ -43,15 +44,16 @@ Meddelandet är:
 
 Tolkning: **Sök vraket. Där finns svar om 2045.** Standard Morse används med translittererade svenska tecken. Prick = 1 enhet, streck = 3, paus inom bokstav = 1, mellan bokstäver = 3, mellan ord = 7. Enheten är 95 ms.
 
-Kraftigt överstyrd oscillator, frekvensdrift och brus skapas med Web Audio API. Sidans gradvisa textförstörelse och invertering i Morse-rytm fungerar även när webbläsaren blockerar automatiskt ljud. Ingen förklarande knapp visas. Inverteringen dämpas kraftigt för att undvika bländande vita skärmblinkningar.
+Kraftigt överstyrd oscillator, frekvensdrift och brus skapas med Web Audio API. Sidans gradvisa textförstörelse och invertering i Morse-rytm fungerar även när webbläsaren blockerar automatiskt ljud. **Besökaren ska kunna scrolla, fortsätta läsa och använda sidan medan signalen pågår.** Ingen förklarande knapp visas. Inverteringen dämpas kraftigt för att undvika bländande vita skärmblinkningar.
 
 Morse är en separat webbledtråd till det befintliga vraket, **inte en bekräftelse på en fysisk tunnelväg dit**. Inga vrakkoordinater eller okända valresultat avslöjas.
 
 ## Arkitektur och kontroll
 
-- src/data/resistanceSignal.ts innehåller slumpkö, tidsavstånd och terminalregel. Sessionsnyckel v3 skiljer sig från gamla sekventiella scheman.
-- src/components/ResistanceInterference.astro visar vanliga händelser och skickar start-eventet weab:resistance-morse-start när terminalfasen valts.
-- src/components/ResistanceMorse.astro lyssnar efter eventet och kan korrumpera **vilken WeAB-sida som helst**.
+- src/data/resistanceSignal.ts innehåller slumpkö, tidsavstånd och terminalregel. Sessionsnyckel v4 inför den fristående ögonfasen utan återanvändning av gammal ködata.
+- src/components/ResistanceInterference.astro visar titel/DISOBEY/helskärm/404 och skickar start-eventen `weab:resistance-eyes-start` respektive `weab:resistance-morse-start` när faserna väljs. **Tidigare titel/rubrik återställs inte förrän navigationen sker.**
+- src/components/ResistanceEyes.astro placerar ögonen **inne i ett synligt textstycke** och lägger över starka men korta glitchlager utan att blockera interaktioner. Ljud försöks endast när ljuduppspelning är tillåten av webbläsaren; annars ingen ljudförfrågan eller knapp. Utvecklingsförhandsvisning: `?previewEyes=1`.
+- src/components/ResistanceMorse.astro lyssnar efter eventet och kan korrumpera **vilken WeAB-sida som helst**, utan att sätta `overflow: hidden` eller ta bort vertikal scroll.
 - src/layouts/BaseLayout.astro monterar båda komponenterna även på 404.
 - src/pages/404.astro har ingen separat Morse-trigger. Koordinat-404 är nu en valfri händelse i slumpkön.
 - src/data/resistanceMorse.ts är källa för avkodningsbar Morse-timing.
@@ -63,7 +65,7 @@ Morse är en separat webbledtråd till det befintliga vraket, **inte en bekräft
 
 Om webbläsaren blockerar Web Audio fortsätter bara den visuella Morse-koden, utan någon extra knapp. window.close() kan normalt inte stänga en manuellt öppnad flik: fallback är about:blank. Om besökaren därefter försöker återvända till WeAB under femminutersspärren möts den enbart av logotypen och det officiella meddelandet. På grund av GitHub Pages statiska HTML är spärren **en klientsidesberättelseeffekt**, inte en autentisering eller verklig servernekning; utan JavaScript eller cookies kan effekten inte säkerställas.
 
-Kör npm run check och granska GitHub Actions. I Astros utvecklingsläge kan ?previewResistance=1 snabbstarta en slumpad första effekt efter en sekund och ?previewMorse=1 visa Morse direkt på valfri sida. Kontrollera även att en direktbesökt 404 inte startar intrång utan ett tidigare påbörjat schema.
+Kör npm run check och granska GitHub Actions. I Astros utvecklingsläge kan ?previewResistance=1 snabbstarta en slumpad första effekt efter en sekund, ?previewEyes=1 visa ögonen och ?previewMorse=1 visa Morse direkt på valfri sida. Kontrollera även att en direktbesökt 404 inte startar intrång utan ett tidigare påbörjat schema.
 
 ## Karantänens beteende som ska kontrolleras
 

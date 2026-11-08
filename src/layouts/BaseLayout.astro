@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ResistanceInterference from '../components/ResistanceInterference.astro';
 import ResistanceMorse from '../components/ResistanceMorse.astro';
+import ResistanceEyes from '../components/ResistanceEyes.astro';
 import { resistanceLockdown } from '../data/resistanceLockdown.ts';
 import { resistanceSignal } from '../data/resistanceSignal.ts';
 import { companies } from '../data/companies';
@@ -473,6 +474,6 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
   </div>
   <span class="weab-quarantine__spinner" aria-hidden="true"></span>
  </div>
- <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceMorse/>}
+ <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceEyes/>}{enableInterference && <ResistanceMorse/>}
 </body>
 </html>

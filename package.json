@@ -11,7 +11,7 @@
     "build": "astro build",
     "preview": "astro preview --host 0.0.0.0",
     "validate:content": "node --experimental-strip-types scripts/validate-content.mjs && npm run test:resistance && npm run logos:check",
-    "test:resistance": "node --experimental-strip-types --test tests/resistance-signal.test.mjs tests/resistance-morse.test.mjs tests/resistance-lockdown.test.mjs",
+    "test:resistance": "node --experimental-strip-types --test tests/resistance-signal.test.mjs tests/resistance-morse.test.mjs tests/resistance-lockdown.test.mjs tests/resistance-visuals.test.mjs",
     "check": "npm run validate:content && astro check && npm run build && node scripts/validate-site.mjs",
     "logos:generate": "node --experimental-strip-types scripts/generate-logos.mjs",
     "logos:check": "node --experimental-strip-types scripts/generate-logos.mjs --check"

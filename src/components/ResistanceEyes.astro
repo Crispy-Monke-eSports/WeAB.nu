@@ -1,0 +1,293 @@
+---
+/**
+ * Fristående, kort ARG-störning: två röda ögon öppnas mitt i läsbar text.
+ * Ingen berättelseförklaring exponeras för besökaren.
+ */
+---
+<div class="resistance-eye-noise" data-resistance-eye-noise hidden aria-hidden="true"></div>
+
+<script>
+  import { resistanceSignal } from '../data/resistanceSignal.ts';
+
+  const veil = document.querySelector<HTMLElement>('[data-resistance-eye-noise]');
+  const preview = import.meta.env.DEV &&
+    new URLSearchParams(location.search).get('previewEyes') === '1';
+
+  if (veil && !document.documentElement.classList.contains('weab-quarantined')) {
+    let active = false;
+    let eyes: HTMLElement | null = null;
+    let sound: AudioContext | null = null;
+    let finishTimer = 0;
+
+    function placeEyes(): HTMLElement | null {
+      // Välj text som syns där besökaren befinner sig, inte alltid överst.
+      const candidates = [...document.querySelectorAll<HTMLElement>(
+        'main p, main li, main blockquote, main h1, main h2, main h3, main h4, main td, main th'
+      )].filter(element => {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return rect.width > 24 && rect.height > 9 &&
+          rect.bottom > 12 && rect.top < innerHeight - 12 &&
+          style.display !== 'none' && style.visibility !== 'hidden';
+      });
+      if (!candidates.length) return null;
+
+      // Sök en textnod med tillräckligt mycket läsbart innehåll.
+      // Ändra aldrig länkar, knappar eller deras tillgängliga namn.
+      for (const element of candidates.sort(() => Math.random() - .5)) {
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+        let node: Node | null;
+        const texts: Text[] = [];
+        while ((node = walker.nextNode())) {
+          const text = node as Text;
+          if (text.data.trim().length < 12 ||
+            text.parentElement?.closest('a,button,script,style,[aria-hidden="true"]')) continue;
+          texts.push(text);
+        }
+        if (!texts.length) continue;
+        const target = texts[Math.floor(Math.random() * texts.length)];
+        const middle = Math.floor(target.data.length * (.35 + Math.random() * .3));
+        const space = target.data.indexOf(' ', middle);
+        const at = space >= 0 && space < middle + 14 ? space : middle;
+
+        const span = document.createElement('span');
+        span.className = 'resistance-eyes-inline';
+        span.setAttribute('aria-hidden', 'true');
+        for (let i = 0; i < 2; i++) {
+          const dot = document.createElement('span');
+          dot.className = 'resistance-eyes-inline__dot';
+          span.appendChild(dot);
+        }
+
+        const range = document.createRange();
+        range.setStart(target, at);
+        range.collapse(true);
+        range.insertNode(span);
+        // En mycket lång paragraf kan börja på skärmen men fortsätta
+        // utanför synfältet. Kontrollera ögonens faktiska position.
+        const placed = span.getBoundingClientRect();
+        if (placed.bottom <= 0 || placed.top >= innerHeight) {
+          const parent = span.parentNode;
+          span.remove();
+          parent?.normalize();
+          continue;
+        }
+        return span;
+      }
+      return null;
+    }
+
+    function playGlitchSound(): void {
+      // Web Audio startas ENDAST när webbläsaren faktiskt tillåter uppspelning.
+      // Inget samtyckesmodal, ingen autoplay-loop, inget felmeddelande.
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        typeof AudioContext === 'undefined') return;
+      let context: AudioContext;
+      try { context = new AudioContext(); } catch { return; }
+      if (context.state !== 'running') {
+        void context.close().catch(() => {});
+        return;
+      }
+      sound = context;
+      const master = context.createGain();
+      master.gain.value = .11; // Flera korta, tysta datastörningar; aldrig jumpscarevolym.
+      master.connect(context.destination);
+
+      const samples = context.createBuffer(1, Math.floor(context.sampleRate * .17), context.sampleRate);
+      const data = samples.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+
+      const start = context.currentTime + .035;
+      for (let i = 0; i < 15; i++) {
+        const at = start + i * .205 + Math.random() * .055;
+        const duration = .045 + Math.random() * .095;
+
+        // Digitalt knaster i många små ojämna fragment.
+        const source = context.createBufferSource();
+        source.buffer = samples;
+        source.playbackRate.value = .8 + Math.random() * 2;
+        const filter = context.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 430 + Math.random() * 3100;
+        filter.Q.value = 1.3 + Math.random() * 5;
+        const gain = context.createGain();
+        gain.gain.setValueAtTime(.0001, at);
+        gain.gain.linearRampToValueAtTime(.15 + Math.random() * .2, at + .008);
+        gain.gain.linearRampToValueAtTime(.0001, at + duration);
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(master);
+        source.start(at);
+        source.stop(at + duration);
+
+        if (i % 2 === 0) {
+          // Korta metalliska felsignaler, inte tonmelodi.
+          const oscillator = context.createOscillator();
+          oscillator.type = i % 4 === 0 ? 'square' : 'sawtooth';
+          oscillator.frequency.value = 180 + Math.random() * 1300;
+          const pip = context.createGain();
+          pip.gain.setValueAtTime(.0001, at);
+          pip.gain.linearRampToValueAtTime(.08, at + .01);
+          pip.gain.linearRampToValueAtTime(.0001, at + duration);
+          oscillator.connect(pip);
+          pip.connect(master);
+          oscillator.start(at);
+          oscillator.stop(at + duration);
+        }
+      }
+    }
+
+    function finish(): void {
+      if (!active) return;
+      active = false;
+      window.clearTimeout(finishTimer);
+      document.body.classList.remove('resistance-watched');
+      if (veil) veil.hidden = true;
+      if (eyes) {
+        const parent = eyes.parentNode;
+        eyes.remove();
+        parent?.normalize();
+        eyes = null;
+      }
+      if (sound) {
+        void sound.close().catch(() => {});
+        sound = null;
+      }
+    }
+
+    function startEyes(): void {
+      if (active || document.visibilityState !== 'visible' ||
+        document.documentElement.classList.contains('weab-quarantined') ||
+        document.documentElement.dataset.weabMorseRunning === '1') return;
+      eyes = placeEyes();
+      if (!eyes || !veil) return;
+      active = true;
+      veil.hidden = false;
+      document.body.classList.add('resistance-watched');
+      playGlitchSound();
+      finishTimer = window.setTimeout(finish, resistanceSignal.eyesDurationMs);
+    }
+
+    window.addEventListener('weab:resistance-eyes-start', startEyes);
+    if (preview) window.setTimeout(startEyes, 1_000);
+    window.addEventListener('pagehide', finish);
+  }
+</script>
+
+<style>
+  .resistance-eye-noise[hidden] { display: none; }
+  .resistance-eye-noise {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483645;
+    pointer-events: none;
+    isolation: isolate;
+    background: repeating-linear-gradient(
+      0deg, transparent 0 5px, rgb(140 25 42 / .055) 6px 7px, transparent 8px 15px
+    );
+    animation: resistance-noise .22s steps(3, end) infinite;
+  }
+  .resistance-eye-noise::before,
+  .resistance-eye-noise::after {
+    content: '';
+    position: absolute;
+    left: -5%;
+    width: 110%;
+    pointer-events: none;
+    transform: translateX(0);
+  }
+  .resistance-eye-noise::before {
+    top: 24%;
+    height: clamp(14px, 3.4vh, 44px);
+    background: repeating-linear-gradient(90deg,
+      rgb(120 15 39 / .18) 0 19px, rgb(21 140 156 / .14) 20px 29px,
+      transparent 30px 43px);
+    box-shadow: 0 1px 0 rgb(160 20 36 / .22), 0 -2px 0 rgb(40 180 196 / .19);
+    animation: resistance-tear-one .31s steps(2, end) infinite;
+  }
+  .resistance-eye-noise::after {
+    top: 65%;
+    height: clamp(5px, 2vh, 27px);
+    background: repeating-linear-gradient(90deg,
+      rgb(25 120 135 / .2) 0 6px, transparent 6px 13px,
+      rgb(142 18 42 / .15) 13px 19px);
+    animation: resistance-tear-two .17s steps(3, end) infinite;
+  }
+  :global(.resistance-eyes-inline) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55em;
+    margin: 0 .25em;
+    line-height: 1;
+    vertical-align: .05em;
+    white-space: nowrap;
+    pointer-events: none;
+    filter: drop-shadow(0 0 5px rgb(255 26 60 / .85));
+  }
+  :global(.resistance-eyes-inline__dot) {
+    display: inline-block;
+    height: .45em;
+    width: .45em;
+    min-height: 7px;
+    min-width: 7px;
+    max-height: 12px;
+    max-width: 12px;
+    border-radius: 50%;
+    background: #ed1536;
+    box-shadow: 0 0 5px #e91a3d, 0 0 16px rgb(232 12 57 / .9);
+    transform: scaleY(.02);
+    animation: resistance-eyes-open 3.3s steps(3, end) both;
+  }
+  :global(.resistance-eyes-inline__dot:nth-child(2)) {
+    animation-delay: .09s;
+  }
+  :global(body.resistance-watched > header),
+  :global(body.resistance-watched > main),
+  :global(body.resistance-watched > footer) {
+    animation: resistance-page-break .14s steps(2, end) infinite;
+    text-shadow: 2px 0 rgb(205 19 48 / .58), -2px 0 rgb(20 169 186 / .5);
+  }
+  @keyframes resistance-eyes-open {
+    0%, 10% { transform: scaleY(.02); opacity: .1; }
+    17%, 66% { transform: scaleY(1); opacity: 1; }
+    70%, 80% { transform: scaleY(.16); opacity: .7; }
+    83%, 92% { transform: scaleY(.95); opacity: 1; }
+    100% { transform: scaleY(.02); opacity: 0; }
+  }
+  @keyframes resistance-noise {
+    0%, 100% { opacity: .2; }
+    28% { opacity: .75; }
+    57% { opacity: .38; }
+    84% { opacity: .9; }
+  }
+  @keyframes resistance-tear-one {
+    0%, 100% { transform: translate(1px, 0); top: 24%; }
+    33% { transform: translate(7px, 0); top: 52%; }
+    66% { transform: translate(-8px, 0); top: 14%; }
+  }
+  @keyframes resistance-tear-two {
+    0%, 100% { transform: translate(-2px, 0); top: 65%; }
+    45% { transform: translate(-10px, 0); top: 38%; }
+    75% { transform: translate(8px, 0); top: 79%; }
+  }
+  @keyframes resistance-page-break {
+    0%, 100% { transform: translateX(0); filter: none; }
+    25% { transform: translateX(3px); filter: contrast(1.14); }
+    50% { transform: translateX(-5px); filter: saturate(.8); }
+    75% { transform: translateX(2px); filter: contrast(1.1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .resistance-eye-noise { display: none; }
+    :global(body.resistance-watched > header),
+    :global(body.resistance-watched > main),
+    :global(body.resistance-watched > footer) {
+      animation: none;
+      text-shadow: none;
+    }
+    :global(.resistance-eyes-inline__dot) {
+      animation: none;
+      transform: scaleY(1);
+    }
+  }
+</style>

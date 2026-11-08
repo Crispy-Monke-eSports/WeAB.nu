@@ -1,5 +1,7 @@
 /**
- * Spelmästarstyrd ARG-signal. Det här är inte ett officiellt WeAB-utskick.
+ * Den fångade rösten sänder själv en avkodningsbar Morse-signal.
+ * Det här är inte ett officiellt WeAB-utskick, och avsändaren avslöjas
+ * aldrig för den vanliga besökaren.
  * Morse använder internationellt alfabet utan Å/Ä/Ö: SOK = SÖK, DAR = DÄR.
  * Ingen exakt koordinat till vraket, röstsiffra eller okänt datum anges.
  */
