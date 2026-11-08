@@ -24,7 +24,7 @@ test('själens kamerarepliker reagerar olika och avslöjar ingen ARG-hemlighet',
   assert.match(cameraEncounter.request, /få se vem jag pratar med/i);
   assert.equal(cameraEncounter.allowed, 'där sitter du ja. är du nöjd nu? har du fått som du vill?');
   assert.match(cameraEncounter.denied, /NEJ|IGEN/);
-  assert.ok(cameraEncounter.activeMs >= 4_000 && cameraEncounter.activeMs <= 10_000);
+  assert.ok(cameraEncounter.maxActiveMs >= 30_000 && cameraEncounter.maxActiveMs <= 60_000);
   assert.ok(cameraEncounter.pendingMaxMs < 25_000);
   assert.doesNotMatch(Object.values(cameraEncounter).join(' '),
     /WeMourn|riksdag|talarstol|infiltratör|Atbash|Base64|2142|957/i);
@@ -36,12 +36,13 @@ test('endast inbyggd kameratillståndsfråga och ett kort lokalt videospår', ()
   assert.match(camera, /result\.state === 'denied'/);
   assert.match(camera, /navigator\.mediaDevices\.getUserMedia\(\{\s*audio: false,\s*video: true\s*\}\)/);
   assert.match(camera, /response|respond\(key, 'allowed'\)/);
-  assert.match(camera, /cameraEncounter\.activeMs/);
+  assert.match(camera, /cameraEncounter\.maxActiveMs/);
   assert.match(camera, /getTracks\(\).*track\.stop\(\)/);
   assert.match(camera, /window\.addEventListener\('pagehide', cancelEncounter\)/);
   assert.match(camera, /document\.addEventListener\('visibilitychange'/);
   assert.match(camera, /window\.clearTimeout\(pendingTimer\)/);
-  assert.match(camera, /stopButton\?\.addEventListener\('click', stopCamera\)/);
+  assert.match(camera, /weab:spirit-presence/);
+  assert.match(camera, /detail\?\.active === false\)\s*cancelEncounter\(\)/);
 
   // Inga bildrutor, inga cachade bilder, inga nätverk, ingen video-tag,
   // inga uppladdningar eller andra sätt att behandla besökarens ansikte.
@@ -57,8 +58,7 @@ test('beviljad kamera ger bittert svar och nekat tillstånd ger argt svar', () =
   assert.match(camera, /weab:camera-reaction/);
   assert.match(layout, /cameraScene: cameraEncounter/);
   assert.match(layout, /<CameraEncounter\/>/);
-  assert.match(layout, /id="weab-camera-controls" hidden/);
-  assert.match(layout, /id="weab-camera-stop"/);
+  assert.doesNotMatch(layout, /weab-camera-controls|weab-camera-stop|Kameran är aktiv/);
   assert.match(layout, /weab:camera-encounter-start/);
   assert.match(layout, /currentBeat\.text === cameraScene\.request/);
   assert.match(layout, /cameraReplyStatus === 'allowed' \? 'medium' : 'harsh'/);
@@ -75,5 +75,5 @@ test('redan godkänd kamera aktiveras i scenen utan extra knappar', () => {
   assert.match(camera, /if \(result\.state === 'denied'\)/);
   assert.match(camera, /const granted = await navigator\.mediaDevices\.getUserMedia/);
   assert.doesNotMatch(camera, /if \(result\.state === 'granted'\) return/);
-  assert.match(camera, /if \(controls\) controls\.hidden = false/);
+  assert.doesNotMatch(camera, /weab-camera-controls|weab-camera-stop|controls\.hidden/);
 });

@@ -1,13 +1,9 @@
 ---
-/**
- * Fristående, kort ARG-störning: två röda ögon öppnas mitt i läsbar text.
- * Ingen berättelseförklaring exponeras för besökaren.
- */
+/** Ett ensamt öga öppnas mitt i den befintliga, avgränsade ARG-störningen. */
 ---
 <div class="resistance-eye-noise" data-resistance-eye-noise hidden aria-hidden="true">
-  <span class="resistance-eye-pair" data-resistance-eye-pair>
-    <span class="resistance-eye-pair__dot"></span>
-    <span class="resistance-eye-pair__dot"></span>
+  <span class="resistance-eye" data-resistance-eye>
+    <span class="resistance-eye__iris"></span>
   </span>
 </div>
 
@@ -15,84 +11,48 @@
   import { resistanceSignal } from '../data/resistanceSignal.ts';
 
   const veil = document.querySelector<HTMLElement>('[data-resistance-eye-noise]');
-  const eyePair = veil?.querySelector<HTMLElement>('[data-resistance-eye-pair]');
+  const eye = veil?.querySelector<HTMLElement>('[data-resistance-eye]');
   const preview = import.meta.env.DEV &&
     new URLSearchParams(location.search).get('previewEyes') === '1';
 
-  if (veil && !document.documentElement.classList.contains('weab-quarantined')) {
+  if (veil && eye && !document.documentElement.classList.contains('weab-quarantined')) {
     let active = false;
-    let eyes: HTMLElement | null = null;
-    const eyeBurstTimers: number[] = [];
     let finishTimer = 0;
+    let eyeFrame = 0;
+    const eyeBurstTimers: number[] = [];
 
-    function placeEyes(): HTMLElement | null {
-      // Välj text som syns där besökaren befinner sig, inte alltid överst.
-      const candidates = [...document.querySelectorAll<HTMLElement>(
-        'main p, main li, main blockquote, main h1, main h2, main h3, main h4, main td, main th'
-      )].filter(element => {
-        const rect = element.getBoundingClientRect();
-        const style = getComputedStyle(element);
-        return rect.width > 24 && rect.height > 9 &&
-          rect.bottom > 12 && rect.top < innerHeight - 12 &&
-          style.display !== 'none' && style.visibility !== 'hidden';
-      });
-      if (!candidates.length) return null;
-
-      // Sök en textnod med tillräckligt mycket läsbart innehåll.
-      // Ändra aldrig länkar, knappar eller deras tillgängliga namn.
-      for (const element of candidates.sort(() => Math.random() - .5)) {
-        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-        let node: Node | null;
-        const texts: Text[] = [];
-        while ((node = walker.nextNode())) {
-          const text = node as Text;
-          if (text.data.trim().length < 12 ||
-            text.parentElement?.closest('a,button,script,style,[aria-hidden="true"]')) continue;
-          texts.push(text);
+    // Tre successivt större öppningar. Samma faser som de tre ljudpulserna.
+    function opening(portion: number): number {
+      const stages = [[0, 0], [.08, .02], [.15, .24], [.28, .27],
+        [.33, .08], [.43, .57], [.59, .67], [.64, .17],
+        [.75, 1], [.92, 1], [1, 0]];
+      for (let i = 1; i < stages.length; i++) {
+        const [at, value] = stages[i];
+        if (portion <= at) {
+          const [previousAt, previousValue] = stages[i - 1];
+          return previousValue + (value - previousValue) *
+            (portion - previousAt) / (at - previousAt);
         }
-        if (!texts.length) continue;
-        const target = texts[Math.floor(Math.random() * texts.length)];
-        const middle = Math.floor(target.data.length * (.35 + Math.random() * .3));
-        const space = target.data.indexOf(' ', middle);
-        const at = space >= 0 && space < middle + 14 ? space : middle;
-
-        const span = document.createElement('span');
-        span.className = 'resistance-eyes-inline';
-        span.setAttribute('aria-hidden', 'true');
-        const range = document.createRange();
-        range.setStart(target, at);
-        range.collapse(true);
-        range.insertNode(span);
-        // En mycket lång paragraf kan börja på skärmen men fortsätta
-        // utanför synfältet. Kontrollera ögonens faktiska position.
-        const placed = span.getBoundingClientRect();
-        if (placed.bottom <= 0 || placed.top >= innerHeight) {
-          const parent = span.parentNode;
-          span.remove();
-          parent?.normalize();
-          continue;
-        }
-        return span;
       }
-      return null;
+      return 0;
     }
 
-    function positionEyes(): void {
-      if (!eyePair) return;
-      const rect = eyes?.getBoundingClientRect();
-      const visible = rect && rect.height > 0 &&
-        rect.bottom > 12 && rect.top < window.innerHeight - 12;
-      // Visa tydliga ögon OVANPÅ glitchlagret, vid texten om möjligt.
-      // Om en läsbar textnod saknas används skärmens mitt som reserv.
-      const x = visible ? rect.left + rect.width / 2 : window.innerWidth / 2;
-      const y = visible ? rect.top + rect.height / 2 : window.innerHeight * .47;
-      eyePair.style.left = Math.max(48, Math.min(window.innerWidth - 48, x)) + 'px';
-      eyePair.style.top = Math.max(28, Math.min(window.innerHeight - 28, y)) + 'px';
+    function followEye(start: number): void {
+      let painted = -1;
+      function frame(now: number): void {
+        if (!active) return;
+        if (now - painted >= 32) {
+          const value = opening(Math.min(1, (now - start) / resistanceSignal.eyesDurationMs));
+          veil?.style.setProperty('--eye-instability', value.toFixed(2));
+          document.body.style.setProperty('--eye-instability', value.toFixed(2));
+          painted = now;
+        }
+        eyeFrame = window.requestAnimationFrame(frame);
+      }
+      eyeFrame = window.requestAnimationFrame(frame);
     }
 
     function eyeTransmission(): void {
-      // Ögonen är en annan kanal för samma fångade röst.
-      // Det gemensamma ljudet avfyras endast med motsvarande analog bildglitch.
       window.dispatchEvent(new CustomEvent('weab:spirit-burst', {
         detail: { strength: 'harsh' }
       }));
@@ -102,30 +62,28 @@
       if (!active) return;
       active = false;
       window.clearTimeout(finishTimer);
+      window.cancelAnimationFrame(eyeFrame);
       for (const id of eyeBurstTimers) window.clearTimeout(id);
       eyeBurstTimers.length = 0;
       document.body.classList.remove('resistance-watched');
+      document.body.style.removeProperty('--eye-instability');
+      veil?.style.removeProperty('--eye-instability');
       if (veil) veil.hidden = true;
-      if (eyes) {
-        const parent = eyes.parentNode;
-        eyes.remove();
-        parent?.normalize();
-        eyes = null;
-      }
     }
 
     function startEyes(): void {
-      if (active || document.visibilityState !== 'visible' ||
+      if (!veil || active || document.visibilityState !== 'visible' ||
         document.documentElement.classList.contains('weab-quarantined') ||
         document.documentElement.dataset.weabMorseRunning === '1') return;
-      eyes = placeEyes();
-      if (!veil || !eyePair) return;
       active = true;
-      positionEyes();
       veil.hidden = false;
       document.body.classList.add('resistance-watched');
-      // Synkronisera tre korta radiostörningar med ögonens öppningar.
-      // Om ljud är blockerat får varje puls ändå sitt analoga bildbrott.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+        followEye(performance.now());
+      // Ljudfilen börjar med ögat, inte först vid nästa öppningspuls.
+      window.dispatchEvent(new CustomEvent('weab:spirit-sustain', {
+        detail: { strength: 'harsh', durationMs: resistanceSignal.eyesDurationMs + 1_700 }
+      }));
       for (const phase of [.15, .43, .75]) {
         eyeBurstTimers.push(window.setTimeout(() => {
           if (active && document.visibilityState === 'visible') eyeTransmission();
@@ -137,8 +95,6 @@
     window.addEventListener('weab:resistance-eyes-start', startEyes);
     if (preview) window.setTimeout(startEyes, 1_000);
     window.addEventListener('pagehide', finish);
-    window.addEventListener('resize', () => { if (active) positionEyes(); });
-    window.addEventListener('scroll', () => { if (active) positionEyes(); }, { passive: true });
   }
 </script>
 
@@ -150,10 +106,8 @@
     z-index: 2147483645;
     pointer-events: none;
     isolation: isolate;
-    background: repeating-linear-gradient(
-      0deg, transparent 0 5px, rgb(140 25 42 / .055) 6px 7px, transparent 8px 15px
-    );
-    /* Ingen opacity-animering på hela overlayn: annars försvinner ögonen. */
+    background: repeating-linear-gradient(0deg,
+      transparent 0 5px, rgb(140 25 42 / .06) 6px 7px, transparent 8px 15px);
   }
   .resistance-eye-noise::before,
   .resistance-eye-noise::after {
@@ -162,118 +116,120 @@
     left: -5%;
     width: 110%;
     pointer-events: none;
-    transform: translateX(0);
+    opacity: calc(.18 + var(--eye-instability, 0) * .74);
   }
   .resistance-eye-noise::before {
     top: 24%;
     height: clamp(14px, 3.4vh, 44px);
     background: repeating-linear-gradient(90deg,
-      rgb(120 15 39 / .18) 0 19px, rgb(21 140 156 / .14) 20px 29px,
+      rgb(120 15 39 / .22) 0 19px, rgb(21 140 156 / .16) 20px 29px,
       transparent 30px 43px);
     box-shadow: 0 1px 0 rgb(160 20 36 / .22), 0 -2px 0 rgb(40 180 196 / .19);
-    animation: resistance-tear-one .31s steps(2, end) infinite,
-      resistance-noise .22s steps(3, end) infinite;
+    animation: resistance-tear-one .31s steps(2, end) infinite;
   }
   .resistance-eye-noise::after {
     top: 65%;
     height: clamp(5px, 2vh, 27px);
     background: repeating-linear-gradient(90deg,
-      rgb(25 120 135 / .2) 0 6px, transparent 6px 13px,
-      rgb(142 18 42 / .15) 13px 19px);
-    animation: resistance-tear-two .17s steps(3, end) infinite,
-      resistance-noise .27s steps(2, end) infinite;
+      rgb(25 120 135 / .24) 0 6px, transparent 6px 13px,
+      rgb(142 18 42 / .2) 13px 19px);
+    animation: resistance-tear-two .17s steps(3, end) infinite;
   }
-  /* Den dolda textmarkören används bara för positionering.
-     Själva ögonen ligger över störningslagret i stället för bakom det. */
-  :global(.resistance-eyes-inline) {
-    display: inline-block;
-    width: 1px;
-    height: 1em;
-    vertical-align: middle;
-    margin: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-  .resistance-eye-pair {
+  .resistance-eye {
     position: absolute;
     z-index: 5;
-    top: 47%;
+    top: 50%;
     left: 50%;
-    display: flex;
-    gap: clamp(21px, 4.2vw, 40px);
-    align-items: center;
-    justify-content: center;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    filter: drop-shadow(0 0 13px rgb(238 0 42 / .84));
-  }
-  .resistance-eye-pair__dot {
-    display: block;
-    width: clamp(27px, 4vw, 38px);
-    height: clamp(17px, 2.6vw, 24px);
-    border-radius: 52% / 72%;
-    background: radial-gradient(ellipse at 52% 42%,
-      #ffd1d4 0 7%, #ff5470 9% 19%, #ff0f3b 32%, #87041f 76%, #210009 100%);
-    border: 1px solid rgb(255 84 111 / .9);
-    box-shadow: 0 0 8px 3px rgb(255 15 54 / .95),
-      0 0 21px 8px rgb(226 6 45 / .65),
-      0 0 42px 15px rgb(130 0 37 / .4);
-    transform: scaleY(.025);
+    display: grid;
+    place-items: center;
+    width: clamp(144px, 27vw, 232px);
+    height: clamp(84px, 16vw, 142px);
+    overflow: hidden;
+    border: 1px solid #251014;
+    border-radius: 51% 49% 52% 48% / 65% 59% 41% 35%;
+    background: radial-gradient(ellipse at 49% 48%,
+      #b0a5a7 0 26%, #85777c 48%, #56323b 76%, #160c11 100%);
+    box-shadow: inset 0 20px 20px #110a0cdb, inset 0 -15px 17px #1d0a0fda,
+      0 0 11px rgb(123 25 43 / .24), 0 0 42px rgb(94 9 30 / .18);
+    transform: translate(-50%, -50%) scaleY(.01);
     opacity: 0;
-    animation: resistance-eyes-blink 3.3s linear both;
+    animation: resistance-eye-open 3.3s linear both;
   }
-  .resistance-eye-pair__dot:nth-child(2) {
-    animation-delay: .09s;
+  .resistance-eye::before,
+  .resistance-eye::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .resistance-eye::before {
+    box-shadow: inset 0 15px 11px rgb(18 8 11 / .85),
+      inset 0 -10px 9px rgb(19 7 11 / .85);
+    z-index: 2;
+  }
+  .resistance-eye::after {
+    background: url('/images/arg-eye-grain.png') repeat,
+      radial-gradient(circle at 45% 37%, rgb(236 226 219 / .35) 0 2px, transparent 4px);
+    background-size: 128px 128px, auto;
+    opacity: .7;
+    mix-blend-mode: soft-light;
+    z-index: 3;
+  }
+  .resistance-eye__iris {
+    width: 59%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 48% 48%,
+      #020204 0 38%, #10060a 41%, #350b16 46%,
+      #83303b 52%, #311018 64%, #151014 76%);
+    box-shadow: 0 0 8px 3px rgb(10 4 7 / .78),
+      0 0 18px rgb(112 20 38 / .34);
   }
   :global(body.resistance-watched > header),
   :global(body.resistance-watched > main),
   :global(body.resistance-watched > footer) {
     animation: resistance-page-break .14s steps(2, end) infinite;
-    text-shadow: 2px 0 rgb(205 19 48 / .58), -2px 0 rgb(20 169 186 / .5);
+    text-shadow: calc(var(--eye-instability, 0) * 3px) 0 rgb(205 19 48 / .58),
+      calc(var(--eye-instability, 0) * -3px) 0 rgb(20 169 186 / .5);
   }
-  @keyframes resistance-eyes-blink {
-    0%, 8% { transform: scaleY(.025); opacity: 0; }
-    15%, 28% { transform: scaleY(1); opacity: 1; }
-    30%, 37% { transform: scaleY(.03); opacity: .16; }
-    43%, 59% { transform: scaleY(1); opacity: 1; }
-    61%, 69% { transform: scaleY(.025); opacity: .1; }
-    75%, 92% { transform: scaleY(1); opacity: 1; }
-    98%, 100% { transform: scaleY(.025); opacity: 0; }
-  }
-  @keyframes resistance-noise {
-    0%, 100% { opacity: .2; }
-    28% { opacity: .75; }
-    57% { opacity: .38; }
-    84% { opacity: .9; }
+  @keyframes resistance-eye-open {
+    0%, 8% { transform: translate(-50%, -50%) scaleY(.01); opacity: 0; }
+    15%, 28% { transform: translate(-50%, -50%) scaleY(.24); opacity: 1; }
+    33% { transform: translate(-50%, -50%) scaleY(.08); opacity: .8; }
+    43%, 59% { transform: translate(-50%, -50%) scaleY(.62); opacity: 1; }
+    64% { transform: translate(-50%, -50%) scaleY(.17); opacity: .8; }
+    75%, 92% { transform: translate(-50%, -50%) scaleY(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scaleY(.01); opacity: 0; }
   }
   @keyframes resistance-tear-one {
-    0%, 100% { transform: translate(1px, 0); top: 24%; }
-    33% { transform: translate(7px, 0); top: 52%; }
-    66% { transform: translate(-8px, 0); top: 14%; }
+    0%, 100% { transform: translateX(1px); top: 24%; }
+    33% { transform: translateX(7px); top: 52%; }
+    66% { transform: translateX(-8px); top: 14%; }
   }
   @keyframes resistance-tear-two {
-    0%, 100% { transform: translate(-2px, 0); top: 65%; }
-    45% { transform: translate(-10px, 0); top: 38%; }
-    75% { transform: translate(8px, 0); top: 79%; }
+    0%, 100% { transform: translateX(-2px); top: 65%; }
+    45% { transform: translateX(-10px); top: 38%; }
+    75% { transform: translateX(8px); top: 79%; }
   }
   @keyframes resistance-page-break {
     0%, 100% { transform: translateX(0); filter: none; }
-    25% { transform: translateX(3px); filter: contrast(1.14); }
-    50% { transform: translateX(-5px); filter: saturate(.8); }
-    75% { transform: translateX(2px); filter: contrast(1.1); }
+    25% { transform: translateX(calc(var(--eye-instability, 0) * 5px));
+      filter: contrast(calc(1 + var(--eye-instability, 0) * .42)); }
+    50% { transform: translateX(calc(var(--eye-instability, 0) * -7px));
+      filter: saturate(calc(1 - var(--eye-instability, 0) * .36)); }
+    75% { transform: translateX(calc(var(--eye-instability, 0) * 3px));
+      filter: contrast(calc(1 + var(--eye-instability, 0) * .23)); }
   }
   @media (prefers-reduced-motion: reduce) {
     .resistance-eye-noise::before,
-    .resistance-eye-noise::after { display: none; }
+    .resistance-eye-noise::after { animation: none; }
     :global(body.resistance-watched > header),
     :global(body.resistance-watched > main),
-    :global(body.resistance-watched > footer) {
+    :global(body.resistance-watched > footer) { animation: none; }
+    .resistance-eye {
       animation: none;
-      text-shadow: none;
-    }
-    .resistance-eye-pair__dot {
-      animation: none;
-      transform: scaleY(1);
+      transform: translate(-50%, -50%) scaleY(.7);
       opacity: 1;
     }
   }

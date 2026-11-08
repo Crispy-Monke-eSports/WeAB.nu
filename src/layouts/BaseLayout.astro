@@ -246,6 +246,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     let confirmedDisplayed = false;
     let lastBeatKey = '';
     let activeTypingKey = '';
+    let presenceActive = false;
     let personalizedBeatKey = '';
     let personalizedBeatText = '';
     let cameraStartedKey = '';
@@ -391,6 +392,14 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       }));
     }
 
+    function updateSpiritPresence(active) {
+      if (document.readyState === 'loading' || presenceActive === active) return;
+      presenceActive = active;
+      window.dispatchEvent(new CustomEvent('weab:spirit-presence', {
+        detail: { active }
+      }));
+    }
+
     let lastVoiceKey = '';
     function updateSpiritVoice(text, key, age, duration, strength) {
       if (document.readyState === 'loading') return;
@@ -526,6 +535,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       // glitchens överlagring hela meddelandet innan det har skrivits.
       const displayed = typing ? visibleLetters + '▌' : visibleLetters;
       showSystem(latestSystem, displayed);
+      updateSpiritPresence(isSpirit && document.visibilityState === 'visible');
       const strength = reacting
         ? (cameraReplyStatus === 'allowed' ? 'medium' : 'harsh')
         : progress > .70 ? 'harsh' : progress > .38 ? 'medium' : 'soft';
@@ -554,6 +564,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       root.classList.remove('weab-intruding', 'weab-overrun',
         'weab-critical', 'weab-glitching');
       updateTypingSound(false, '', 'soft');
+      updateSpiritPresence(false);
       updateSpiritVoice('', '', 0, 0, 'weak');
       root.dataset.weabCorruption = '0';
       window.clearTimeout(glitchTimer);
@@ -624,7 +635,10 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     });
     window.addEventListener('focus', applyLockdown);
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) updateSpiritVoice('', '', 0, 0, 'weak');
+      if (document.hidden) {
+        updateSpiritVoice('', '', 0, 0, 'weak');
+        updateSpiritPresence(false);
+      }
       else applyLockdown();
     });
     document.addEventListener('DOMContentLoaded', () => {
@@ -662,10 +676,6 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
    <p class="weab-quarantine__intrusion" id="weab-quarantine-intrusion" hidden></p>
    <span class="weab-quarantine__fragment" id="weab-quarantine-fragment" aria-hidden="true"></span>
   </div>
-  <div id="weab-camera-controls" hidden aria-live="polite">
-    <span>Kameran är aktiv en kort stund. Ingen bild avläses eller skickas av webbplatsen.</span>
-    <button id="weab-camera-stop" type="button">Stäng kameran</button>
-   </div>
    <span class="weab-quarantine__spinner" aria-hidden="true"></span>
  </div>
  <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceEyes/>}{enableInterference && <ResistanceMorse/>}{enableInterference && <BuilderDiagnostics/>}<SpiritTransmission/><CameraEncounter/>

@@ -8,6 +8,7 @@
 <script>
   import { collectVisitorClues, selectVisitorWhisper } from '../data/visitorWhispers.ts';
   import { speechTiming, type VoiceProfile } from '../data/spiritVoiceTiming.ts';
+  import { loadCorruptionLoop } from '../data/corruptionAudio.ts';
 
   // Alla observationer stannar i den här fliken. Ingen IP-, ISP- eller
   // positionshämtning görs och inga uppgifter sparas eller skickas vidare.
@@ -43,6 +44,88 @@
     lfo: OscillatorNode;
     drift: GainNode;
   } | null = null;
+  let bedBuffer: AudioBuffer | null = null;
+  let bedLoading: Promise<AudioBuffer | null> | null = null;
+  let bedNodes: { source: AudioBufferSourceNode; gain: GainNode;
+    compressor: DynamicsCompressorNode } | null = null;
+  let bedDeadline = 0;
+  let presenceLive = false;
+  let bedStartedAt = 0;
+  let bedTimer = 0;
+  let bedStrength: Strength = 'medium';
+
+  function bedLevel(): number {
+    // Det inspelade talet innehåller redan brus. Håll samma upplevda nivå
+    // när en skärmglitch sker utan tal som medan rösten talar genom statiken.
+    if (voiceSources.length) return .10;
+    return bedStrength === 'harsh' ? .16 : bedStrength === 'soft' ? .11 : .13;
+  }
+
+  function stopBed(): void {
+    window.clearTimeout(bedTimer);
+    bedTimer = 0;
+    const nodes = bedNodes;
+    bedNodes = null;
+    if (!nodes || !audio) return;
+    nodes.gain.gain.setTargetAtTime(.0001, audio.currentTime, .065);
+    try { nodes.source.stop(audio.currentTime + .26); } catch { /* Redan avslutad. */ }
+    nodes.source.onended = () => {
+      nodes.source.disconnect();
+      nodes.gain.disconnect();
+      nodes.compressor.disconnect();
+    };
+  }
+
+  function scheduleBedEnd(): void {
+    window.clearTimeout(bedTimer);
+    if (typingLive || presenceLive || !bedNodes) return;
+    bedTimer = window.setTimeout(() => {
+      if (typingLive || presenceLive || Date.now() < bedDeadline) scheduleBedEnd();
+      else stopBed();
+    }, Math.max(0, bedDeadline - Date.now()));
+  }
+
+  async function startBed(): Promise<void> {
+    const ctx = audio;
+    if (!ctx || ctx.state !== 'running' || document.hidden ||
+      (!typingLive && !presenceLive && Date.now() >= bedDeadline)) return;
+    if (bedNodes) {
+      bedNodes.gain.gain.setTargetAtTime(bedLevel(), ctx.currentTime, .065);
+      scheduleBedEnd();
+      return;
+    }
+    bedLoading ??= loadCorruptionLoop(ctx);
+    const buffer = bedBuffer ?? await bedLoading;
+    if (buffer) bedBuffer = buffer;
+    else bedLoading = null;
+    if (!buffer || audio !== ctx || ctx.state !== 'running' || document.hidden || bedNodes ||
+      (!typingLive && !presenceLive && Date.now() >= bedDeadline)) return;
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(.0001, ctx.currentTime);
+    gain.gain.setTargetAtTime(bedLevel(), ctx.currentTime, .055);
+    const compressor = ctx.createDynamicsCompressor();
+    compressor.threshold.value = -28;
+    compressor.ratio.value = 5;
+    source.connect(gain);
+    gain.connect(compressor);
+    compressor.connect(ctx.destination);
+    bedNodes = { source, gain, compressor };
+    source.start(ctx.currentTime, ((Date.now() - bedStartedAt) / 1000 % buffer.duration +
+      buffer.duration) % buffer.duration);
+    scheduleBedEnd();
+  }
+
+  function sustainBed(strength: Strength, durationMs: number): void {
+    bedStrength = strength;
+    const now = Date.now();
+    if (!bedNodes && now >= bedDeadline) bedStartedAt = now;
+    bedDeadline = Math.max(bedDeadline, now + durationMs);
+    primeRadio();
+    void startBed();
+  }
 
   let voiceGeneration = 0;
   let voiceAbort: AbortController | null = null;
@@ -67,6 +150,8 @@
       typingNodes.gate.gain.setTargetAtTime(typingStrength === 'harsh' ? .60 :
         typingStrength === 'soft' ? .32 : .48, audio.currentTime, .07);
     }
+    if (bedNodes && audio?.state === 'running')
+      bedNodes.gain.gain.setTargetAtTime(bedLevel(), audio.currentTime, .06);
   }
 
   async function speak(request: VoiceRequest): Promise<void> {
@@ -118,6 +203,7 @@
       if (typingNodes) typingNodes.gate.gain.setTargetAtTime(.06, ctx.currentTime, .05);
       source.stop(ctx.currentTime + remaining);
       voiceSources.push(source);
+      if (bedNodes) bedNodes.gain.gain.setTargetAtTime(bedLevel(), ctx.currentTime, .06);
       source.onended = () => source.disconnect();
     } catch { /* Fil, dekodning och autoplay är valfria; ARG-tiden fortsätter. */ }
   }
@@ -146,6 +232,7 @@
       if (audio.state === 'suspended') {
         void audio.resume().then(() => {
           if (typingLive) startTypingAudio();
+          void startBed();
           if (pendingVoice) {
             const resumed = { ...pendingVoice,
               ageMs: pendingVoice.ageMs + Date.now() - requestedAt };
@@ -153,8 +240,9 @@
             if (resumed.ageMs < resumed.durationMs) void speak(resumed);
           }
         }).catch(() => {});
-      } else if (typingLive) {
-        startTypingAudio();
+      } else {
+        if (typingLive) startTypingAudio();
+        void startBed();
       }
     } catch { /* Web Audio är valfritt; bildstörningen körs ändå. */ }
   }
@@ -164,6 +252,9 @@
   window.addEventListener('pointerdown', primeRadio, { passive: true });
   window.addEventListener('keydown', primeRadio);
   window.addEventListener('touchstart', primeRadio, { passive: true });
+
+  let residue: HTMLElement | null = null;
+  let residueTimer = 0;
 
   function analogTear(strength: Strength): void {
     const quarantine = document.documentElement.classList.contains('weab-quarantined');
@@ -182,7 +273,24 @@
     strip.style.setProperty('--analog-offset', (Math.random() * 22 - 11).toFixed(0) + 'px');
     strip.style.setProperty('--analog-ghost', strength === 'harsh' ? '.35' : '.19');
     parent.appendChild(strip);
-    window.setTimeout(() => strip.remove(), strength === 'harsh' ? 530 : 410);
+    window.setTimeout(() => strip.remove(), strength === 'harsh' ? 1_850 : 1_550);
+
+    // Ett kvarvarande signalfel efter pulsen, inte en förlängning av ARG-fasen.
+    // Återanvänd samma enda lager vid snabba helskärmsmeddelanden/ögonblinkningar.
+    residue?.remove();
+    window.clearTimeout(residueTimer);
+    // Intrångslagret kan döljas när fasen är klar. Lägg efterbilden på
+    // själva sidan så att den verkligen dröjer kvar efter ögats stängning.
+    const residueParent = quarantine ? parent : document.body;
+    residue = document.createElement('span');
+    residue.className = 'weab-analog-residue' +
+      (residueParent === document.body ? ' weab-analog-residue--page' : '');
+    residue.setAttribute('aria-hidden', 'true');
+    residueParent.appendChild(residue);
+    residueTimer = window.setTimeout(() => {
+      residue?.remove();
+      residue = null;
+    }, strength === 'harsh' ? 5_200 : 4_600);
   }
 
   function analogNoise(): AudioBuffer | null {
@@ -357,28 +465,45 @@
       typingLive = true;
       document.documentElement.classList.add('weab-spirit-transmitting');
       typingScreenTear();
+      sustainBed(nextStrength, 1_500);
       primeRadio();
       startTypingAudio();
     } else if (active && typingLive && typingStrength !== nextStrength) {
       stopTypingAudio();
       typingStrength = nextStrength;
+      sustainBed(nextStrength, 1_500);
       startTypingAudio();
     } else if (!active && typingLive) {
       typingLive = false;
       document.documentElement.classList.remove('weab-spirit-transmitting');
       window.clearTimeout(typingVisualTimer);
       stopTypingAudio();
+      bedDeadline = Math.max(bedDeadline, Date.now() + 1_300);
+      scheduleBedEnd();
+    }
+  });
+  window.addEventListener('weab:spirit-presence', (event: Event) => {
+    presenceLive = Boolean((event as CustomEvent<{ active: boolean }>).detail?.active);
+    if (presenceLive) sustainBed(typingStrength, 0);
+    else {
+      bedDeadline = 0;
+      stopBed();
     }
   });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       stopVoice();
+      bedDeadline = 0;
+      stopBed();
       window.clearTimeout(typingVisualTimer);
       stopTypingAudio();
     } else if (typingLive) {
       typingScreenTear();
       primeRadio();
       startTypingAudio();
+    } else if (presenceLive) {
+      primeRadio();
+      void startBed();
     }
   });
 
@@ -389,10 +514,26 @@
     const strength: Strength = raw === 'soft' || raw === 'harsh' ? raw : 'medium';
     analogTear(strength);
     playRadio(strength);
+    sustainBed(strength, strength === 'harsh' ? 2_700 : 2_200);
+  });
+  window.addEventListener('weab:spirit-sustain', (event: Event) => {
+    const detail = (event as CustomEvent<{ strength: Strength; durationMs: number }>).detail;
+    if (!detail || !Number.isFinite(detail.durationMs)) return;
+    sustainBed(detail.strength, Math.max(0, Math.min(8_000, detail.durationMs)));
+  });
+  window.addEventListener('weab:resistance-morse-start', () => {
+    bedDeadline = 0;
+    stopBed();
   });
   window.addEventListener('pagehide', () => {
+    window.clearTimeout(residueTimer);
+    residue?.remove();
+    residue = null;
     pendingVoice = null;
     stopVoice();
+    presenceLive = false;
+    bedDeadline = 0;
+    stopBed();
     typingLive = false;
     window.clearTimeout(typingVisualTimer);
     stopTypingAudio();
@@ -417,11 +558,22 @@
       linear-gradient(92deg,
         transparent 22%, rgb(25 121 133 / .07) 48%,
         rgb(172 35 58 / .09) 51%, transparent 81%);
-    animation: weab-radio-scan .37s steps(4, end) both;
+    animation: weab-radio-scan 1.7s steps(7, end) both;
   }
   :global(.weab-analog-tear--page) {
     z-index: 2147483646;
   }
+  :global(.weab-analog-residue) {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg,
+      rgb(22 117 128 / .085) 0 1px, transparent 1px 5px,
+      rgb(141 35 58 / .07) 5px 6px, transparent 6px 12px);
+    animation: weab-radio-residue 4.8s steps(8, end) both;
+  }
+  :global(.weab-analog-residue--page) { z-index: 2147483646; }
   :global(.weab-analog-tear::before) {
     content: '';
     position: absolute;
@@ -451,10 +603,17 @@
     opacity: var(--analog-ghost, .19);
   }
   @keyframes weab-radio-scan {
-    0% { opacity: .12; }
-    25% { opacity: .83; }
-    54% { opacity: .48; }
-    74% { opacity: .94; }
+    0% { opacity: .32; }
+    14% { opacity: .87; }
+    35% { opacity: .62; }
+    60% { opacity: .75; }
+    85% { opacity: .38; }
+    100% { opacity: 0; }
+  }
+  @keyframes weab-radio-residue {
+    0%, 22% { opacity: .72; }
+    41% { opacity: .52; }
+    70% { opacity: .31; }
     100% { opacity: 0; }
   }
   @keyframes weab-radio-tear {
@@ -468,7 +627,9 @@
   }
   @media (prefers-reduced-motion: reduce) {
     :global(.weab-analog-tear),
-    :global(.weab-analog-tear::before) { animation: none; }
-    :global(.weab-analog-tear) { opacity: .34; }
+    :global(.weab-analog-tear::before),
+    :global(.weab-analog-residue) { animation: none; }
+    :global(.weab-analog-tear) { opacity: .28; }
+    :global(.weab-analog-residue) { opacity: .14; }
   }
 </style>

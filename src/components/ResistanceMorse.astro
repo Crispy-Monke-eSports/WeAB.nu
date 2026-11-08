@@ -9,6 +9,7 @@
 
 <script>
   import { morseTimeline, morseDurationMs, isMorseMarkActive } from '../data/resistanceMorse.ts';
+  import { loadCorruptionLoop } from '../data/corruptionAudio.ts';
   import {
     resistanceLockdown, createLockdownCookie, readLockdownExpiry
   } from '../data/resistanceLockdown.ts';
@@ -163,6 +164,32 @@
       noise.stop(ends + .08);
       noise.onended = () => { noise.disconnect(); noiseFilter.disconnect(); noiseGain.disconnect(); };
 
+      // Samma förinspelade, korrumperade kortvågsbrus som vid ögon,
+      // sidintrång och karantän. Den avkodningsbara oscillatorn och alla
+      // prick-/streck-/pausgränser ovan förblir exakt oförändrade.
+      void loadCorruptionLoop(context).then(buffer => {
+        if (!buffer || context.state !== 'running' || context.currentTime >= ends) return;
+        const texture = context.createBufferSource();
+        texture.buffer = buffer;
+        texture.loop = true;
+        const bed = context.createGain();
+        bed.gain.value = .65;
+        marks.forEach(mark => {
+          const at = begins + mark.atMs / 1000;
+          const off = at + mark.durationMs / 1000;
+          bed.gain.setValueAtTime(.65, at);
+          bed.gain.linearRampToValueAtTime(1.15, at + Math.min(.012, (off - at) / 4));
+          bed.gain.setValueAtTime(1.15, Math.max(at + .012, off - .014));
+          bed.gain.linearRampToValueAtTime(.65, off);
+        });
+        texture.connect(bed);
+        bed.connect(master);
+        const offset = Math.max(0, context.currentTime - begins);
+        texture.start(Math.max(context.currentTime, begins), offset % buffer.duration);
+        texture.stop(ends + .08);
+        texture.onended = () => { texture.disconnect(); bed.disconnect(); };
+      }).catch(() => { /* Befintlig Morse fortsätter utan ljudfilen. */ });
+
       animateByAudioClock(context, begins);
     }
 
@@ -247,7 +274,10 @@
     inset: 0;
     pointer-events: none;
     z-index: 9999;
-    background: repeating-linear-gradient(
+    background: repeating-linear-gradient(0deg,
+      transparent 0 3px, rgb(132 32 56 / .055) 4px 5px,
+      rgb(41 145 158 / .045) 6px 7px, transparent 8px 13px),
+      repeating-linear-gradient(
       176deg,
       transparent 0,
       rgb(0 0 0 / .55) 16px,

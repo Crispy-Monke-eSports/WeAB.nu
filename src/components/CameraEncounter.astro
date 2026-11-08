@@ -8,8 +8,6 @@
 <script>
   import { cameraEncounter } from '../data/cameraEncounter.ts';
 
-  const controls = document.getElementById('weab-camera-controls');
-  const stopButton = document.getElementById('weab-camera-stop');
   let camera: MediaStream | null = null;
   let activeKey = '';
   let session = 0;
@@ -24,7 +22,6 @@
       for (const track of camera.getTracks()) track.stop();
       camera = null;
     }
-    if (controls) controls.hidden = true;
   }
 
   function respond(
@@ -103,11 +100,12 @@
       }
 
       // INGEN video-element, canvas, bildruta, inspelning eller anslutning.
-      // Att hålla ett MediaStream-spår aktivt räcker för kamerans lampa.
+      // Stäng först när inkräktartexten försvinner och WeAB står ensamt igen.
       camera = granted;
-      if (controls) controls.hidden = false;
       respond(key, 'allowed');
-      releaseTimer = window.setTimeout(stopCamera, cameraEncounter.activeMs);
+      // Reservgräns om sidan aldrig får ett systemskifte; dolt fönster och
+      // navigation stoppar alltid spåret direkt.
+      releaseTimer = window.setTimeout(stopCamera, cameraEncounter.maxActiveMs);
     } catch (error) {
       window.clearTimeout(pendingTimer);
       if (current !== session) return;
@@ -119,47 +117,12 @@
   }
 
   window.addEventListener('weab:camera-encounter-start', beginEncounter);
-  stopButton?.addEventListener('click', stopCamera);
+  window.addEventListener('weab:spirit-presence', (event: Event) => {
+    if ((event as CustomEvent<{ active: boolean }>).detail?.active === false)
+      cancelEncounter();
+  });
   window.addEventListener('pagehide', cancelEncounter);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) cancelEncounter();
   });
 </script>
-
-<style>
-  :global(#weab-camera-controls[hidden]) { display: none !important; }
-  :global(#weab-camera-controls) {
-    position: relative;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: .75rem;
-    font: 500 .8rem/1.5 ui-monospace, monospace;
-    color: #bacbd1;
-    max-width: 48ch;
-    text-align: center;
-  }
-  :global(#weab-camera-controls::before) {
-    content: '';
-    background: #d84f64;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgb(216 79 100 / .75);
-  }
-  :global(#weab-camera-stop) {
-    font: inherit;
-    color: #e0edf0;
-    background: rgb(23 45 56 / .7);
-    border: 1px solid #8099a3;
-    border-radius: 4px;
-    padding: .3rem .65rem;
-    cursor: pointer;
-  }
-  :global(#weab-camera-stop:focus-visible) {
-    outline: 2px solid #fff;
-    outline-offset: 3px;
-  }
-</style>

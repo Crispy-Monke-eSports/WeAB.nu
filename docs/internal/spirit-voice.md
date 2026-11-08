@@ -19,3 +19,9 @@ När nya fasta själsrepliker tillkommer: lägg till texten i rätt datafil (uta
 Lokalt valda webbläsarvarningar har bara ljud när **exakt samma text** finns i det förgenererade biblioteket. Variabeln med faktiskt fönsterbreddstal kan inte förgenereras för alla värden; den är avsiktligt tyst och visas som tidigare. Inga browser-uppgifter skickas till TTS, server eller extern tjänst. Inget nytt visuellt gränssnitt tillkom.
 
 Verifiera med `npm run test:resistance` och `npm run check`, därefter manuellt i en webbläsare med och utan tidigare användarinteraktion, vid reload mitt i karantänen samt vid nekad kamera. GitHub Pages serverar Ogg-filerna som statiska resurser. Webbläsare utan Ogg/Web Audio eller med spärrad autoplay faller tillbaka till befintlig visuell ARG-upplevelse.
+
+## Samma brus på övriga störningar
+
+`python3 scripts/generate-corruption-loop.py` skapar `public/audio/spirit/interference-loop.ogg` lokalt, tolv sekunder kortvågsbrus med mjuka loopskarvar och begränsade toppar. `src/data/corruptionAudio.ts` laddar den först vid ett faktiskt ARG-intrång. Samma klipp ligger under glitchpulser, ögats tre öppningar och Morse-signalen. Morse behåller sina befintliga oscillatorer, exakt tecken-/paustiming och exakt samtidig mörk bildinvertering. De längre skärmrivningarna och den korta efterbilden påverkar aldrig fasens tid. Den gemensamma loopen får mjuk nivåreglering och inga nya synliga kontroller.
+
+I karantänen skickar layouten `weab:spirit-presence` medan inkräktarens röda text syns. Bruset fortsätter efter att sista bokstaven skrivits, och stoppas när enbart WeAB:s systemtext visas. Röstfilen spelar bara under själva repliken. En blockerad autoplay-policy stoppar varken text eller bild. Ögat i `ResistanceEyes.astro` använder ett separat kornlager från `python3 scripts/generate-eye-grain.py`; ingen extern ögonbild eller personbild distribueras.

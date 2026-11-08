@@ -17,7 +17,7 @@ test('alla korta titel- och rubrikförändringar ligger kvar tills nytt dokument
   assert.match(code, /document\.title = 'DISOBEY'/);
 });
 
-test('själen får en sporadisk ögonfas med synliga inline-ögon, utan blockerade kontroller', () => {
+test('själen får ett enda centrerat öga vars öppning styr glitchstyrkan', () => {
   const signal = source('src/components/ResistanceInterference.astro');
   const eyes = source('src/components/ResistanceEyes.astro');
   const layout = source('src/layouts/BaseLayout.astro');
@@ -27,17 +27,15 @@ test('själen får en sporadisk ögonfas med synliga inline-ögon, utan blockera
   assert.match(signal, /weab:resistance-eyes-start/);
   assert.match(layout, /import ResistanceEyes from/);
   assert.match(layout, /<ResistanceEyes\/>/);
-  assert.match(eyes, /main p, main li/);
-  assert.match(eyes, /getBoundingClientRect/);
-  assert.match(eyes, /range\.insertNode\(span\)/);
-  assert.match(eyes, /data-resistance-eye-pair/);
-  assert.match(eyes, /resistance-eye-pair__dot/);
-  assert.match(eyes, /resistance-eyes-blink/);
-  assert.match(eyes, /positionEyes\(\)/);
-  assert.match(eyes, /window\.innerHeight \* \.47/);
+  assert.match(eyes, /data-resistance-eye/);
+  assert.match(eyes, /resistance-eye__iris/);
+  assert.match(eyes, /resistance-eye-open/);
+  assert.match(eyes, /function opening\(portion: number\)/);
+  assert.match(eyes, /--eye-instability/);
+  assert.match(eyes, /top: 50%/);
+  assert.match(eyes, /left: 50%/);
+  assert.doesNotMatch(eyes, /data-resistance-eye-pair|resistance-eyes-inline/);
   assert.match(eyes, /veil\.hidden = false/);
-  assert.match(eyes, /15%, 28%/);
-  assert.match(eyes, /43%, 59%/);
   assert.match(eyes, /75%, 92%/);
   assert.match(eyes, /pointer-events: none/);
   assert.match(eyes, /prefers-reduced-motion: reduce/);
