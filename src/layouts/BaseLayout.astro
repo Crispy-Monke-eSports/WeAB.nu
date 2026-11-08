@@ -9,6 +9,8 @@ import BuilderDiagnostics from '../components/BuilderDiagnostics.astro';
 import { resistanceLockdown } from '../data/resistanceLockdown.ts';
 import { resistanceSignal } from '../data/resistanceSignal.ts';
 import { spiritTyping } from '../data/spiritTyping.ts';
+import { cameraEncounter } from '../data/cameraEncounter.ts';
+import CameraEncounter from '../components/CameraEncounter.astro';
 import { companies } from '../data/companies';
 import '../styles/global.css';
 interface Props {title?:string;description?:string;enableInterference?:boolean;}
@@ -223,6 +225,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
    lockSpiritEarly: resistanceLockdown.spiritEarly,
    lockSpiritLate: resistanceLockdown.spiritLate,
    lockWaypointWhispers: resistanceLockdown.waypointWhispers,
+   cameraScene: cameraEncounter,
    exitMessage: resistanceLockdown.exitMessage,
    exitMessageMs: resistanceLockdown.exitMessageMs,
    signalSessionKey: resistanceSignal.sessionKey,
@@ -243,6 +246,11 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     let activeTypingKey = '';
     let personalizedBeatKey = '';
     let personalizedBeatText = '';
+    let cameraStartedKey = '';
+    let cameraReplyText = '';
+    let cameraReplyStatus = '';
+    let cameraReplyTime = 0;
+    let cameraReplyKey = '';
     let timelineExpiry = 0;
     let timeline = [];
 
@@ -301,6 +309,11 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         used.add(text);
         eventIndex++;
       }
+      // Kort kamerafråga tidigt, utan att påverka den senare ledtråden.
+      const cameraBeat = timeline.find(beat =>
+        beat.voice === 'intrusion' && beat.atMs >= 62_000 && beat.atMs < 100_000);
+      if (cameraBeat) cameraBeat.text = cameraScene.request;
+
       // Motsvarar resistanceLockdown.createLockdownTimeline:
       // en ledtråd i varje karantän ska faktiskt nå fram till besökaren.
       const waypoint = timeline.find(beat =>
@@ -411,17 +424,25 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
           latestIntrusion = beat.text;
         }
       }
+      // Kamerans svar får överrösta en statusrad i högst några sekunder.
+      const replyAge = now - cameraReplyTime;
+      const reacting = Boolean(cameraReplyText &&
+        replyAge >= 0 && replyAge < cameraScene.responseMs);
+      if (reacting) latestIntrusion = cameraReplyText;
       root.dataset.weabCorruption = String(progress);
       root.classList.toggle('weab-intruding', Boolean(latestIntrusion));
       root.classList.toggle('weab-overrun', progress > .62 && Boolean(latestIntrusion));
       root.classList.toggle('weab-critical', progress > .54);
       root.classList.remove('weab-death-confirmed');
-      const beatKey = until + ':' + currentBeat.atMs;
-      const isSpirit = currentBeat.voice === 'intrusion' && Boolean(latestIntrusion);
+      const originalBeatKey = until + ':' + currentBeat.atMs;
+      const beatKey = reacting ? cameraReplyKey : originalBeatKey;
+      const isSpirit = reacting ||
+        (currentBeat.voice === 'intrusion' && Boolean(latestIntrusion));
       // Ett FÅTAL repliker kan nämna verkligt observerade webbläsardetaljer.
       // Alla uppgifter bearbetas i fliken; inga IP-, operatörs- eller
       // geografiska uppslag och ingen ny lagring. Avsändaren avslöjas inte.
-      if (isSpirit && !lockWaypointWhispers.includes(latestIntrusion) &&
+      if (isSpirit && !reacting &&
+          !lockWaypointWhispers.includes(latestIntrusion) &&
           beats.indexOf(currentBeat) % 13 === 2 &&
           document.readyState !== 'loading') {
         if (personalizedBeatKey !== beatKey) {
@@ -439,9 +460,22 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         ? Math.min(
           Math.max(spiritTypingMinMs, Math.min(spiritTypingMaxMs,
             [...latestIntrusion].length * spiritTypingPerCharacterMs)),
-          Math.max(330, nextAt - currentBeat.atMs - spiritTypingMarginMs))
+          reacting ? cameraScene.responseMs :
+            Math.max(330, nextAt - currentBeat.atMs - spiritTypingMarginMs))
         : 0;
-      const age = Math.max(0, elapsed - currentBeat.atMs);
+      const age = reacting ? replyAge : Math.max(0, elapsed - currentBeat.atMs);
+      // Börja med webbläsarens tillståndsdialog först när besökaren
+      // hunnit läsa själens fråga.
+      if (!reacting && currentBeat.text === cameraScene.request &&
+          cameraStartedKey !== originalBeatKey &&
+          document.readyState !== 'loading' &&
+          document.visibilityState === 'visible' &&
+          age >= duration && age < duration + 1_800) {
+        cameraStartedKey = originalBeatKey;
+        window.dispatchEvent(new CustomEvent('weab:camera-encounter-start', {
+          detail: { key: originalBeatKey }
+        }));
+      }
       const typing = Boolean(isSpirit && age < duration &&
         !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
       const visibleLetters = typing
@@ -452,7 +486,9 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       // glitchens överlagring hela meddelandet innan det har skrivits.
       const displayed = typing ? visibleLetters + '▌' : visibleLetters;
       showSystem(latestSystem, displayed);
-      const strength = progress > .70 ? 'harsh' : progress > .38 ? 'medium' : 'soft';
+      const strength = reacting
+        ? (cameraReplyStatus === 'allowed' ? 'medium' : 'harsh')
+        : progress > .70 ? 'harsh' : progress > .38 ? 'medium' : 'soft';
       updateTypingSound(typing && document.visibilityState === 'visible',
         beatKey, strength);
       if (beatKey !== lastBeatKey && document.readyState !== 'loading') {
@@ -465,7 +501,9 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         }
       }
       const untilNext = Math.min(until - now, Math.max(0, nextAt - elapsed));
-      return typing ? Math.min(untilNext, spiritTypingFrameMs) : untilNext;
+      return typing || reacting
+        ? Math.min(Math.max(50, untilNext), spiritTypingFrameMs)
+        : untilNext;
     }
 
     function showConfirmed(now, until) {
@@ -513,6 +551,20 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         showConfirmed(now, 0);
       }
     }
+
+    window.addEventListener('weab:camera-reaction', event => {
+      const detail = event.detail;
+      if (!detail || detail.key !== cameraStartedKey ||
+          !root.classList.contains('weab-quarantined') ||
+          root.classList.contains('weab-death-confirmed')) return;
+      const reply = cameraScene[detail.status];
+      if (typeof reply !== 'string') return;
+      cameraReplyText = reply;
+      cameraReplyStatus = detail.status;
+      cameraReplyTime = Date.now();
+      cameraReplyKey = detail.key + ':reaction:' + detail.status;
+      applyLockdown();
+    });
 
     applyLockdown(); // Körs innan BODY renderats.
     window.addEventListener('storage', event => {
@@ -565,8 +617,12 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
    <p class="weab-quarantine__intrusion" id="weab-quarantine-intrusion" hidden></p>
    <span class="weab-quarantine__fragment" id="weab-quarantine-fragment" aria-hidden="true"></span>
   </div>
-  <span class="weab-quarantine__spinner" aria-hidden="true"></span>
+  <div id="weab-camera-controls" hidden aria-live="polite">
+    <span>Kameran är aktiv en kort stund. Ingen bild avläses eller skickas av webbplatsen.</span>
+    <button id="weab-camera-stop" type="button">Stäng kameran</button>
+   </div>
+   <span class="weab-quarantine__spinner" aria-hidden="true"></span>
  </div>
- <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceEyes/>}{enableInterference && <ResistanceMorse/>}{enableInterference && <BuilderDiagnostics/>}<SpiritTransmission/>
+ <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceEyes/>}{enableInterference && <ResistanceMorse/>}{enableInterference && <BuilderDiagnostics/>}<SpiritTransmission/><CameraEncounter/>
 </body>
 </html>

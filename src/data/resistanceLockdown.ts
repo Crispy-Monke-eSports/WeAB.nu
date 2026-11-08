@@ -1,3 +1,5 @@
+import { cameraEncounter } from './cameraEncounter.ts';
+
 /**
  * WeAB:s fiktiva ARG-karantän. Ingen faktisk serverautentisering.
  * Själen bryter igenom som fragment, utan att förklara sin identitet.
@@ -163,6 +165,12 @@ export function createLockdownTimeline(expiresAt: number): LockdownBeat[] {
     used.add(text);
     eventIndex++;
   }
+  // Ett kort kameraförsök före riksdagsledtråden: rör inte själva
+  // kameran här, utan placera endast texten i den delade tidslinjen.
+  const cameraBeat = timeline.find(beat =>
+    beat.voice === 'intrusion' && beat.atMs >= 62_000 && beat.atMs < 100_000);
+  if (cameraBeat) cameraBeat.text = cameraEncounter.request;
+
   // Slumpade viskningar ensamma är för lätta att missa under fem minuter.
   // Ersätt en av själens repliker med en av två kryptiska väganvisningar
   // omkring mitten av karantänen. En per förlopp, utan extra avbrott.

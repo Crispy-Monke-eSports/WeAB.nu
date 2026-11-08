@@ -30,6 +30,7 @@
   let audio: AudioContext | null = null;
   let noise: AudioBuffer | null = null;
   let typingLive = false;
+  let typingStrength: Strength = 'medium';
   let typingVisualTimer = 0;
   let typingNodes: {
     source: AudioBufferSourceNode;
@@ -174,11 +175,13 @@
     source.loop = true;
     const filter = ctx.createBiquadFilter();
     filter.type = 'bandpass';
-    filter.frequency.value = 1160;
+    filter.frequency.value = typingStrength === 'harsh' ? 1780 :
+      typingStrength === 'soft' ? 820 : 1160;
     filter.Q.value = .68;
     const gate = ctx.createGain();
     gate.gain.setValueAtTime(.0001, ctx.currentTime);
-    gate.gain.setTargetAtTime(.48, ctx.currentTime, .075);
+    gate.gain.setTargetAtTime(typingStrength === 'harsh' ? .60 :
+      typingStrength === 'soft' ? .32 : .48, ctx.currentTime, .075);
     const compressor = ctx.createDynamicsCompressor();
     compressor.threshold.value = -24;
     compressor.knee.value = 14;
@@ -192,9 +195,11 @@
 
     const tone = ctx.createOscillator();
     tone.type = 'sine';
-    tone.frequency.value = 156;
+    tone.frequency.value = typingStrength === 'harsh' ? 214 :
+      typingStrength === 'soft' ? 138 : 156;
     const toneGain = ctx.createGain();
-    toneGain.gain.value = .085;
+    toneGain.gain.value = typingStrength === 'harsh' ? .12 :
+      typingStrength === 'soft' ? .06 : .085;
     const lfo = ctx.createOscillator();
     lfo.type = 'sine';
     lfo.frequency.value = 5.7;
@@ -238,7 +243,7 @@
     if (!typingLive || document.hidden) return;
     // Även när webbläsaren blockerar Web Audio fortsätter dessa analoga
     // bildbrott under precis hela tiden som tecknen renderas fram.
-    analogTear('medium');
+    analogTear(typingStrength === 'harsh' ? 'harsh' : 'medium');
     typingVisualTimer = window.setTimeout(typingScreenTear,
       340 + Math.floor(Math.random() * 250));
   }
@@ -246,11 +251,18 @@
   window.addEventListener('weab:spirit-typing', (event: Event) => {
     const detail = (event as CustomEvent<SpiritTyping>).detail;
     const active = Boolean(detail?.active);
+    const nextStrength: Strength = detail?.strength === 'harsh' ||
+      detail?.strength === 'soft' ? detail.strength : 'medium';
     if (active && !typingLive) {
+      typingStrength = nextStrength;
       typingLive = true;
       document.documentElement.classList.add('weab-spirit-transmitting');
       typingScreenTear();
       primeRadio();
+      startTypingAudio();
+    } else if (active && typingLive && typingStrength !== nextStrength) {
+      stopTypingAudio();
+      typingStrength = nextStrength;
       startTypingAudio();
     } else if (!active && typingLive) {
       typingLive = false;

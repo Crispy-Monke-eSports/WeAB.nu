@@ -53,7 +53,7 @@ test('huvudlayouten skriver texten gradvis med kontinuerliga ljud- och bildhänd
 
 test('WeAB:s egna systemmeddelanden startar inte radiobrus eller skrivning', () => {
   const layout = source('src/layouts/BaseLayout.astro');
-  assert.match(layout, /const isSpirit = currentBeat\.voice === 'intrusion'/);
+  assert.match(layout, /const isSpirit = reacting \|\|/);
   assert.match(layout, /const duration = isSpirit/);
   assert.match(layout, /if \(isSpirit && document\.visibilityState === 'visible'\)/);
   assert.match(layout, /updateTypingSound\(false, '', 'soft'\)/);

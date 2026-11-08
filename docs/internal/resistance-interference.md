@@ -47,6 +47,19 @@ Filen `tests/visitor-whispers.test.mjs` testar både verklighetsförankring, avs
 - När Morse startar avbryts hela schemat och en **cookie-spärr på exakt fem minuter** sätts för hela domänen. Efter fem minuter tas spärren bort av webbläsaren och en ny sidladdning skapar en helt ny slumpad händelsekö.
 - Manuella besök på en obefintlig adress utan pågående schema utlöser inga nya effekter.
 
+## Kamerasekvensen – kort, transparent åtkomst utan bildbehandling
+
+Under femminuterskarantänen byts **en befintlig själsreplik** cirka **62–100 sekunder** in i förloppet mot `låt mig få se vem jag pratar med`. Repliken skrivs först klart bokstav för bokstav. Sedan begär webbplatsen videobehörighet **via webbläsarens vanliga `navigator.mediaDevices.getUserMedia({ audio: false, video: true })`**. Ingen mikrofon används.
+
+- **Ingen tidigare behörighet:** Webbläsaren kan fråga användaren via sin vanliga integritetsdialog. Om användaren säger nej reagerar själen ilsket: `NEJ. STÄNG INTE UTE MIG IGEN.` Om kameran saknas eller blockeras av tekniska skäl kommer ett mer uppgivet svar.
+- **Redan godkänd kamera:** Om behörigheten fortfarande gäller försöker sidan **öppna kameran automatiskt igen i just denna scen**, enligt användarens uttryckliga senaste instruktion. Själen säger, syrligt snarare än lyckligt, `där sitter du ja. är du nöjd nu? har du fått som du vill?`. Ingen extra egendesignad dialog krävs för tidigare beviljat tillstånd.
+- **Lampan är hela poängen:** Webbsidan får ett `MediaStream`-objekt men **hämtar aldrig en enda bildruta, kopplar inte upp något `video`-element, ritar inte till `canvas`, analyserar inte bild, spelar inte in och skickar inga data**. Inget går via en server eller tredjeparts-API. Streamen används bara för att kameran ska vara aktiv och eventuell fysisk kameralampa tändas. Själens replik är fiktiv; webbplatsen kan **inte faktiskt se eller känna igen personen**.
+- **Automatisk avstängning:** Alla videospår stoppas efter högst **7 sekunder** vid lyckad åtkomst, omedelbart om användaren trycker **”Stäng kameran”**, om fliken döljs eller vid sidbyte. Under de få sekunderna visas ett diskret men tydligt meddelande om att kameran är aktiv och en direkt stoppknapp **inne i karantänvyn**. Om en tillståndsdialog aldrig besvaras överges ARG-försöket efter högst 20 sekunder; om ett sent tillstånd ändå ges stoppas strömmen omedelbart.
+- **Reaktionens presentation:** Både ilskna och syrliga repliker visas **bokstav för bokstav** med analoga ljud- och bildglitchar. Nekad åtkomst använder hårdare radioton och kraftigare bildstörningar, medan godkännande får något mjukare ljud. Scenen påverkar inte morsekoden, besöksledtrådarna eller den garanterade riksdagsviskningen som kommer efter cirka 130 sekunder.
+- **Inget sparas:** Ingen videodata, kamerabilder, biometrisk information, tillståndsstatus eller kameraidentifierare lagras, analyseras eller skickas. Ingen IP-/ISP-tjänst används heller. Behörighetsbeslutet hanteras av webbläsaren. Funktionen kräver en säker kontext (HTTPS).
+
+Implementerat i `src/components/CameraEncounter.astro`, `src/data/cameraEncounter.ts` och `src/layouts/BaseLayout.astro`. Verifieras med `tests/camera-encounter.test.mjs`. Låt inte kameraåtkomst eller avslag avslöja själens identitet eller ARG:ets större hemligheter.
+
 ## Själens gemensamma analoga radiostörning (ljud + bild)
 
 Varje gång **själen** får fram ett nytt synligt meddelande eller orsakar en sidförändring skickas eventet `weab:spirit-burst`. En gemensam mottagare i `src/components/SpiritTransmission.astro` ger **alltid ett analogt bildbrott först**, därefter ett **kort, lågt radiobrus endast om Web Audio tillåts**.

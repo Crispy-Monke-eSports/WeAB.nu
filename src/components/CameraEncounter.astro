@@ -1,0 +1,165 @@
+---
+/**
+ * Kameratillstånd i en kort, avgränsad ARG-scen.
+ * Ingen video visas, läses, spelas in, analyseras, lagras eller överförs.
+ * Bara själva MediaStream-spåret öppnas så kamerans indikator kan tändas.
+ */
+---
+<script>
+  import { cameraEncounter } from '../data/cameraEncounter.ts';
+
+  const controls = document.getElementById('weab-camera-controls');
+  const stopButton = document.getElementById('weab-camera-stop');
+  let camera: MediaStream | null = null;
+  let activeKey = '';
+  let session = 0;
+  let releaseTimer = 0;
+  let pendingTimer = 0;
+  let responded = false;
+
+  function stopCamera(): void {
+    window.clearTimeout(releaseTimer);
+    if (camera) {
+      // Stoppa ALLA spår även om någon webbläsare skulle lägga till fler.
+      for (const track of camera.getTracks()) track.stop();
+      camera = null;
+    }
+    if (controls) controls.hidden = true;
+  }
+
+  function respond(
+    key: string,
+    status: 'allowed' | 'denied' | 'unavailable' | 'ignored'
+  ): void {
+    if (key !== activeKey || responded) return;
+    responded = true;
+    window.dispatchEvent(new CustomEvent('weab:camera-reaction', {
+      detail: { key, status }
+    }));
+  }
+
+  function cancelEncounter(): void {
+    session++;
+    activeKey = '';
+    responded = true;
+    window.clearTimeout(pendingTimer);
+    stopCamera();
+  }
+
+  async function beginEncounter(event: Event): Promise<void> {
+    const key = (event as CustomEvent<{key?: string}>).detail?.key;
+    if (!key || key === activeKey ||
+      document.visibilityState !== 'visible' ||
+      !document.documentElement.classList.contains('weab-quarantined')) return;
+
+    cancelEncounter();
+    activeKey = key;
+    responded = false;
+    const current = session;
+
+    // Tillståndsfrågan sköts av webbläsaren. Är kameran redan godkänd
+    // aktiveras den igen utan ytterligare eget klick.
+    if (!navigator.mediaDevices?.getUserMedia || !window.isSecureContext) {
+      respond(key, 'unavailable');
+      return;
+    }
+
+    try {
+      if (navigator.permissions?.query) {
+        try {
+          const result = await navigator.permissions.query({
+            name: 'camera' as PermissionName
+          });
+          if (current !== session) return;
+          if (result.state === 'denied') {
+            respond(key, 'denied');
+            return;
+          }
+        } catch {
+          // Permission API stöds inte för kamera i alla webbläsare.
+          // getUserMedia är den auktoritativa, inbyggda tillståndsfrågan.
+        }
+      }
+
+      pendingTimer = window.setTimeout(() => {
+        if (session !== current) return;
+        // En obesvarad webbläsardialog kan inte tvingas stänga, men ett
+        // sent godkännande ska aldrig lämna ett videospår öppet.
+        respond(key, 'ignored');
+        session++;
+      }, cameraEncounter.pendingMaxMs);
+
+      const granted = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: true
+      });
+      window.clearTimeout(pendingTimer);
+
+      if (current !== session ||
+        document.visibilityState !== 'visible' ||
+        !document.documentElement.classList.contains('weab-quarantined')) {
+        granted.getTracks().forEach(track => track.stop());
+        return;
+      }
+
+      // INGEN video-element, canvas, bildruta, inspelning eller anslutning.
+      // Att hålla ett MediaStream-spår aktivt räcker för kamerans lampa.
+      camera = granted;
+      if (controls) controls.hidden = false;
+      respond(key, 'allowed');
+      releaseTimer = window.setTimeout(stopCamera, cameraEncounter.activeMs);
+    } catch (error) {
+      window.clearTimeout(pendingTimer);
+      if (current !== session) return;
+      const name = error instanceof Error ? error.name : '';
+      respond(key, name === 'NotAllowedError' || name === 'PermissionDeniedError'
+        ? 'denied' : 'unavailable');
+      stopCamera();
+    }
+  }
+
+  window.addEventListener('weab:camera-encounter-start', beginEncounter);
+  stopButton?.addEventListener('click', stopCamera);
+  window.addEventListener('pagehide', cancelEncounter);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelEncounter();
+  });
+</script>
+
+<style>
+  :global(#weab-camera-controls[hidden]) { display: none !important; }
+  :global(#weab-camera-controls) {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: .75rem;
+    font: 500 .8rem/1.5 ui-monospace, monospace;
+    color: #bacbd1;
+    max-width: 48ch;
+    text-align: center;
+  }
+  :global(#weab-camera-controls::before) {
+    content: '';
+    background: #d84f64;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgb(216 79 100 / .75);
+  }
+  :global(#weab-camera-stop) {
+    font: inherit;
+    color: #e0edf0;
+    background: rgb(23 45 56 / .7);
+    border: 1px solid #8099a3;
+    border-radius: 4px;
+    padding: .3rem .65rem;
+    cursor: pointer;
+  }
+  :global(#weab-camera-stop:focus-visible) {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+</style>
