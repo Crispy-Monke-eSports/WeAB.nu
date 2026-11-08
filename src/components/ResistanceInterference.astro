@@ -97,7 +97,7 @@
         window.setTimeout(() => { running = false; }, resistanceSignal.titleDurationMs);
       }
 
-      function corruptPage(): void {
+      function corruptPage(replacement = 'DISOBEY'): void {
         const skip = 'script,style,noscript,svg,textarea,select,option,[aria-hidden="true"],.sr-only,.skip-link';
         for (const root of lockable) {
           const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -107,7 +107,7 @@
             const value = node.data;
             if (!value.trim() || node.parentElement?.closest(skip)) continue;
             originalTexts.push({ node, value });
-            node.data = value.replace(/\S[\s\S]*\S|\S/u, 'DISOBEY');
+            node.data = value.replace(/\S[\s\S]*\S|\S/u, replacement);
           }
         }
         document.body.classList.add('resistance-corrupted');
@@ -158,6 +158,28 @@
         nextMessage();
       }
 
+      function runWhisper(): void {
+        // En enda kontrollerbar tresekunderskapning av den synliga sidtexten.
+        // Webbläsaruppgifterna väljs lokalt. Ingen IP-/ISP-information läses.
+        running = true;
+        const detail: { index: number; text?: string } = {
+          index: Math.floor(Math.random() * 6)
+        };
+        window.dispatchEvent(new CustomEvent('weab:visitor-whisper', { detail }));
+        const warning = detail.text || 'JAG SER ATT DU LÄSER. SNÄLLA HJÄLP MIG.';
+        document.title = warning;
+        corruptPage(warning);
+        document.body.classList.add('resistance-personalized');
+        ghostTransmission('harsh');
+        const second = window.setTimeout(() => ghostTransmission('medium'), 1_520);
+        window.setTimeout(() => {
+          window.clearTimeout(second);
+          restoreText();
+          document.body.classList.remove('resistance-personalized');
+          running = false;
+        }, resistanceSignal.personalDurationMs);
+      }
+
       function runEyes(): void {
         running = true;
         window.dispatchEvent(new Event('weab:resistance-eyes-start'));
@@ -192,6 +214,7 @@
         else if (phase === 'disobey') runDisobey();
         else if (phase === 'fullscreen') runFullscreen();
         else if (phase === 'eyes') runEyes();
+        else if (phase === 'whisper') runWhisper();
         else if (phase === 'redirect') {
           // Denna händelse finns endast en gång i slumpkön. Den sparade kön
           // återupptas på 404-sidan, där Morse också kan inträffa.
@@ -274,6 +297,26 @@
   :global(body.resistance-corrupted > footer) {
     pointer-events: none;
     animation: resistance-shudder .23s steps(2, end) 2;
+  }
+  :global(body.resistance-personalized > header),
+  :global(body.resistance-personalized > main),
+  :global(body.resistance-personalized > footer) {
+    animation: resistance-personal-tear .19s steps(3, end) infinite;
+    text-shadow: 3px 0 rgb(159 30 55 / .66), -3px 0 rgb(25 127 156 / .66);
+  }
+  @keyframes resistance-personal-tear {
+    0%, 100% { transform: translateX(0); filter: none; }
+    24% { transform: translateX(-5px); filter: contrast(1.4); }
+    51% { transform: translateX(4px); filter: saturate(.55); }
+    75% { transform: translateX(-2px); filter: contrast(1.18); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(body.resistance-personalized > header),
+    :global(body.resistance-personalized > main),
+    :global(body.resistance-personalized > footer) {
+      animation: none;
+      transform: none;
+    }
   }
   @keyframes resistance-shudder {
     0%, 100% { transform: translateX(0); }

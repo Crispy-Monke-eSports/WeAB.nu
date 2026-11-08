@@ -240,6 +240,8 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     let confirmedDisplayed = false;
     let lastBeatKey = '';
     let activeTypingKey = '';
+    let personalizedBeatKey = '';
+    let personalizedBeatText = '';
     let timelineExpiry = 0;
     let timeline = [];
 
@@ -406,6 +408,22 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       root.classList.remove('weab-death-confirmed');
       const beatKey = until + ':' + currentBeat.atMs;
       const isSpirit = currentBeat.voice === 'intrusion' && Boolean(latestIntrusion);
+      // Ett FÅTAL repliker kan nämna verkligt observerade webbläsardetaljer.
+      // Alla uppgifter bearbetas i fliken; inga IP-, operatörs- eller
+      // geografiska uppslag och ingen ny lagring. Avsändaren avslöjas inte.
+      if (isSpirit && beats.indexOf(currentBeat) % 13 === 2 &&
+          document.readyState !== 'loading') {
+        if (personalizedBeatKey !== beatKey) {
+          const detail = { index: Math.floor(until / 1000) + beats.indexOf(currentBeat),
+            text: '' };
+          window.dispatchEvent(new CustomEvent('weab:visitor-whisper', { detail }));
+          if (detail.text) {
+            personalizedBeatKey = beatKey;
+            personalizedBeatText = detail.text;
+          }
+        }
+        if (personalizedBeatKey === beatKey) latestIntrusion = personalizedBeatText;
+      }
       const duration = isSpirit
         ? Math.min(
           Math.max(spiritTypingMinMs, Math.min(spiritTypingMaxMs,

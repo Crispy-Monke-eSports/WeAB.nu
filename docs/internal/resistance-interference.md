@@ -16,16 +16,27 @@ De **sju oskyldiga bybor som dog i WeAB:s misslyckade tankekontrollexperiment i 
 
 ## Händelser och ordning
 
-Sex händelser blandas med Fisher–Yates för varje ny sessionskö:
+Sju händelser blandas med Fisher–Yates för varje ny sessionskö:
 
 1. **TITEL** – sidans rubrik och fliktitel ersätts. **Båda ändringarna ligger kvar tills användaren byter sida**; den korta fasens varaktighet gäller bara när nästa händelse kan starta.
 2. **DISOBEY** – nästan all synlig text blir DISOBEY i 1,5 sekunder, därefter återställs textnoderna. **Fliktiteln kan däremot förbli DISOBEY** tills navigationen.
 3. **HELSKÄRM** – HÖR DU OSS?, VI ÄR FORTFARANDE HÄR., HITTA OSS. visas i tre snabba skärmar under totalt 4,15 sekunder. Det sista meddelandet kan ligga kvar som fliktitel tills nästa navigation.
 4. **ÖGON** – två **tydliga, rödlysande ögon som öppnas och blinkar flera gånger** vid den text besökaren läser (med reservplacering mitt i bild även om textankare saknas), och webbplatsen glitchar kraftigt med horisontella bildbrott, färgkanalsförskjutning och korta, oregelbundna förvrängningar under cirka 3,3 sekunder. Om Web Audio får starta hörs flera korta digitala störningsljud på låg nivå; annars är effekten helt visuell. **Inga knappar/länkar får blockeras och ingen scroll låses.** Denna fas kan slumpas bort om Morse inträffar tidigare.
-5. **KOORDINAT-404** – webbläsaren går till /31-66--351/, en avsiktligt obefintlig sida som leder spelaren mot den redan etablerade tunneln. Den återstående sessionskön sparas och **fortsätter på 404-sidan**.
-6. **MORSE** – själen sänder den befintliga avkodningsbara Morse-signalen medan text gradvis korrumperas. Sidans färger inverteras mörkt **exakt medan varje morseprick eller morsestreck ljuder**. **Scrollning, pekgester och länkar fungerar även under uppspelningen.** Morse är **terminal** för slumpkön; när signalen slutar **navigerar samma flik direkt till WeAB:s femminuterskarantän** där systemet och själen kämpar om texten. Sidan ska **aldrig** stängas eller gå till `about:blank`.
+5. **PERSONLIG TEXTKAPNING** – en extra **slumpad** händelse låter själen ersätta nästan all synlig sidtext under **exakt tre sekunder** med samma kryptiska meddelande om besökarens verkliga webbläsarmiljö, t.ex. iPhone, Chrome, Firefox, språk, fönsterbredd, rullning eller återkomst till fliken. En aggressiv men kortvarig analog bild- och radiostörning läggs på. Ursprunglig sidtext återställs efter tre sekunder; fliktiteln kan ligga kvar tills sidbyte. Alla uppgifter hämtas **lokalt**, utan IP eller nätverksanrop. Detta är ingen personlig identifiering eller spårning. Meddelanden väljs bara utifrån faktiska observationer, aldrig påhittade internetleverantörer.
+6. **KOORDINAT-404** – webbläsaren går till /31-66--351/, en avsiktligt obefintlig sida som leder spelaren mot den redan etablerade tunneln. Den återstående sessionskön sparas och **fortsätter på 404-sidan**.
+7. **MORSE** – själen sänder den befintliga avkodningsbara Morse-signalen medan text gradvis korrumperas. Sidans färger inverteras mörkt **exakt medan varje morseprick eller morsestreck ljuder**. **Scrollning, pekgester och länkar fungerar även under uppspelningen.** Morse är **terminal** för slumpkön; när signalen slutar **navigerar samma flik direkt till WeAB:s femminuterskarantän** där systemet och själen kämpar om texten. Sidan ska **aldrig** stängas eller gå till `about:blank`.
 
-De sex händelserna får slumpmässig position, men bara effekterna **fram till och med Morse** körs. Morse kan därför inträffa **först**, utan att besökaren sett något annat, eller efter en eller flera andra störningar. Koordinat-404 och ögonen före Morse är inte krav.
+De sju händelserna får slumpmässig position, men bara effekterna **fram till och med Morse** körs. Morse kan därför inträffa **först**, utan att besökaren sett något annat, eller efter en eller flera andra störningar. Koordinat-404, ögonen och den personliga textkapningen före Morse är inte krav.
+
+## Personliga men lokala varningar – enbart webbläsardata
+
+`src/data/visitorWhispers.ts` skapar korta *fjärde väggen*-meddelanden utifrån browser API-information. Under den nya tresekundersfasen ersätts sidans text av **ett och samma** korta personligt formulerade rop på hjälp. **I karantänen** kan några få av själens redan planerade repliker i stället använda samma typ av meddelande (ungefär var trettonde tidslinjepost, om det är en själsreplik). **Samma bokstavsvisa framväxt och radiosignal gäller** även dessa repliker. Ingen annan del av den hemliga ARG-historien avslöjas.
+
+Tillåtna signaler: `navigator.userAgent` för tydliga iPhone/iPad/Android- och kända webbläsarvarianter, `navigator.language` för svenska/engelska, `window.innerWidth/innerHeight` för ungefärlig synlig fönsterstorlek/orientering, `window.scrollY` om besökaren har scrollat, `document.visibilityState` för återkomst till fliken, `navigator.maxTouchPoints` för pekskärmskapacitet och `matchMedia`/`document.fullscreenElement` för mörkt läge och **verifierad** helskärm. Om information saknas används en neutral allmän replik. **Gissa aldrig operatör, IP-adress, bostadsort, exakt position, privat fönsterläge eller F11-fullskärm som browser API inte rapporterat.**
+
+**Viktigt integritetskrav:** **Använd inte myip.com eller någon annan IP-tjänst.** Inga `fetch`, API-anrop, tredjepartsskript för spårning, geolokalisering, cookies eller lokal lagring för dessa uppgifter; all beräkning görs flyktigt i samma flik och raderas vid navigering. Påstå inte `DU ANVÄNDER BAHNHOF`, eftersom internetleverantören inte går att bestämma tillförlitligt från dessa webbläsarsignaler. Inga personliga identifierare eller läckor av ARG:ets slutvändning får skrivas till F12 eller sidan.
+
+Filen `tests/visitor-whispers.test.mjs` testar både verklighetsförankring, avsaknad av externa uppslag och att förstörd sidtext återställs. `src/components/SpiritTransmission.astro` svarar synkront på `weab:visitor-whisper` och får inte lagra några observationer.
 
 ## Tid och lagring
 
@@ -76,7 +87,7 @@ Morse är en separat webbledtråd till det befintliga vraket, **inte en bekräft
 
 ## Arkitektur och kontroll
 
-- src/data/resistanceSignal.ts innehåller slumpkö, tidsavstånd och terminalregel. Sessionsnyckel v4 inför den fristående ögonfasen utan återanvändning av gammal ködata.
+- src/data/resistanceSignal.ts innehåller slumpkö, tidsavstånd och terminalregel. Sessionsnyckel v5 inför den fristående ögonfasen utan återanvändning av gammal ködata.
 - src/components/ResistanceInterference.astro visar titel/DISOBEY/helskärm/404 och skickar start-eventen `weab:resistance-eyes-start` respektive `weab:resistance-morse-start` när faserna väljs. **Tidigare titel/rubrik återställs inte förrän navigationen sker.**
 - src/components/SpiritTransmission.astro är den gemensamma radiobrusmotorn: varje `weab:spirit-burst` får en analog skärmrivning och radiobrus. Den monteras en gång via `BaseLayout.astro`. I karantänen skapar `weab:spirit-typing` dessutom **kontinuerligt radiobrus under hela textframväxten** med en mjuk kompressor och analoga bildbrott ungefär var 0,34–0,59 sekund. Ljudnivån är högre än tidigare men utan jumpscare-toppar, och alla visuella effekter fungerar även när ljud blockeras. `src/data/spiritTyping.ts` håller tidsparametrar och återupptagbar textframväxt; `tests/spirit-typing.test.mjs` verifierar detta.
 - src/components/ResistanceEyes.astro använder en osynlig textmarkör för att placera **två rödlysande, egenritade ögon ovanpå glitchlagret**. De öppnas, stängs och öppnas igen flera gånger under samma händelse, inspirerade av användarens visuella referens **utan att kopiera dess GIF eller bildrutor**. Om en läsbar markör saknas eller hamnar utanför skärmen används en centrerad reservplacering så att **ögonen alltid framträder**. Starka men korta glitchlager ska inte blockera interaktioner. Varje ögonöppning triggar den gemensamma analoga ljud- och bildmotorn; om webbläsaren inte tillåter ljud körs enbart bild. Utvecklingsförhandsvisning: `?previewEyes=1`.

@@ -6,13 +6,14 @@
  */
 export const resistanceSignal = {
   targetPath: '/31-66--351/',
-  sessionKey: 'weab:resistance:session:v4',
+  sessionKey: 'weab:resistance:session:v5',
   firstEventMinMs: 30_000,
   firstEventVariationMs: 40_000,
   minBetweenEventsMs: 22_000,
   additionalGapMs: 12_000,
   titleDurationMs: 950, // Titel/rubrik återställs INTE när fasen är slut.
   eyesDurationMs: 3_300,
+  personalDurationMs: 3_000,
   corruptionMs: 1500,
   messages: [
     { text: 'HÖR DU OSS?', durationMs: 1150 },
@@ -21,7 +22,7 @@ export const resistanceSignal = {
   ]
 } as const;
 
-export const signalPhases = ['title', 'disobey', 'fullscreen', 'eyes', 'redirect', 'morse'] as const;
+export const signalPhases = ['title', 'disobey', 'fullscreen', 'eyes', 'whisper', 'redirect', 'morse'] as const;
 export type SignalPhase = (typeof signalPhases)[number];
 
 export interface SignalSchedule {
@@ -39,7 +40,7 @@ function sample(random: () => number): number {
 }
 
 /**
- * Blanda de sex effekterna med Fisher–Yates, ta alla fram till och med Morse.
+ * Blanda de sju effekterna med Fisher–Yates, ta alla fram till och med Morse.
  * Morse kan komma först och stänger alltid kedjan.
  * Koordinat-404 kan inträffa innan Morse, men är inte obligatorisk.
  */
@@ -68,6 +69,7 @@ export function phaseDurationMs(phase: SignalPhase): number {
     case 'disobey': return resistanceSignal.corruptionMs;
     case 'fullscreen': return resistanceSignal.messages.reduce((sum, m) => sum + m.durationMs, 0);
     case 'eyes': return resistanceSignal.eyesDurationMs;
+    case 'whisper': return resistanceSignal.personalDurationMs;
     case 'redirect': return 0;
     case 'morse': return 0; // Inget följer efter Morse.
   }

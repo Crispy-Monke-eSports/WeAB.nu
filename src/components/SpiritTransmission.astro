@@ -6,6 +6,24 @@
  */
 ---
 <script>
+  import { collectVisitorClues, selectVisitorWhisper } from '../data/visitorWhispers.ts';
+
+  // Alla observationer stannar i den här fliken. Ingen IP-, ISP- eller
+  // positionshämtning görs och inga uppgifter sparas eller skickas vidare.
+  let hiddenBefore = false;
+  let returnedToTab = false;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) hiddenBefore = true;
+    else if (hiddenBefore) returnedToTab = true;
+  });
+  window.addEventListener('weab:visitor-whisper', (event: Event) => {
+    const detail = (event as CustomEvent<{ index: number; text?: string }>).detail;
+    if (!detail) return;
+    detail.text = selectVisitorWhisper(
+      collectVisitorClues(window, document, returnedToTab), detail.index
+    );
+  });
+
   type Strength = 'soft' | 'medium' | 'harsh';
   type SpiritBurst = { strength?: Strength };
   type SpiritTyping = { active: boolean; strength?: Strength };
