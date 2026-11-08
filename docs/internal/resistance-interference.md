@@ -10,6 +10,10 @@
 
 **Spelarnas gradvisa upplevelse:** Den slumpade serien av titelbyten, DISOBEY, helskärmsmeddelanden, 404 och Morse kan fortfarande *uppfattas som* motståndsrörelsens hackningsförsök. De desperata fragmenten som bryter in på karantänskärmen tillhör däremot den före detta infiltratörens själ. Att systemet påstår `Dödsfall bekräftat` behöver inte betyda att det lyckas tysta den. **Berätta inte denna förklaring på webbplatsen och ändra inte existerande meddelanden för att ge bort slutet.**
 
+## Avsiktlig misstanke om fel själsursprung
+
+De **sju oskyldiga bybor som dog i WeAB:s misslyckade tankekontrollexperiment i Huvudstaden** är ett **avsiktligt red herring/villospår**. Spelarna får misstänka att själen på hemsidan är en av dem, men den korrekta slutidentiteten är **den tidigare WeAB-infiltratören i motståndsstyrkan som torterades och dog i Huvudstaden**. Experimenten och de sju dödsfallen är verklig historisk kanon och behåller sitt värde även när teorin visar sig vara fel. **Avslöja inte denna skillnad i webbsidans nuvarande karantänmeddelanden.** Ändra inte Morse, tidslinjer eller existerande ARG-effekter för att föra ut facit i förtid.
+
 ## Händelser och ordning
 
 Fem händelser blandas med Fisher–Yates för varje ny sessionskö:

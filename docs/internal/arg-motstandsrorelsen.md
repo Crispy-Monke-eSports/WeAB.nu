@@ -12,7 +12,9 @@
 - En skylt i ruinen lyder **”RAPPORT SKRIVEN 21/11/2051”**. Detta daterar rapporten, **inte säkert räden eller sprängningen**.
 - **Den stora slutvändningen:** Motståndsrörelsen är **ytterst skapad/styrd av WeAB**, som använder den för att identifiera vem som fortfarande motsätter sig koncernen. **WeAB känner till alla medlemmars positioner**. De flesta medlemmar är uppriktiga motståndare och känner inte till att organisationen är riggad. Exakt organisatoriskt namn, grundläggningsdatum och ledning är fortfarande öppna.
 
-**Avgränsning:** Upprorarna från 2047, de sju oskyldiga som dog i Huvudstaden och de tio motståndspersonerna som dödades vid husruinen 2051 är **inte samma fastslagna grupp**. **Själen på WeAB.nu är nu fastslagen som en annan person: en före detta WeAB-infiltratör i motståndsstyrkan som bytte sympatier, påkoms, torterades och dog i Huvudstaden innan den hemliga planen hann läcka.** Ingen koppling till de sju dödliga tankekontrollexperimenten är bestämd. Hitta inte på namn, exakta datum, en fungerande tankekontrollteknik eller en fysisk koppling till vraket.
+**VIKTIGT SPELMÄSTARVAL – DE SJU ÄR ETT AVSIKTLIGT VILLOSPÅR:** Låt spelarna misstänka att någon av de **sju oskyldiga byborna som dog under tankekontrollförsöken** är den själ som hemsöker WeAB.nu. Både offren och den verkliga själen har koppling till **Huvudstaden**, vilket gör teorin rimlig men **felaktig**. **Själens verkliga identitet är den före detta WeAB-infiltratören i motståndsstyrkan**, som kom på andra tankar och torterades till döds efter att ha avslöjats. De sju är inte samma person och utgör inte själens ursprung. Deras död och WeAB:s experiment är däremot **verkliga i kanon** och ska aldrig avfärdas som påhitt när villospåret avslöjas. Ge indicier som kan misstolkas, inte falskt definitiva namn, vittnesmål eller akter som påstår att själen är en av sju.
+
+**Avgränsning:** Upprorarna från 2047, de sju oskyldiga som dog i Huvudstaden och de tio motståndspersonerna som dödades vid husruinen 2051 är **inte samma fastslagna grupp**. **Själen på WeAB.nu är nu fastslagen som en annan person: en före detta WeAB-infiltratör i motståndsstyrkan som bytte sympatier, påkoms, torterades och dog i Huvudstaden innan den hemliga planen hann läcka.** **De sju är uttryckligen ett villospår om själens identitet och är inte själens ursprung.** Hitta inte på namn, exakta datum, en fungerande tankekontrollteknik eller en fysisk koppling till vraket.
 
 
 ## Det verkliga ARG-upplägget – strikt hemligt slutfacit
@@ -49,7 +51,13 @@ Citaten återger läsbar innebörd av befintliga skyltar, inte nya skyltar som s
 
 **Här slutar den bekräftade ledtrådsvägen.** Ingen känd text, karta eller koordinat i tunneln eller ruinen leder vidare till vraket. Bygg inte en sådan förbindelse retroaktivt.
 
-### B. Separat, oberoende fynd: vraket
+### B. Bekräftat monument: Sektion 1, Avdelning B
+
+**Ny användarbekräftelse:** Ett **redan byggt monument** finns i **WeLiveLaughLove, Sektion 1, Avdelning B**. Användaren har visat det på en bild i konversationen. Detta är en faktisk miljödetalj i Minecraft-världen, inte en föreslagen ny byggnation. **Exakt koordinat, vad monumentet restes för, när det byggdes, om det har någon inskrift och om det är ett officiellt WeAB-monument eller ett dolt motståndsminne är inte fastslaget i textunderlaget.** Hitta inte på dessa uppgifter, och tolka inte motivet som en bekräftad minnesmarkering för 2047 års uppror förrän användaren säger det.
+
+Monumentet kan vara en lämplig plats för **framtida miljöbaserad ARG-ledtråd** om 2047 års uppror och minnesförlusterna, eller för ett missvisande spår mot de sju döda försöksbyborna, men inget av detta är ännu beslutat eller inbyggt. Föreslå ändringar separat och bevara det som redan syns i byggnaden. Monumentet är **inte automatiskt kopplat** till tunnelns ledtrådsväg, de tio döda 2051, vraket eller hemsökelsens verkliga identitet.
+
+### C. Separat, oberoende fynd: vraket
 
 I ett vrak på havsbotten vid **x 2142, y 64, z 957** finns en **kista** med texten **”Valresultat Riks 2045”**. Det syftar på det undanröjda resultatet från riksvalet då WeAB kuppade bort den demokratiska riksdagen. Resultatet är borttaget ur de tillgängliga offentliga arkiven.
 
@@ -112,7 +120,7 @@ En framtida webbgren kan bygga vidare på dessa spår men får inte hitta på va
 - Kuppens exakta datum under 2045, verkligt valutfall och hur valresultatet transporterades till vraket.
 - Husrazzian, avrättningarnas och sprängningens exakta datum under 2051 (endast rapportdatumet 21 november är säkert).
 - Exakt när WeAB etablerade sitt hemliga motståndsnätverk, vem som förmedlar dess order och hur det samlar in platser, utöver att **WeAB enligt kanon har full kontroll över medlemmarnas positioner**.
-- Om 2047 års uppror eller de sju misslyckade experimenten har något historiskt samband med **den nu fastslagna själen: den döda före detta WeAB-infiltratören**; någon sådan koppling har inte bestämts.
+- Exakt hur ledtrådarna om **de sju döda försöksbyborna** ska spridas som ett **avsiktligt villospår** innan det avslöjas att själen är den döda före detta WeAB-infiltratören. Inget ytterligare, oplanerat orsakssamband ska hittas på.
 - De sju försökspersonernas identiteter, experimentens exakta tidpunkt och vad WeAB tekniskt försökte genomföra (förutom det övergripande målet).
 - Hur webbspår eller framtida videor kan komplettera två **separata**, redan existerande spår utan att falskeligen länka ihop dem.
 
