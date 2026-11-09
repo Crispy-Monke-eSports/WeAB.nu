@@ -143,7 +143,7 @@ test('testadressen startar även i produktion, trots cookie och utan slumpad ARG
 });
 
 test('RESULTAT.txt är förgenererad med Base64 i åttateckensbitar mellan verkliga WeLiveLaughLove-meningar', () => {
-  const lines = source('public/RESULTAT.txt').trimEnd().split('\\n');
+  const lines = source('public/RESULTAT.txt').split('\n').filter(Boolean);
   const companyPage = source('src/data/companies.ts') + source('src/data/companyEditorial.ts') +
     source('src/pages/verksamheter/[slug].astro');
   assert.equal(lines.length, 13);
@@ -158,6 +158,6 @@ test('RESULTAT.txt är förgenererad med Base64 i åttateckensbitar mellan verkl
     } else assert.equal(parts[2], '');
   }
   assert.equal(Buffer.from(chunks.join(''), 'base64').toString('utf8'),
-    '12 feburari 2048 02:12:\\n\\nresultat blev inte önskvärt biologiskt resultat.\\n');
-  assert.doesNotMatch(source('src/layouts/BaseLayout.astro'), /btoa\\(|Buffer\\.from\\(/);
+    '12 feburari 2048 02:12:\n\nresultat blev inte önskvärt biologiskt resultat.\n');
+  assert.doesNotMatch(source('src/layouts/BaseLayout.astro'), /btoa\(|Buffer\.from\(/);
 });
