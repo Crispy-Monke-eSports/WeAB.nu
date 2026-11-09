@@ -701,7 +701,7 @@
         // Avsluta spärren först efter hela WeAB:s 3,2 sekunder långa slutvy.
         // Omladdning före dess leder alltid tillbaka till RÄDDA DOM.
         // Samma cookie byter läge atomärt från inbjudan till tystnad.
-        document.cookie = createQuietCookie(now, location.protocol === 'https:');
+        document.cookie = createQuietCookie(now, location.protocol === 'https:', 'game');
         try { localStorage.removeItem(resistanceLockdown.noticeKey); } catch { /* Valfritt. */ }
         try { localStorage.setItem('weab:resistance:quiet', String(now + resistanceLockdown.durationMs)); } catch { /* Valfritt. */ }
         try { sessionStorage.removeItem(resistanceSignal.sessionKey); } catch { /* Valfritt. */ }

@@ -3,18 +3,23 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
   resistanceLockdown, createLockdownCookie, readLockdownExpiry,
-  createQuietCookie, readQuietExpiry,
+  createQuietCookie, readQuietExpiry, readLastOutcome,
   getLockdownBeat, getLockdownStatus, createLockdownTimeline
 } from '../src/data/resistanceLockdown.ts';
 
 test('minispelets tysta läge använder samma cookie utan att öppna karantänen', () => {
   const now = 1_800_000_000_000;
-  const cookie = createQuietCookie(now, true);
-  assert.match(cookie, /^weab_centralserver_lock_until=quiet\.1800000180000;/);
-  assert.match(cookie, /Max-Age=180; Path=\/; SameSite=Lax; Secure/);
+  const cookie = createQuietCookie(now, true, 'game');
+  assert.match(cookie, /^weab_centralserver_lock_until=quiet\.1800000180000\.game;/);
+  assert.match(cookie, /Max-Age=31536000; Path=\/; SameSite=Lax; Secure/);
   assert.equal(readQuietExpiry(cookie, now), now + 180_000);
   assert.equal(readLockdownExpiry(cookie, now), null);
   assert.equal(readQuietExpiry(cookie, now + 180_000), null);
+  assert.equal(readLastOutcome(cookie), 'game');
+  assert.equal(readLastOutcome(createQuietCookie(now, false, 'quarantine')), 'quarantine');
+  assert.equal(readLastOutcome('weab_centralserver_lock_until=quiet.1800000180000'), null);
+  assert.equal(readLastOutcome('weab_centralserver_lock_until=quiet.1800000180000.wrong'), null);
+  assert.equal(readQuietExpiry('weab_centralserver_lock_until=quiet.1800000180000.wrong', now), null);
   assert.equal(readQuietExpiry(createLockdownCookie(now, false), now), null);
 });
 
@@ -24,8 +29,9 @@ test('karantänens slutmeddelande följs av tre minuter utan nya intrång', () =
     .split('function applyLockdown() {')[0];
   assert.match(confirmed, /const quietStartsAt = \(until \|\| timelineExpiry \|\| now\) \+ exitMessageMs/);
   assert.match(confirmed, /const quietUntil = Math\.trunc\(quietStartsAt \+ quietDurationMs\)/);
-  assert.match(confirmed, /document\.cookie = `\$\{lockCookieName\}=quiet\.\$\{quietUntil\}`/);
-  assert.match(confirmed, /secondsLeft > 0/);
+  assert.match(confirmed, /document\.cookie = `\$\{lockCookieName\}=quiet\.\$\{quietUntil\}\.quarantine`/);
+  assert.match(confirmed, /Max-Age=31536000/);
+  assert.match(confirmed, /!existing\.startsWith\(cookiePrefix \+ 'quiet\.'\)/);
   assert.ok(confirmed.indexOf('showSystem(exitMessage') < confirmed.indexOf('document.cookie ='));
   assert.match(layout, /until <= now \+ quietDurationMs \? until : 0/);
 });

@@ -96,6 +96,7 @@ export const resistanceLockdown = {
 
 export type LockdownVoice = 'system' | 'intrusion';
 export type LockdownBeat = { atMs: number; voice: LockdownVoice; text: string };
+export type ArgOutcome = 'game' | 'quarantine';
 
 export function createLockdownCookie(now: number, secure: boolean): string {
   const until = Math.trunc(now + resistanceLockdown.durationMs);
@@ -103,10 +104,10 @@ export function createLockdownCookie(now: number, secure: boolean): string {
     (secure ? '; Secure' : '');
 }
 
-/** Samma cookie, men ett separat läge: vanlig webbplats utan ARG-effekter. */
-export function createQuietCookie(now: number, secure: boolean): string {
+/** Tystnad i tre minuter, därefter minne av senast avslutat ARG-läge. */
+export function createQuietCookie(now: number, secure: boolean, outcome: ArgOutcome): string {
   const until = Math.trunc(now + resistanceLockdown.quietDurationMs);
-  return `${resistanceLockdown.cookieName}=quiet.${until}; Max-Age=180; Path=/; SameSite=Lax` +
+  return `${resistanceLockdown.cookieName}=quiet.${until}.${outcome}; Max-Age=31536000; Path=/; SameSite=Lax` +
     (secure ? '; Secure' : '');
 }
 
@@ -125,9 +126,20 @@ export function readQuietExpiry(cookieHeader: string, now: number): number | nul
   const prefix = `${resistanceLockdown.cookieName}=quiet.`;
   const entry = cookieHeader.split(';').map(part => part.trim()).find(part => part.startsWith(prefix));
   if (!entry) return null;
-  const until = Number(entry.slice(prefix.length));
+  const match = /^(\d+)(?:\.(?:game|quarantine))?$/.exec(entry.slice(prefix.length));
+  if (!match) return null;
+  const until = Number(match[1]);
   return Number.isSafeInteger(until) && until > now &&
     until <= now + resistanceLockdown.quietDurationMs ? until : null;
+}
+
+/** Gammalt quiet.<sluttid> fungerar som paus men ger inget påhittat historikläge. */
+export function readLastOutcome(cookieHeader: string): ArgOutcome | null {
+  const prefix = `${resistanceLockdown.cookieName}=quiet.`;
+  const entry = cookieHeader.split(';').map(part => part.trim()).find(part => part.startsWith(prefix));
+  if (!entry) return null;
+  const match = /^(\d+)\.(game|quarantine)$/.exec(entry.slice(prefix.length));
+  return match && Number.isSafeInteger(Number(match[1])) ? match[2] as ArgOutcome : null;
 }
 
 export function readLockdownExpiry(cookieHeader: string, now: number): number | null {

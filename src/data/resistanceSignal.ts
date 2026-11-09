@@ -6,7 +6,7 @@
  */
 export const resistanceSignal = {
   targetPath: '/31-66--351/',
-  sessionKey: 'weab:resistance:session:v5',
+  sessionKey: 'weab:resistance:session:v6',
   firstEventMinMs: 30_000,
   firstEventVariationMs: 40_000,
   minBetweenEventsMs: 22_000,
@@ -34,6 +34,11 @@ export function chooseMinigame(random: () => number = Math.random): boolean {
 
 export const signalPhases = ['title', 'disobey', 'fullscreen', 'eyes', 'whisper', 'redirect', 'morse'] as const;
 export type SignalPhase = (typeof signalPhases)[number];
+export type SignalTarget = 'game' | 'quarantine' | null;
+
+export function nextSignalTarget(last: 'game' | 'quarantine' | null): SignalTarget {
+  return last === 'game' ? 'quarantine' : last === 'quarantine' ? 'game' : null;
+}
 
 export interface SignalSchedule {
   /** Förbrukade millisekunder i en synlig flik. */
@@ -42,6 +47,8 @@ export interface SignalSchedule {
   queue: SignalPhase[];
   /** Aktiv tid då nästa effekt tidigast får starta. */
   nextAtMs: number;
+  /** Bunden till historiken när ordningen skapas och överlever en 404-omdirigering. */
+  target: SignalTarget;
 }
 
 function sample(random: () => number): number {
@@ -54,19 +61,30 @@ function sample(random: () => number): number {
  * Morse kan komma först och stänger alltid kedjan.
  * Koordinat-404 kan inträffa innan Morse, men är inte obligatorisk.
  */
-export function createSignalOrder(random: () => number = Math.random): SignalPhase[] {
+export function createSignalOrder(
+  random: () => number = Math.random, target: SignalTarget = null
+): SignalPhase[] {
   const phases: SignalPhase[] = [...signalPhases];
   for (let i = phases.length - 1; i > 0; i--) {
     const j = Math.floor(sample(random) * (i + 1));
     [phases[i], phases[j]] = [phases[j], phases[i]];
   }
+  if (target === 'game' && phases.indexOf('whisper') > phases.indexOf('morse')) {
+    // Efter karantän måste spelinbjudan hinnas före terminal Morse, men
+    // övriga störningar behåller sin slumpade inbördes ordning.
+    phases.splice(phases.indexOf('whisper'), 1);
+    phases.splice(phases.indexOf('morse'), 0, 'whisper');
+  }
   return phases.slice(0, phases.indexOf('morse') + 1);
 }
 
-export function createSignalSchedule(random: () => number = Math.random): SignalSchedule {
+export function createSignalSchedule(
+  random: () => number = Math.random, target: SignalTarget = null
+): SignalSchedule {
   return {
     activeMs: 0,
-    queue: createSignalOrder(random),
+    queue: createSignalOrder(random, target),
+    target,
     nextAtMs: Math.floor(
       resistanceSignal.firstEventMinMs + sample(random) * resistanceSignal.firstEventVariationMs
     )
@@ -98,6 +116,7 @@ export function advanceSignalSchedule(
   return {
     activeMs: schedule.activeMs,
     queue: remaining,
+    target: schedule.target,
     nextAtMs: schedule.activeMs + phaseDurationMs(current) + gap
   };
 }
@@ -111,6 +130,7 @@ export function isSignalSchedule(value: unknown): value is SignalSchedule {
       !Array.isArray(state.queue)) return false;
   const queue: unknown[] = state.queue;
   return queue.length >= 1 && queue.length <= signalPhases.length &&
+    (state.target === null || state.target === 'game' || state.target === 'quarantine') &&
     queue.at(-1) === 'morse' && new Set(queue).size === queue.length &&
     queue.every(phase => signalPhases.includes(phase as SignalPhase));
 }

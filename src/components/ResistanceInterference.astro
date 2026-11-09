@@ -24,10 +24,14 @@
     advanceSignalSchedule,
     isSignalSchedule,
     chooseMinigame,
+    nextSignalTarget,
     type SignalSchedule,
     type SignalPhase
   } from '../data/resistanceSignal.ts';
-  import { resistanceLockdown, createLockdownCookie, createMinigameInvitationCookie } from '../data/resistanceLockdown.ts';
+  import {
+    resistanceLockdown, createLockdownCookie, createMinigameInvitationCookie,
+    readLastOutcome, readLockdownExpiry, readQuietExpiry, hasMinigameInvitationCookie
+  } from '../data/resistanceLockdown.ts';
 
   const overlay = document.querySelector<HTMLElement>('[data-resistance-interference]');
   const messageElement = overlay?.querySelector<HTMLElement>('[data-resistance-message]');
@@ -63,12 +67,16 @@
     const previousRaw = storageRead(sessionStorage, resistanceSignal.sessionKey);
     let previous: unknown = null;
     try { previous = previousRaw ? JSON.parse(previousRaw) : null; } catch { /* Nollställ korrupt sessionsdata. */ }
+    const targetFromCookie = nextSignalTarget(readLastOutcome(document.cookie));
+    const currentSchedule = isSignalSchedule(previous) && previous.target === targetFromCookie
+      ? previous : null;
     // Fristående 404-besök startar inte ett nytt intrång. På koordinat-404
     // fortsätter däremot schemat efter en tidigare omdirigering.
     const is404 = document.querySelector('.not-found') !== null;
-    if ((!is404 || isSignalSchedule(previous) || preview) && !morsePreview && !minigamePreview) {
-      let schedule: SignalSchedule = isSignalSchedule(previous) ? previous : createSignalSchedule();
-      if (preview) schedule = { activeMs: 0, queue: createSignalSchedule().queue, nextAtMs: 1_000 };
+    if ((!is404 || currentSchedule || preview) && !morsePreview && !minigamePreview) {
+      let schedule: SignalSchedule = currentSchedule ||
+        createSignalSchedule(Math.random, targetFromCookie);
+      if (preview) schedule = { ...createSignalSchedule(Math.random, schedule.target), nextAtMs: 1_000 };
 
       let running = false;
       let originalTexts: Array<{ node: Text; value: string }> = [];
@@ -241,7 +249,7 @@
         else if (phase === 'fullscreen') runFullscreen();
         else if (phase === 'eyes') runEyes();
         else if (phase === 'whisper') {
-          if (chooseMinigame()) {
+          if (schedule.target === 'game' || (schedule.target === null && chooseMinigame())) {
             running = true;
             window.clearInterval(intervalId);
             // Läget är cookie-baserat: omladdning och manuellt sidbyte får inte
@@ -273,6 +281,21 @@
         if (document.documentElement.classList.contains('weab-quarantined') ||
             document.documentElement.classList.contains('weab-quiet')) {
           window.clearInterval(intervalId);
+          return;
+        }
+        // En annan flik kan ha börjat nästa terminala förlopp sedan denna flik
+        // skapade sin slumpkö. Följ samma cookie i stället för att starta eget.
+        if (hasMinigameInvitationCookie(document.cookie) ||
+            readLockdownExpiry(document.cookie, Date.now()) !== null ||
+            readQuietExpiry(document.cookie, Date.now()) !== null) {
+          window.clearInterval(intervalId);
+          location.reload();
+          return;
+        }
+        if (schedule.target !== nextSignalTarget(readLastOutcome(document.cookie))) {
+          window.clearInterval(intervalId);
+          try { sessionStorage.removeItem(resistanceSignal.sessionKey); } catch { /* Valfritt. */ }
+          location.reload();
           return;
         }
         if (document.visibilityState !== 'visible') return;

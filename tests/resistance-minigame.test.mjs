@@ -40,7 +40,7 @@ test('slutsekvensen sätter tyst cookieläge och återvänder hem', () => {
   const game = source('src/components/ResistanceMinigame.astro');
   const layout = source('src/layouts/BaseLayout.astro');
   const controller = source('src/components/ResistanceInterference.astro');
-  assert.match(game, /createQuietCookie\(now, location\.protocol === 'https:'\)/);
+  assert.match(game, /createQuietCookie\(now, location\.protocol === 'https:', 'game'\)/);
   assert.match(game, /location\.assign\('\/'\)/);
   assert.match(game, /sessionStorage\.setItem\('weab:resistance:result:v1', '1'\)/);
   assert.match(layout, /location\.pathname === '\/' && root\.classList\.contains\('weab-quiet'\)/);
@@ -51,7 +51,7 @@ test('slutsekvensen sätter tyst cookieläge och återvänder hem', () => {
   assert.doesNotMatch(layout, /URL\.createObjectURL/);
   assert.match(layout, /root\.classList\.add\('weab-quiet'\)/);
   assert.match(layout, /root\.classList\.remove\('weab-quiet'\);\s*location\.reload/);
-  assert.match(controller, /if \(chooseMinigame\(\)\)/);
+  assert.match(controller, /schedule\.target === 'game' \|\| \(schedule\.target === null && chooseMinigame\(\)\)/);
   assert.match(controller, /phase === 'morse'/);
   assert.match(source('src/data/spiritVoice.json'), /"RÄDDA DOM, RÄDDA DOM"/);
   assert.match(source('src/data/spiritVoice.json'), /"DU MISSLYCKADES, DU MISSLYCKADES"/);
@@ -267,7 +267,7 @@ test('inbjudan, karantän och tystnad är ömsesidigt uteslutande lägen i en co
   const now = 1_800_000_000_000;
   const invite = createMinigameInvitationCookie().split(';')[0];
   const lock = createLockdownCookie(now, false).split(';')[0];
-  const quiet = createQuietCookie(now, false).split(';')[0];
+  const quiet = createQuietCookie(now, false, 'game').split(';')[0];
   assert.equal(new Set([invite, lock, quiet].map(value => value.split('=')[0])).size, 1);
   assert.equal(readLockdownExpiry(invite, now), null);
   assert.equal(readQuietExpiry(invite, now), null);

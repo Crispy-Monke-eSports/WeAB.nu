@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   resistanceSignal, signalPhases, createSignalOrder, createSignalSchedule,
-  advanceSignalSchedule, phaseDurationMs, isSignalSchedule, chooseMinigame
+  advanceSignalSchedule, phaseDurationMs, isSignalSchedule, chooseMinigame,
+  nextSignalTarget
 } from '../src/data/resistanceSignal.ts';
 
 test('minispelet ersätter whisper vid tre av tio dragningar, inte ett åttonde kösteg', () => {
@@ -46,6 +47,7 @@ test('första slumpade effekten inträffar efter 30–70 sekunders aktiv läsnin
 test('minst 20 sekunders paus EFTER varje icke-terminal händelse, oavsett ordning', () => {
   let schedule = {
     activeMs: 30_000, nextAtMs: 30_000,
+    target: null,
     queue: ['redirect', 'fullscreen', 'eyes', 'whisper', 'disobey', 'title', 'morse']
   };
   assert.ok(isSignalSchedule(schedule));
@@ -63,10 +65,11 @@ test('minst 20 sekunders paus EFTER varje icke-terminal händelse, oavsett ordni
 });
 
 test('pauserna varierar och ett 404-sidbyte behåller de återstående händelserna', () => {
-  const previous = { activeMs: 80_000, nextAtMs: 80_000, queue: ['redirect', 'title', 'morse'] };
+  const previous = { activeMs: 80_000, nextAtMs: 80_000, target: 'game', queue: ['redirect', 'title', 'morse'] };
   const earliest = advanceSignalSchedule(previous, () => 0);
   const latest = advanceSignalSchedule(previous, () => 0.99999);
   assert.deepEqual(earliest.queue, ['title', 'morse']);
+  assert.equal(earliest.target, 'game');
   assert.ok(latest.nextAtMs > earliest.nextAtMs);
   assert.ok(earliest.nextAtMs - previous.activeMs >= 20_000);
   assert.deepEqual(JSON.parse(JSON.stringify(earliest)), earliest);
@@ -81,7 +84,30 @@ test('sessionsdata avvisas om ordningen är korrupt, återupprepad eller har hä
   assert.equal(isSignalSchedule({ activeMs: 0, nextAtMs: 5, queue: ['morse', 'title'] }), false);
   assert.equal(isSignalSchedule({ activeMs: 0, nextAtMs: 5, queue: ['title', 'title', 'morse'] }), false);
   assert.equal(isSignalSchedule({ activeMs: 0, nextAtMs: 5, queue: ['other', 'morse'] }), false);
-  assert.equal(isSignalSchedule({ activeMs: 0, nextAtMs: 5, queue: ['morse'] }), true);
+  assert.equal(isSignalSchedule({ activeMs: 0, nextAtMs: 5, target: null, queue: ['morse'] }), true);
+  assert.equal(isSignalSchedule({ activeMs: 0, nextAtMs: 5, target: 'wrong', queue: ['morse'] }), false);
+});
+
+test('nästa terminala förlopp växlar garanterat, utan att förutsäga de andra störningarna', () => {
+  assert.equal(nextSignalTarget(null), null);
+  assert.equal(nextSignalTarget('game'), 'quarantine');
+  assert.equal(nextSignalTarget('quarantine'), 'game');
+  let otherPhasesSeen = false;
+  for (let seed = 1; seed <= 150; seed++) {
+    let value = seed;
+    const random = () => ((value = (value * 1664525 + 1013904223) >>> 0) / 4294967296);
+    const game = createSignalSchedule(random, nextSignalTarget('quarantine'));
+    assert.ok(game.queue.indexOf('whisper') < game.queue.indexOf('morse'));
+    assert.equal(game.queue.at(-1), 'morse');
+    assert.equal(game.target, 'game');
+    if (game.queue[0] !== 'whisper') otherPhasesSeen = true;
+    const quarantine = createSignalSchedule(random, nextSignalTarget('game'));
+    assert.equal(quarantine.target, 'quarantine');
+    assert.equal(quarantine.queue.at(-1), 'morse');
+    assert.ok(isSignalSchedule(game));
+    assert.ok(isSignalSchedule(quarantine));
+  }
+  assert.ok(otherPhasesSeen);
 });
 
 test('alla vanliga effekter behålls och koordinat-404 fortsätter vara tillgänglig', () => {

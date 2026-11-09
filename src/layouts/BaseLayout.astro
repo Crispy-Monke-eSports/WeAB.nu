@@ -406,7 +406,10 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       const part = document.cookie.split(';').map(item => item.trim())
         .find(item => item.startsWith(cookiePrefix + 'quiet.'));
       if (!part) return 0;
-      const until = Number(part.slice((cookiePrefix + 'quiet.').length));
+      const match = /^(\d+)(?:\.(?:game|quarantine))?$/.exec(
+        part.slice((cookiePrefix + 'quiet.').length));
+      if (!match) return 0;
+      const until = Number(match[1]);
       return Number.isSafeInteger(until) && until > now &&
         until <= now + quietDurationMs ? until : 0;
     }
@@ -623,10 +626,14 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         // Alla flikar delar samma cookieläge. En sen flik får inte förlänga
         // en redan påbörjad paus efter att en annan flik avslutat karantänen.
         const quietUntil = Math.trunc(quietStartsAt + quietDurationMs);
-        const secondsLeft = Math.ceil((quietUntil - quietNow) / 1000);
-        if (!readQuietExpiry(quietNow) && secondsLeft > 0) {
-          document.cookie = `${lockCookieName}=quiet.${quietUntil}` +
-            `; Max-Age=${secondsLeft}; Path=/; SameSite=Lax` +
+        const existing = document.cookie.split(';').map(part => part.trim())
+          .find(part => part.startsWith(cookiePrefix));
+        if ((!existing || (existing !== cookiePrefix + 'invite' &&
+             !existing.startsWith(cookiePrefix + 'quiet.'))) && !readCookieExpiry(quietNow)) {
+          // Behåll slutläget även om fliken sovit förbi hela tystnadsperioden.
+          // Ett nyare läge från en annan flik får däremot aldrig skrivas över.
+          document.cookie = `${lockCookieName}=quiet.${quietUntil}.quarantine` +
+            '; Max-Age=31536000; Path=/; SameSite=Lax' +
             (location.protocol === 'https:' ? '; Secure' : '');
           try { localStorage.setItem('weab:resistance:quiet', String(quietUntil)); } catch { /* Valfritt. */ }
         }
