@@ -294,6 +294,8 @@
 
   let residue: HTMLElement | null = null;
   let residueTimer = 0;
+  let panicTear: HTMLElement | null = null;
+  let panicTearTimer = 0;
 
   function analogTear(strength: Strength): void {
     const quarantine = document.documentElement.classList.contains('weab-quarantined');
@@ -304,28 +306,55 @@
         document.body;
     if (!parent) return;
 
-    const strip = document.createElement('span');
-    strip.className = 'weab-analog-tear' +
-      (parent === document.body ? ' weab-analog-tear--page' : '');
-    strip.setAttribute('aria-hidden', 'true');
+    const inPanic = Boolean(document.querySelector('[data-save-game].save-game--panic'));
+    // Paniken skickar många bursts. Ett enda återanvänt helskärmslager får
+    // byta position och bruskaraktär; Safari slipper samtidigt tiotals stora
+    // blend-/animationslager. Normala ARG-intrång behåller sitt gamla förlopp.
+    const reuse = inPanic && panicTear?.parentElement === parent;
+    const strip = reuse ? panicTear! : document.createElement('span');
+    if (!reuse) {
+      strip.className = 'weab-analog-tear' +
+        (parent === document.body ? ' weab-analog-tear--page' : '');
+      strip.setAttribute('aria-hidden', 'true');
+      parent.appendChild(strip);
+    }
     strip.style.setProperty('--analog-y', (13 + Math.random() * 69).toFixed(1) + '%');
     strip.style.setProperty('--analog-offset', (Math.random() * 22 - 11).toFixed(0) + 'px');
     strip.style.setProperty('--analog-ghost', strength === 'harsh' ? '.35' : '.19');
-    parent.appendChild(strip);
-    window.setTimeout(() => strip.remove(), strength === 'harsh' ? 1_850 : 1_550);
+    if (inPanic) {
+      panicTear = strip;
+      strip.style.animation = 'none';
+      strip.style.opacity = '.62';
+      window.clearTimeout(panicTearTimer);
+      panicTearTimer = window.setTimeout(() => {
+        if (panicTear === strip) {
+          strip.remove();
+          panicTear = null;
+        }
+      }, 2_000);
+    } else {
+      window.setTimeout(() => strip.remove(), strength === 'harsh' ? 1_850 : 1_550);
+    }
 
-    // Ett kvarvarande signalfel efter pulsen, inte en förlängning av ARG-fasen.
-    // Återanvänd samma enda lager vid snabba helskärmsmeddelanden/ögonblinkningar.
-    residue?.remove();
-    window.clearTimeout(residueTimer);
-    // Intrångslagret kan döljas när fasen är klar. Lägg efterbilden på
-    // själva sidan så att den verkligen dröjer kvar efter ögats stängning.
+    // Ett enda kvarvarande lager även under tusentals störningar.
+    // Intrångslagret kan döljas när fasen är klar; efterbilden ligger på sidan.
     const residueParent = quarantine ? parent : document.body;
-    residue = document.createElement('span');
-    residue.className = 'weab-analog-residue' +
-      (residueParent === document.body ? ' weab-analog-residue--page' : '');
-    residue.setAttribute('aria-hidden', 'true');
-    residueParent.appendChild(residue);
+    if (!residue || residue.parentElement !== residueParent) {
+      residue?.remove();
+      residue = document.createElement('span');
+      residue.className = 'weab-analog-residue' +
+        (residueParent === document.body ? ' weab-analog-residue--page' : '');
+      residue.setAttribute('aria-hidden', 'true');
+      residueParent.appendChild(residue);
+    }
+    if (inPanic) {
+      residue.style.animation = 'none';
+      residue.style.opacity = '.28';
+    } else {
+      residue.style.animation = '';
+      residue.style.opacity = '';
+    }
+    window.clearTimeout(residueTimer);
     residueTimer = window.setTimeout(() => {
       residue?.remove();
       residue = null;
@@ -578,6 +607,9 @@
   });
   window.addEventListener('pagehide', () => {
     panicProgress = 0;
+    window.clearTimeout(panicTearTimer);
+    panicTear?.remove();
+    panicTear = null;
     window.clearTimeout(residueTimer);
     residue?.remove();
     residue = null;

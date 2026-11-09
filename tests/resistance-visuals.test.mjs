@@ -57,6 +57,10 @@ test('ögonens tre öppningar får analog radio- och bildstörning, eller enbart
   assert.match(radio, /prefers-reduced-motion: reduce/);
   assert.match(radio, /weab-radio-scan/);
   assert.match(radio, /weab-radio-tear/);
+  assert.match(radio, /const reuse = inPanic && panicTear\?\.parentElement === parent/);
+  assert.match(radio, /panicTear = strip/);
+  assert.match(radio, /strip\.style\.animation = 'none'/);
+  assert.match(radio, /window\.clearTimeout\(panicTearTimer\)/);
 });
 
 test('den förstörda Morse-sidan kan fortfarande scrollas och förblir klickbar', () => {
