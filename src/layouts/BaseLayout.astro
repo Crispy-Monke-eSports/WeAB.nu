@@ -679,15 +679,15 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         try {
           if (sessionStorage.getItem('weab:resistance:result:v1') === '1') {
             sessionStorage.removeItem('weab:resistance:result:v1');
-            const url = URL.createObjectURL(new Blob(['Utveckling behövs'], { type: 'text/plain;charset=utf-8' }));
+            // RESULTAT.txt skapas en gång och levereras som en statisk fil.
+            // Ingen Base64-beräkning eller filgenerering sker hos besökaren.
             const link = document.createElement('a');
-            link.href = url;
+            link.href = '/RESULTAT.txt';
             link.download = 'RESULTAT.txt';
             link.hidden = true;
             document.body.appendChild(link);
             link.click();
             link.remove();
-            window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
           }
         } catch { /* Nedladdning beror på webbläsarens tillåtelse. */ }
       }

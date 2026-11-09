@@ -39,8 +39,10 @@ test('slutsekvensen sätter tyst cookieläge och återvänder hem', () => {
   assert.match(game, /sessionStorage\.setItem\('weab:resistance:result:v1', '1'\)/);
   assert.match(layout, /location\.pathname === '\/' && root\.classList\.contains\('weab-quiet'\)/);
   assert.match(layout, /sessionStorage\.removeItem\('weab:resistance:result:v1'\)/);
-  assert.match(layout, /new Blob\(\['Utveckling behövs'\], \{ type: 'text\/plain;charset=utf-8' \}\)/);
+  assert.match(layout, /link\.href = '\/RESULTAT\.txt'/);
   assert.match(layout, /link\.download = 'RESULTAT\.txt'/);
+  assert.doesNotMatch(layout, /new Blob\(\['Utveckling behövs'/);
+  assert.doesNotMatch(layout, /URL\.createObjectURL/);
   assert.match(layout, /root\.classList\.add\('weab-quiet'\)/);
   assert.match(layout, /root\.classList\.remove\('weab-quiet'\);\s*location\.reload/);
   assert.match(controller, /if \(chooseMinigame\(\)\)/);
@@ -138,4 +140,24 @@ test('testadressen startar även i produktion, trots cookie och utan slumpad ARG
   assert.match(controller, /!morsePreview && !minigamePreview/);
   assert.match(controller, /const minigamePreview = params\.get\('previewMinigame'\) === '1'/);
   assert.match(layout, /if \(new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1'\) return/);
+});
+
+test('RESULTAT.txt är förgenererad med Base64 i åttateckensbitar mellan verkliga WeLiveLaughLove-meningar', () => {
+  const lines = source('public/RESULTAT.txt').trimEnd().split('\\n');
+  const companyPage = source('src/data/companies.ts') + source('src/data/companyEditorial.ts') +
+    source('src/pages/verksamheter/[slug].astro');
+  assert.equal(lines.length, 13);
+  const chunks = [];
+  for (const [index, line] of lines.entries()) {
+    const parts = /^ ([A-Za-z0-9+/=]{8}) (.*)$/.exec(line);
+    assert.ok(parts, `Rad ${index + 1} ska börja med en separat åttateckensbit`);
+    chunks.push(parts[1]);
+    if (index < lines.length - 1) {
+      assert.ok(parts[2].endsWith('.'), 'Texten efter varje bit ska vara en fullständig mening.');
+      assert.ok(companyPage.includes(parts[2]), 'Mellantexten ska komma ordagrant från WeLiveLaughLoves sida.');
+    } else assert.equal(parts[2], '');
+  }
+  assert.equal(Buffer.from(chunks.join(''), 'base64').toString('utf8'),
+    '12 feburari 2048 02:12:\\n\\nresultat blev inte önskvärt biologiskt resultat.\\n');
+  assert.doesNotMatch(source('src/layouts/BaseLayout.astro'), /btoa\\(|Buffer\\.from\\(/);
 });
