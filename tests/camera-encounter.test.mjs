@@ -77,3 +77,14 @@ test('redan godkänd kamera aktiveras i scenen utan extra knappar', () => {
   assert.doesNotMatch(camera, /if \(result\.state === 'granted'\) return/);
   assert.doesNotMatch(camera, /weab-camera-controls|weab-camera-stop|controls\.hidden/);
 });
+
+test('kameran öppnar det stora ARG-ögat utan att läsa bildrutor', () => {
+  const camera = source('src/components/CameraEncounter.astro');
+  const eyes = source('src/components/ResistanceEyes.astro');
+  assert.match(camera, /respond\(key, 'allowed'\);\s*window\.dispatchEvent\(new Event\('weab:camera-eye-start'\)\)/);
+  assert.match(eyes, /window\.addEventListener\('weab:camera-eye-start', startCameraEye\)/);
+  assert.match(eyes, /cameraEncounter\.responseMs/);
+  assert.match(eyes, /resistance-eye-noise--camera \.resistance-eye/);
+  assert.match(eyes, /detail\?\.active === false\) finish\(\)/);
+  assert.match(eyes, /pointer-events: none/);
+});

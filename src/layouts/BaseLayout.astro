@@ -480,8 +480,8 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       const isSpirit = reacting ||
         (currentBeat.voice === 'intrusion' && Boolean(latestIntrusion));
       // Ett FÅTAL repliker kan nämna verkligt observerade webbläsardetaljer.
-      // Alla uppgifter bearbetas i fliken; inga IP-, operatörs- eller
-      // geografiska uppslag och ingen ny lagring. Avsändaren avslöjas inte.
+      // Nätuppslagets tillåtna orts-/operatörsetiketter lever bara i fliken;
+      // IP och råsvar används aldrig i replikerna. Avsändaren avslöjas inte.
       if (isSpirit && !reacting &&
           !lockWaypointWhispers.includes(latestIntrusion) &&
           beats.indexOf(currentBeat) % 13 === 2 &&

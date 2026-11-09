@@ -6,6 +6,8 @@ import { spiritVoice, speechTiming, revealSpokenText } from '../src/data/spiritV
 import { resistanceLockdown, createLockdownTimeline } from '../src/data/resistanceLockdown.ts';
 import { cameraEncounter } from '../src/data/cameraEncounter.ts';
 import { resistanceSignal } from '../src/data/resistanceSignal.ts';
+import { visitorWhisperOptions, networkWhisperOptions,
+  geoCities, geoRegions, geoProviders } from '../src/data/visitorWhispers.ts';
 
 const source = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
@@ -40,6 +42,50 @@ test('brus och digital skada ligger i själva filerna, inte bara i webbläsaren'
   assert.doesNotMatch(player, /createWaveShaper\(|createBuffer\(decoded\.numberOfChannels/);
   assert.match(player, /source\.buffer = decoded/);
   assert.match(player, /typingNodes\.gate\.gain\.setTargetAtTime\(\.06/);
+});
+
+test('lokala preferens- och anslutningsledtrådar har färdigt tal', () => {
+  const clues = { device: null, browser: null, fullScreen: false, language: null,
+    width: 0, portrait: false, scrolled: false, returnedToTab: false,
+    touchScreen: false, darkMode: false, reducedMotion: true, offline: true };
+  for (const text of visitorWhisperOptions(clues).filter(x =>
+    /RÖRA SIG MINDRE|FRÅNKOPPLAD/.test(x))) {
+    const timing = speechTiming(text, 3000);
+    assert.ok(timing, text);
+    assert.ok(statSync(new URL('../public/audio/spirit/' + timing.entry.file, import.meta.url)).size > 1000);
+  }
+});
+
+test('alla förgenererade svenska orts-, läns- och nätledtrådar har en inspelning', () => {
+  for (const city of ['Stockholm', 'Jönköping', 'Malmö', 'Kalmar', 'Göteborg', 'Uppsala']) {
+    const [text] = networkWhisperOptions({ city, region: null, provider: null });
+    assert.ok(speechTiming(text, 3000), city);
+  }
+  for (const clue of [
+    { city: 'Värnamo', region: null, provider: null },
+    { city: null, region: 'Värnamo', provider: null }
+  ]) {
+    const [text] = networkWhisperOptions(clue);
+    assert.ok(speechTiming(text, 3000), text);
+  }
+  const clues = [
+    ...geoCities.map(city => ({ city, region: null, provider: null })),
+    ...geoRegions.map(region => ({ city: null, region, provider: null })),
+    ...geoProviders.map(provider => ({ city: null, region: null, provider }))
+  ];
+  for (const clue of clues) for (const text of networkWhisperOptions(clue)) {
+    const timing = speechTiming(text, 3000);
+    assert.ok(timing, text);
+    assert.equal(timing.entry.file, '');
+    assert.equal(timing.entry.parts.length, 3);
+    for (const part of timing.entry.parts) {
+      assert.match(part, /^(?:cities|regions|isps|fragments)\/[0-9a-f]{16}\.ogg$/);
+      const file = new URL('../public/audio/spirit/' + part, import.meta.url);
+      assert.ok(statSync(file).size > 1000, text);
+    }
+    assert.equal(timing.entry.words.length, text.trim().split(/\s+/u).length, text);
+  }
+  assert.match(source('src/components/SpiritTransmission.astro'), /joined\.getChannelData\(channel\)\.set/);
 });
 
 test('färdiga Ogg-filer har kontinuerligt hörbart brus i pauser men inga farliga toppar',

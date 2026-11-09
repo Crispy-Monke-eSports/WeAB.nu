@@ -6,12 +6,15 @@
  */
 ---
 <script>
-  import { collectVisitorClues, selectVisitorWhisper } from '../data/visitorWhispers.ts';
-  import { speechTiming, type VoiceProfile } from '../data/spiritVoiceTiming.ts';
+  import { collectVisitorClues, selectVisitorWhisper, lookupNetworkClues,
+    type NetworkClues } from '../data/visitorWhispers.ts';
+  import { speechTiming, type VoiceProfile, type VoiceEntry } from '../data/spiritVoiceTiming.ts';
   import { loadCorruptionLoop } from '../data/corruptionAudio.ts';
 
-  // Alla observationer stannar i den här fliken. Ingen IP-, ISP- eller
-  // positionshämtning görs och inga uppgifter sparas eller skickas vidare.
+  // Browsern kontaktar MyIP direkt. Behåll bara validerade orts-/nätetiketter
+  // i flikens minne; aldrig IP, råsvar, koordinater, cookies eller lagring.
+  let networkClues: NetworkClues | null = null;
+  void lookupNetworkClues().then(clues => { networkClues = clues; });
   let hiddenBefore = false;
   let returnedToTab = false;
   document.addEventListener('visibilitychange', () => {
@@ -22,7 +25,7 @@
     const detail = (event as CustomEvent<{ index: number; text?: string }>).detail;
     if (!detail) return;
     detail.text = selectVisitorWhisper(
-      collectVisitorClues(window, document, returnedToTab), detail.index
+      collectVisitorClues(window, document, returnedToTab), detail.index, networkClues
     );
   });
 
@@ -135,6 +138,30 @@
   type VoiceRequest = { text: string; ageMs: number; durationMs: number; profile: VoiceProfile };
   let pendingVoice: VoiceRequest | null = null;
 
+  async function loadVoice(ctx: AudioContext, entry: VoiceEntry,
+    signal: AbortSignal): Promise<AudioBuffer | null> {
+    const paths = entry.parts ?? (entry.file ? [entry.file] : []);
+    if (!paths.length) return null;
+    const clips = await Promise.all(paths.map(async path => {
+      const response = await fetch('/audio/spirit/' + path, { signal });
+      if (!response.ok) throw new Error('Voice fragment missing');
+      return ctx.decodeAudioData(await response.arrayBuffer());
+    }));
+    if (clips.length === 1) return clips[0];
+    // Join only the currently spoken line in memory. The recorded word marks
+    // already include each fragment's silence and remain aligned after joining.
+    const channels = clips[0].numberOfChannels;
+    const length = clips.reduce((sum, clip) => sum + clip.length, 0);
+    const joined = ctx.createBuffer(channels, length, ctx.sampleRate);
+    let offset = 0;
+    for (const clip of clips) {
+      for (let channel = 0; channel < channels; channel++)
+        joined.getChannelData(channel).set(clip.getChannelData(channel), offset);
+      offset += clip.length;
+    }
+    return joined;
+  }
+
   function stopVoice(): void {
     voiceGeneration++;
     voiceAbort?.abort();
@@ -166,10 +193,9 @@
     const controller = new AbortController();
     voiceAbort = controller;
     try {
-      // Ladda bara den aktuella repliken. Inga browser-uppgifter lämnar fliken.
-      const response = await fetch('/audio/spirit/' + timing.entry.file, { signal: controller.signal });
-      if (!response.ok) return;
-      const decoded = await ctx.decodeAudioData(await response.arrayBuffer());
+      // Endast aktuell replik och dess återanvändbara delar hämtas.
+      const decoded = await loadVoice(ctx, timing.entry, controller.signal);
+      if (!decoded) return;
       if (generation !== voiceGeneration || document.hidden || ctx.state !== 'running') return;
       // Distortion, detuned layers and continuous radio hiss are baked into
       // the Ogg file. Playback only handles timing, a soft fade and a limiter.

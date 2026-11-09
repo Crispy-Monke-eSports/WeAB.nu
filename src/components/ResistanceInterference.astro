@@ -170,7 +170,7 @@
 
       function runWhisper(): void {
         // En enda kontrollerbar tresekunderskapning av den synliga sidtexten.
-        // Webbläsaruppgifterna väljs lokalt. Ingen IP-/ISP-information läses.
+        // Ett färdigt nätuppslag kan ge en försiktig orts- eller operatörsledtråd.
         running = true;
         const detail: { index: number; text?: string } = {
           index: Math.floor(Math.random() * 6)

@@ -116,11 +116,11 @@ def corrupt_voice(pcm_bytes, rate, text, marks, profile):
 js = """import {resistanceLockdown as l} from './src/data/resistanceLockdown.ts';
 import {resistanceSignal as s} from './src/data/resistanceSignal.ts';
 import {cameraEncounter as c} from './src/data/cameraEncounter.ts';
-import {visitorWhisperOptions as v} from './src/data/visitorWhispers.ts';
-const clues={device:null,browser:null,fullScreen:false,language:null,width:0,portrait:false,scrolled:false,returnedToTab:false,touchScreen:false,darkMode:false};
+import {visitorWhisperOptions as v, geoCities, geoRegions, geoProviders} from './src/data/visitorWhispers.ts';
+const clues={device:null,browser:null,fullScreen:false,language:null,width:0,portrait:false,scrolled:false,returnedToTab:false,touchScreen:false,darkMode:false,reducedMotion:false,offline:false};
 const warnings=new Set();
-for(const device of [null,'iPhone','iPad','Android']) for(const browser of [null,'Chrome','Firefox','Safari','Edge','Opera']) for(const language of [null,'svenska','engelska']) for(const flag of ['fullScreen','portrait','scrolled','returnedToTab','touchScreen','darkMode','none']) { const x={...clues,device,browser,language}; if(flag!=='none')x[flag]=true; v(x).forEach(t=>warnings.add(t)); }
-console.log(JSON.stringify({texts:[...new Set([...l.spiritEarly,...l.spiritLate,...l.waypointWhispers,...Object.values(c).filter(x=>typeof x==='string'),...s.messages.map(x=>x.text),'DISOBEY','DU SER DET OCKSÅ.',...warnings,'JAG SER ATT DU LÄSER. SNÄLLA HJÄLP MIG.'])],warnings:[...warnings],early:l.spiritEarly,late:l.spiritLate,camera:c}));"""
+for(const device of [null,'iPhone','iPad','Android']) for(const browser of [null,'Chrome','Firefox','Safari','Edge','Opera']) for(const language of [null,'svenska','engelska']) for(const flag of ['fullScreen','portrait','scrolled','returnedToTab','touchScreen','darkMode','reducedMotion','offline','none']) { const x={...clues,device,browser,language}; if(flag!=='none')x[flag]=true; v(x).forEach(t=>warnings.add(t)); }
+console.log(JSON.stringify({texts:[...new Set([...l.spiritEarly,...l.spiritLate,...l.waypointWhispers,...Object.values(c).filter(x=>typeof x==='string'),...s.messages.map(x=>x.text),'DISOBEY','DU SER DET OCKSÅ.',...warnings,'JAG SER ATT DU LÄSER. SNÄLLA HJÄLP MIG.'])],warnings:[...warnings],cities:geoCities,regions:geoRegions,providers:geoProviders,early:l.spiritEarly,late:l.spiritLate,camera:c}));"""
 data = json.loads(
     subprocess.check_output(
         ["node", "--experimental-strip-types", "--input-type=module", "-e", js],
@@ -132,7 +132,25 @@ warnings = set(data["warnings"])
 OUT.mkdir(parents=True, exist_ok=True)
 previous = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
 manifest = {}
-for text in texts:
+fragments = {}
+
+
+def render(text, profile, folder=""):
+    name = (
+        hashlib.sha256((RENDER_VERSION + ":" + text).encode()).hexdigest()[:16] + ".ogg"
+    )
+    path = folder + name
+    key = "@fragment/" + folder + text if folder else text
+    # Content-addressed recordings already on disk do not need another encode.
+    # Keep the existing Ogg bytes; FFmpeg container metadata need not be stable.
+    existing = previous.get(key)
+    if existing and existing.get("file") == path and (OUT / path).is_file():
+        if folder:
+            manifest[key] = existing
+        return existing
+    cached = fragments.get(path) if folder else None
+    if cached:
+        return cached
     words = list(re.finditer(r"\S+", text))
     frames = bytearray()
     marks = []
@@ -177,11 +195,8 @@ for text in texts:
             end = round(len(frames) / (rate * 2) * 1000)
             marks.append([match.start(), match.end(), start, end])
     frames.extend(b"\0" * int(rate * 0.075) * 2)
-    profile = profile_for(text, data["early"], data["late"], warnings, data["camera"])
     processed = corrupt_voice(frames, rate, text, marks, profile)
-    name = (
-        hashlib.sha256((RENDER_VERSION + ":" + text).encode()).hexdigest()[:16] + ".ogg"
-    )
+    (OUT / folder).mkdir(parents=True, exist_ok=True)
     subprocess.run(
         [
             "ffmpeg",
@@ -203,17 +218,75 @@ for text in texts:
             "libvorbis",
             "-q:a",
             "2",
-            str(OUT / name),
+            str(OUT / path),
         ],
         input=processed,
         check=True,
     )
-    manifest[text] = {
-        "file": name,
+    entry = {
+        "file": path,
         "durationMs": round(len(frames) / (rate * 2) * 1000),
         "words": marks,
         "profile": profile,
     }
+    if folder:
+        fragments[path] = entry
+        manifest[key] = entry
+    return entry
+
+
+for text in texts:
+    manifest[text] = render(
+        text, profile_for(text, data["early"], data["late"], warnings, data["camera"])
+    )
+
+
+def compose(parts):
+    text = " ".join(fragment for fragment, _ in parts)
+    entries = [render(fragment, "desperate", folder) for fragment, folder in parts]
+    words = []
+    at_ms = 0
+    at_char = 0
+    for fragment, entry in zip((part[0] for part in parts), entries):
+        for start, end, begin, finish in entry["words"]:
+            words.append(
+                [start + at_char, end + at_char, begin + at_ms, finish + at_ms]
+            )
+        at_ms += entry["durationMs"]
+        at_char += len(fragment) + 1
+    manifest[text] = {
+        "file": "",
+        "parts": [entry["file"] for entry in entries],
+        "durationMs": at_ms,
+        "words": words,
+        "profile": "desperate",
+    }
+
+
+for city in data["cities"]:
+    compose(
+        [
+            ("ÄR DU I", "fragments/"),
+            (city.upper() + "?", "cities/"),
+            ("JAG VILL BARA PRATA!", "fragments/"),
+        ]
+    )
+for region in data["regions"]:
+    compose(
+        [
+            ("ÄR DU NÅGONSTANS I", "fragments/"),
+            (region.upper() + "?", "regions/"),
+            ("JAG FÖRSÖKER NÅ DIG.", "fragments/"),
+        ]
+    )
+for provider in data["providers"]:
+    compose(
+        [
+            ("JAG VERKAR BEHÖVA GÅ VIA", "fragments/"),
+            (provider.upper(), "isps/"),
+            ("FÖR ATT NÅ DIG.", "fragments/"),
+        ]
+    )
 MANIFEST.write_text(
     json.dumps(manifest, ensure_ascii=False, separators=(",", ":")) + "\n"
 )
@@ -224,5 +297,5 @@ for old in previous.values():
     ):
         (OUT / filename).unlink(missing_ok=True)
 print(
-    f"Generated {len(manifest)} utterances, {sum(p.stat().st_size for p in OUT.iterdir()) // 1024} KiB"
+    f"Generated {len(manifest)} entries, {sum(p.stat().st_size for p in OUT.rglob('*.ogg')) // 1024} KiB"
 )

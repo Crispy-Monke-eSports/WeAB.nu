@@ -3,14 +3,16 @@ import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import {
   detectDevice, detectBrowser, collectVisitorClues,
-  visitorWhisperOptions, selectVisitorWhisper
+  visitorWhisperOptions, selectVisitorWhisper, parseNetworkClues,
+  lookupNetworkClues, networkWhisperOptions, geoCities, geoRegions, geoProviders
 } from '../src/data/visitorWhispers.ts';
 
 const source = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 const base = {
   device: null, browser: null, fullScreen: false,
   language: null, width: 0, portrait: false, scrolled: false,
-  returnedToTab: false, touchScreen: false, darkMode: false
+  returnedToTab: false, touchScreen: false, darkMode: false,
+  reducedMotion: false, offline: false
 };
 
 test('säkra enhets- och webbläsaridentifieringar, utan påhittade leverantörer', () => {
@@ -44,9 +46,11 @@ test('personliga skräckrepliker grundas i verkligt observerade webbläsarfakta'
   const narrow = visitorWhisperOptions({ ...base, width: 393 });
   assert.ok(narrow.some(x => /393 PIXLAR/.test(x)));
   assert.ok(!visitorWhisperOptions(base).some(x => /PIX(L|LAR)|CHROME|IPHONE|SAFARI|FIREFOX/.test(x)));
+  assert.ok(visitorWhisperOptions({ ...base, reducedMotion: true }).some(x => /RÖRA SIG MINDRE/.test(x)));
+  assert.ok(visitorWhisperOptions({ ...base, offline: true }).some(x => /WEBBLÄSARE SÄGER ATT DU ÄR FRÅNKOPPLAD/.test(x)));
 });
 
-test('inga externa uppslag, identifierare, cookies eller datalagring används', () => {
+test('nätuppslaget används bara i besökarens flik utan IP i repliker eller lagring', () => {
   const moduleCode = source('src/data/visitorWhispers.ts');
   const transmission = source('src/components/SpiritTransmission.astro');
   const sayings = visitorWhisperOptions({
@@ -54,11 +58,82 @@ test('inga externa uppslag, identifierare, cookies eller datalagring används', 
     width: 1200, darkMode: true, returnedToTab: true
   }).join(' ');
   assert.doesNotMatch(sayings, /BAHNHOF|INTERNETLEVERANTÖR|OPERATÖR|IP-ADRESS|POSITION|ADRESS/i);
-  assert.doesNotMatch(moduleCode, /\bfetch\s*\(|\bXMLHttpRequest\b|\bsendBeacon\s*\(|\bgeolocation\b|\bwebsocket\b/i);
+  assert.match(moduleCode, /https:\/\/api\.my-ip\.io\/v2\/ip\.json/);
+  assert.doesNotMatch(moduleCode, /\bXMLHttpRequest\b|\bsendBeacon\s*\(|\bgeolocation\b|\bwebsocket\b/i);
   assert.doesNotMatch(moduleCode, /\blocalStorage\b|\bsessionStorage\b|document\.cookie/i);
   assert.match(transmission, /weab:visitor-whisper/);
-  assert.match(transmission, /collectVisitorClues\(window, document, returnedToTab\)/);
+  assert.match(transmission, /collectVisitorClues\(window, document, returnedToTab\), detail\.index, networkClues/);
   assert.equal(selectVisitorWhisper(base, 0), selectVisitorWhisper(base, 0));
+});
+
+test('endast svenska, kända orter och operatörer blir försiktigt formulerade repliker', () => {
+  const clues = parseNetworkClues({ success: true, ip: '192.0.2.1',
+    country: { code: 'SE' }, city: 'Stockholm', region: 'Stockholm County',
+    asn: { name: 'Telia Company AB', network: '192.0.2.0/24' },
+    location: { lat: 59, lon: 18 } });
+  assert.deepEqual(clues, { city: 'Stockholm', region: 'Stockholm', provider: 'Telia' });
+  const lines = networkWhisperOptions(clues);
+  assert.deepEqual(lines, [
+    'ÄR DU I STOCKHOLM? JAG VILL BARA PRATA!',
+    'ÄR DU NÅGONSTANS I STOCKHOLM? JAG FÖRSÖKER NÅ DIG.',
+    'JAG VERKAR BEHÖVA GÅ VIA TELIA FÖR ATT NÅ DIG.'
+  ]);
+  assert.equal(selectVisitorWhisper(base, 0, clues), lines[0]);
+  assert.equal(selectVisitorWhisper(base, 2, clues), lines[2]);
+  assert.ok(lines.every(x => !/192\.0\.2|59|18|COMPANY|192|ABONNEMANG/.test(x)));
+  assert.equal(parseNetworkClues({ success: true, country: { code: 'NO' }, city: 'Stockholm' }), null);
+  assert.deepEqual(parseNetworkClues({ success: true, country: { code: 'SE' },
+    city: 'Evil<script>', region: 'Fake County', asn: { name: 'Unknown Inc' } }),
+    { city: null, region: null, provider: null });
+  assert.deepEqual(parseNetworkClues({ success: true, country: { code: 'SE' },
+    city: 'Gothenburg', region: 'Scania', asn: { name: 'Hi3G Access AB' } }),
+    { city: 'Göteborg', region: 'Skåne', provider: 'Tre' });
+  assert.equal(geoProviders.length, 15);
+  assert.ok(geoCities.length >= 30 && geoRegions.length === 22);
+});
+
+test('Stockholm, Jönköping, Malmö, Kalmar, Göteborg och Uppsala har korrekta ortsrepliker', () => {
+  for (const city of ['Stockholm', 'Jönköping', 'Malmö', 'Kalmar', 'Göteborg', 'Uppsala']) {
+    const record = parseNetworkClues({ success: true, country: { code: 'SE' }, city });
+    assert.equal(record.city, city);
+    assert.equal(networkWhisperOptions(record)[0],
+      `ÄR DU I ${city.toLocaleUpperCase('sv-SE')}? JAG VILL BARA PRATA!`);
+  }
+});
+
+test('Värnamo fungerar både som ort och som API-region utan länspåstående', () => {
+  const record = parseNetworkClues({ success: true, country: { code: 'SE' },
+    city: 'Värnamo', region: 'Värnamo' });
+  assert.deepEqual(record, { city: 'Värnamo', region: 'Värnamo', provider: null });
+  assert.deepEqual(networkWhisperOptions(record), [
+    'ÄR DU I VÄRNAMO? JAG VILL BARA PRATA!',
+    'ÄR DU NÅGONSTANS I VÄRNAMO? JAG FÖRSÖKER NÅ DIG.'
+  ]);
+  for (const label of ['Värnamo County', 'Varnamo Municipality',
+    'Municipality of Värnamo', 'Region: Värnamo, Sweden']) {
+    assert.equal(parseNetworkClues({ success: true, country: { code: 'SE' },
+      region: label }).region, 'Värnamo', label);
+  }
+  assert.equal(parseNetworkClues({ success: true, country: { code: 'SE' },
+    region: 'Värnamoborg' }).region, null);
+});
+
+test('nätuppslag hanterar 429, timeout och CORS utan att fördröja lokala repliker', async () => {
+  let requests = 0;
+  assert.equal(await lookupNetworkClues(async (url, init) => {
+    requests++;
+    assert.equal(url, 'https://api.my-ip.io/v2/ip.json');
+    assert.equal(init.credentials, 'omit');
+    assert.equal(init.referrerPolicy, 'no-referrer');
+    assert.equal(init.cache, 'no-store');
+    assert.ok(init.signal);
+    return { ok: false, status: 429 };
+  }), null);
+  assert.equal(requests, 1);
+  assert.equal(await lookupNetworkClues(async () => { throw new TypeError('CORS'); }), null);
+  assert.deepEqual(await lookupNetworkClues(async () => ({ ok: true, json: async () => ({
+    success: true, country: { code: 'SE' }, city: 'Malmö', asn: { name: 'Bahnhof AB' }
+  }) })), { city: 'Malmö', region: null, provider: 'Bahnhof' });
 });
 
 test('webbläsarens fullskärmsläge hämtas endast med verifierbart API', () => {
@@ -73,6 +148,15 @@ test('webbläsarens fullskärmsläge hämtas endast med verifierbart API', () =>
   assert.equal(ordinary.language, 'svenska');
   assert.equal(ordinary.width, 1111);
   assert.equal(ordinary.darkMode, true);
+  assert.equal(ordinary.reducedMotion, false);
+  assert.equal(ordinary.offline, false);
+  const offline = collectVisitorClues({
+    ...fakeWindow,
+    navigator: { ...fakeWindow.navigator, onLine: false },
+    matchMedia: query => ({ matches: query === '(prefers-reduced-motion: reduce)' })
+  }, { fullscreenElement: null });
+  assert.equal(offline.offline, true);
+  assert.equal(offline.reducedMotion, true);
   const fullscreen = collectVisitorClues(fakeWindow, { fullscreenElement: {} });
   assert.equal(fullscreen.fullScreen, true);
 });

@@ -9,13 +9,14 @@
 
 <script>
   import { resistanceSignal } from '../data/resistanceSignal.ts';
+  import { cameraEncounter } from '../data/cameraEncounter.ts';
 
   const veil = document.querySelector<HTMLElement>('[data-resistance-eye-noise]');
   const eye = veil?.querySelector<HTMLElement>('[data-resistance-eye]');
   const preview = import.meta.env.DEV &&
     new URLSearchParams(location.search).get('previewEyes') === '1';
 
-  if (veil && eye && !document.documentElement.classList.contains('weab-quarantined')) {
+  if (veil && eye) {
     let active = false;
     let finishTimer = 0;
     let eyeFrame = 0;
@@ -66,6 +67,7 @@
       for (const id of eyeBurstTimers) window.clearTimeout(id);
       eyeBurstTimers.length = 0;
       document.body.classList.remove('resistance-watched');
+      veil?.classList.remove('resistance-eye-noise--camera');
       document.body.style.removeProperty('--eye-instability');
       veil?.style.removeProperty('--eye-instability');
       if (veil) veil.hidden = true;
@@ -92,9 +94,26 @@
       finishTimer = window.setTimeout(finish, resistanceSignal.eyesDurationMs);
     }
 
+    function startCameraEye(): void {
+      if (!veil || active || document.visibilityState !== 'visible' ||
+        !document.documentElement.classList.contains('weab-quarantined')) return;
+      active = true;
+      veil.classList.add('resistance-eye-noise--camera');
+      veil.hidden = false;
+      eyeTransmission();
+      finishTimer = window.setTimeout(finish, cameraEncounter.responseMs);
+    }
+
     window.addEventListener('weab:resistance-eyes-start', startEyes);
+    window.addEventListener('weab:camera-eye-start', startCameraEye);
+    window.addEventListener('weab:spirit-presence', (event: Event) => {
+      if ((event as CustomEvent<{active: boolean}>).detail?.active === false) finish();
+    });
     if (preview) window.setTimeout(startEyes, 1_000);
     window.addEventListener('pagehide', finish);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) finish();
+    });
   }
 </script>
 
@@ -185,6 +204,13 @@
       #83303b 52%, #311018 64%, #151014 76%);
     box-shadow: 0 0 8px 3px rgb(10 4 7 / .78),
       0 0 18px rgb(112 20 38 / .34);
+  }
+  .resistance-eye-noise--camera .resistance-eye {
+    width: clamp(220px, 42vw, 400px);
+    height: clamp(126px, 26vw, 240px);
+    animation: none;
+    transform: translate(-50%, -50%) scaleY(1);
+    opacity: 1;
   }
   :global(body.resistance-watched > header),
   :global(body.resistance-watched > main),

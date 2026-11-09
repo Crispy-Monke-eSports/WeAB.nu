@@ -103,6 +103,7 @@
       // Stäng först när inkräktartexten försvinner och WeAB står ensamt igen.
       camera = granted;
       respond(key, 'allowed');
+      window.dispatchEvent(new Event('weab:camera-eye-start'));
       // Reservgräns om sidan aldrig får ett systemskifte; dolt fönster och
       // navigation stoppar alltid spåret direkt.
       releaseTimer = window.setTimeout(stopCamera, cameraEncounter.maxActiveMs);
