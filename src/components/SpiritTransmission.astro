@@ -64,6 +64,11 @@
   let panicProgress = 0;
   let panicVoice: GainNode | null = null;
 
+  // Sänk endast minispelets separata brus; röstinspelningarna behålls hörbara.
+  function noiseLevel(level: number): number {
+    return document.documentElement.classList.contains('weab-save-game-active') ? level * .7 : level;
+  }
+
   function bedLevel(): number {
     // Det inspelade talet innehåller redan brus. Håll samma upplevda nivå
     // när en skärmglitch sker utan tal som medan rösten talar genom statiken.
@@ -71,7 +76,7 @@
       bedStrength === 'harsh' ? .16 : bedStrength === 'soft' ? .11 : .13;
     // Slutpanikens brus växer kontinuerligt, men komprimeras och håller
     // sig under en kontrollerad nivå även när rösten pågår.
-    return panicProgress > 0 ? .10 + panicProgress * .22 : base;
+    return noiseLevel(panicProgress > 0 ? .10 + panicProgress * .22 : base);
   }
 
   function stopBed(): void {
@@ -185,8 +190,8 @@
     for (const node of voiceNodes) node.disconnect();
     voiceNodes = [];
     if (typingNodes && audio?.state === 'running') {
-      typingNodes.gate.gain.setTargetAtTime(typingStrength === 'harsh' ? .60 :
-        typingStrength === 'soft' ? .32 : .48, audio.currentTime, .07);
+      typingNodes.gate.gain.setTargetAtTime(noiseLevel(typingStrength === 'harsh' ? .60 :
+        typingStrength === 'soft' ? .32 : .48), audio.currentTime, .07);
     }
     if (bedNodes && audio?.state === 'running')
       bedNodes.gain.gain.setTargetAtTime(bedLevel(), audio.currentTime, .06);
@@ -239,7 +244,7 @@
       source.start(ctx.currentTime, offset);
       // Originalradion fortsätter, men duckas under tal så att konsonanter
       // faktiskt går att uppfatta genom det redan inbakade kortvågsbruset.
-      if (typingNodes) typingNodes.gate.gain.setTargetAtTime(.06, ctx.currentTime, .05);
+      if (typingNodes) typingNodes.gate.gain.setTargetAtTime(noiseLevel(.06), ctx.currentTime, .05);
       source.stop(ctx.currentTime + remaining);
       voiceSources.push(source);
       if (bedNodes) bedNodes.gain.gain.setTargetAtTime(bedLevel(), ctx.currentTime, .06);
@@ -388,7 +393,7 @@
     const amount = strength === 'soft' ? .38 : strength === 'harsh' ? .78 : .55;
     const begin = ctx.currentTime + .008;
     const master = ctx.createGain();
-    master.gain.value = .19; // Tydlig radiovolym, utan höga jumpscare-toppar.
+    master.gain.value = noiseLevel(.19); // Tydlig radiovolym, utan höga jumpscare-toppar.
     master.connect(ctx.destination);
 
     const pulses = strength === 'harsh' ? 4 : strength === 'soft' ? 2 : 3;
@@ -457,8 +462,8 @@
     filter.Q.value = .68;
     const gate = ctx.createGain();
     gate.gain.setValueAtTime(.0001, ctx.currentTime);
-    gate.gain.setTargetAtTime(typingStrength === 'harsh' ? .60 :
-      typingStrength === 'soft' ? .32 : .48, ctx.currentTime, .075);
+    gate.gain.setTargetAtTime(noiseLevel(typingStrength === 'harsh' ? .60 :
+      typingStrength === 'soft' ? .32 : .48), ctx.currentTime, .075);
     const compressor = ctx.createDynamicsCompressor();
     compressor.threshold.value = -24;
     compressor.knee.value = 14;

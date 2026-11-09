@@ -7,7 +7,8 @@ import { cameraEncounter } from './cameraEncounter.ts';
 export const resistanceLockdown = {
   cookieName: 'weab_centralserver_lock_until',
   noticeKey: 'weab:resistance:lockdown:notice:v1',
-  durationMs: 5 * 60 * 1000,
+  durationMs: 3 * 60 * 1000,
+  quietDurationMs: 3 * 60 * 1000,
   exitMessageMs: 3_200,
   exitMessage: 'Dödsfall bekräftat. Återtar anslutning...',
   opening: 'Oauktoriserad existens registrerad. Avveckling pågår.',
@@ -98,15 +99,26 @@ export type LockdownBeat = { atMs: number; voice: LockdownVoice; text: string };
 
 export function createLockdownCookie(now: number, secure: boolean): string {
   const until = Math.trunc(now + resistanceLockdown.durationMs);
-  return `${resistanceLockdown.cookieName}=${until}; Max-Age=300; Path=/; SameSite=Lax` +
+  return `${resistanceLockdown.cookieName}=${until}; Max-Age=180; Path=/; SameSite=Lax` +
     (secure ? '; Secure' : '');
 }
 
 /** Samma cookie, men ett separat läge: vanlig webbplats utan ARG-effekter. */
 export function createQuietCookie(now: number, secure: boolean): string {
-  const until = Math.trunc(now + resistanceLockdown.durationMs);
-  return `${resistanceLockdown.cookieName}=quiet.${until}; Max-Age=300; Path=/; SameSite=Lax` +
+  const until = Math.trunc(now + resistanceLockdown.quietDurationMs);
+  return `${resistanceLockdown.cookieName}=quiet.${until}; Max-Age=180; Path=/; SameSite=Lax` +
     (secure ? '; Secure' : '');
+}
+
+/** Minispelsinbjudan använder samma cookie som karantän och tystnad. */
+export function createMinigameInvitationCookie(secure = false): string {
+  return `${resistanceLockdown.cookieName}=invite; Path=/; Max-Age=31536000; SameSite=Lax` +
+    (secure ? '; Secure' : '');
+}
+
+export function hasMinigameInvitationCookie(cookies: string): boolean {
+  return cookies.split(';').some(part =>
+    part.trim() === `${resistanceLockdown.cookieName}=invite`);
 }
 
 export function readQuietExpiry(cookieHeader: string, now: number): number | null {
@@ -115,7 +127,7 @@ export function readQuietExpiry(cookieHeader: string, now: number): number | nul
   if (!entry) return null;
   const until = Number(entry.slice(prefix.length));
   return Number.isSafeInteger(until) && until > now &&
-    until <= now + resistanceLockdown.durationMs ? until : null;
+    until <= now + resistanceLockdown.quietDurationMs ? until : null;
 }
 
 export function readLockdownExpiry(cookieHeader: string, now: number): number | null {
@@ -160,14 +172,14 @@ export function createLockdownTimeline(expiresAt: number): LockdownBeat[] {
   let eventIndex = 0;
   const used = new Set<string>([resistanceLockdown.opening]);
   while (true) {
-    const gap = elapsed < 170_000
+    const gap = elapsed < 100_000
       ? 6_000 + Math.floor(random() * 5_400)
-      : elapsed < 270_000
+      : elapsed < 150_000
         ? 3_800 + Math.floor(random() * 5_000)
         : 2_000 + Math.floor(random() * 3_100);
     elapsed += gap;
     if (elapsed >= resistanceLockdown.durationMs - 1_000) break;
-    const late = elapsed >= 170_000;
+    const late = elapsed >= 100_000;
     const voice: LockdownVoice = eventIndex % 4 === 3 ? 'system' : 'intrusion';
     const preferred = voice === 'system'
       ? (late ? lateSystem : earlySystem)
@@ -187,7 +199,7 @@ export function createLockdownTimeline(expiresAt: number): LockdownBeat[] {
     beat.voice === 'intrusion' && beat.atMs >= 62_000 && beat.atMs < 100_000);
   if (cameraBeat) cameraBeat.text = cameraEncounter.request;
 
-  // Slumpade viskningar ensamma är för lätta att missa under fem minuter.
+  // Slumpade viskningar ensamma är för lätta att missa under tre minuter.
   // Ersätt en av själens repliker med en av två kryptiska väganvisningar
   // omkring mitten av karantänen. En per förlopp, utan extra avbrott.
   const waypoint = timeline.find(beat =>

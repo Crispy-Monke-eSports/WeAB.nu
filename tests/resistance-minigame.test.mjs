@@ -2,11 +2,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
-  minigameInvitationCookieName,
+  resistanceLockdown,
   hasMinigameInvitationCookie,
   createMinigameInvitationCookie,
-  clearMinigameInvitationCookie
-} from '../src/data/resistanceMinigameInvitation.ts';
+  createQuietCookie, createLockdownCookie, readQuietExpiry, readLockdownExpiry
+} from '../src/data/resistanceLockdown.ts';
 
 const source = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
@@ -77,7 +77,7 @@ test('slutsekvensen sätter tyst cookieläge och återvänder hem', () => {
   assert.match(game, /panicDurationMs = websiteStartMs \+ websiteMs \+ 650/);
   assert.match(game, /text: minigameFailureWebsiteLine, ageMs: 0, durationMs: websiteMs/);
   assert.match(game, /weab:spirit-panic-progress/);
-  assert.match(source('src/components/SpiritTransmission.astro'), /return panicProgress > 0 \? \.10 \+ panicProgress \* \.22 : base/);
+  assert.match(source('src/components/SpiritTransmission.astro'), /return noiseLevel\(panicProgress > 0 \? \.10 \+ panicProgress \* \.22 : base\)/);
   assert.match(source('src/components/SpiritTransmission.astro'), /\.72 \+ panicProgress \* \.10/);
   assert.match(game, /Otillåten information delad, styrelsen meddelad\. Återställer/);
   assert.match(game, /root\.classList\.add\('weab-minigame-confirmed', 'weab-death-confirmed'\)/);
@@ -137,15 +137,20 @@ test('korridoren hålls som gång av svarta vägglinjer med schackgolv ända ut'
   assert.match(game, /pixel\(16 \* 16 \+ 6, py \+ 4, 3, 8, '#595540'\)/);
 });
 
-test('testadressen kan starta direkt, men återgår till cookie-spärren vid omladdning', () => {
+test('återställningsadressen börjar med RÄDDA DOM och skriver över varje tidigare ARG-läge', () => {
   const game = source('src/components/ResistanceMinigame.astro');
   const controller = source('src/components/ResistanceInterference.astro');
   const layout = source('src/layouts/BaseLayout.astro');
-  assert.match(game, /if \(new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1' &&/);
-  assert.match(game, /window\.dispatchEvent\(new Event\('weab:save-game-start'\)\)/);
+  assert.doesNotMatch(game, /const launch = \(\) => window\.dispatchEvent\(new Event\('weab:save-game-start'\)\)/);
   assert.match(controller, /!morsePreview && !minigamePreview/);
   assert.match(controller, /const minigamePreview = params\.get\('previewMinigame'\) === '1'/);
-  assert.match(layout, /if \(new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1' && !invited\) return/);
+  assert.match(controller, /params\.get\('previewMingame'\) === '1'/);
+  assert.match(layout, /params\.get\('previewMingame'\) === '1' && !previewResetDone/);
+  assert.match(layout, /previewResetDone = true;\s*document\.cookie = `\$\{lockCookieName\}=invite/);
+  assert.match(layout, /localStorage\.removeItem\(lockNoticeKey\)/);
+  assert.match(layout, /sessionStorage\.removeItem\(signalSessionKey\)/);
+  assert.match(layout, /params\.get\('█̶̸'\) === '1'/);
+  assert.match(layout, /root\.classList\.toggle\('weab-save-call', !playing\)/);
 });
 
 test('RESULTAT.txt är förgenererad med Base64 i åttateckensbitar mellan verkliga WeLiveLaughLove-meningar', () => {
@@ -172,27 +177,26 @@ test('RÄDDA DOM förfas sparas i cookie och öppnar minispelet först vid klick
   const layout = source('src/layouts/BaseLayout.astro');
   const controller = source('src/components/ResistanceInterference.astro');
   const game = source('src/components/ResistanceMinigame.astro');
-  assert.equal(minigameInvitationCookieName, 'weab_save_call_v1');
-  assert.equal(hasMinigameInvitationCookie('foo=1; weab_save_call_v1=1'), true);
-  assert.equal(hasMinigameInvitationCookie('weab_save_call_v1=10'), false);
+  assert.equal(resistanceLockdown.cookieName, 'weab_centralserver_lock_until');
+  assert.equal(hasMinigameInvitationCookie('foo=1; weab_centralserver_lock_until=invite'), true);
+  assert.equal(hasMinigameInvitationCookie('weab_centralserver_lock_until=invited'), false);
   assert.equal(hasMinigameInvitationCookie('foo=1'), false);
   assert.match(createMinigameInvitationCookie(true), /Path=\/; Max-Age=31536000; SameSite=Lax; Secure/);
-  assert.match(clearMinigameInvitationCookie(true), /Path=\/; Max-Age=0; SameSite=Lax; Secure/);
+  assert.match(createMinigameInvitationCookie(true), /^weab_centralserver_lock_until=invite;/);
   assert.match(controller, /document\.cookie = createMinigameInvitationCookie/);
   assert.match(controller, /window\.clearInterval\(intervalId\)/);
   assert.match(controller, /weab:save-game-invite/);
   assert.match(controller, /!document\.documentElement\.classList\.contains\('weab-save-call'\)/);
-  assert.match(layout, /invitationCookieName: minigameInvitationCookieName/);
+  assert.match(layout, /cookiePrefix \+ 'invite'/);
   assert.match(layout, /root\.classList\.toggle\('weab-save-call', !playing\)/);
   assert.match(layout, /html\.weab-save-call:not\(\.weab-save-call-ready\)/);
   assert.match(game, /window\.addEventListener\('weab:save-game-invite', beginInvitation\)/);
   assert.match(game, /function rewriteInvitationText\(\): void/);
-  assert.match(game, /new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1'/);
-  assert.match(game, /link\.href = '#weab-save-game'/);
+  assert.match(game, /link\.href = '\/\?%E2%96%88%CC%B6%CC%B8=1'/);
   assert.match(game, /document\.title = 'RÄDDA DOM RÄDDA DOM'/);
   assert.match(game, /event\.stopImmediatePropagation\(\)/);
   assert.match(game, /window\.dispatchEvent\(new Event\('weab:save-game-start'\)\)/);
-  assert.match(game, /document\.cookie = clearMinigameInvitationCookie/);
+  assert.doesNotMatch(game, /clearMinigameInvitationCookie/);
   assert.match(game, /weab:spirit-presence/);
   assert.match(game, /weab:spirit-typing/);
   assert.match(game, /weab:spirit-burst/);
@@ -221,8 +225,32 @@ test('inbjudningscookien försvinner endast efter klarat spel och avslutad WeAB-
   assert.match(game, /window\.addEventListener\('pageshow', event => \{/);
   assert.match(game, /event\.persisted && \(active \|\| hasMinigameInvitationCookie\(document\.cookie\)\)/);
   assert.match(finalStep, /window\.setTimeout\(\(\) => \{/);
-  assert.match(finalStep, /document\.cookie = clearMinigameInvitationCookie/);
   assert.match(finalStep, /document\.cookie = createQuietCookie/);
-  assert.ok(finalStep.indexOf('clearMinigameInvitationCookie') < finalStep.indexOf('createQuietCookie'));
+  assert.equal((finalStep.match(/document\.cookie =/g) ?? []).length, 1);
   assert.match(finalStep, /\}, 3_200\)/);
+});
+
+test('inbjudan, karantän och tystnad är ömsesidigt uteslutande lägen i en cookie', () => {
+  const now = 1_800_000_000_000;
+  const invite = createMinigameInvitationCookie().split(';')[0];
+  const lock = createLockdownCookie(now, false).split(';')[0];
+  const quiet = createQuietCookie(now, false).split(';')[0];
+  assert.equal(new Set([invite, lock, quiet].map(value => value.split('=')[0])).size, 1);
+  assert.equal(readLockdownExpiry(invite, now), null);
+  assert.equal(readQuietExpiry(invite, now), null);
+  assert.equal(hasMinigameInvitationCookie(lock), false);
+  assert.equal(hasMinigameInvitationCookie(quiet), false);
+  assert.equal(readLockdownExpiry(lock, now), now + 180_000);
+  assert.equal(readQuietExpiry(quiet, now), now + 180_000);
+});
+
+test('minispelets radiobrus dämpas 30 procent och främre RÄDDA DOM-rösten förstärks 20 procent', () => {
+  const radio = source('src/components/SpiritTransmission.astro');
+  const game = source('src/components/ResistanceMinigame.astro');
+  assert.match(radio, /classList\.contains\('weab-save-game-active'\) \? level \* \.7 : level/);
+  assert.match(radio, /return noiseLevel\(panicProgress/);
+  assert.match(radio, /master\.gain\.value = noiseLevel\(\.19\)/);
+  assert.match(game, /const source = context\.createMediaElementSource\(mainVoice\)/);
+  assert.match(game, /gain\.gain\.value = 1\.2/);
+  assert.match(game, /backgroundVoice\.volume = \.16/);
 });

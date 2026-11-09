@@ -64,7 +64,7 @@
 
     function ensureQuarantineCookie(): void {
       const now = Date.now();
-      // Den ordinarie kontrollern startar femminutersklockan VID Morse-start.
+      // Den ordinarie kontrollern startar treminutersklockan VID Morse-start.
       // Bevara den sluttiden. För direkt förhandsvisning och ovanligt långa
       // bakgrundspauser skapas den endast om en giltig spärr saknas.
       if (readLockdownExpiry(document.cookie, now) !== null) return;

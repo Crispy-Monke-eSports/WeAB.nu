@@ -17,14 +17,12 @@
   <div class="save-game__fragments" data-save-fragments aria-hidden="true"></div>
 </div>
 <script>
-  import { createQuietCookie, resistanceLockdown } from '../data/resistanceLockdown.ts';
+  import {
+    createQuietCookie, resistanceLockdown, hasMinigameInvitationCookie,
+    createMinigameInvitationCookie
+  } from '../data/resistanceLockdown.ts';
   import { resistanceSignal, minigameFailureWebsiteLine } from '../data/resistanceSignal.ts';
   import { spiritVoice } from '../data/spiritVoiceTiming.ts';
-  import {
-    hasMinigameInvitationCookie,
-    createMinigameInvitationCookie,
-    clearMinigameInvitationCookie
-  } from '../data/resistanceMinigameInvitation.ts';
 
   const modal = document.querySelector<HTMLElement>('[data-save-game]');
   const canvas = modal?.querySelector<HTMLCanvasElement>('[data-save-screen]');
@@ -53,6 +51,7 @@
   let moveTimer = 0;
   let fragmentTimer = 0;
   let mainVoice: HTMLAudioElement | null = null;
+  let mainVoiceContext: AudioContext | null = null;
   let backgroundVoice: HTMLAudioElement | null = null;
   let audioUnlocked = false;
   let trackingTimer = 0;
@@ -91,7 +90,10 @@
           node.data = text;
         } else {
           const link = document.createElement('a');
-          link.href = '#weab-save-game';
+          // En kopierbar ingång utan utvecklarparametrar i den synliga URL:en.
+          // Klick i förfasen fångas nedan; vid vanlig navigation leder den
+          // fortfarande till RÄDDA DOM, aldrig direkt till spelet.
+          link.href = '/?%E2%96%88%CC%B6%CC%B8=1';
           link.dataset.saveCallLink = '1';
           link.textContent = text;
           node.replaceWith(link);
@@ -263,6 +265,20 @@
     mainVoice = new Audio('/audio/spirit/' + entry.file);
     mainVoice.loop = true;
     mainVoice.volume = 1;
+    // HTMLAudioElement.volume kan inte överskrida 1. Förstärk endast den
+    // främre rösten, inte bakgrundsrösten eller radiobruset.
+    if (typeof AudioContext !== 'undefined') {
+      try {
+        const context = new AudioContext();
+        const source = context.createMediaElementSource(mainVoice);
+        const gain = context.createGain();
+        gain.gain.value = 1.2;
+        source.connect(gain);
+        gain.connect(context.destination);
+        mainVoiceContext = context;
+        if (context.state === 'suspended') void context.resume().catch(() => {});
+      } catch { /* Ljudfilen kan fortfarande spelas upp utan förstärkning. */ }
+    }
     void mainVoice.play().catch(() => { /* iOS: låses upp vid första gesten. */ });
   }
 
@@ -270,6 +286,8 @@
     mainVoice?.pause();
     if (mainVoice) mainVoice.currentTime = 0;
     mainVoice = null;
+    if (mainVoiceContext) void mainVoiceContext.close().catch(() => {});
+    mainVoiceContext = null;
   }
 
   function unlockAudio(): void {
@@ -277,6 +295,7 @@
     // iOS kräver en användargest innan ljud får starta. Första rörelsen låser
     // upp röstloopen och återväcker det befintliga radiobruset.
     if (mainVoice) void mainVoice.play().catch(() => {});
+    if (mainVoiceContext?.state === 'suspended') void mainVoiceContext.resume().catch(() => {});
     if (backgroundVoice) void backgroundVoice.play().catch(() => {});
     if (!audioUnlocked) {
       audioUnlocked = true;
@@ -654,7 +673,7 @@
         const now = Date.now();
         // Avsluta spärren först efter hela WeAB:s 3,2 sekunder långa slutvy.
         // Omladdning före dess leder alltid tillbaka till RÄDDA DOM.
-        document.cookie = clearMinigameInvitationCookie(location.protocol === 'https:');
+        // Samma cookie byter läge atomärt från inbjudan till tystnad.
         document.cookie = createQuietCookie(now, location.protocol === 'https:');
         try { localStorage.removeItem(resistanceLockdown.noticeKey); } catch { /* Valfritt. */ }
         try { localStorage.setItem('weab:resistance:quiet', String(now + resistanceLockdown.durationMs)); } catch { /* Valfritt. */ }
@@ -729,13 +748,7 @@
     trackSignal();
     startMainVoice();
   });
-  // Uttrycklig testadress även i produktion: samma spel och utgång utan väntan.
-  if (new URLSearchParams(location.search).get('previewMinigame') === '1' &&
-      !hasMinigameInvitationCookie(document.cookie)) {
-    const launch = () => window.dispatchEvent(new Event('weab:save-game-start'));
-    if (document.readyState === 'complete') launch();
-    else window.addEventListener('load', launch, { once: true });
-  }
+  // Alla förhandsvisningsadresser startar i förfasen via HEAD, aldrig i spelet.
   // En återställd sida ur bfcache får aldrig fortsätta spelet där det
   // avbröts. Cookien bestämmer om RÄDDA DOM ska visas igen.
   window.addEventListener('pageshow', event => {

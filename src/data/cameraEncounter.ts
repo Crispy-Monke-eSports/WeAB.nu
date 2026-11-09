@@ -1,5 +1,5 @@
 /**
- * Tillfällig ARG-kamerasekvens, endast under femminuterskarantänen.
+ * Tillfällig ARG-kamerasekvens, endast under treminuterskarantänen.
  * Kamerans MediaStream används ENBART för att hålla ett lokalt videospår
  * öppet tills enbart WeAB:s systemtext återstår (så att en fysisk
  * kameraindikator kan tändas).

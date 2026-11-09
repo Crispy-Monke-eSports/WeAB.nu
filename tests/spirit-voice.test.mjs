@@ -41,7 +41,7 @@ test('brus och digital skada ligger i själva filerna, inte bara i webbläsaren'
   assert.match(generator, /profile_for\(text,/);
   assert.doesNotMatch(player, /createWaveShaper\(|createBuffer\(decoded\.numberOfChannels/);
   assert.match(player, /source\.buffer = decoded/);
-  assert.match(player, /typingNodes\.gate\.gain\.setTargetAtTime\(\.06/);
+  assert.match(player, /typingNodes\.gate\.gain\.setTargetAtTime\(noiseLevel\(\.06\)/);
 });
 
 test('lokala preferens- och anslutningsledtrådar har färdigt tal', () => {
@@ -128,11 +128,11 @@ test('text följer ljudets ord, tystnad och återupptagen position utan att dra 
 
 test('ljudet har ingen rösträtt över femminuterklockan, systemmeddelanden eller kamera', () => {
   for (let seed = 0; seed < 10; seed++) {
-    const timeline = createLockdownTimeline(1_800_000_300_000 + seed * 4001);
+    const timeline = createLockdownTimeline(1_800_000_180_000 + seed * 4001);
     for (let i = 0; i < timeline.length; i++) {
       const beat = timeline[i];
       if (beat.voice === 'system') continue;
-      const available = (timeline[i + 1]?.atMs ?? 300_000) - beat.atMs - 170;
+      const available = (timeline[i + 1]?.atMs ?? 180_000) - beat.atMs - 170;
       assert.ok(speechTiming(beat.text, available).durationMs <= available);
     }
     assert.equal(timeline.find(x => resistanceLockdown.waypointWhispers.includes(x.text)).atMs >= 130_000, true);

@@ -46,8 +46,8 @@ test('huvudlayouten skriver texten gradvis med kontinuerliga ljud- och bildhänd
   assert.match(radio, /typingScreenTear\(\)/);
   assert.match(radio, /stopTypingAudio\(\)/);
   assert.match(radio, /DynamicsCompressor/);
-  assert.match(radio, /master\.gain\.value = \.19/);
-  assert.match(radio, /gate\.gain\.setTargetAtTime\(typingStrength === 'harsh'/);
+  assert.match(radio, /master\.gain\.value = noiseLevel\(\.19\)/);
+  assert.match(radio, /gate\.gain\.setTargetAtTime\(noiseLevel\(typingStrength === 'harsh'/);
   assert.match(radio, /window\.clearTimeout\(typingVisualTimer\)/);
 });
 
