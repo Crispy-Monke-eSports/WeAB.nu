@@ -14,6 +14,7 @@ import { spiritVoice } from '../data/spiritVoiceTiming.ts';
 import { cameraEncounter } from '../data/cameraEncounter.ts';
 import CameraEncounter from '../components/CameraEncounter.astro';
 import { companies } from '../data/companies';
+import { minigameInvitationCookieName } from '../data/resistanceMinigameInvitation.ts';
 import '../styles/global.css';
 interface Props {title?:string;description?:string;enableInterference?:boolean;}
 const {title='WeAB Group | En bättre värld. På våra villkor.', description='WeAB verkar inom produktion, logistik, boende, transport och nöje. En bättre värld, på våra villkor.', enableInterference=true}=Astro.props;
@@ -29,6 +30,22 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
  <style is:inline>
   /* Spärren måste döljas/visas i HEAD innan ordinarie innehåll ritas. */
   #weab-quarantine { display: none; }
+  /* Sätts av HEAD:s cookie-kontroll innan någon ordinarie sidtext hinner synas.
+     Visa först när sidans texter hunnit ersättas med själens länkar. */
+  html.weab-save-call:not(.weab-save-call-ready) body > :is(aside,header,main,footer) {
+    visibility: hidden !important;
+  }
+  html.weab-save-call body > :is(aside,header,main,footer) :is(a,button,summary,[role="button"],[role="link"]) {
+    color: #d8f5f7 !important;
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    text-decoration-style: dashed !important;
+    text-underline-offset: .18em;
+    text-shadow: 2px 0 rgb(165 41 67 / .5), -2px 0 rgb(36 142 165 / .55);
+  }
+  html.weab-save-call body > :is(aside,header,main,footer) {
+    text-shadow: 1px 0 rgb(163 36 61 / .32), -1px 0 rgb(42 134 152 / .35);
+  }
    html.weab-quarantined, html.weab-minigame-confirmed { scroll-behavior: auto; }
    html.weab-quarantined body, html.weab-minigame-confirmed body {
     margin: 0 !important;
@@ -234,6 +251,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
    exitMessage: resistanceLockdown.exitMessage,
    exitMessageMs: resistanceLockdown.exitMessageMs,
     signalSessionKey: resistanceSignal.sessionKey,
+   invitationCookieName: minigameInvitationCookieName,
    spiritTypingMinMs: spiritTyping.minMs,
    spiritTypingPerCharacterMs: spiritTyping.perCharacterMs,
    spiritTypingMaxMs: spiritTyping.maxMs,
@@ -602,6 +620,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       const now = Date.now();
       const quietUntil = readQuietExpiry(now);
       if (quietUntil) {
+        root.classList.remove('weab-save-call', 'weab-save-call-ready');
         if (document.readyState !== 'loading' && !root.classList.contains('weab-quiet')) {
           location.reload(); // Rensa redan synliga störningar i andra öppna flikar.
           return;
@@ -622,6 +641,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       const wasLocked = root.classList.contains('weab-quarantined');
 
       if (until) {
+        root.classList.remove('weab-save-call', 'weab-save-call-ready');
         window.clearTimeout(lockTimer);
         confirmedDisplayed = false;
         try { sessionStorage.removeItem(signalSessionKey); } catch { /* Privat läge. */ }
@@ -631,11 +651,20 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         if (!wasLocked) scheduleMicroTears();
         lockTimer = window.setTimeout(applyLockdown, Math.max(50, nextBeatMs + 12));
       } else if (notice && now >= notice) {
+        root.classList.remove('weab-save-call', 'weab-save-call-ready');
         showConfirmed(now, notice);
       } else if (wasLocked) {
         // En bakgrundsflik kan ha sovit förbi exakt sluttid. Visa ändå
         // återtagningsmeddelandet innan en ny slumpad ARG-session startas.
+        root.classList.remove('weab-save-call', 'weab-save-call-ready');
         showConfirmed(now, 0);
+      } else {
+        // Även en manuellt öppnad URL får samma kapade text före första paint.
+        // Cookien försvinner först när spelaren själv väljer en RÄDDA DOM-länk.
+        const invited = document.cookie.split(';').some(part =>
+          part.trim() === invitationCookieName + '=1');
+        root.classList.toggle('weab-save-call', invited);
+        if (!invited) root.classList.remove('weab-save-call-ready');
       }
     }
 

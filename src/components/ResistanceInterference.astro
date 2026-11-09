@@ -28,11 +28,13 @@
     type SignalPhase
   } from '../data/resistanceSignal.ts';
   import { resistanceLockdown, createLockdownCookie } from '../data/resistanceLockdown.ts';
+  import { createMinigameInvitationCookie } from '../data/resistanceMinigameInvitation.ts';
 
   const overlay = document.querySelector<HTMLElement>('[data-resistance-interference]');
   const messageElement = overlay?.querySelector<HTMLElement>('[data-resistance-message]');
   if (overlay && messageElement && !document.documentElement.classList.contains('weab-quarantined') &&
-      !document.documentElement.classList.contains('weab-quiet')) {
+      !document.documentElement.classList.contains('weab-quiet') &&
+      !document.documentElement.classList.contains('weab-save-call')) {
     const lockable = [...document.querySelectorAll<HTMLElement>('body > aside, body > header, body > main, body > footer')];
     const initialInert = lockable.map(element => element.inert);
 
@@ -241,7 +243,13 @@
         else if (phase === 'whisper') {
           if (chooseMinigame()) {
             running = true;
-            window.dispatchEvent(new Event('weab:save-game-start'));
+            window.clearInterval(intervalId);
+            // Läget är cookie-baserat: omladdning och manuellt sidbyte får inte
+            // återstarta ARG-kön eller återställa WeAB:s ursprungliga texter.
+            try { sessionStorage.removeItem(resistanceSignal.sessionKey); } catch { /* Valfritt. */ }
+            document.cookie = createMinigameInvitationCookie(location.protocol === 'https:');
+            document.documentElement.classList.add('weab-save-call');
+            window.dispatchEvent(new Event('weab:save-game-invite'));
           } else runWhisper();
         }
         else if (phase === 'redirect') {

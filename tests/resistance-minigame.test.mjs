@@ -1,6 +1,12 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import {
+  minigameInvitationCookieName,
+  hasMinigameInvitationCookie,
+  createMinigameInvitationCookie,
+  clearMinigameInvitationCookie
+} from '../src/data/resistanceMinigameInvitation.ts';
 
 const source = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
@@ -160,4 +166,35 @@ test('RESULTAT.txt är förgenererad med Base64 i åttateckensbitar mellan verkl
   assert.equal(Buffer.from(chunks.join(''), 'base64').toString('utf8'),
     '12 feburari 2048 02:12:\n\nresultat blev inte önskvärt biologiskt resultat.\n');
   assert.doesNotMatch(source('src/layouts/BaseLayout.astro'), /btoa\(|Buffer\.from\(/);
+});
+
+test('RÄDDA DOM förfas sparas i cookie och öppnar minispelet först vid klick', () => {
+  const layout = source('src/layouts/BaseLayout.astro');
+  const controller = source('src/components/ResistanceInterference.astro');
+  const game = source('src/components/ResistanceMinigame.astro');
+  assert.equal(minigameInvitationCookieName, 'weab_save_call_v1');
+  assert.equal(hasMinigameInvitationCookie('foo=1; weab_save_call_v1=1'), true);
+  assert.equal(hasMinigameInvitationCookie('weab_save_call_v1=10'), false);
+  assert.equal(hasMinigameInvitationCookie('foo=1'), false);
+  assert.match(createMinigameInvitationCookie(true), /Path=\/; Max-Age=31536000; SameSite=Lax; Secure/);
+  assert.match(clearMinigameInvitationCookie(true), /Path=\/; Max-Age=0; SameSite=Lax; Secure/);
+  assert.match(controller, /document\.cookie = createMinigameInvitationCookie/);
+  assert.match(controller, /window\.clearInterval\(intervalId\)/);
+  assert.match(controller, /weab:save-game-invite/);
+  assert.match(controller, /!document\.documentElement\.classList\.contains\('weab-save-call'\)/);
+  assert.match(layout, /invitationCookieName: minigameInvitationCookieName/);
+  assert.match(layout, /root\.classList\.toggle\('weab-save-call', invited\)/);
+  assert.match(layout, /html\.weab-save-call:not\(\.weab-save-call-ready\)/);
+  assert.match(game, /window\.addEventListener\('weab:save-game-invite', beginInvitation\)/);
+  assert.match(game, /function rewriteInvitationText\(\): void/);
+  assert.match(game, /new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1'/);
+  assert.match(game, /link\.href = '#weab-save-game'/);
+  assert.match(game, /document\.title = 'RÄDDA DOM RÄDDA DOM'/);
+  assert.match(game, /event\.stopImmediatePropagation\(\)/);
+  assert.match(game, /window\.dispatchEvent\(new Event\('weab:save-game-start'\)\)/);
+  assert.match(game, /document\.cookie = clearMinigameInvitationCookie/);
+  assert.match(game, /weab:spirit-presence/);
+  assert.match(game, /weab:spirit-typing/);
+  assert.match(game, /weab:spirit-burst/);
+  assert.doesNotMatch(controller, /chooseMinigame\(\)[\s\S]{0,130}weab:save-game-start/);
 });

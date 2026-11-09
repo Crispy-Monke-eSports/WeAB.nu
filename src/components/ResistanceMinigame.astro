@@ -20,6 +20,10 @@
   import { createQuietCookie, resistanceLockdown } from '../data/resistanceLockdown.ts';
   import { resistanceSignal, minigameFailureWebsiteLine } from '../data/resistanceSignal.ts';
   import { spiritVoice } from '../data/spiritVoiceTiming.ts';
+  import {
+    hasMinigameInvitationCookie,
+    clearMinigameInvitationCookie
+  } from '../data/resistanceMinigameInvitation.ts';
 
   const modal = document.querySelector<HTMLElement>('[data-save-game]');
   const canvas = modal?.querySelector<HTMLCanvasElement>('[data-save-screen]');
@@ -60,6 +64,103 @@
   const compactGraphics = matchMedia('(max-width: 760px), (pointer: coarse)').matches;
   let panicStartedAt = 0;
   let panicDurationMs = 0;
+  let invitationActive = false;
+  let invitationBurstTimer = 0;
+
+  // Bibehåll sidans faktiska bilder, sektioner och länkar; ersätt bara text.
+  // Den här fasen använder varken en tung overlay eller klonade sidträd.
+  function rewriteInvitationText(): void {
+    const skip = 'script,style,noscript,svg,textarea,select,option,[hidden],[aria-hidden="true"],.sr-only';
+    for (const root of pageParts) {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      const nodes: Text[] = [];
+      let current: Node | null;
+      while ((current = walker.nextNode())) nodes.push(current as Text);
+      for (const node of nodes) {
+        const value = node.data;
+        if (!value.trim() || node.parentElement?.closest(skip)) continue;
+        const repeat = Math.max(1, Math.min(20, Math.ceil(value.trim().length / 9)));
+        const replacement = 'RÄDDA DOM '.repeat(repeat).trim();
+        const before = value.match(/^\\s*/u)?.[0] ?? '';
+        const after = value.match(/\\s*$/u)?.[0] ?? '';
+        const text = before + replacement + after;
+        // Befintliga länkar/knappar får behålla sin klickyta. Vanlig brödtext
+        // blir riktiga, tangentbordsaktiverbara länkar utan att bygga om layouten.
+        if (node.parentElement?.closest('a,button,summary,label,[role="button"],[role="link"]')) {
+          node.data = text;
+        } else {
+          const link = document.createElement('a');
+          link.href = '#weab-save-game';
+          link.dataset.saveCallLink = '1';
+          link.textContent = text;
+          node.replaceWith(link);
+        }
+      }
+      root.querySelectorAll<HTMLElement>('a,button,summary,[role="button"],[role="link"]').forEach(control => {
+        control.setAttribute('aria-label', 'RÄDDA DOM');
+        // Ikonlänkar kan sakna synliga textnoder. Även de ska se ut att anropa oss.
+        if (!control.textContent?.trim()) {
+          const text = document.createElement('span');
+          text.textContent = 'RÄDDA DOM';
+          text.dataset.saveCallLabel = '1';
+          control.appendChild(text);
+        }
+      });
+      root.querySelectorAll<HTMLInputElement>('input[placeholder]').forEach(input => {
+        input.placeholder = 'RÄDDA DOM';
+      });
+    }
+    document.title = 'RÄDDA DOM RÄDDA DOM';
+  }
+
+  function invitationPulse(): void {
+    if (!invitationActive) return;
+    if (!document.hidden) window.dispatchEvent(new CustomEvent('weab:spirit-burst', {
+      detail: { strength: 'medium' }
+    }));
+    // Tillräckligt glest för att mobilens grafiklager inte ska ackumuleras.
+    invitationBurstTimer = window.setTimeout(invitationPulse, 4_400 + Math.random() * 2_400);
+  }
+
+  function beginInvitation(): void {
+    if (invitationActive || active || ending ||
+        document.documentElement.classList.contains('weab-quiet') ||
+        document.documentElement.classList.contains('weab-quarantined') ||
+        new URLSearchParams(location.search).get('previewMinigame') === '1') return;
+    invitationActive = true;
+    document.documentElement.classList.add('weab-save-call');
+    rewriteInvitationText();
+    document.documentElement.classList.add('weab-save-call-ready');
+    // Den befintliga analoga motorn ger kontinuerligt brus, rasterstörning
+    // och periodiska visuella brott. Webbläsarens autoplay-regler gäller.
+    window.dispatchEvent(new CustomEvent('weab:spirit-presence', { detail: { active: true } }));
+    window.dispatchEvent(new CustomEvent('weab:spirit-typing', {
+      detail: { active: true, strength: 'harsh' }
+    }));
+    invitationPulse();
+  }
+
+  function startFromInvitation(): void {
+    if (!invitationActive || !modal || !ctx) return;
+    invitationActive = false;
+    window.clearTimeout(invitationBurstTimer);
+    document.cookie = clearMinigameInvitationCookie(location.protocol === 'https:');
+    document.documentElement.classList.remove('weab-save-call', 'weab-save-call-ready');
+    window.dispatchEvent(new Event('weab:save-game-start'));
+  }
+
+  window.addEventListener('weab:save-game-invite', beginInvitation);
+  document.addEventListener('click', event => {
+    if (!invitationActive || !(event.target instanceof Element)) return;
+    const target = event.target.closest('a,button,summary,[role="button"],[role="link"]');
+    if (!target || target.closest('[data-save-game]')) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    startFromInvitation();
+  }, true);
+  // Klassen sätts redan i HEAD på laddade sidor; modulens DOM är nu färdig.
+  if (document.documentElement.classList.contains('weab-save-call') ||
+      hasMinigameInvitationCookie(document.cookie)) beginInvitation();
 
   function proximityToWhiteRoom(): number {
     if (stage === 'corridor') return Math.max(0, Math.min(.35, (31 - y) / 29 * .35));
@@ -594,6 +695,11 @@
 
   window.addEventListener('weab:save-game-start', () => {
     if (!modal || !ctx || active || document.documentElement.classList.contains('weab-quiet')) return;
+    // Även teststarten måste lämna det cookie-baserade inbjudningsläget.
+    invitationActive = false;
+    window.clearTimeout(invitationBurstTimer);
+    document.cookie = clearMinigameInvitationCookie(location.protocol === 'https:');
+    document.documentElement.classList.remove('weab-save-call', 'weab-save-call-ready');
     active = true;
     previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     previousOverflow = document.body.style.overflow;
@@ -651,6 +757,8 @@
   });
   // Sidan lämnas efter avslut; återställ vid historiknavigering i samma dokument.
   window.addEventListener('pagehide', () => {
+    invitationActive = false;
+    window.clearTimeout(invitationBurstTimer);
     window.clearInterval(moveTimer);
     window.clearTimeout(fragmentTimer);
     window.clearTimeout(trackingTimer);
