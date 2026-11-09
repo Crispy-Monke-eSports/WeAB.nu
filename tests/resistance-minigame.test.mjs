@@ -137,11 +137,11 @@ test('korridoren hålls som gång av svarta vägglinjer med schackgolv ända ut'
   assert.match(game, /pixel\(16 \* 16 \+ 6, py \+ 4, 3, 8, '#595540'\)/);
 });
 
-test('testadressen startar även i produktion, trots cookie och utan slumpad ARG-kö', () => {
+test('testadressen kan starta direkt, men återgår till cookie-spärren vid omladdning', () => {
   const game = source('src/components/ResistanceMinigame.astro');
   const controller = source('src/components/ResistanceInterference.astro');
   const layout = source('src/layouts/BaseLayout.astro');
-  assert.match(game, /if \(new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1'\)/);
+  assert.match(game, /if \(new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1' &&/);
   assert.match(game, /window\.dispatchEvent\(new Event\('weab:save-game-start'\)\)/);
   assert.match(controller, /!morsePreview && !minigamePreview/);
   assert.match(controller, /const minigamePreview = params\.get\('previewMinigame'\) === '1'/);
@@ -183,7 +183,7 @@ test('RÄDDA DOM förfas sparas i cookie och öppnar minispelet först vid klick
   assert.match(controller, /weab:save-game-invite/);
   assert.match(controller, /!document\.documentElement\.classList\.contains\('weab-save-call'\)/);
   assert.match(layout, /invitationCookieName: minigameInvitationCookieName/);
-  assert.match(layout, /root\.classList\.toggle\('weab-save-call', invited\)/);
+  assert.match(layout, /root\.classList\.toggle\('weab-save-call', !playing\)/);
   assert.match(layout, /html\.weab-save-call:not\(\.weab-save-call-ready\)/);
   assert.match(game, /window\.addEventListener\('weab:save-game-invite', beginInvitation\)/);
   assert.match(game, /function rewriteInvitationText\(\): void/);
