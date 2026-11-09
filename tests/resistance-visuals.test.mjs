@@ -17,7 +17,7 @@ test('alla korta titel- och rubrikförändringar ligger kvar tills nytt dokument
   assert.match(code, /document\.title = 'DISOBEY'/);
 });
 
-test('själen får ett enda centrerat öga vars öppning styr glitchstyrkan', () => {
+test('själen får ett enda statiskt vidöppet öga i ett svart tomrum med kraftiga störningar', () => {
   const signal = source('src/components/ResistanceInterference.astro');
   const eyes = source('src/components/ResistanceEyes.astro');
   const layout = source('src/layouts/BaseLayout.astro');
@@ -29,20 +29,27 @@ test('själen får ett enda centrerat öga vars öppning styr glitchstyrkan', ()
   assert.match(layout, /<ResistanceEyes\/>/);
   assert.match(eyes, /data-resistance-eye/);
   assert.match(eyes, /resistance-eye__iris/);
-  assert.match(eyes, /resistance-eye-open/);
-  assert.match(eyes, /function opening\(portion: number\)/);
+  assert.match(eyes, /resistance-eye__void/);
+  assert.match(eyes, /transform: translate\(-50%, -50%\) scaleY\(1\)/);
+  assert.doesNotMatch(eyes, /resistance-eye-open|function opening\(/);
   assert.match(eyes, /--eye-instability/);
   assert.match(eyes, /top: 50%/);
   assert.match(eyes, /left: 50%/);
   assert.doesNotMatch(eyes, /data-resistance-eye-pair|resistance-eyes-inline/);
   assert.match(eyes, /veil\.hidden = false/);
-  assert.match(eyes, /75%, 92%/);
+  assert.match(eyes, /function growVoid\(\)/);
+  assert.match(eyes, /steps = 4 \+ Math\.floor\(Math\.random\(\) \* 4\)/);
+  assert.match(eyes, /resistance-eye-noise--eye-visible/);
+  assert.doesNotMatch(eyes, /@keyframes resistance-void-arrive/);
+  assert.match(eyes, /Math\.random\(\) \* \(compact \? 160 : 155\)/);
+  assert.match(eyes, /clearDisplaced\(\)/);
+  assert.match(eyes, /classList\.add\('resistance-displaced'\)/);
   assert.match(eyes, /pointer-events: none/);
   assert.match(eyes, /prefers-reduced-motion: reduce/);
   assert.match(eyes, /pagehide', finish/);
 });
 
-test('ögonens tre öppningar får analog radio- och bildstörning, eller enbart bild', () => {
+test('det öppna ögat har tre analoga radio- och bildbrott, eller enbart bild', () => {
   const eyes = source('src/components/ResistanceEyes.astro');
   const radio = source('src/components/SpiritTransmission.astro');
   assert.match(eyes, /for \(const phase of \[\.15, \.43, \.75\]\)/);

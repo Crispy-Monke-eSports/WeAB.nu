@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 464 284" role="img" aria-label="Vidöppet öga med mörk pupill och röd iris">
+  <defs>
+    <radialGradient id="sclera" cx="49%" cy="48%" rx="55%" ry="70%">
+      <stop offset="26%" stop-color="#b0a5a7"/>
+      <stop offset="48%" stop-color="#85777c"/>
+      <stop offset="76%" stop-color="#56323b"/>
+      <stop offset="100%" stop-color="#160c11"/>
+    </radialGradient>
+    <radialGradient id="iris" cx="48%" cy="48%">
+      <stop offset="38%" stop-color="#020204"/>
+      <stop offset="41%" stop-color="#10060a"/>
+      <stop offset="46%" stop-color="#350b16"/>
+      <stop offset="52%" stop-color="#83303b"/>
+      <stop offset="64%" stop-color="#311018"/>
+      <stop offset="76%" stop-color="#151014"/>
+    </radialGradient>
+    <linearGradient id="lid" x2="0" y2="1">
+      <stop stop-color="#110a0c" stop-opacity=".9"/>
+      <stop offset="22%" stop-color="#110a0c" stop-opacity="0"/>
+      <stop offset="78%" stop-color="#1d0a0f" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#1d0a0f" stop-opacity=".9"/>
+    </linearGradient>
+    <clipPath id="outline">
+      <path d="M2 140C7 62 86 2 228 2S457 63 462 140C455 224 366 282 230 282S7 223 2 140Z"/>
+    </clipPath>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".39" numOctaves="1" seed="17" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+  <rect width="464" height="284" fill="#160c11"/>
+  <g clip-path="url(#outline)">
+    <rect width="464" height="284" fill="url(#sclera)"/>
+    <circle cx="232" cy="142" r="116" fill="url(#iris)"/>
+    <rect width="464" height="284" fill="url(#lid)"/>
+    <rect width="464" height="284" filter="url(#grain)" opacity=".14"/>
+  </g>
+  <path d="M2 140C7 62 86 2 228 2S457 63 462 140C455 224 366 282 230 282S7 223 2 140Z" fill="none" stroke="#251014" stroke-width="2"/>
+</svg>

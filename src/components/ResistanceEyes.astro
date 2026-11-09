@@ -2,6 +2,7 @@
 /** Ett ensamt öga öppnas mitt i den befintliga, avgränsade ARG-störningen. */
 ---
 <div class="resistance-eye-noise" data-resistance-eye-noise hidden aria-hidden="true">
+  <span class="resistance-eye__void"></span>
   <span class="resistance-eye" data-resistance-eye>
     <span class="resistance-eye__iris"></span>
   </span>
@@ -19,38 +20,70 @@
   if (veil && eye) {
     let active = false;
     let finishTimer = 0;
-    let eyeFrame = 0;
+    let disruptionTimer = 0;
+    let voidTimer = 0;
+    const displaced: HTMLElement[] = [];
     const eyeBurstTimers: number[] = [];
 
-    // Tre successivt större öppningar. Samma faser som de tre ljudpulserna.
-    function opening(portion: number): number {
-      const stages = [[0, 0], [.08, .02], [.15, .24], [.28, .27],
-        [.33, .08], [.43, .57], [.59, .67], [.64, .17],
-        [.75, 1], [.92, 1], [1, 0]];
-      for (let i = 1; i < stages.length; i++) {
-        const [at, value] = stages[i];
-        if (portion <= at) {
-          const [previousAt, previousValue] = stages[i - 1];
-          return previousValue + (value - previousValue) *
-            (portion - previousAt) / (at - previousAt);
-        }
+    // Varje intrång får olika antal ojämna steg, form och förskjutningar.
+    // Ögat framträder först när hålet nått full storlek.
+    function growVoid(): void {
+      if (!veil || !active) return;
+      const steps = 4 + Math.floor(Math.random() * 4);
+      let stage = 0;
+      function advance(): void {
+        if (!active) return;
+        stage++;
+        const progress = stage / steps;
+        const scale = stage === steps ? 1 : Math.min(.94,
+          progress * progress * (.85 + Math.random() * .5));
+        veil?.style.setProperty('--void-scale-x', String(scale * (stage === steps ? 1 : .8 + Math.random() * .4)));
+        veil?.style.setProperty('--void-scale-y', String(scale * (stage === steps ? 1 : .75 + Math.random() * .5)));
+        veil?.style.setProperty('--void-offset-x', `${stage === steps ? 0 : Math.round(Math.random() * 28 - 14)}px`);
+        veil?.style.setProperty('--void-offset-y', `${stage === steps ? 0 : Math.round(Math.random() * 20 - 10)}px`);
+        veil?.style.setProperty('--void-opacity', '1');
+        if (stage === steps) {
+          voidTimer = window.setTimeout(() => {
+            if (active) veil?.classList.add('resistance-eye-noise--eye-visible');
+          }, 60 + Math.random() * 150);
+        } else voidTimer = window.setTimeout(advance, 40 + Math.random() * 125);
       }
-      return 0;
+      advance();
     }
 
-    function followEye(start: number): void {
-      let painted = -1;
-      function frame(now: number): void {
-        if (!active) return;
-        if (now - painted >= 32) {
-          const value = opening(Math.min(1, (now - start) / resistanceSignal.eyesDurationMs));
-          veil?.style.setProperty('--eye-instability', value.toFixed(2));
-          document.body.style.setProperty('--eye-instability', value.toFixed(2));
-          painted = now;
-        }
-        eyeFrame = window.requestAnimationFrame(frame);
+    function clearDisplaced(): void {
+      for (const element of displaced) {
+        element.classList.remove('resistance-displaced');
+        element.style.removeProperty('--eye-jolt-x');
+        element.style.removeProperty('--eye-jolt-y');
+        element.style.removeProperty('--eye-tilt');
       }
-      eyeFrame = window.requestAnimationFrame(frame);
+      displaced.length = 0;
+    }
+
+    // Få, synliga objekt per ojämnt tidssteg. Ingen permanent layoutändring
+    // och ingen helsidig per-frame-filterrendering på iOS eller Android.
+    function disrupt(candidates: HTMLElement[], compact: boolean): void {
+      if (!active || document.hidden) return;
+      clearDisplaced();
+      const count = Math.min(candidates.length, compact ? 2 : 4);
+      const chosen = new Set<number>();
+      while (chosen.size < count) chosen.add(Math.floor(Math.random() * candidates.length));
+      for (const index of chosen) {
+        const element = candidates[index];
+        const spread = compact ? 22 : 64;
+        element.style.setProperty('--eye-jolt-x', `${Math.round((Math.random() * 2 - 1) * spread)}px`);
+        element.style.setProperty('--eye-jolt-y', `${Math.round((Math.random() * 2 - 1) * spread * .48)}px`);
+        element.style.setProperty('--eye-tilt', `${((Math.random() * 2 - 1) * 1.2).toFixed(2)}deg`);
+        element.classList.add('resistance-displaced');
+        displaced.push(element);
+      }
+      veil?.style.setProperty('--tear-one-y', `${Math.round(8 + Math.random() * 72)}%`);
+      veil?.style.setProperty('--tear-two-y', `${Math.round(12 + Math.random() * 74)}%`);
+      veil?.style.setProperty('--tear-one-x', `${Math.round(Math.random() * 42 - 21)}px`);
+      veil?.style.setProperty('--tear-two-x', `${Math.round(Math.random() * 46 - 23)}px`);
+      disruptionTimer = window.setTimeout(() => disrupt(candidates, compact),
+        (compact ? 140 : 85) + Math.random() * (compact ? 160 : 155));
     }
 
     function eyeTransmission(): void {
@@ -63,13 +96,19 @@
       if (!active) return;
       active = false;
       window.clearTimeout(finishTimer);
-      window.cancelAnimationFrame(eyeFrame);
+      window.clearTimeout(disruptionTimer);
+      window.clearTimeout(voidTimer);
+      clearDisplaced();
       for (const id of eyeBurstTimers) window.clearTimeout(id);
       eyeBurstTimers.length = 0;
       document.body.classList.remove('resistance-watched');
       veil?.classList.remove('resistance-eye-noise--camera');
+      veil?.classList.remove('resistance-eye-noise--active');
+      veil?.classList.remove('resistance-eye-noise--eye-visible');
       document.body.style.removeProperty('--eye-instability');
       veil?.style.removeProperty('--eye-instability');
+      for (const name of ['--void-scale-x', '--void-scale-y', '--void-offset-x',
+        '--void-offset-y', '--void-opacity']) veil?.style.removeProperty(name);
       if (veil) veil.hidden = true;
     }
 
@@ -79,13 +118,27 @@
         document.documentElement.dataset.weabMorseRunning === '1') return;
       active = true;
       veil.hidden = false;
+      veil.classList.add('resistance-eye-noise--active');
       document.body.classList.add('resistance-watched');
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-        followEye(performance.now());
+      veil.style.setProperty('--eye-instability', '1');
+      document.body.style.setProperty('--eye-instability', '1');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        growVoid();
+        const compact = window.matchMedia('(max-width: 760px), (pointer: coarse)').matches;
+        const candidates = [...document.querySelectorAll<HTMLElement>(
+          'body > header, body > main > *, body > main h1, body > main h2, body > main img, body > footer'
+        )].filter(element => {
+          const box = element.getBoundingClientRect();
+          return box.width > 0 && box.height > 0 && box.bottom > 0 &&
+            box.top < window.innerHeight;
+        }).slice(0, 24);
+        disrupt(candidates, compact);
+      }
       // Ljudfilen börjar med ögat, inte först vid nästa öppningspuls.
       window.dispatchEvent(new CustomEvent('weab:spirit-sustain', {
         detail: { strength: 'harsh', durationMs: resistanceSignal.eyesDurationMs + 1_700 }
       }));
+      // Tre ljud-/bildbrott medan ögat förblir vidöppet, inga nya öppningsfaser.
       for (const phase of [.15, .43, .75]) {
         eyeBurstTimers.push(window.setTimeout(() => {
           if (active && document.visibilityState === 'visible') eyeTransmission();
@@ -126,7 +179,7 @@
     pointer-events: none;
     isolation: isolate;
     background: repeating-linear-gradient(0deg,
-      transparent 0 5px, rgb(140 25 42 / .06) 6px 7px, transparent 8px 15px);
+      rgb(3 4 7 / .14) 0 5px, rgb(140 25 42 / .19) 6px 8px, transparent 9px 15px);
   }
   .resistance-eye-noise::before,
   .resistance-eye-noise::after {
@@ -135,25 +188,45 @@
     left: -5%;
     width: 110%;
     pointer-events: none;
-    opacity: calc(.18 + var(--eye-instability, 0) * .74);
+    opacity: calc(.26 + var(--eye-instability, 0) * .74);
   }
   .resistance-eye-noise::before {
-    top: 24%;
-    height: clamp(14px, 3.4vh, 44px);
+    top: var(--tear-one-y, 24%);
+    height: clamp(28px, 7vh, 82px);
     background: repeating-linear-gradient(90deg,
-      rgb(120 15 39 / .22) 0 19px, rgb(21 140 156 / .16) 20px 29px,
+      rgb(120 15 39 / .56) 0 19px, rgb(21 140 156 / .42) 20px 29px,
       transparent 30px 43px);
     box-shadow: 0 1px 0 rgb(160 20 36 / .22), 0 -2px 0 rgb(40 180 196 / .19);
-    animation: resistance-tear-one .31s steps(2, end) infinite;
+    transform: translateX(var(--tear-one-x, 0px));
   }
   .resistance-eye-noise::after {
-    top: 65%;
-    height: clamp(5px, 2vh, 27px);
+    top: var(--tear-two-y, 65%);
+    height: clamp(16px, 4vh, 56px);
     background: repeating-linear-gradient(90deg,
-      rgb(25 120 135 / .24) 0 6px, transparent 6px 13px,
-      rgb(142 18 42 / .2) 13px 19px);
-    animation: resistance-tear-two .17s steps(3, end) infinite;
+      rgb(25 120 135 / .52) 0 6px, transparent 6px 13px,
+      rgb(142 18 42 / .46) 13px 19px);
+    transform: translateX(var(--tear-two-x, 0px));
   }
+  .resistance-eye__void {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    left: 50%;
+    width: clamp(300px, 52vw, 700px);
+    height: clamp(200px, 33vw, 440px);
+    border-radius: 50% 48% 52% 49% / 53% 47% 53% 47%;
+    background: #020204;
+    box-shadow: 0 0 0 12px rgb(5 4 9 / .6), 0 0 72px 26px #020204;
+    transform: translate(-50%, -50%) scale(.02);
+    opacity: 0;
+  }
+  .resistance-eye-noise--active .resistance-eye__void {
+    opacity: var(--void-opacity, 0);
+    transform: translate(calc(-50% + var(--void-offset-x, 0px)),
+      calc(-50% + var(--void-offset-y, 0px)))
+      scale(var(--void-scale-x, .02), var(--void-scale-y, .02));
+  }
+  .resistance-eye-noise--camera .resistance-eye__void { display: none; }
   .resistance-eye {
     position: absolute;
     z-index: 5;
@@ -170,9 +243,14 @@
       #b0a5a7 0 26%, #85777c 48%, #56323b 76%, #160c11 100%);
     box-shadow: inset 0 20px 20px #110a0cdb, inset 0 -15px 17px #1d0a0fda,
       0 0 11px rgb(123 25 43 / .24), 0 0 42px rgb(94 9 30 / .18);
-    transform: translate(-50%, -50%) scaleY(.01);
+    transform: translate(-50%, -50%) scaleY(1);
+    opacity: 1;
+  }
+  .resistance-eye-noise--active .resistance-eye {
     opacity: 0;
-    animation: resistance-eye-open 3.3s linear both;
+  }
+  .resistance-eye-noise--eye-visible .resistance-eye {
+    opacity: 1;
   }
   .resistance-eye::before,
   .resistance-eye::after {
@@ -208,54 +286,25 @@
   .resistance-eye-noise--camera .resistance-eye {
     width: clamp(220px, 42vw, 400px);
     height: clamp(126px, 26vw, 240px);
-    animation: none;
     transform: translate(-50%, -50%) scaleY(1);
     opacity: 1;
   }
   :global(body.resistance-watched > header),
   :global(body.resistance-watched > main),
   :global(body.resistance-watched > footer) {
-    animation: resistance-page-break .14s steps(2, end) infinite;
-    text-shadow: calc(var(--eye-instability, 0) * 3px) 0 rgb(205 19 48 / .58),
-      calc(var(--eye-instability, 0) * -3px) 0 rgb(20 169 186 / .5);
+    text-shadow: 7px 0 rgb(205 19 48 / .82), -7px 0 rgb(20 169 186 / .78);
   }
-  @keyframes resistance-eye-open {
-    0%, 8% { transform: translate(-50%, -50%) scaleY(.01); opacity: 0; }
-    15%, 28% { transform: translate(-50%, -50%) scaleY(.24); opacity: 1; }
-    33% { transform: translate(-50%, -50%) scaleY(.08); opacity: .8; }
-    43%, 59% { transform: translate(-50%, -50%) scaleY(.62); opacity: 1; }
-    64% { transform: translate(-50%, -50%) scaleY(.17); opacity: .8; }
-    75%, 92% { transform: translate(-50%, -50%) scaleY(1); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scaleY(.01); opacity: 0; }
-  }
-  @keyframes resistance-tear-one {
-    0%, 100% { transform: translateX(1px); top: 24%; }
-    33% { transform: translateX(7px); top: 52%; }
-    66% { transform: translateX(-8px); top: 14%; }
-  }
-  @keyframes resistance-tear-two {
-    0%, 100% { transform: translateX(-2px); top: 65%; }
-    45% { transform: translateX(-10px); top: 38%; }
-    75% { transform: translateX(8px); top: 79%; }
-  }
-  @keyframes resistance-page-break {
-    0%, 100% { transform: translateX(0); filter: none; }
-    25% { transform: translateX(calc(var(--eye-instability, 0) * 5px));
-      filter: contrast(calc(1 + var(--eye-instability, 0) * .42)); }
-    50% { transform: translateX(calc(var(--eye-instability, 0) * -7px));
-      filter: saturate(calc(1 - var(--eye-instability, 0) * .36)); }
-    75% { transform: translateX(calc(var(--eye-instability, 0) * 3px));
-      filter: contrast(calc(1 + var(--eye-instability, 0) * .23)); }
+  :global(body.resistance-watched .resistance-displaced) {
+    translate: var(--eye-jolt-x, 0px) var(--eye-jolt-y, 0px);
+    rotate: var(--eye-tilt, 0deg);
   }
   @media (prefers-reduced-motion: reduce) {
-    .resistance-eye-noise::before,
-    .resistance-eye-noise::after { animation: none; }
-    :global(body.resistance-watched > header),
-    :global(body.resistance-watched > main),
-    :global(body.resistance-watched > footer) { animation: none; }
-    .resistance-eye {
-      animation: none;
-      transform: translate(-50%, -50%) scaleY(.7);
+    .resistance-eye-noise--active .resistance-eye__void {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    .resistance-eye-noise--active .resistance-eye {
+      transform: translate(-50%, -50%) scaleY(1);
       opacity: 1;
     }
   }

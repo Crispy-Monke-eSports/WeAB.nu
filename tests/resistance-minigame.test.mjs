@@ -136,6 +136,28 @@ test('panikläckor använder spelets Atari-typografi och ett gemensamt mobilvän
   assert.doesNotMatch(game, /createElement\('canvas'\)/);
 });
 
+test('RÄDDA DOM ersätter alla bilder med ett statiskt öga men bevarar originalbilder och originaltext för paniken', () => {
+  const game = source('src/components/ResistanceMinigame.astro');
+  const layout = source('src/layouts/BaseLayout.astro');
+  const eye = source('public/images/arg-eye-open.svg');
+  assert.match(game, /originalLeakText\.set\(element, text\.slice\(0, 260\)\)/);
+  assert.match(game, /originalLeakImage\.set\(element, \{ src: element\.currentSrc \|\| element\.src, alt: element\.alt \}\)/);
+  assert.match(game, /element\.removeAttribute\('srcset'\)/);
+  assert.match(game, /source\.removeAttribute\('srcset'\)/);
+  assert.match(game, /element\.src = eyeSource/);
+  assert.match(game, /getComputedStyle\(element\)\.backgroundImage\.includes\('url\('\)/);
+  assert.match(game, /originalLeakImage\.get\(source\)/);
+  assert.match(game, /originalLeakText\.get\(source\)/);
+  assert.match(game, /startingText\.splice\(Math\.floor\(Math\.random\(\) \* startingText\.length\), 1\)\[0\]/);
+  assert.match(game, /if \(imagePieces\.length\) addPiece\(imagePieces\[/);
+  assert.match(game, /Math\.random\(\) < \.74 && textPieces\.length/);
+  assert.match(game, /data-save-eye-leak hidden/);
+  assert.match(game, /if \(eyeLeak\) eyeLeak\.hidden = false/);
+  assert.match(layout, /img\[data-save-call-eye\]/);
+  assert.match(eye, /id="iris"/);
+  assert.doesNotMatch(game, /foreignPieces\s*=\s*\[.*eyeSource/);
+});
+
 test('korridoren hålls som gång av svarta vägglinjer med schackgolv ända ut', () => {
   const game = source('src/components/ResistanceMinigame.astro');
   assert.match(game, /if \(nextX >= 5 && nextX <= 15 && nextY >= 3 && nextY <= 32\)/);

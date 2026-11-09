@@ -15,6 +15,9 @@
     </div>
   </div>
   <div class="save-game__fragments" data-save-fragments aria-hidden="true"></div>
+  <div class="save-game__fragment save-game__fragment--image save-game__eye-leak" data-save-eye-leak hidden aria-hidden="true">
+    <img src="/images/arg-eye-open.svg" alt="" width="464" height="284" />
+  </div>
 </div>
 <script>
   import {
@@ -29,6 +32,7 @@
   const ctx = canvas?.getContext('2d');
   const instruction = modal?.querySelector<HTMLElement>('[data-save-instruction]');
   const fragments = modal?.querySelector<HTMLElement>('[data-save-fragments]');
+  const eyeLeak = modal?.querySelector<HTMLElement>('[data-save-eye-leak]');
   const tracking = modal?.querySelector<HTMLElement>('[data-save-tracking]');
   const heading = modal?.querySelector<HTMLElement>('h2');
   const keys: Record<string, [number, number]> = {
@@ -65,12 +69,37 @@
   let panicDurationMs = 0;
   let invitationActive = false;
   let invitationBurstTimer = 0;
+  const originalLeakText = new WeakMap<HTMLElement, string>();
+  const originalLeakImage = new WeakMap<HTMLImageElement, { src: string; alt: string }>();
+  const eyeSource = '/images/arg-eye-open.svg';
 
-  // Bibehåll sidans faktiska bilder, sektioner och länkar; ersätt bara text.
-  // Den här fasen använder varken en tung overlay eller klonade sidträd.
+  // Behåll originalen enbart i sidans minne för panikens VERKLIGA läckor.
+  // Inbjudan byter i stället alla synliga bilder till samma statiskt öppna öga.
   function rewriteInvitationText(): void {
     const skip = 'script,style,noscript,svg,textarea,select,option,[hidden],[aria-hidden="true"],.sr-only';
     for (const root of pageParts) {
+      for (const element of [root, ...root.querySelectorAll<HTMLElement>('h1,h2,p,a,button,summary')]) {
+        const text = element.textContent?.replace(/\s+/g, ' ').trim();
+        if (text) originalLeakText.set(element, text.slice(0, 260));
+      }
+      // Både bild-/picture-element och CSS-bakgrunder (t.ex. hero) ingår.
+      // Inga sidträd klonas och samma cachade SVG används för alla motiv.
+      for (const element of [root, ...root.querySelectorAll<HTMLElement>('*')]) {
+        if (element instanceof HTMLImageElement) {
+          originalLeakImage.set(element, { src: element.currentSrc || element.src, alt: element.alt });
+          element.removeAttribute('srcset');
+          element.closest('picture')?.querySelectorAll('source').forEach(source => source.removeAttribute('srcset'));
+          element.src = eyeSource;
+          if (element.alt) element.alt = 'Vidöppet öga med mörk pupill och röd iris';
+          element.dataset.saveCallEye = '1';
+        } else if (getComputedStyle(element).backgroundImage.includes('url(')) {
+          element.style.setProperty('background-image', `url("${eyeSource}")`, 'important');
+          element.style.setProperty('background-color', '#160c11', 'important');
+          element.style.setProperty('background-size', 'min(70%, 28rem) auto', 'important');
+          element.style.setProperty('background-position', 'center', 'important');
+          element.style.setProperty('background-repeat', 'no-repeat', 'important');
+        }
+      }
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
       const nodes: Text[] = [];
       let current: Node | null;
@@ -181,15 +210,16 @@
   // dess bilder, script, undermenyer och responsive srcset till panikscenen.
   function extractLeak(source: HTMLElement, path: string): LeakPiece | null {
     if (source instanceof HTMLImageElement) {
-      const raw = source.getAttribute('src');
+      const original = originalLeakImage.get(source);
+      const raw = original?.src ?? source.getAttribute('src');
       if (!raw) return null;
       try {
         const url = new URL(raw, new URL(path, location.href));
         if (url.origin !== location.origin) return null;
-        return { kind: 'image', src: url.href, alt: source.alt };
+        return { kind: 'image', src: url.href, alt: original?.alt ?? source.alt };
       } catch { return null; }
     }
-    const text = source.textContent?.replace(/\s+/g, ' ').trim().slice(0, 260);
+    const text = originalLeakText.get(source) ?? source.textContent?.replace(/\s+/g, ' ').trim().slice(0, 260);
     return text ? { kind: 'text', text } : null;
   }
 
@@ -526,6 +556,7 @@
     stopBackgroundVoice();
     window.dispatchEvent(new Event('weab:voice-stop'));
     modal.classList.add('save-game--panic');
+    if (eyeLeak) eyeLeak.hidden = false;
     if (instruction) instruction.textContent = 'Signalen bryts.';
     const failed = 'DU MISSLYCKADES, DU MISSLYCKADES';
     const failureMs = spiritVoice[failed]?.durationMs ?? 3_200;
@@ -556,6 +587,10 @@
         .flatMap(selector => [...document.querySelectorAll<HTMLElement>(selector)].slice(0, 5))
         .map(node => extractLeak(node, location.pathname))
         .filter((piece): piece is LeakPiece => piece !== null);
+      const textPieces = [...localPieces, ...foreignPieces].filter(
+        (piece): piece is Extract<LeakPiece, { kind: 'text' }> => piece.kind === 'text');
+      const imagePieces = [...localPieces, ...foreignPieces].filter(
+        (piece): piece is Extract<LeakPiece, { kind: 'image' }> => piece.kind === 'image');
       let lastSecond = -1;
       // En återanvänd pool ger många snabba läckor utan att växa till 85
       // filtrerade layoutträd. Text och bilder kommer från samma riktiga sidor.
@@ -583,7 +618,13 @@
         slice.replaceChildren(copy);
         slice.classList.remove('save-game__fragment--suppressed');
       };
-      for (const source of localPieces.slice(0, 4)) addPiece(source);
+      // Några verkliga rader från olika sidor dyker upp redan vid första
+      // brottet; lägg även till en riktig bild, utöver det separata ögat.
+      const startingText = [...textPieces];
+      for (let i = 0; i < 4 && startingText.length; i++) {
+        addPiece(startingText.splice(Math.floor(Math.random() * startingText.length), 1)[0]);
+      }
+      if (imagePieces.length) addPiece(imagePieces[Math.floor(Math.random() * imagePieces.length)]);
       const distort = () => {
         if (!active) return;
         const progress = Math.min(1, (Date.now() - panicStartedAt) / panicDurationMs);
@@ -596,7 +637,10 @@
         window.dispatchEvent(new CustomEvent('weab:spirit-panic-progress', { detail: { progress } }));
         const leaks = 1 + Math.floor(progress * 4 * Math.random());
         if (Math.random() < .25 + progress * .75) for (let i = 0; i < leaks; i++) {
-          const pool = [...localPieces, ...foreignPieces];
+          // Oftast originaltext, ibland en faktisk anläggningsbild. Förfasens
+          // ögonmotiv ingår inte i urvalet och tar ingen ordinarie bildplats.
+          const pool = Math.random() < .74 && textPieces.length
+            ? textPieces : imagePieces.length ? imagePieces : textPieces;
           if (pool.length) addPiece(pool[Math.floor(Math.random() * pool.length)]);
         }
         // WeAB:s gränssnitt försöker stryka och slita bort det som läcker.
@@ -1016,6 +1060,23 @@
     object-fit: cover;
     image-rendering: pixelated;
   }
+  .save-game__eye-leak[hidden] { display: none; }
+  .save-game__eye-leak {
+    z-index: 7;
+    top: 12%;
+    right: 6%;
+    width: clamp(120px, 26vw, 360px);
+    height: min(22vh, 220px);
+    opacity: .78;
+    pointer-events: none;
+    clip-path: inset(0 0 8% 0);
+  }
+  .save-game__eye-leak img {
+    width: 100% !important;
+    height: 100%;
+    min-width: 0 !important;
+    object-fit: contain;
+  }
   :global(.save-game__fragment p) {
     max-height: 11em;
     padding: 8px;
@@ -1039,6 +1100,7 @@
       font-size: 10px;
       line-height: 1.8;
     }
+    .save-game__eye-leak { width: min(35vw, 180px); height: min(17vh, 145px); right: 5%; }
   }
   :global(.save-game__fragment--suppressed) {
     background: #071019 !important;
