@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import ResistanceInterference from '../components/ResistanceInterference.astro';
 import ResistanceMorse from '../components/ResistanceMorse.astro';
 import ResistanceEyes from '../components/ResistanceEyes.astro';
+import ResistanceMinigame from '../components/ResistanceMinigame.astro';
 import SpiritTransmission from '../components/SpiritTransmission.astro';
 import BuilderDiagnostics from '../components/BuilderDiagnostics.astro';
 import { resistanceLockdown } from '../data/resistanceLockdown.ts';
@@ -28,15 +29,17 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
  <style is:inline>
   /* Spärren måste döljas/visas i HEAD innan ordinarie innehåll ritas. */
   #weab-quarantine { display: none; }
-  html.weab-quarantined { scroll-behavior: auto; }
-  html.weab-quarantined body {
+   html.weab-quarantined, html.weab-minigame-confirmed { scroll-behavior: auto; }
+   html.weab-quarantined body, html.weab-minigame-confirmed body {
     margin: 0 !important;
     background: #071019 !important;
     min-height: 100svh !important;
     overflow: hidden !important;
   }
-  html.weab-quarantined body > :not(#weab-quarantine) { display: none !important; }
-  html.weab-quarantined #weab-quarantine {
+   html.weab-quarantined body > :not(#weab-quarantine),
+   html.weab-minigame-confirmed body > :not(#weab-quarantine) { display: none !important; }
+   html.weab-quarantined #weab-quarantine,
+   html.weab-minigame-confirmed #weab-quarantine {
     position: fixed;
     inset: 0;
     z-index: 2147483647;
@@ -51,7 +54,8 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     text-align: center;
     isolation: isolate;
   }
-  html.weab-quarantined #weab-quarantine::before {
+   html.weab-quarantined #weab-quarantine::before,
+   html.weab-minigame-confirmed #weab-quarantine::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -229,7 +233,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
    cameraScene: cameraEncounter,
    exitMessage: resistanceLockdown.exitMessage,
    exitMessageMs: resistanceLockdown.exitMessageMs,
-   signalSessionKey: resistanceSignal.sessionKey,
+    signalSessionKey: resistanceSignal.sessionKey,
    spiritTypingMinMs: spiritTyping.minMs,
    spiritTypingPerCharacterMs: spiritTyping.perCharacterMs,
    spiritTypingMaxMs: spiritTyping.maxMs,
@@ -365,6 +369,15 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         .find(item => item.startsWith(cookiePrefix));
       if (!part) return 0;
       const until = Number(part.slice(cookiePrefix.length));
+      return Number.isSafeInteger(until) && until > now &&
+        until <= now + lockDurationMs ? until : 0;
+    }
+
+    function readQuietExpiry(now) {
+      const part = document.cookie.split(';').map(item => item.trim())
+        .find(item => item.startsWith(cookiePrefix + 'quiet.'));
+      if (!part) return 0;
+      const until = Number(part.slice((cookiePrefix + 'quiet.').length));
       return Number.isSafeInteger(until) && until > now &&
         until <= now + lockDurationMs ? until : 0;
     }
@@ -582,9 +595,28 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     }
 
     function applyLockdown() {
+      // Uttrycklig testadress kringgår spärren även i produktion.
+      if (new URLSearchParams(location.search).get('previewMinigame') === '1') return;
       // Morse slutförs på ursprungsfliken. Ett NYTT dokument låses i HEAD.
       if (root.dataset.weabMorseRunning === '1') return;
       const now = Date.now();
+      const quietUntil = readQuietExpiry(now);
+      if (quietUntil) {
+        if (document.readyState !== 'loading' && !root.classList.contains('weab-quiet')) {
+          location.reload(); // Rensa redan synliga störningar i andra öppna flikar.
+          return;
+        }
+        root.classList.add('weab-quiet');
+        try { sessionStorage.removeItem(signalSessionKey); } catch { /* Privat läge. */ }
+        window.clearTimeout(lockTimer);
+        lockTimer = window.setTimeout(applyLockdown, quietUntil - now + 20);
+        return;
+      }
+      if (root.classList.contains('weab-quiet')) {
+        root.classList.remove('weab-quiet');
+        location.reload(); // Ny slumpad session först när tystnaden löpt ut.
+        return;
+      }
       const until = readCookieExpiry(now);
       const notice = readNoticeExpiry(now);
       const wasLocked = root.classList.contains('weab-quarantined');
@@ -623,7 +655,7 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
 
     applyLockdown(); // Körs innan BODY renderats.
     window.addEventListener('storage', event => {
-      if (event.key === lockNoticeKey) applyLockdown();
+      if (event.key === lockNoticeKey || event.key === 'weab:resistance:quiet') applyLockdown();
     });
     window.addEventListener('pageshow', event => {
       if (event.persisted && root.dataset.weabMorseRunning === '1') {
@@ -643,6 +675,22 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     });
     document.addEventListener('DOMContentLoaded', () => {
       applyLockdown();
+      if (location.pathname === '/' && root.classList.contains('weab-quiet')) {
+        try {
+          if (sessionStorage.getItem('weab:resistance:result:v1') === '1') {
+            sessionStorage.removeItem('weab:resistance:result:v1');
+            const url = URL.createObjectURL(new Blob(['Utveckling behövs'], { type: 'text/plain;charset=utf-8' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'RESULTAT.txt';
+            link.hidden = true;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+          }
+        } catch { /* Nedladdning beror på webbläsarens tillåtelse. */ }
+      }
       if (root.classList.contains('weab-quarantined') &&
           !root.classList.contains('weab-death-confirmed')) {
         scheduleMicroTears();
@@ -678,6 +726,6 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
   </div>
    <span class="weab-quarantine__spinner" aria-hidden="true"></span>
  </div>
- <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceEyes/>}{enableInterference && <ResistanceMorse/>}{enableInterference && <BuilderDiagnostics/>}<SpiritTransmission/><CameraEncounter/>
+  <a class="skip-link" href="#main">Hoppa till innehåll</a><Header/><main id="main"><slot/></main><Footer/>{enableInterference && <ResistanceInterference/>}{enableInterference && <ResistanceEyes/>}{enableInterference && <ResistanceMinigame/>}{enableInterference && <ResistanceMorse/>}{enableInterference && <BuilderDiagnostics/>}<SpiritTransmission/><CameraEncounter/>
 </body>
 </html>

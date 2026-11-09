@@ -102,6 +102,22 @@ export function createLockdownCookie(now: number, secure: boolean): string {
     (secure ? '; Secure' : '');
 }
 
+/** Samma cookie, men ett separat läge: vanlig webbplats utan ARG-effekter. */
+export function createQuietCookie(now: number, secure: boolean): string {
+  const until = Math.trunc(now + resistanceLockdown.durationMs);
+  return `${resistanceLockdown.cookieName}=quiet.${until}; Max-Age=300; Path=/; SameSite=Lax` +
+    (secure ? '; Secure' : '');
+}
+
+export function readQuietExpiry(cookieHeader: string, now: number): number | null {
+  const prefix = `${resistanceLockdown.cookieName}=quiet.`;
+  const entry = cookieHeader.split(';').map(part => part.trim()).find(part => part.startsWith(prefix));
+  if (!entry) return null;
+  const until = Number(entry.slice(prefix.length));
+  return Number.isSafeInteger(until) && until > now &&
+    until <= now + resistanceLockdown.durationMs ? until : null;
+}
+
 export function readLockdownExpiry(cookieHeader: string, now: number): number | null {
   const prefix = `${resistanceLockdown.cookieName}=`;
   const entry = cookieHeader.split(';').map(part => part.trim()).find(part => part.startsWith(prefix));

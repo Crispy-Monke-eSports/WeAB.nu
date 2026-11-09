@@ -14,7 +14,8 @@
   // Browsern kontaktar MyIP direkt. Behåll bara validerade orts-/nätetiketter
   // i flikens minne; aldrig IP, råsvar, koordinater, cookies eller lagring.
   let networkClues: NetworkClues | null = null;
-  void lookupNetworkClues().then(clues => { networkClues = clues; });
+  if (!document.documentElement.classList.contains('weab-quiet'))
+    void lookupNetworkClues().then(clues => { networkClues = clues; });
   let hiddenBefore = false;
   let returnedToTab = false;
   document.addEventListener('visibilitychange', () => {
@@ -27,6 +28,10 @@
     detail.text = selectVisitorWhisper(
       collectVisitorClues(window, document, returnedToTab), detail.index, networkClues
     );
+  });
+  window.addEventListener('weab:visitor-city', (event: Event) => {
+    const detail = (event as CustomEvent<{ city?: string }>).detail;
+    if (detail && networkClues?.city) detail.city = networkClues.city;
   });
 
   type Strength = 'soft' | 'medium' | 'harsh';
@@ -56,12 +61,17 @@
   let bedStartedAt = 0;
   let bedTimer = 0;
   let bedStrength: Strength = 'medium';
+  let panicProgress = 0;
+  let panicVoice: GainNode | null = null;
 
   function bedLevel(): number {
     // Det inspelade talet innehåller redan brus. Håll samma upplevda nivå
     // när en skärmglitch sker utan tal som medan rösten talar genom statiken.
-    if (voiceSources.length) return .10;
-    return bedStrength === 'harsh' ? .16 : bedStrength === 'soft' ? .11 : .13;
+    const base = voiceSources.length ? .10 :
+      bedStrength === 'harsh' ? .16 : bedStrength === 'soft' ? .11 : .13;
+    // Slutpanikens brus växer kontinuerligt, men komprimeras och håller
+    // sig under en kontrollerad nivå även när rösten pågår.
+    return panicProgress > 0 ? .10 + panicProgress * .22 : base;
   }
 
   function stopBed(): void {
@@ -163,6 +173,7 @@
   }
 
   function stopVoice(): void {
+    panicVoice = null;
     voiceGeneration++;
     voiceAbort?.abort();
     voiceAbort = null;
@@ -211,14 +222,16 @@
       compressor.attack.value = .006;
       compressor.release.value = .14;
       output.gain.setValueAtTime(.0001, ctx.currentTime);
-      output.gain.linearRampToValueAtTime(.72, ctx.currentTime + .045);
+      const voiceLevel = panicProgress > 0 ? .72 + panicProgress * .10 : .72;
+      output.gain.linearRampToValueAtTime(voiceLevel, ctx.currentTime + .045);
       const remaining = (timing.durationMs - age) / 1000;
-      output.gain.setValueAtTime(.72, ctx.currentTime + Math.max(.045, remaining - .065));
+      output.gain.setValueAtTime(voiceLevel, ctx.currentTime + Math.max(.045, remaining - .065));
       output.gain.linearRampToValueAtTime(.0001, ctx.currentTime + remaining);
       output.connect(compressor);
       compressor.connect(ctx.destination);
 
       voiceNodes = [output, compressor];
+      if (panicProgress > 0) panicVoice = output;
       const source = ctx.createBufferSource();
       source.buffer = decoded;
       source.playbackRate.value = timing.rate;
@@ -536,6 +549,7 @@
   // Den här händelsen avfyras ENDAST när själen försöker nå fram.
   // Visuell störning skapas först och ljud får aldrig köras ensamt.
   window.addEventListener('weab:spirit-burst', (event: Event) => {
+    if (document.documentElement.classList.contains('weab-quiet')) return;
     const raw = (event as CustomEvent<SpiritBurst>).detail?.strength;
     const strength: Strength = raw === 'soft' || raw === 'harsh' ? raw : 'medium';
     analogTear(strength);
@@ -543,15 +557,27 @@
     sustainBed(strength, strength === 'harsh' ? 2_700 : 2_200);
   });
   window.addEventListener('weab:spirit-sustain', (event: Event) => {
+    if (document.documentElement.classList.contains('weab-quiet')) return;
     const detail = (event as CustomEvent<{ strength: Strength; durationMs: number }>).detail;
     if (!detail || !Number.isFinite(detail.durationMs)) return;
     sustainBed(detail.strength, Math.max(0, Math.min(8_000, detail.durationMs)));
+  });
+  window.addEventListener('weab:spirit-panic-progress', (event: Event) => {
+    const value = (event as CustomEvent<{ progress: number }>).detail?.progress;
+    if (!Number.isFinite(value)) return;
+    panicProgress = Math.max(0, Math.min(1, value));
+    // Volymen växer jämnt utan slump eller backningar. Kompressorn förhindrar toppar.
+    if (bedNodes && audio?.state === 'running')
+      bedNodes.gain.gain.setTargetAtTime(bedLevel(), audio.currentTime, .13);
+    if (panicVoice && audio?.state === 'running')
+      panicVoice.gain.setTargetAtTime(.72 + panicProgress * .10, audio.currentTime, .18);
   });
   window.addEventListener('weab:resistance-morse-start', () => {
     bedDeadline = 0;
     stopBed();
   });
   window.addEventListener('pagehide', () => {
+    panicProgress = 0;
     window.clearTimeout(residueTimer);
     residue?.remove();
     residue = null;

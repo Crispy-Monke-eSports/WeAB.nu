@@ -4,6 +4,8 @@
 
 ## Fastslagna historiska förhållanden
 
+**Internt spelmästarbeslut – SAVE THEM-minispelet:** Den långa korridoren, cellerna med kvarlämnade dödstecken och det vita rummet föreställer platsen i Huvudstaden där de **sju oskyldiga byborna** från Sektion 1 utsattes för de misslyckade experimenten om central tankestyrning och dog. Detta är inte själens dödsplats eller belägg för att själen var en av de sju. Minispelet får inte förklara kopplingen i publika repliker, metadata eller synlig text. Exakt adress, datum och offrens identiteter är fortfarande okända.
+
 - **Riksvalet 2045**: WeAB genomförde en **kupp**, fördrev den demokratiska riksdagen och lade myndighetsutövning och våldsmonopol under WeRule. Detta var **inte** en demokratisk och frivillig överlåtelse, oavsett vad koncernens officiella dokument antyder.
 - **Valresultatet från Riks 2045** undanröjdes av WeAB. Det återfinns på **havets botten**, i en **kista i ett vrak**, där texten **”Valresultat Riks 2045”** förekommer. Resultatets röstsiffror, vem som skulle ha vunnit och exakt valdag har inte lämnats; hitta inte på dem.
 - **2047 – WeLiveLaughLove, Sektion 1:** Bybor gjorde uppror, överväldigade vakterna och hade **tillfällig kontroll över Sektion 1**. Huvudstaden använde då **ett starkt gift i ån som löper genom sektionen**. Följderna var koncentrationssvårigheter, minnesförluster och att **ungefär 25 % av befolkningen dog**. Huvudstaden kunde därefter återta sektionen. WeLiveLaughLove skärpte reglerna, isolerade byarna och de överlevande uppvisar ännu 2051 återkommande cykler av arbete och sömn samt påtaglig glömska. Detta är mörklagd historisk kanon, inte en offentlig företagsversion.

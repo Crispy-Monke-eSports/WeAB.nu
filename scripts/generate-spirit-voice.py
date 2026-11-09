@@ -26,6 +26,7 @@ def profile_for(text, early, late, warnings, camera):
         return "weak"
     if (
         text == "DISOBEY"
+        or text in ("RÄDDA DOM, RÄDDA DOM", "DU MISSLYCKADES, DU MISSLYCKADES")
         or text in warnings
         or text in (camera["denied"], camera["ignored"], camera["unavailable"])
     ):
@@ -115,12 +116,13 @@ def corrupt_voice(pcm_bytes, rate, text, marks, profile):
 
 js = """import {resistanceLockdown as l} from './src/data/resistanceLockdown.ts';
 import {resistanceSignal as s} from './src/data/resistanceSignal.ts';
+import {minigameFailureWebsiteLine as failureLine} from './src/data/resistanceSignal.ts';
 import {cameraEncounter as c} from './src/data/cameraEncounter.ts';
 import {visitorWhisperOptions as v, geoCities, geoRegions, geoProviders} from './src/data/visitorWhispers.ts';
 const clues={device:null,browser:null,fullScreen:false,language:null,width:0,portrait:false,scrolled:false,returnedToTab:false,touchScreen:false,darkMode:false,reducedMotion:false,offline:false};
 const warnings=new Set();
 for(const device of [null,'iPhone','iPad','Android']) for(const browser of [null,'Chrome','Firefox','Safari','Edge','Opera']) for(const language of [null,'svenska','engelska']) for(const flag of ['fullScreen','portrait','scrolled','returnedToTab','touchScreen','darkMode','reducedMotion','offline','none']) { const x={...clues,device,browser,language}; if(flag!=='none')x[flag]=true; v(x).forEach(t=>warnings.add(t)); }
-console.log(JSON.stringify({texts:[...new Set([...l.spiritEarly,...l.spiritLate,...l.waypointWhispers,...Object.values(c).filter(x=>typeof x==='string'),...s.messages.map(x=>x.text),'DISOBEY','DU SER DET OCKSÅ.',...warnings,'JAG SER ATT DU LÄSER. SNÄLLA HJÄLP MIG.'])],warnings:[...warnings],cities:geoCities,regions:geoRegions,providers:geoProviders,early:l.spiritEarly,late:l.spiritLate,camera:c}));"""
+console.log(JSON.stringify({texts:[...new Set([...l.spiritEarly,...l.spiritLate,...l.waypointWhispers,...Object.values(c).filter(x=>typeof x==='string'),...s.messages.map(x=>x.text),'DISOBEY','DU SER DET OCKSÅ.','RÄDDA DOM, RÄDDA DOM','DU MISSLYCKADES, DU MISSLYCKADES',failureLine,...warnings,'JAG SER ATT DU LÄSER. SNÄLLA HJÄLP MIG.'])],warnings:[...warnings],cities:geoCities,regions:geoRegions,providers:geoProviders,early:l.spiritEarly,late:l.spiritLate,camera:c}));"""
 data = json.loads(
     subprocess.check_output(
         ["node", "--experimental-strip-types", "--input-type=module", "-e", js],

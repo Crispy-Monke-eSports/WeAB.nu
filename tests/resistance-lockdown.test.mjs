@@ -3,8 +3,20 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
   resistanceLockdown, createLockdownCookie, readLockdownExpiry,
+  createQuietCookie, readQuietExpiry,
   getLockdownBeat, getLockdownStatus, createLockdownTimeline
 } from '../src/data/resistanceLockdown.ts';
+
+test('minispelets tysta läge använder samma cookie utan att öppna karantänen', () => {
+  const now = 1_800_000_000_000;
+  const cookie = createQuietCookie(now, true);
+  assert.match(cookie, /^weab_centralserver_lock_until=quiet\.1800000300000;/);
+  assert.match(cookie, /Max-Age=300; Path=\/; SameSite=Lax; Secure/);
+  assert.equal(readQuietExpiry(cookie, now), now + 300_000);
+  assert.equal(readLockdownExpiry(cookie, now), null);
+  assert.equal(readQuietExpiry(cookie, now + 300_000), null);
+  assert.equal(readQuietExpiry(createLockdownCookie(now, false), now), null);
+});
 import { createSignalSchedule, isSignalSchedule } from '../src/data/resistanceSignal.ts';
 
 test('Morse aktiverar en sidövergripande cookie-spärr på exakt fem minuter', () => {

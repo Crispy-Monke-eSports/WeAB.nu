@@ -14,6 +14,7 @@ export const resistanceSignal = {
   titleDurationMs: 950, // Titel/rubrik återställs INTE när fasen är slut.
   eyesDurationMs: 3_300,
   personalDurationMs: 3_000,
+  minigameChance: .30,
   corruptionMs: 1500,
   messages: [
     { text: 'HÖR DU OSS?', durationMs: 1150 },
@@ -21,6 +22,15 @@ export const resistanceSignal = {
     { text: 'HITTA OSS.', durationMs: 1650 }
   ]
 } as const;
+
+/** Koncernens faktiska startsidestext bryter igenom under minispelets slut. */
+export const minigameFailureWebsiteLine = 'WeKill sköter produktionen, WeSort fördelar resurserna och WeBox tar hand om lagret. WeTravel binder ihop anläggningarna. Övriga koncernbolag ser till att även arbete, handel och offentliga byggnader ingår i samma ekonomi.';
+
+/** Ersätter endast whisper när den fasen faktiskt nås före Morse. */
+export function chooseMinigame(random: () => number = Math.random): boolean {
+  const roll = random();
+  return Number.isFinite(roll) && roll >= 0 && roll < resistanceSignal.minigameChance;
+}
 
 export const signalPhases = ['title', 'disobey', 'fullscreen', 'eyes', 'whisper', 'redirect', 'morse'] as const;
 export type SignalPhase = (typeof signalPhases)[number];

@@ -2,8 +2,15 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   resistanceSignal, signalPhases, createSignalOrder, createSignalSchedule,
-  advanceSignalSchedule, phaseDurationMs, isSignalSchedule
+  advanceSignalSchedule, phaseDurationMs, isSignalSchedule, chooseMinigame
 } from '../src/data/resistanceSignal.ts';
+
+test('minispelet ersätter whisper vid tre av tio dragningar, inte ett åttonde kösteg', () => {
+  assert.equal(resistanceSignal.minigameChance, .30);
+  for (let i = 0; i < 10; i++) assert.equal(chooseMinigame(() => (i + .5) / 10), i < 3);
+  assert.equal(chooseMinigame(() => NaN), false);
+  assert.equal(signalPhases.length, 7);
+});
 
 test('alla sju händelser blandas; Morse får ligga först och är alltid sist när den inträffar', () => {
   assert.deepEqual(signalPhases, ['title', 'disobey', 'fullscreen', 'eyes', 'whisper', 'redirect', 'morse']);

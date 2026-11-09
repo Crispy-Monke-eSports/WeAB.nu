@@ -23,6 +23,7 @@
     createSignalSchedule,
     advanceSignalSchedule,
     isSignalSchedule,
+    chooseMinigame,
     type SignalSchedule,
     type SignalPhase
   } from '../data/resistanceSignal.ts';
@@ -30,8 +31,9 @@
 
   const overlay = document.querySelector<HTMLElement>('[data-resistance-interference]');
   const messageElement = overlay?.querySelector<HTMLElement>('[data-resistance-message]');
-  if (overlay && messageElement && !document.documentElement.classList.contains('weab-quarantined')) {
-    const lockable = [...document.querySelectorAll<HTMLElement>('body > header, body > main, body > footer')];
+  if (overlay && messageElement && !document.documentElement.classList.contains('weab-quarantined') &&
+      !document.documentElement.classList.contains('weab-quiet')) {
+    const lockable = [...document.querySelectorAll<HTMLElement>('body > aside, body > header, body > main, body > footer')];
     const initialInert = lockable.map(element => element.inert);
 
     function ghostTransmission(strength: 'soft' | 'medium' | 'harsh'): void {
@@ -55,13 +57,14 @@
     const params = new URLSearchParams(location.search);
     const preview = import.meta.env.DEV && params.get('previewResistance') === '1';
     const morsePreview = import.meta.env.DEV && params.get('previewMorse') === '1';
+    const minigamePreview = params.get('previewMinigame') === '1';
     const previousRaw = storageRead(sessionStorage, resistanceSignal.sessionKey);
     let previous: unknown = null;
     try { previous = previousRaw ? JSON.parse(previousRaw) : null; } catch { /* Nollställ korrupt sessionsdata. */ }
     // Fristående 404-besök startar inte ett nytt intrång. På koordinat-404
     // fortsätter däremot schemat efter en tidigare omdirigering.
     const is404 = document.querySelector('.not-found') !== null;
-    if ((!is404 || isSignalSchedule(previous) || preview) && !morsePreview) {
+    if ((!is404 || isSignalSchedule(previous) || preview) && !morsePreview && !minigamePreview) {
       let schedule: SignalSchedule = isSignalSchedule(previous) ? previous : createSignalSchedule();
       if (preview) schedule = { activeMs: 0, queue: createSignalSchedule().queue, nextAtMs: 1_000 };
 
@@ -76,6 +79,7 @@
         for (const { node, value } of originalTexts) node.data = value;
         originalTexts = [];
         document.body.classList.remove('resistance-corrupted');
+        document.body.classList.remove('resistance-city-overrun');
       }
 
       function runTitleChange(): void {
@@ -169,22 +173,31 @@
       }
 
       function runWhisper(): void {
-        // En enda kontrollerbar tresekunderskapning av den synliga sidtexten.
-        // Ett färdigt nätuppslag kan ge en försiktig orts- eller operatörsledtråd.
+        // Samma slumpade tresekundersfas: en känd ort kapar all synlig sidtext.
+        // Vid uteblivet eller okänt uppslag används den vanliga hjälprepliken.
         running = true;
+        const cityDetail: { city?: string } = {};
+        window.dispatchEvent(new CustomEvent('weab:visitor-city', { detail: cityDetail }));
+        const city = cityDetail.city;
         const detail: { index: number; text?: string } = {
-          index: Math.floor(Math.random() * 6)
+          index: city ? 0 : Math.floor(Math.random() * 6)
         };
         window.dispatchEvent(new CustomEvent('weab:visitor-whisper', { detail }));
         const warning = detail.text || 'JAG SER ATT DU LÄSER. SNÄLLA HJÄLP MIG.';
         document.title = warning;
-        corruptPage(warning);
+        corruptPage(city ? city.toLocaleUpperCase('sv-SE') : warning);
         document.body.classList.add('resistance-personalized');
+        if (city) document.body.classList.add('resistance-city-overrun');
         ghostTransmission('harsh');
         spoken(warning, resistanceSignal.personalDurationMs, 'desperate');
-        const second = window.setTimeout(() => ghostTransmission('medium'), 1_520);
+        const bursts = city ? [580, 1_210, 1_840, 2_470] : [1_520];
+        const burstTimers = bursts.map(delay => window.setTimeout(() =>
+          ghostTransmission(city ? 'harsh' : 'medium'), delay));
+        if (city) window.dispatchEvent(new CustomEvent('weab:spirit-sustain', {
+          detail: { strength: 'harsh', durationMs: resistanceSignal.personalDurationMs }
+        }));
         window.setTimeout(() => {
-          window.clearTimeout(second);
+          for (const timer of burstTimers) window.clearTimeout(timer);
           restoreText();
           document.body.classList.remove('resistance-personalized');
           running = false;
@@ -225,7 +238,12 @@
         else if (phase === 'disobey') runDisobey();
         else if (phase === 'fullscreen') runFullscreen();
         else if (phase === 'eyes') runEyes();
-        else if (phase === 'whisper') runWhisper();
+        else if (phase === 'whisper') {
+          if (chooseMinigame()) {
+            running = true;
+            window.dispatchEvent(new Event('weab:save-game-start'));
+          } else runWhisper();
+        }
         else if (phase === 'redirect') {
           // Denna händelse finns endast en gång i slumpkön. Den sparade kön
           // återupptas på 404-sidan, där Morse också kan inträffa.
@@ -244,7 +262,8 @@
         previousTick = now;
         // Redan öppna flikar får inte fortsätta en egen ARG-sekvens
         // medan en annan flik är satt i karantän.
-        if (document.documentElement.classList.contains('weab-quarantined')) {
+        if (document.documentElement.classList.contains('weab-quarantined') ||
+            document.documentElement.classList.contains('weab-quiet')) {
           window.clearInterval(intervalId);
           return;
         }
@@ -304,16 +323,25 @@
     animation: resistance-distortion 1.15s steps(2, end) both;
   }
   :global(body.resistance-corrupted > header),
+  :global(body.resistance-corrupted > aside),
   :global(body.resistance-corrupted > main),
   :global(body.resistance-corrupted > footer) {
     pointer-events: none;
     animation: resistance-shudder .23s steps(2, end) 2;
   }
   :global(body.resistance-personalized > header),
+  :global(body.resistance-personalized > aside),
   :global(body.resistance-personalized > main),
   :global(body.resistance-personalized > footer) {
     animation: resistance-personal-tear .19s steps(3, end) infinite;
     text-shadow: 3px 0 rgb(159 30 55 / .66), -3px 0 rgb(25 127 156 / .66);
+  }
+  :global(body.resistance-city-overrun > aside),
+  :global(body.resistance-city-overrun > header),
+  :global(body.resistance-city-overrun > main),
+  :global(body.resistance-city-overrun > footer) {
+    animation-duration: .13s;
+    text-shadow: 4px 0 rgb(159 30 55 / .76), -4px 0 rgb(25 127 156 / .76);
   }
   @keyframes resistance-personal-tear {
     0%, 100% { transform: translateX(0); filter: none; }
@@ -323,6 +351,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     :global(body.resistance-personalized > header),
+    :global(body.resistance-personalized > aside),
     :global(body.resistance-personalized > main),
     :global(body.resistance-personalized > footer) {
       animation: none;

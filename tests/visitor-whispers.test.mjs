@@ -166,13 +166,28 @@ test('en slumpad tresekunders textkapning ersätter och återställer sidan', ()
   const signal = source('src/data/resistanceSignal.ts');
   assert.match(phase, /function runWhisper\(\)/);
   assert.match(phase, /new CustomEvent\('weab:visitor-whisper'/);
-  assert.match(phase, /corruptPage\(warning\)/);
+  assert.match(phase, /corruptPage\(city \? city\.toLocaleUpperCase\('sv-SE'\) : warning\)/);
   assert.match(phase, /ghostTransmission\('harsh'\)/);
   assert.match(phase, /restoreText\(\)/);
   assert.match(phase, /resistance-personalized/);
   assert.match(phase, /resistanceSignal\.personalDurationMs/);
   assert.match(phase, /phase === 'whisper'/);
   assert.match(signal, /personalDurationMs: 3_000/);
+});
+
+test('en känd stad kapar även driftmeddelandet och driver ljud- och bildstörning', () => {
+  const phase = source('src/components/ResistanceInterference.astro');
+  const transmission = source('src/components/SpiritTransmission.astro');
+  assert.match(phase, /body > aside, body > header, body > main, body > footer/);
+  assert.match(phase, /new CustomEvent\('weab:visitor-city', \{ detail: cityDetail \}\)/);
+  assert.match(transmission, /if \(detail && networkClues\?\.city\) detail\.city = networkClues\.city/);
+  assert.match(phase, /corruptPage\(city \? city\.toLocaleUpperCase\('sv-SE'\) : warning\)/);
+  assert.match(phase, /spoken\(warning, resistanceSignal\.personalDurationMs, 'desperate'\)/);
+  assert.match(phase, /\[580, 1_210, 1_840, 2_470\]/);
+  assert.match(phase, /new CustomEvent\('weab:spirit-sustain'/);
+  assert.match(phase, /restoreText\(\)/);
+  assert.match(phase, /resistance-city-overrun/);
+  assert.match(phase, /@media \(prefers-reduced-motion: reduce\)/);
 });
 
 test('enstaka karantänrader kan tilltala just denna besökares webbläsare', () => {

@@ -1,0 +1,785 @@
+---
+/** Ett fristående, handritat pixelrum; berättelsens facit finns endast i interna anteckningar. */
+---
+<div class="save-game" data-save-game hidden role="dialog" aria-modal="true" aria-label="RÄDDA DOM, RÄDDA DOM" tabindex="-1">
+  <div class="save-game__frame">
+    <h2>RÄDDA DOM, RÄDDA DOM</h2>
+    <div class="save-game__screen">
+      <canvas width="336" height="240" data-save-screen role="img" aria-label="En mörk korridor. Gå mot dörren längst bort."></canvas>
+      <div class="save-game__tracking" data-save-tracking aria-hidden="true"></div>
+    </div>
+    <p class="save-game__sr-only" data-save-instruction aria-live="polite">Gå mot järndörren. Piltangenter eller WASD.</p>
+    <div class="save-game__controls" aria-label="Rörelsekontroller">
+      <button type="button" data-step="up" aria-label="Gå upp">↑</button>
+      <div><button type="button" data-step="left" aria-label="Gå vänster">←</button><button type="button" data-step="down" aria-label="Gå ned">↓</button><button type="button" data-step="right" aria-label="Gå höger">→</button></div>
+    </div>
+  </div>
+  <div class="save-game__fragments" data-save-fragments aria-hidden="true"></div>
+</div>
+<script>
+  import { createQuietCookie, resistanceLockdown } from '../data/resistanceLockdown.ts';
+  import { resistanceSignal, minigameFailureWebsiteLine } from '../data/resistanceSignal.ts';
+  import { spiritVoice } from '../data/spiritVoiceTiming.ts';
+
+  const modal = document.querySelector<HTMLElement>('[data-save-game]');
+  const canvas = modal?.querySelector<HTMLCanvasElement>('[data-save-screen]');
+  const ctx = canvas?.getContext('2d');
+  const instruction = modal?.querySelector<HTMLElement>('[data-save-instruction]');
+  const fragments = modal?.querySelector<HTMLElement>('[data-save-fragments]');
+  const tracking = modal?.querySelector<HTMLElement>('[data-save-tracking]');
+  const heading = modal?.querySelector<HTMLElement>('h2');
+  const keys: Record<string, [number, number]> = {
+    ArrowUp: [0, -1], w: [0, -1], W: [0, -1],
+    ArrowDown: [0, 1], s: [0, 1], S: [0, 1],
+    ArrowLeft: [-1, 0], a: [-1, 0], A: [-1, 0],
+    ArrowRight: [1, 0], d: [1, 0], D: [1, 0]
+  };
+  let active = false;
+  let ending = false;
+  let stage: 'corridor' | 'rooms' = 'corridor';
+  let doorOpen = false;
+  let x = 10;
+  let y = 31;
+  let previousFocus: HTMLElement | null = null;
+  let previousOverflow = '';
+  const pageParts = [...document.querySelectorAll<HTMLElement>('body > header, body > main, body > footer, body > aside')];
+  let previousInert: boolean[] = [];
+  let lastMove = 0;
+  let moveTimer = 0;
+  let voiceTimer = 0;
+  let fragmentTimer = 0;
+  let backgroundVoice: HTMLAudioElement | null = null;
+  let trackingTimer = 0;
+  let trackingFadeTimer = 0;
+  let analogTimer = 0;
+  let panicTimer = 0;
+  let foreignPieces: HTMLElement[] = [];
+  let panicStartedAt = 0;
+  let panicDurationMs = 0;
+
+  function proximityToWhiteRoom(): number {
+    if (stage === 'corridor') return Math.max(0, Math.min(.35, (31 - y) / 29 * .35));
+    return Math.min(1, .35 + Math.max(0, (12 - y) / 10) * .45 +
+      Math.max(0, (x - 10) / 7) * .2);
+  }
+
+  // Endast lokala publika WeAB-sidor. Ingen text eller bild härifrån skickas iväg.
+  async function prepareWebsitePieces(): Promise<void> {
+    const pages = ['/', '/koncernen/', '/verksamheter/', '/press/',
+      '/nyheter/', '/arena/', '/bolagsstyrning/', '/kontakt/'];
+    const results = await Promise.allSettled(pages.map(async path => {
+      const response = await fetch(path, { credentials: 'same-origin' });
+      if (!response.ok) return [];
+      const html = new DOMParser().parseFromString(await response.text(), 'text/html');
+      const nodes = [...html.querySelectorAll<HTMLElement>('main h1, main h2, main p, main a, main button, main img')];
+      const selection = [
+        ...nodes.filter(node => node instanceof HTMLImageElement).slice(0, 10),
+        ...nodes.filter(node => !(node instanceof HTMLImageElement) && node.textContent?.trim()).slice(0, 32)
+      ];
+      return selection.map(node => {
+        const copy = node.cloneNode(true) as HTMLElement;
+        copy.querySelectorAll('[id]').forEach(child => child.removeAttribute('id'));
+        copy.removeAttribute('id');
+        if (copy instanceof HTMLImageElement) {
+          copy.src = new URL(copy.getAttribute('src') ?? '', new URL(path, location.href)).href;
+          copy.removeAttribute('srcset');
+          copy.removeAttribute('sizes');
+        }
+        return copy;
+      });
+    }));
+    foreignPieces = results.flatMap(result => result.status === 'fulfilled' ? result.value : []);
+  }
+
+  function trackSignal(): void {
+    if (!active || document.hidden || !tracking) return;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const urgency = ending ? 3 : 1 + proximityToWhiteRoom() * 1.8;
+    tracking.style.top = `${Math.floor(Math.random() * 95)}%`;
+    tracking.style.left = `${Math.floor(Math.random() * 65) - 8}%`;
+    tracking.style.width = `${18 + Math.floor(Math.random() * 84)}%`;
+    tracking.style.height = `${3 + Math.floor(Math.random() * 19 * urgency)}px`;
+    tracking.style.opacity = String(reduced ? .18 : .22 + Math.random() * .43);
+    tracking.style.transform = reduced ? 'none' : `translateX(${Math.floor(Math.random() * 35) - 17}px)`;
+    window.clearTimeout(trackingFadeTimer);
+    trackingFadeTimer = window.setTimeout(() => { tracking.style.opacity = '0'; },
+      reduced ? 110 : 70 + Math.random() * 180);
+    trackingTimer = window.setTimeout(trackSignal,
+      (reduced ? 360 : 105) + Math.random() * (reduced ? 480 : 460 / urgency));
+  }
+
+  function panicBurst(): void {
+    if (!active || !ending) return;
+    if (!document.hidden) window.dispatchEvent(new CustomEvent('weab:spirit-burst', {
+      detail: { strength: 'harsh' }
+    }));
+    const progress = Math.min(1, (Date.now() - panicStartedAt) / panicDurationMs);
+    panicTimer = window.setTimeout(panicBurst, 80 + Math.random() * (640 - progress * 565));
+  }
+
+  function spiritSignal(active: boolean): void {
+    window.dispatchEvent(new CustomEvent('weab:spirit-presence', { detail: { active } }));
+    window.dispatchEvent(new CustomEvent('weab:spirit-typing', {
+      detail: { active, strength: 'harsh' }
+    }));
+  }
+
+  function repeatVoice(): void {
+    if (!active || ending || document.hidden) return;
+    const text = 'RÄDDA DOM, RÄDDA DOM';
+    const durationMs = spiritVoice[text]?.durationMs ?? 2_000;
+    // Ljudmotorn deduplicerar identiska röstförfrågningar tills den stoppas.
+    // Ett riktigt loopvarv måste därför först frigöra föregående uppläsning.
+    window.dispatchEvent(new Event('weab:voice-stop'));
+    window.dispatchEvent(new CustomEvent('weab:voice-speak', {
+      detail: { text, ageMs: 0, durationMs, profile: 'desperate' }
+    }));
+    voiceTimer = window.setTimeout(repeatVoice, durationMs + 300);
+  }
+
+  function startBackgroundVoice(): void {
+    if (backgroundVoice || document.hidden) return;
+    const entry = spiritVoice['RÄDDA DOM, RÄDDA DOM'];
+    if (!entry?.file) return;
+    backgroundVoice = new Audio('/audio/spirit/' + entry.file);
+    backgroundVoice.loop = true;
+    backgroundVoice.volume = .16;
+    backgroundVoice.playbackRate = .88;
+    void backgroundVoice.play().catch(() => { /* Webbläsarens ljudtillstånd respekteras. */ });
+  }
+
+  function stopBackgroundVoice(): void {
+    backgroundVoice?.pause();
+    if (backgroundVoice) backgroundVoice.currentTime = 0;
+    backgroundVoice = null;
+  }
+
+  function roomFloor(px: number, py: number): boolean {
+    if (px < 1 || px > 19 || py < 1 || py > 13) return false;
+    // Samma raka gång fortsätter efter EN järndörr. En sidobro till höger
+    // korsar mörkret till det vita rummet, i stället för att ligga rakt fram.
+    if (px >= 8 && px <= 12 && py >= 2) return true;
+    if (py === 2 && px >= 13 && px <= 16) return true;
+    if (px >= 17 && px <= 19 && py >= 2 && py <= 8) return true;
+    // Fyra separata, låsta celler. Dörrarna öppnas inte i minispelet.
+    return (px >= 2 && px <= 6 || px >= 14 && px <= 16) &&
+      (py >= 3 && py <= 5 || py >= 8 && py <= 10) &&
+      !(px >= 14 && py === 3); // Cyan mur mellan bron och högra cellens innandöme.
+  }
+
+  function pixel(px: number, py: number, w: number, h: number, color: string): void {
+    if (!ctx) return;
+    ctx.fillStyle = color;
+    ctx.fillRect(px, py, w, h);
+  }
+
+  function skull(px: number, py: number): void {
+    pixel(px + 3, py + 3, 9, 7, '#a9a79a');
+    pixel(px + 5, py + 10, 5, 3, '#b3b0a0');
+    pixel(px + 4, py + 6, 2, 2, '#232523');
+    pixel(px + 9, py + 6, 2, 2, '#232523');
+    pixel(px + 7, py + 9, 2, 2, '#353535');
+    pixel(px + 5, py + 12, 1, 1, '#444');
+    pixel(px + 9, py + 12, 1, 1, '#444');
+  }
+
+  function stone(px: number, py: number, col: number, row: number, wall = false): void {
+    const moss = (col * 13 + row * 17) % 11 < 3;
+    if (wall) {
+      pixel(px, py, 16, 16, (col + row) % 2 ? '#090b0d' : '#1d2021');
+      if (moss) pixel(px + 4, py + 4, 6, 5, '#222a23');
+    } else {
+      // Få, stora former: mörkt schackgolv med antydan till mossig sten.
+      pixel(px, py, 16, 16, (col + row) % 2 ? '#272d2d' : '#414742');
+      if (moss) pixel(px + 3, py + 4, 9, 7, '#434e35');
+      pixel(px, py, 16, 1, '#4b514a');
+    }
+  }
+
+  function ironDoor(px: number, py: number, facing: 'side' | 'end'): void {
+    pixel(px, py, 16, 16, '#343c38');
+    pixel(px + 1, py + 1, 14, 14, '#b1ac91');
+    pixel(px + 3, py + 3, 10, 5, '#192d2b');
+    pixel(px + 7, py + 3, 2, 5, '#a9ac9d');
+    pixel(px + 3, py + 10, 10, 1, '#6b6e61');
+    pixel(px + (facing === 'side' ? 11 : 3), py + 12, 2, 2, '#702b2b');
+  }
+
+  function redLight(px: number, py: number): void {
+    pixel(px + 3, py + 3, 10, 10, '#281d1c');
+    pixel(px + 5, py + 4, 6, 6, '#b62929');
+    pixel(px + 6, py + 5, 3, 2, '#e6634e');
+  }
+
+  function draw(): void {
+    if (!ctx || !canvas) return;
+    ctx.imageSmoothingEnabled = false;
+    pixel(0, 0, 336, 240, '#090910');
+    const cameraY = stage === 'corridor' ? Math.max(0, Math.min(19, y - 11)) : 0;
+    for (let row = 0; row < 15; row++) {
+      for (let col = 0; col < 21; col++) {
+        const worldY = row + cameraY;
+        const floor = stage === 'corridor'
+          ? col >= 7 && col <= 13 && worldY >= 3 && worldY <= 32
+          : roomFloor(col, row);
+        const px = col * 16;
+        const py = row * 16;
+        if (floor) {
+          const white = stage === 'rooms' && col >= 17 && col <= 19 && row >= 2 && row <= 8;
+          if (white) pixel(px, py, 16, 16, '#d7d7cd');
+          else stone(px, py, col, worldY);
+        } else if (stage === 'rooms' && col >= 1 && col <= 19 && row >= 1 && row <= 13) {
+          const teal = (col >= 13 && col <= 16 && row === 3) ||
+            ((col === 7 || col === 13) && row >= 3 && row <= 10) ||
+            (col === 16 && row >= 3 && row <= 8);
+          if (teal) {
+            pixel(px, py, 16, 16, '#093d42');
+            pixel(px, py, 16, 2, '#156167');
+            pixel(px + 13, py, 3, 16, '#032c32');
+          } else stone(px, py, col, row, true);
+        }
+      }
+    }
+    if (stage === 'corridor') {
+      const doorY = (2 - cameraY) * 16;
+      if (doorY > -16 && doorY < 240) {
+        pixel(7 * 16, doorY, 7 * 16, 16, '#163a3b');
+        for (let col = 7; col <= 13; col++) {
+          if (col !== 10) stone(col * 16, doorY, col, 2, true);
+        }
+        if (doorOpen) {
+          pixel(10 * 16, doorY, 16, 16, '#121d1b');
+        } else {
+          ironDoor(10 * 16, doorY, 'end');
+        }
+      }
+      for (let row = 3; row < 33; row += 5) {
+        const py = (row - cameraY) * 16;
+        if (py < 0 || py > 240) continue;
+        pixel(6 * 16 + 8, py + 4, 3, 8, '#595540');
+        pixel(14 * 16 + 5, py + 4, 3, 8, '#595540');
+      }
+    } else {
+      // Två celler på vardera sidan av den raka gången, direkt efter dörren.
+      for (const row of [4, 9]) {
+        ironDoor(7 * 16, row * 16, 'side');
+        ironDoor(13 * 16, row * 16, 'side');
+        redLight(7 * 16, (row + 1) * 16);
+        redLight(13 * 16, (row + 1) * 16);
+      }
+      for (const [sx, sy] of [[3, 4], [5, 5], [3, 8], [6, 9], [14, 4], [16, 5], [15, 9]]) {
+        skull(sx * 16, sy * 16);
+      }
+      // Förvaring vid gångens kortvägg; den enda fortsättningen är sidobron.
+      pixel(9 * 16, 2 * 16, 16, 12, '#153433');
+      pixel(9 * 16 + 5, 2 * 16 + 3, 6, 5, '#556957');
+      pixel(11 * 16, 2 * 16, 16, 12, '#6a4325');
+      pixel(11 * 16, 2 * 16, 16, 2, '#a67942');
+      pixel(11 * 16 + 7, 2 * 16 + 6, 2, 4, '#b2a48a');
+      // Brons skarpa kanter skiljer den från cellgolven.
+      pixel(13 * 16, 2 * 16, 4 * 16, 2, '#7c8176');
+      pixel(13 * 16, 3 * 16 - 2, 4 * 16, 2, '#343d3c');
+    }
+    // En liten figur, vars riktning aldrig berättar mer än rörelsen.
+    const py = stage === 'corridor' ? (y - cameraY) * 16 : y * 16;
+    pixel(x * 16 + 5, py + 2, 7, 6, '#b9ae8e');
+    pixel(x * 16 + 3, py + 8, 11, 6, '#86682e');
+    pixel(x * 16 + 4, py + 9, 2, 3, '#a88238');
+    pixel(x * 16 + 5, py + 14, 2, 2, '#161717');
+    pixel(x * 16 + 11, py + 14, 2, 2, '#161717');
+    // Mjuk skärmsvärtning i kanterna, utan bländande vitblixtar.
+    const vignette = ctx.createRadialGradient(168, 120, 65, 168, 120, 240);
+    vignette.addColorStop(0, 'rgb(0 0 0 / 0)');
+    vignette.addColorStop(1, 'rgb(0 0 0 / .85)');
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, 336, 240);
+    // Två tunna färgrader per fem rasterrader; resten är svart. Bilden syns
+    // som åtskilda fragment, inte som en normal scen under ett CRT-filter.
+    for (let line = 0; line < 240; line += 5) {
+      for (const gap of [0, 2, 4]) pixel(0, line + gap, 336, 1, '#010104');
+    }
+    // Korna själva signalraderna, inte bara ett skarpt filter ovanpå dem.
+    // Svarta mellanrader förblir svarta; färgradernas brus ändras även i vila.
+    const frame = ctx.getImageData(0, 0, 336, 240);
+    const clean = new Uint8ClampedArray(frame.data);
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const proximity = proximityToWhiteRoom();
+    for (let band = 0; band < 240; band += 5) {
+      for (const row of [band + 1, band + 3]) {
+        const drift = reduced || Math.random() > .16 + proximity * .3
+          ? 0 : Math.floor(Math.random() * 3) - 1;
+        const signal = .82 - proximity * .08 + Math.random() * (.18 + proximity * .12);
+        let dropoutUntil = -1;
+        for (let col = 0; col < 336; col++) {
+          if (Math.random() < .003 + proximity * .004)
+            dropoutUntil = col + 2 + Math.floor(Math.random() * (8 + proximity * 9));
+          const sourceCol = Math.max(0, Math.min(335, col + drift));
+          const src = (row * 336 + sourceCol) * 4;
+          const redBleed = (row * 336 + Math.min(335, sourceCol + 2)) * 4;
+          const blueBleed = (row * 336 + Math.max(0, sourceCol - 2)) * 4 + 2;
+          const dest = (row * 336 + col) * 4;
+          const grain = (Math.random() - .5) * (18 + proximity * 15);
+          const fade = col < dropoutUntil ? .55 - proximity * .14 + Math.random() * .2 : 1;
+          frame.data[dest] = Math.min(226, Math.max(0,
+            (clean[src] * signal + grain + clean[redBleed] * .035) * fade));
+          frame.data[dest + 1] = Math.min(226, Math.max(0,
+            (clean[src + 1] * signal + grain * .7) * fade));
+          frame.data[dest + 2] = Math.min(226, Math.max(0,
+            (clean[blueBleed] * signal + grain * .9) * fade));
+        }
+      }
+    }
+    ctx.putImageData(frame, 0, 0);
+  }
+
+  function renderSignal(): void {
+    if (!active || document.hidden) return;
+    draw();
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const proximity = proximityToWhiteRoom();
+    if (heading) {
+      // Textens mask använder CANVASENS radavstånd och fas, inte egna CSS-pixlar.
+      // Båda synliga textstrecken hamnar därmed i samma två färgrader som rummet.
+      const rasterRow = canvas!.getBoundingClientRect().height / canvas!.height;
+      const bandHeight = rasterRow * 5;
+      const headingTop = heading.getBoundingClientRect().top - canvas!.getBoundingClientRect().top;
+      heading.style.setProperty('--raster-row', `${rasterRow}px`);
+      heading.style.setProperty('--text-raster-offset', `${-(headingTop % bandHeight)}px`);
+      heading.style.setProperty('--text-signal', String(.84 - proximity * .07 +
+        Math.random() * (.16 + proximity * .08)));
+      heading.style.setProperty('--text-drift', reduced || Math.random() > .18 + proximity * .27
+        ? '0px' : `${Math.random() < .5 ? -1 : 1}px`);
+    }
+    analogTimer = window.setTimeout(renderSignal,
+      (reduced ? 380 : 115 - proximity * 25) +
+        Math.random() * (reduced ? 260 : 125 - proximity * 25));
+  }
+
+  function endGame(): void {
+    if (ending || !modal) return;
+    ending = true;
+    window.clearTimeout(voiceTimer);
+    stopBackgroundVoice();
+    window.dispatchEvent(new Event('weab:voice-stop'));
+    modal.classList.add('save-game--panic');
+    if (instruction) instruction.textContent = 'Signalen bryts.';
+    const failed = 'DU MISSLYCKADES, DU MISSLYCKADES';
+    const failureMs = spiritVoice[failed]?.durationMs ?? 3_200;
+    const websiteMs = spiritVoice[minigameFailureWebsiteLine]?.durationMs ?? 23_000;
+    const websiteStartMs = failureMs + 220;
+    panicDurationMs = websiteStartMs + websiteMs + 650;
+    panicStartedAt = Date.now();
+    window.dispatchEvent(new CustomEvent('weab:voice-speak', {
+      detail: { text: failed, ageMs: 0, durationMs: failureMs, profile: 'desperate' }
+    }));
+    window.setTimeout(() => {
+      if (!active) return;
+      window.dispatchEvent(new Event('weab:voice-stop'));
+      window.dispatchEvent(new CustomEvent('weab:voice-speak', {
+        detail: { text: minigameFailureWebsiteLine, ageMs: 0, durationMs: websiteMs, profile: 'desperate' }
+      }));
+    }, websiteStartMs);
+    // Kopiorna är endast bildfragment: inga länkar eller kontroller kan aktiveras.
+    if (fragments) {
+      const localPieces = ['body > header', 'body > main h1', 'body > footer',
+        'body > aside', 'body > main p', 'body > main img', 'body > main a']
+        .flatMap(selector => [...document.querySelectorAll<HTMLElement>(selector)].slice(0, 5));
+      let nextPieceAt = 0;
+      let lastSecond = -1;
+      const addPiece = (source: HTMLElement) => {
+        const slice = document.createElement('div');
+        slice.className = 'save-game__fragment';
+        slice.inert = true;
+        const copy = source.cloneNode(true) as HTMLElement;
+        copy.removeAttribute('id');
+        copy.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
+        [copy, ...copy.querySelectorAll<HTMLElement>('*')].forEach(node => {
+          for (const attr of [...node.attributes]) if (attr.name.startsWith('on')) node.removeAttribute(attr.name);
+        });
+        slice.appendChild(copy);
+        fragments.appendChild(slice);
+        if (fragments.children.length > 85)
+          fragments.children[Math.floor(Math.random() * fragments.children.length)]?.remove();
+      };
+      for (const source of localPieces.slice(0, 4)) addPiece(source);
+      const distort = () => {
+        if (!active) return;
+        const progress = Math.min(1, (Date.now() - panicStartedAt) / panicDurationMs);
+        const elapsedSecond = Math.floor((Date.now() - panicStartedAt) / 1000);
+        if (elapsedSecond !== lastSecond) {
+          lastSecond = elapsedSecond;
+          // Varje sekund höjs bottennivån, men varje störning får egen amplitud.
+          modal.style.setProperty('--panic-pressure', String(.1 + progress * (.42 + Math.random() * .32)));
+        }
+        window.dispatchEvent(new CustomEvent('weab:spirit-panic-progress', { detail: { progress } }));
+        const leaks = 1 + Math.floor(progress * 4 * Math.random());
+        if (Math.random() < .25 + progress * .75) for (let i = 0; i < leaks; i++) {
+          const pool = [...localPieces, ...foreignPieces];
+          if (pool.length) addPiece(pool[Math.floor(Math.random() * pool.length)]);
+          nextPieceAt++;
+        }
+        // WeAB:s gränssnitt försöker stryka och slita bort det som läcker.
+        // Fragment återkommer ändå från andra publika sidor, tätare mot slutet.
+        if (fragments.children.length > 6 && Math.random() < .14 + progress * .28) {
+          const victim = fragments.children[Math.floor(Math.random() * fragments.children.length)] as HTMLElement;
+          if (Math.random() < .5) victim.remove();
+          else {
+            victim.classList.add('save-game__fragment--suppressed');
+            window.setTimeout(() => victim.remove(), 70 + Math.random() * 360);
+          }
+        }
+        [...fragments.children].forEach(node => {
+          const slice = node as HTMLElement;
+          const width = 18 + Math.random() * 82;
+          const left = Math.random() * 100 - 12;
+          const top = Math.random() * 91;
+          slice.style.left = `${left}%`;
+          slice.style.top = `${top}%`;
+          slice.style.width = `${width}%`;
+          slice.style.height = `${6 + Math.random() * (24 + progress * 55)}%`;
+          slice.style.transform = `translate(${Math.floor(Math.random() * 120 - 60)}px, ${Math.floor(Math.random() * 45 - 22)}px) scale(${(.7 + Math.random() * 1.5).toFixed(2)})`;
+          slice.style.opacity = String(.14 + progress * .25 + Math.random() * (.28 + progress * .31));
+          slice.style.clipPath = `inset(${Math.floor(Math.random() * 62)}% 0 ${Math.floor(Math.random() * 40)}% 0)`;
+        });
+        fragmentTimer = window.setTimeout(distort, 45 + Math.random() * (270 - progress * 225));
+      };
+      distort();
+    }
+    window.dispatchEvent(new CustomEvent('weab:spirit-sustain', {
+      detail: { strength: 'harsh', durationMs: panicDurationMs }
+    }));
+    panicBurst();
+    window.setTimeout(() => {
+      active = false;
+      window.clearTimeout(fragmentTimer);
+      window.clearTimeout(trackingTimer);
+      window.clearTimeout(trackingFadeTimer);
+      window.clearTimeout(panicTimer);
+      window.clearTimeout(analogTimer);
+      window.dispatchEvent(new Event('weab:voice-stop'));
+      window.dispatchEvent(new CustomEvent('weab:spirit-panic-progress', { detail: { progress: 0 } }));
+      spiritSignal(false);
+      const root = document.documentElement;
+      root.classList.remove('weab-spirit-typing', 'weab-spirit-transmitting');
+      const status = document.getElementById('weab-quarantine-status');
+      const intrusion = document.getElementById('weab-quarantine-intrusion');
+      if (status) status.textContent = 'Otillåten information delad, styrelsen meddelad. Återställer';
+      if (intrusion) intrusion.hidden = true;
+      root.classList.add('weab-minigame-confirmed', 'weab-death-confirmed');
+      window.setTimeout(() => {
+        const now = Date.now();
+        document.cookie = createQuietCookie(now, location.protocol === 'https:');
+        try { localStorage.removeItem(resistanceLockdown.noticeKey); } catch { /* Valfritt. */ }
+        try { localStorage.setItem('weab:resistance:quiet', String(now + resistanceLockdown.durationMs)); } catch { /* Valfritt. */ }
+        try { sessionStorage.removeItem(resistanceSignal.sessionKey); } catch { /* Valfritt. */ }
+        // Den enda resultatuppgiften följer med till startsidan utan URL-parametrar.
+        try { sessionStorage.setItem('weab:resistance:result:v1', '1'); } catch { /* Valfritt. */ }
+        location.assign('/');
+      }, 3_200);
+    }, panicDurationMs);
+  }
+
+  function step(dx: number, dy: number): void {
+    if (!active || ending) return;
+    if (stage === 'corridor') {
+      const nextX = x + dx;
+      const nextY = y + dy;
+      if (nextX >= 7 && nextX <= 13 && nextY >= 3 && nextY <= 32) {
+        x = nextX;
+        y = nextY;
+      } else if (nextY === 2 && x === 10 && dx === 0) {
+        if (!doorOpen) {
+          doorOpen = true;
+          if (instruction) instruction.textContent = 'Järndörren öppnas. Gå vidare.';
+        } else {
+          stage = 'rooms';
+          x = 10;
+          y = 12;
+          if (instruction) instruction.textContent = 'Cellerna börjar direkt. Gå förbi sista högra cellen, sedan över bron åt höger.';
+          canvas?.setAttribute('aria-label', 'En rak cellgång. Efter sista högra cellen leder en bro åt höger till det vita rummet.');
+        }
+      }
+    } else if (roomFloor(x + dx, y + dy) && !([7, 13].includes(x + dx) && [4, 9].includes(y + dy))) {
+      x += dx;
+      y += dy;
+      if (stage === 'rooms' && y <= 6) startBackgroundVoice();
+      if (x >= 17 && x <= 19 && y >= 2 && y <= 8) endGame();
+    }
+    draw();
+  }
+
+  function keydown(event: KeyboardEvent): void {
+    if (!active || !keys[event.key]) return;
+    event.preventDefault();
+    if (event.repeat && performance.now() - lastMove < 85) return;
+    lastMove = performance.now();
+    step(...keys[event.key]);
+  }
+
+  window.addEventListener('weab:save-game-start', () => {
+    if (!modal || !ctx || active || document.documentElement.classList.contains('weab-quiet')) return;
+    active = true;
+    previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    previousOverflow = document.body.style.overflow;
+    previousInert = pageParts.map(part => part.inert);
+    pageParts.forEach(part => { part.inert = true; });
+    document.body.style.overflow = 'hidden';
+    modal.hidden = false;
+    modal.focus();
+    renderSignal();
+    spiritSignal(true);
+    void prepareWebsitePieces();
+    trackSignal();
+    repeatVoice();
+  });
+  // Uttrycklig testadress även i produktion: samma spel och utgång utan väntan.
+  if (new URLSearchParams(location.search).get('previewMinigame') === '1') {
+    const launch = () => window.dispatchEvent(new Event('weab:save-game-start'));
+    if (document.readyState === 'complete') launch();
+    else window.addEventListener('load', launch, { once: true });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (!active || ending) return;
+    if (document.hidden) {
+      window.clearTimeout(voiceTimer);
+      window.clearTimeout(trackingTimer);
+      window.clearTimeout(trackingFadeTimer);
+      window.clearTimeout(analogTimer);
+      if (tracking) tracking.style.opacity = '0';
+      window.dispatchEvent(new Event('weab:voice-stop'));
+      backgroundVoice?.pause();
+    } else {
+      renderSignal();
+      trackSignal();
+      repeatVoice();
+      if (backgroundVoice) void backgroundVoice.play().catch(() => {});
+    }
+  });
+  document.addEventListener('keydown', keydown);
+  modal?.querySelectorAll<HTMLButtonElement>('[data-step]').forEach(button => {
+    const direction = keys[{ up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' }[button.dataset.step ?? ''] ?? ''];
+    if (!direction) return;
+    const stop = () => window.clearInterval(moveTimer);
+    button.addEventListener('pointerdown', event => {
+      event.preventDefault();
+      button.setPointerCapture(event.pointerId);
+      step(...direction);
+      stop();
+      moveTimer = window.setInterval(() => step(...direction), 105);
+    });
+    button.addEventListener('pointerup', stop);
+    button.addEventListener('pointercancel', stop);
+    button.addEventListener('lostpointercapture', stop);
+    button.addEventListener('click', event => {
+      if ((event as PointerEvent).detail === 0) step(...direction);
+    });
+  });
+  // Sidan lämnas efter avslut; återställ vid historiknavigering i samma dokument.
+  window.addEventListener('pagehide', () => {
+    window.clearInterval(moveTimer);
+    window.clearTimeout(voiceTimer);
+    window.clearTimeout(fragmentTimer);
+    window.clearTimeout(trackingTimer);
+    window.clearTimeout(trackingFadeTimer);
+    window.clearTimeout(analogTimer);
+    window.clearTimeout(panicTimer);
+    stopBackgroundVoice();
+    spiritSignal(false);
+    window.dispatchEvent(new Event('weab:voice-stop'));
+    document.body.style.overflow = previousOverflow;
+    pageParts.forEach((part, index) => { part.inert = previousInert[index] ?? false; });
+    previousFocus?.focus({ preventScroll: true });
+  });
+</script>
+<style>
+  .save-game[hidden] { display: none; }
+  .save-game {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483645;
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    background: #060609;
+    color: #e3e3dd;
+    font-family: 'Press Start 2P', ui-monospace, monospace;
+    text-align: center;
+    isolation: isolate;
+  }
+  .save-game::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, #17132d 0 3px, #060609 3px 6px);
+    opacity: .52;
+  }
+  .save-game__frame { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .save-game h2 {
+    position: absolute;
+    z-index: 7;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0 12px;
+    font: inherit;
+    font-size: clamp(18px, 3.3vw, 46px);
+    line-height: 1.5;
+    color: #e3e3dd;
+    text-shadow: 2px 0 #6d3c49, -2px 0 #344158;
+    filter: brightness(var(--text-signal, 1));
+    transform: translateX(var(--text-drift, 0px));
+    -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0 var(--raster-row),
+      #000 var(--raster-row) calc(var(--raster-row) * 2),
+      transparent calc(var(--raster-row) * 2) calc(var(--raster-row) * 3),
+      #000 calc(var(--raster-row) * 3) calc(var(--raster-row) * 4),
+      transparent calc(var(--raster-row) * 4) 100%);
+    mask-image: linear-gradient(to bottom,
+      transparent 0 var(--raster-row),
+      #000 var(--raster-row) calc(var(--raster-row) * 2),
+      transparent calc(var(--raster-row) * 2) calc(var(--raster-row) * 3),
+      #000 calc(var(--raster-row) * 3) calc(var(--raster-row) * 4),
+      transparent calc(var(--raster-row) * 4) 100%);
+    -webkit-mask-size: 100% calc(var(--raster-row) * 5);
+    mask-size: 100% calc(var(--raster-row) * 5);
+    -webkit-mask-position: 0 var(--text-raster-offset, 0px);
+    mask-position: 0 var(--text-raster-offset, 0px);
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
+  }
+  .save-game__screen {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    isolation: isolate;
+  }
+  .save-game__screen::before,
+  .save-game__screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .save-game__screen::after {
+    background: repeating-linear-gradient(to bottom,
+      rgb(0 0 0 / .18) 0 1px, transparent 1px 4px);
+  }
+  .save-game__screen::before {
+    z-index: 1;
+    height: 18px;
+    top: 20%;
+    background: repeating-linear-gradient(to bottom,
+      rgb(143 177 179 / .14) 0 2px,
+      rgb(0 0 0 / .25) 2px 4px,
+      transparent 4px 7px);
+    opacity: .16;
+  }
+  .save-game__tracking {
+    position: absolute;
+    z-index: 2;
+    top: 20%;
+    left: 0;
+    width: 60%;
+    height: 12px;
+    pointer-events: none;
+    opacity: 0;
+    background: repeating-linear-gradient(to bottom,
+      rgb(148 198 203 / .48) 0 1px,
+      rgb(5 13 18 / .8) 1px 3px,
+      transparent 3px 5px);
+  }
+  .save-game canvas {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    background: #090910;
+    border: 0;
+  }
+  .save-game__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .save-game__controls {
+    position: absolute;
+    z-index: 7;
+    left: 50%;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+  }
+  .save-game__controls > div { display: flex; gap: 4px; }
+  .save-game button {
+    width: 52px;
+    height: 44px;
+    border: 2px solid #6d6c84;
+    border-radius: 0;
+    background: #1d1b2a;
+    color: #f0f3e8;
+    font: 24px/1 ui-monospace, monospace;
+    touch-action: none;
+    cursor: pointer;
+  }
+  .save-game button:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+  .save-game button:active { background: #444159; }
+  @media (hover: hover) and (pointer: fine) {
+    .save-game__controls { display: none; }
+  }
+  @media (hover: none), (pointer: coarse) {
+    .save-game h2 { top: max(16px, env(safe-area-inset-top)); bottom: auto; font-size: clamp(15px, 4vw, 24px); }
+  }
+  .save-game__fragments {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  :global(.save-game__fragment) {
+    position: absolute;
+    overflow: hidden;
+    color: #e8f8f8;
+    background: rgb(4 15 22 / .65);
+    clip-path: inset(0 0 30% 0);
+    filter: contrast(1.7) saturate(1.4);
+    mix-blend-mode: screen;
+  }
+  :global(.save-game__fragment > *) {
+    display: block !important;
+    min-width: min(600px, 100vw);
+    margin: 0 !important;
+  }
+  :global(.save-game__fragment img) { max-width: none; min-width: 160px; }
+  :global(.save-game__fragment--suppressed) {
+    background: #071019 !important;
+    box-shadow: inset 0 0 0 3px #445e64, 12px 0 #101a21;
+    filter: grayscale(1) contrast(2) !important;
+  }
+  :global(.save-game__fragment--suppressed > *) { visibility: hidden; }
+  .save-game--panic::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent 0 8px, rgb(143 31 43 / .36) 9px 12px, transparent 15px 29px);
+    opacity: var(--panic-pressure, .1);
+  }
+  .save-game--panic canvas { filter: contrast(2.5) saturate(.3); }
+  .save-game--panic .save-game__screen::before { opacity: .45; }
+  @media (prefers-reduced-motion: reduce) {
+    .save-game__tracking { transform: none !important; }
+  }
+</style>

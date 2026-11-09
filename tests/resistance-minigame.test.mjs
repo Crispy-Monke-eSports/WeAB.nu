@@ -1,0 +1,107 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
+
+const source = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
+
+test('en järndörr följs av rak cellgång och en sidobro till det vita rummet', () => {
+  const game = source('src/components/ResistanceMinigame.astro');
+  assert.match(game, /RÄDDA DOM, RÄDDA DOM/);
+  assert.doesNotMatch(game, /SAVE THEM, SAVE THEM/);
+  assert.match(game, /let y = 31/);
+  assert.match(game, /nextY === 2 && x === 10/);
+  assert.match(game, /if \(!doorOpen\) \{\s*doorOpen = true/);
+  assert.match(game, /stage = 'rooms';\s*x = 10;\s*y = 12/);
+  assert.match(game, /\[\[3, 4\], \[5, 5\], \[3, 8\], \[6, 9\], \[14, 4\], \[16, 5\], \[15, 9\]\]/);
+  assert.match(game, /for \(const row of \[4, 9\]\)/);
+  assert.match(game, /ironDoor\(7 \* 16, row \* 16, 'side'\)/);
+  assert.match(game, /ironDoor\(13 \* 16, row \* 16, 'side'\)/);
+  assert.match(game, /redLight\(7 \* 16/);
+  assert.match(game, /stone\(px, py, col, worldY\)/);
+  assert.match(game, /py === 2 && px >= 13 && px <= 16/);
+  assert.match(game, /!\(px >= 14 && py === 3\)/);
+  assert.match(game, /col >= 13 && col <= 16 && row === 3/);
+  assert.match(game, /ironDoor\(10 \* 16, doorY, 'end'\)/);
+  assert.match(game, /x >= 17 && x <= 19 && y >= 2 && y <= 8/);
+  assert.match(game, /\.save-game__frame \{ position: absolute; inset: 0; width: 100%; height: 100%; \}/);
+  assert.match(game, /save-game__sr-only/);
+  assert.match(game, /spiritVoice\[text\]\?\.durationMs/);
+  assert.match(game, /document\.addEventListener\('visibilitychange'/);
+  assert.match(game, /@media \(prefers-reduced-motion: reduce\)/);
+});
+
+test('slutsekvensen sätter tyst cookieläge och återvänder hem', () => {
+  const game = source('src/components/ResistanceMinigame.astro');
+  const layout = source('src/layouts/BaseLayout.astro');
+  const controller = source('src/components/ResistanceInterference.astro');
+  assert.match(game, /createQuietCookie\(now, location\.protocol === 'https:'\)/);
+  assert.match(game, /location\.assign\('\/'\)/);
+  assert.match(game, /sessionStorage\.setItem\('weab:resistance:result:v1', '1'\)/);
+  assert.match(layout, /location\.pathname === '\/' && root\.classList\.contains\('weab-quiet'\)/);
+  assert.match(layout, /sessionStorage\.removeItem\('weab:resistance:result:v1'\)/);
+  assert.match(layout, /new Blob\(\['Utveckling behövs'\], \{ type: 'text\/plain;charset=utf-8' \}\)/);
+  assert.match(layout, /link\.download = 'RESULTAT\.txt'/);
+  assert.match(layout, /root\.classList\.add\('weab-quiet'\)/);
+  assert.match(layout, /root\.classList\.remove\('weab-quiet'\);\s*location\.reload/);
+  assert.match(controller, /if \(chooseMinigame\(\)\)/);
+  assert.match(controller, /phase === 'morse'/);
+  assert.match(source('src/data/spiritVoice.json'), /"RÄDDA DOM, RÄDDA DOM"/);
+  assert.match(source('src/data/spiritVoice.json'), /"DU MISSLYCKADES, DU MISSLYCKADES"/);
+  assert.match(game, /document\.querySelectorAll<HTMLElement>\(selector\)/);
+  assert.match(game, /fragmentTimer = window\.setTimeout\(distort, 45 \+ Math\.random\(\)/);
+  assert.match(game, /panicTimer = window\.setTimeout\(panicBurst, 80 \+ Math\.random\(\)/);
+  assert.match(game, /prepareWebsitePieces\(\)/);
+  assert.match(game, /panicDurationMs = websiteStartMs \+ websiteMs \+ 650/);
+  assert.match(game, /text: minigameFailureWebsiteLine, ageMs: 0, durationMs: websiteMs/);
+  assert.match(game, /weab:spirit-panic-progress/);
+  assert.match(source('src/components/SpiritTransmission.astro'), /return panicProgress > 0 \? \.10 \+ panicProgress \* \.22 : base/);
+  assert.match(source('src/components/SpiritTransmission.astro'), /\.72 \+ panicProgress \* \.10/);
+  assert.match(game, /Otillåten information delad, styrelsen meddelad\. Återställer/);
+  assert.match(game, /root\.classList\.add\('weab-minigame-confirmed', 'weab-death-confirmed'\)/);
+  assert.match(game, /\}, 3_200\)/);
+  assert.match(game, /\/arena\//);
+  assert.match(game, /save-game__fragment--suppressed/);
+  assert.match(game, /elapsedSecond !== lastSecond/);
+  assert.match(layout, /html\.weab-minigame-confirmed #weab-quarantine/);
+  assert.match(source('src/data/spiritVoice.json'), /WeKill sköter produktionen, WeSort fördelar resurserna och WeBox tar hand om lagret/);
+});
+
+test('själens röst och brus fortsätter, med en andra låg röst nära bron', () => {
+  const game = source('src/components/ResistanceMinigame.astro');
+  const radio = source('src/components/SpiritTransmission.astro');
+  assert.match(game, /function repeatVoice\(\)/);
+  assert.match(game, /window\.dispatchEvent\(new Event\('weab:voice-stop'\)\);\s*window\.dispatchEvent\(new CustomEvent\('weab:voice-speak'/);
+  assert.match(game, /spiritSignal\(true\)/);
+  assert.match(game, /detail: \{ active, strength: 'harsh' \}/);
+  assert.match(game, /backgroundVoice\.loop = true/);
+  assert.match(game, /backgroundVoice\.volume = \.16/);
+  assert.match(game, /y <= 6\) startBackgroundVoice\(\)/);
+  assert.match(game, /stopBackgroundVoice\(\)/);
+  assert.match(radio, /if \(presenceLive\) sustainBed\(typingStrength, 0\)/);
+  assert.match(game, /for \(const gap of \[0, 2, 4\]\) pixel\(0, line \+ gap, 336, 1, '#010104'\)/);
+  assert.match(game, /trackingTimer = window\.setTimeout\(trackSignal,/);
+  assert.match(game, /const frame = ctx\.getImageData\(0, 0, 336, 240\)/);
+  assert.match(game, /for \(const row of \[band \+ 1, band \+ 3\]\)/);
+  assert.match(game, /ctx\.putImageData\(frame, 0, 0\)/);
+  assert.match(game, /analogTimer = window\.setTimeout\(renderSignal,/);
+  assert.match(game, /function proximityToWhiteRoom\(\): number/);
+  assert.match(game, /\.35 \+ Math\.max\(0, \(12 - y\) \/ 10\) \* \.45/);
+  assert.match(game, /const grain = \(Math\.random\(\) - \.5\) \* \(18 \+ proximity \* 15\)/);
+  assert.match(game, /heading\.style\.setProperty\('--text-signal'/);
+  assert.match(game, /canvas!\.getBoundingClientRect\(\)\.height \/ canvas!\.height/);
+  assert.match(game, /--text-raster-offset/);
+  assert.match(game, /mask-size: 100% calc\(var\(--raster-row\) \* 5\)/);
+  assert.match(game, /--text-drift/);
+  assert.match(game, /window\.clearTimeout\(analogTimer\)/);
+});
+
+test('testadressen startar även i produktion, trots cookie och utan slumpad ARG-kö', () => {
+  const game = source('src/components/ResistanceMinigame.astro');
+  const controller = source('src/components/ResistanceInterference.astro');
+  const layout = source('src/layouts/BaseLayout.astro');
+  assert.match(game, /if \(new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1'\)/);
+  assert.match(game, /window\.dispatchEvent\(new Event\('weab:save-game-start'\)\)/);
+  assert.match(controller, /!morsePreview && !minigamePreview/);
+  assert.match(controller, /const minigamePreview = params\.get\('previewMinigame'\) === '1'/);
+  assert.match(layout, /if \(new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1'\) return/);
+});
