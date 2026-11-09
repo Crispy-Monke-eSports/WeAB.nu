@@ -145,7 +145,7 @@ test('testadressen startar även i produktion, trots cookie och utan slumpad ARG
   assert.match(game, /window\.dispatchEvent\(new Event\('weab:save-game-start'\)\)/);
   assert.match(controller, /!morsePreview && !minigamePreview/);
   assert.match(controller, /const minigamePreview = params\.get\('previewMinigame'\) === '1'/);
-  assert.match(layout, /if \(new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1'\) return/);
+  assert.match(layout, /if \(new URLSearchParams\(location\.search\)\.get\('previewMinigame'\) === '1' && !invited\) return/);
 });
 
 test('RESULTAT.txt är förgenererad med Base64 i åttateckensbitar mellan verkliga WeLiveLaughLove-meningar', () => {
@@ -197,4 +197,27 @@ test('RÄDDA DOM förfas sparas i cookie och öppnar minispelet först vid klick
   assert.match(game, /weab:spirit-typing/);
   assert.match(game, /weab:spirit-burst/);
   assert.doesNotMatch(controller, /chooseMinigame\(\)[\s\S]{0,130}weab:save-game-start/);
+});
+
+test('inbjudningscookien försvinner endast efter klarat spel och avslutad WeAB-skärm', () => {
+  const game = source('src/components/ResistanceMinigame.astro');
+  const layout = source('src/layouts/BaseLayout.astro');
+  const invite = game.split('function startFromInvitation(): void {')[1]
+    .split("window.addEventListener('weab:save-game-invite'")[0];
+  const playing = game.split("window.addEventListener('weab:save-game-start'")[1]
+    .split('// Uttrycklig testadress')[0];
+  const finalStart = game.indexOf("root.classList.add('weab-minigame-confirmed', 'weab-death-confirmed')");
+  const finalStep = game.slice(finalStart, game.indexOf("location.assign('/')", finalStart));
+  assert.doesNotMatch(invite, /clearMinigameInvitationCookie/);
+  assert.doesNotMatch(playing, /clearMinigameInvitationCookie/);
+  assert.match(playing, /document\.cookie = createMinigameInvitationCookie/);
+  assert.match(playing, /classList\.add\('weab-save-game-active'\)/);
+  assert.match(layout, /if \(invited\) \{/);
+  assert.match(layout, /classList\.toggle\('weab-save-call', !playing\)/);
+  assert.match(game, /!hasMinigameInvitationCookie\(document\.cookie\)/);
+  assert.match(finalStep, /window\.setTimeout\(\(\) => \{/);
+  assert.match(finalStep, /document\.cookie = clearMinigameInvitationCookie/);
+  assert.match(finalStep, /document\.cookie = createQuietCookie/);
+  assert.ok(finalStep.indexOf('clearMinigameInvitationCookie') < finalStep.indexOf('createQuietCookie'));
+  assert.match(finalStep, /\}, 3_200\)/);
 });

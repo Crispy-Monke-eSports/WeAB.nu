@@ -22,6 +22,7 @@
   import { spiritVoice } from '../data/spiritVoiceTiming.ts';
   import {
     hasMinigameInvitationCookie,
+    createMinigameInvitationCookie,
     clearMinigameInvitationCookie
   } from '../data/resistanceMinigameInvitation.ts';
 
@@ -125,8 +126,7 @@
   function beginInvitation(): void {
     if (invitationActive || active || ending ||
         document.documentElement.classList.contains('weab-quiet') ||
-        document.documentElement.classList.contains('weab-quarantined') ||
-        new URLSearchParams(location.search).get('previewMinigame') === '1') return;
+        document.documentElement.classList.contains('weab-quarantined')) return;
     invitationActive = true;
     document.documentElement.classList.add('weab-save-call');
     rewriteInvitationText();
@@ -144,7 +144,7 @@
     if (!invitationActive || !modal || !ctx) return;
     invitationActive = false;
     window.clearTimeout(invitationBurstTimer);
-    document.cookie = clearMinigameInvitationCookie(location.protocol === 'https:');
+    // Cookien behålls även i spelet: omladdning ska återgå till RÄDDA DOM.
     document.documentElement.classList.remove('weab-save-call', 'weab-save-call-ready');
     window.dispatchEvent(new Event('weab:save-game-start'));
   }
@@ -644,6 +644,9 @@
       root.classList.add('weab-minigame-confirmed', 'weab-death-confirmed');
       window.setTimeout(() => {
         const now = Date.now();
+        // Avsluta spärren först efter hela WeAB:s 3,2 sekunder långa slutvy.
+        // Omladdning före dess leder alltid tillbaka till RÄDDA DOM.
+        document.cookie = clearMinigameInvitationCookie(location.protocol === 'https:');
         document.cookie = createQuietCookie(now, location.protocol === 'https:');
         try { localStorage.removeItem(resistanceLockdown.noticeKey); } catch { /* Valfritt. */ }
         try { localStorage.setItem('weab:resistance:quiet', String(now + resistanceLockdown.durationMs)); } catch { /* Valfritt. */ }
@@ -695,11 +698,15 @@
 
   window.addEventListener('weab:save-game-start', () => {
     if (!modal || !ctx || active || document.documentElement.classList.contains('weab-quiet')) return;
-    // Även teststarten måste lämna det cookie-baserade inbjudningsläget.
+    // Cookien är kvar medan spelet och slutpaniken visas; även en
+    // direktstart via testadressen sätter den innan första spelrutan.
+    if (!hasMinigameInvitationCookie(document.cookie)) {
+      document.cookie = createMinigameInvitationCookie(location.protocol === 'https:');
+    }
     invitationActive = false;
     window.clearTimeout(invitationBurstTimer);
-    document.cookie = clearMinigameInvitationCookie(location.protocol === 'https:');
     document.documentElement.classList.remove('weab-save-call', 'weab-save-call-ready');
+    document.documentElement.classList.add('weab-save-game-active');
     active = true;
     previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     previousOverflow = document.body.style.overflow;
@@ -715,7 +722,8 @@
     startMainVoice();
   });
   // Uttrycklig testadress även i produktion: samma spel och utgång utan väntan.
-  if (new URLSearchParams(location.search).get('previewMinigame') === '1') {
+  if (new URLSearchParams(location.search).get('previewMinigame') === '1' &&
+      !hasMinigameInvitationCookie(document.cookie)) {
     const launch = () => window.dispatchEvent(new Event('weab:save-game-start'));
     if (document.readyState === 'complete') launch();
     else window.addEventListener('load', launch, { once: true });

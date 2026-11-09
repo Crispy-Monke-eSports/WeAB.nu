@@ -613,8 +613,19 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
     }
 
     function applyLockdown() {
-      // Uttrycklig testadress kringgår spärren även i produktion.
-      if (new URLSearchParams(location.search).get('previewMinigame') === '1') return;
+      // Den aktiva inbjudningscookien går före vanlig tystnad/karantän.
+      // Även omladdning av en teststart ska återgå till RÄDDA DOM.
+      const invited = document.cookie.split(';').some(part =>
+        part.trim() === invitationCookieName + '=1');
+      if (new URLSearchParams(location.search).get('previewMinigame') === '1' && !invited) return;
+      if (invited) {
+        // Förfasens textstyling ska inte täcka själva spelet eller slutvyn.
+        const playing = root.classList.contains('weab-save-game-active') ||
+          root.classList.contains('weab-minigame-confirmed');
+        root.classList.toggle('weab-save-call', !playing);
+        if (playing) root.classList.remove('weab-save-call-ready');
+        return;
+      }
       // Morse slutförs på ursprungsfliken. Ett NYTT dokument låses i HEAD.
       if (root.dataset.weabMorseRunning === '1') return;
       const now = Date.now();
@@ -659,12 +670,8 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
         root.classList.remove('weab-save-call', 'weab-save-call-ready');
         showConfirmed(now, 0);
       } else {
-        // Även en manuellt öppnad URL får samma kapade text före första paint.
-        // Cookien försvinner först när spelaren själv väljer en RÄDDA DOM-länk.
-        const invited = document.cookie.split(';').some(part =>
-          part.trim() === invitationCookieName + '=1');
-        root.classList.toggle('weab-save-call', invited);
-        if (!invited) root.classList.remove('weab-save-call-ready');
+        // Ingen spelspärr återstår: visa den ordinarie webbplatsen.
+        root.classList.remove('weab-save-call', 'weab-save-call-ready');
       }
     }
 
