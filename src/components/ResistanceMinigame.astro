@@ -51,7 +51,6 @@
   let moveTimer = 0;
   let fragmentTimer = 0;
   let mainVoice: HTMLAudioElement | null = null;
-  let mainVoiceContext: AudioContext | null = null;
   let backgroundVoice: HTMLAudioElement | null = null;
   let audioUnlocked = false;
   let trackingTimer = 0;
@@ -265,20 +264,6 @@
     mainVoice = new Audio('/audio/spirit/' + entry.file);
     mainVoice.loop = true;
     mainVoice.volume = 1;
-    // HTMLAudioElement.volume kan inte överskrida 1. Förstärk endast den
-    // främre rösten, inte bakgrundsrösten eller radiobruset.
-    if (typeof AudioContext !== 'undefined') {
-      try {
-        const context = new AudioContext();
-        const source = context.createMediaElementSource(mainVoice);
-        const gain = context.createGain();
-        gain.gain.value = 1.2;
-        source.connect(gain);
-        gain.connect(context.destination);
-        mainVoiceContext = context;
-        if (context.state === 'suspended') void context.resume().catch(() => {});
-      } catch { /* Ljudfilen kan fortfarande spelas upp utan förstärkning. */ }
-    }
     void mainVoice.play().catch(() => { /* iOS: låses upp vid första gesten. */ });
   }
 
@@ -286,8 +271,6 @@
     mainVoice?.pause();
     if (mainVoice) mainVoice.currentTime = 0;
     mainVoice = null;
-    if (mainVoiceContext) void mainVoiceContext.close().catch(() => {});
-    mainVoiceContext = null;
   }
 
   function unlockAudio(): void {
@@ -295,7 +278,6 @@
     // iOS kräver en användargest innan ljud får starta. Första rörelsen låser
     // upp röstloopen och återväcker det befintliga radiobruset.
     if (mainVoice) void mainVoice.play().catch(() => {});
-    if (mainVoiceContext?.state === 'suspended') void mainVoiceContext.resume().catch(() => {});
     if (backgroundVoice) void backgroundVoice.play().catch(() => {});
     if (!audioUnlocked) {
       audioUnlocked = true;

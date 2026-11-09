@@ -59,7 +59,7 @@
     const preview = import.meta.env.DEV && params.get('previewResistance') === '1';
     const morsePreview = import.meta.env.DEV && params.get('previewMorse') === '1';
     const minigamePreview = params.get('previewMinigame') === '1' ||
-      params.get('previewMingame') === '1' || params.get('█̶̸') === '1';
+      params.get('█̶̸') === '1';
     const previousRaw = storageRead(sessionStorage, resistanceSignal.sessionKey);
     let previous: unknown = null;
     try { previous = previousRaw ? JSON.parse(previousRaw) : null; } catch { /* Nollställ korrupt sessionsdata. */ }

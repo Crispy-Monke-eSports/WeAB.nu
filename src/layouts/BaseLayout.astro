@@ -635,11 +635,12 @@ const faviconSlug = companies.find(company => company.slug === companySlug)?.slu
       // Den aktiva inbjudningscookien går före vanlig tystnad/karantän.
       // Även omladdning av en teststart ska återgå till RÄDDA DOM.
       const params = new URLSearchParams(location.search);
-      const invitationPreview = params.get('previewMingame') === '1' ||
-        params.get('previewMinigame') === '1' || params.get('█̶̸') === '1';
-      // Den uttalade återställningsadressen åsidosätter alla ARG-lägen EN gång
-      // per sidladdning. Därefter får minispelscookien leva ostört under spelet.
-      if (params.get('previewMingame') === '1' && !previewResetDone) {
+      const invitationPreview = params.get('previewMinigame') === '1' ||
+        params.get('█̶̸') === '1';
+      // Den namngivna återställningsadressen åsidosätter tidigare ARG-lägen
+      // EN gång per sidladdning, inte vid varje uppdatering under minispelet.
+      // Den kryptiska länken startar bara förfasen.
+      if (params.get('previewMinigame') === '1' && !previewResetDone) {
         previewResetDone = true;
         document.cookie = `${lockCookieName}=invite; Max-Age=31536000; Path=/; SameSite=Lax` +
           (location.protocol === 'https:' ? '; Secure' : '');

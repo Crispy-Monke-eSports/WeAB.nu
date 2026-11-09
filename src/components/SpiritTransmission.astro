@@ -66,7 +66,7 @@
 
   // Sänk endast minispelets separata brus; röstinspelningarna behålls hörbara.
   function noiseLevel(level: number): number {
-    return document.documentElement.classList.contains('weab-save-game-active') ? level * .7 : level;
+    return document.documentElement.classList.contains('weab-save-game-active') ? level * .6 : level;
   }
 
   function bedLevel(): number {

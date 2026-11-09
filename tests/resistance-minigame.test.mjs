@@ -155,8 +155,8 @@ test('återställningsadressen börjar med RÄDDA DOM och skriver över varje ti
   assert.doesNotMatch(game, /const launch = \(\) => window\.dispatchEvent\(new Event\('weab:save-game-start'\)\)/);
   assert.match(controller, /!morsePreview && !minigamePreview/);
   assert.match(controller, /const minigamePreview = params\.get\('previewMinigame'\) === '1'/);
-  assert.match(controller, /params\.get\('previewMingame'\) === '1'/);
-  assert.match(layout, /params\.get\('previewMingame'\) === '1' && !previewResetDone/);
+  assert.match(layout, /params\.get\('previewMinigame'\) === '1' && !previewResetDone/);
+  assert.doesNotMatch(layout + controller, /previewMingame/);
   assert.match(layout, /previewResetDone = true;\s*document\.cookie = `\$\{lockCookieName\}=invite/);
   assert.match(layout, /localStorage\.removeItem\(lockNoticeKey\)/);
   assert.match(layout, /sessionStorage\.removeItem\(signalSessionKey\)/);
@@ -255,13 +255,13 @@ test('inbjudan, karantän och tystnad är ömsesidigt uteslutande lägen i en co
   assert.equal(readQuietExpiry(quiet, now), now + 180_000);
 });
 
-test('minispelets radiobrus dämpas 30 procent och främre RÄDDA DOM-rösten förstärks 20 procent', () => {
+test('minispelets radiobrus dämpas 40 procent och RÄDDA DOM-rösten har sin ursprungliga nivå', () => {
   const radio = source('src/components/SpiritTransmission.astro');
   const game = source('src/components/ResistanceMinigame.astro');
-  assert.match(radio, /classList\.contains\('weab-save-game-active'\) \? level \* \.7 : level/);
+  assert.match(radio, /classList\.contains\('weab-save-game-active'\) \? level \* \.6 : level/);
   assert.match(radio, /return noiseLevel\(panicProgress/);
   assert.match(radio, /master\.gain\.value = noiseLevel\(\.19\)/);
-  assert.match(game, /const source = context\.createMediaElementSource\(mainVoice\)/);
-  assert.match(game, /gain\.gain\.value = 1\.2/);
+  assert.match(game, /mainVoice\.volume = 1/);
+  assert.doesNotMatch(game, /createMediaElementSource\(mainVoice\)/);
   assert.match(game, /backgroundVoice\.volume = \.16/);
 });
