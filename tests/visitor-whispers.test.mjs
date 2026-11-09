@@ -58,7 +58,7 @@ test('nätuppslaget används bara i besökarens flik utan IP i repliker eller la
     width: 1200, darkMode: true, returnedToTab: true
   }).join(' ');
   assert.doesNotMatch(sayings, /BAHNHOF|INTERNETLEVERANTÖR|OPERATÖR|IP-ADRESS|POSITION|ADRESS/i);
-  assert.match(moduleCode, /https:\/\/api\.my-ip\.io\/v2\/ip\.json/);
+  assert.match(moduleCode, /https:\/\/ipwho\.is\/\?fields=success,country_code,city,region,connection\.isp,connection\.org/);
   assert.doesNotMatch(moduleCode, /\bXMLHttpRequest\b|\bsendBeacon\s*\(|\bgeolocation\b|\bwebsocket\b/i);
   assert.doesNotMatch(moduleCode, /\blocalStorage\b|\bsessionStorage\b|document\.cookie/i);
   assert.match(transmission, /weab:visitor-whisper/);
@@ -68,8 +68,8 @@ test('nätuppslaget används bara i besökarens flik utan IP i repliker eller la
 
 test('endast svenska, kända orter och operatörer blir försiktigt formulerade repliker', () => {
   const clues = parseNetworkClues({ success: true, ip: '192.0.2.1',
-    country: { code: 'SE' }, city: 'Stockholm', region: 'Stockholm County',
-    asn: { name: 'Telia Company AB', network: '192.0.2.0/24' },
+    country_code: 'SE', city: 'Stockholm', region: 'Stockholm County',
+    connection: { isp: 'Telia Company AB', network: '192.0.2.0/24' },
     location: { lat: 59, lon: 18 } });
   assert.deepEqual(clues, { city: 'Stockholm', region: 'Stockholm', provider: 'Telia' });
   const lines = networkWhisperOptions(clues);
@@ -81,20 +81,24 @@ test('endast svenska, kända orter och operatörer blir försiktigt formulerade 
   assert.equal(selectVisitorWhisper(base, 0, clues), lines[0]);
   assert.equal(selectVisitorWhisper(base, 2, clues), lines[2]);
   assert.ok(lines.every(x => !/192\.0\.2|59|18|COMPANY|192|ABONNEMANG/.test(x)));
-  assert.equal(parseNetworkClues({ success: true, country: { code: 'NO' }, city: 'Stockholm' }), null);
-  assert.deepEqual(parseNetworkClues({ success: true, country: { code: 'SE' },
-    city: 'Evil<script>', region: 'Fake County', asn: { name: 'Unknown Inc' } }),
+  assert.equal(parseNetworkClues({ success: true, country_code: 'NO', city: 'Stockholm' }), null);
+  assert.deepEqual(parseNetworkClues({ success: true, country_code: 'SE',
+    city: 'Evil<script>', region: 'Fake County', connection: { isp: 'Unknown Inc' } }),
     { city: null, region: null, provider: null });
-  assert.deepEqual(parseNetworkClues({ success: true, country: { code: 'SE' },
-    city: 'Gothenburg', region: 'Scania', asn: { name: 'Hi3G Access AB' } }),
+  assert.deepEqual(parseNetworkClues({ success: true, country_code: 'SE',
+    city: 'Gothenburg', region: 'Scania', connection: { isp: 'Hi3G Access AB' } }),
     { city: 'Göteborg', region: 'Skåne', provider: 'Tre' });
+  assert.deepEqual(parseNetworkClues({ success: true, country_code: 'SE',
+    connection: { isp: 'Unknown Inc', org: 'Bahnhof AB' } }),
+    { city: null, region: null, provider: 'Bahnhof' });
+  assert.equal(parseNetworkClues({ success: false, country_code: 'SE' }), null);
   assert.equal(geoProviders.length, 15);
   assert.ok(geoCities.length >= 30 && geoRegions.length === 22);
 });
 
 test('Stockholm, Jönköping, Malmö, Kalmar, Göteborg och Uppsala har korrekta ortsrepliker', () => {
   for (const city of ['Stockholm', 'Jönköping', 'Malmö', 'Kalmar', 'Göteborg', 'Uppsala']) {
-    const record = parseNetworkClues({ success: true, country: { code: 'SE' }, city });
+    const record = parseNetworkClues({ success: true, country_code: 'SE', city });
     assert.equal(record.city, city);
     assert.equal(networkWhisperOptions(record)[0],
       `ÄR DU I ${city.toLocaleUpperCase('sv-SE')}? JAG VILL BARA PRATA!`);
@@ -102,7 +106,7 @@ test('Stockholm, Jönköping, Malmö, Kalmar, Göteborg och Uppsala har korrekta
 });
 
 test('Värnamo fungerar både som ort och som API-region utan länspåstående', () => {
-  const record = parseNetworkClues({ success: true, country: { code: 'SE' },
+  const record = parseNetworkClues({ success: true, country_code: 'SE',
     city: 'Värnamo', region: 'Värnamo' });
   assert.deepEqual(record, { city: 'Värnamo', region: 'Värnamo', provider: null });
   assert.deepEqual(networkWhisperOptions(record), [
@@ -111,10 +115,10 @@ test('Värnamo fungerar både som ort och som API-region utan länspåstående',
   ]);
   for (const label of ['Värnamo County', 'Varnamo Municipality',
     'Municipality of Värnamo', 'Region: Värnamo, Sweden']) {
-    assert.equal(parseNetworkClues({ success: true, country: { code: 'SE' },
+    assert.equal(parseNetworkClues({ success: true, country_code: 'SE',
       region: label }).region, 'Värnamo', label);
   }
-  assert.equal(parseNetworkClues({ success: true, country: { code: 'SE' },
+  assert.equal(parseNetworkClues({ success: true, country_code: 'SE',
     region: 'Värnamoborg' }).region, null);
 });
 
@@ -122,7 +126,7 @@ test('nätuppslag hanterar 429, timeout och CORS utan att fördröja lokala repl
   let requests = 0;
   assert.equal(await lookupNetworkClues(async (url, init) => {
     requests++;
-    assert.equal(url, 'https://api.my-ip.io/v2/ip.json');
+    assert.equal(url, 'https://ipwho.is/?fields=success,country_code,city,region,connection.isp,connection.org');
     assert.equal(init.credentials, 'omit');
     assert.equal(init.referrerPolicy, 'no-referrer');
     assert.equal(init.cache, 'no-store');
@@ -132,7 +136,7 @@ test('nätuppslag hanterar 429, timeout och CORS utan att fördröja lokala repl
   assert.equal(requests, 1);
   assert.equal(await lookupNetworkClues(async () => { throw new TypeError('CORS'); }), null);
   assert.deepEqual(await lookupNetworkClues(async () => ({ ok: true, json: async () => ({
-    success: true, country: { code: 'SE' }, city: 'Malmö', asn: { name: 'Bahnhof AB' }
+    success: true, country_code: 'SE', city: 'Malmö', connection: { isp: 'Bahnhof AB' }
   }) })), { city: 'Malmö', region: null, provider: 'Bahnhof' });
 });
 

@@ -55,18 +55,16 @@ function knownName(value: unknown, names: readonly string[], aliases: Record<str
 export function parseNetworkClues(data: unknown): NetworkClues | null {
   if (!data || typeof data !== 'object') return null;
   const result = data as Record<string, unknown>;
-  const country = result.country && typeof result.country === 'object'
-    ? result.country as Record<string, unknown> : null;
-  if (result.success !== true || country?.code !== 'SE') return null;
-  const asn = result.asn && typeof result.asn === 'object'
-    ? result.asn as Record<string, unknown> : null;
+  if (result.success !== true || result.country_code !== 'SE') return null;
+  const connection = result.connection && typeof result.connection === 'object'
+    ? result.connection as Record<string, unknown> : null;
   return {
     city: knownName(result.city, geoCities, { gothenburg: 'Göteborg', malmo: 'Malmö' }),
     region: knownName(result.region, geoRegions, {
       scania: 'Skåne', vastragotalandcounty: 'Västra Götaland',
       stockholmcounty: 'Stockholm', skanecounty: 'Skåne'
     }),
-    provider: providerFromAsn(asn?.name)
+    provider: providerFromAsn(connection?.isp) ?? providerFromAsn(connection?.org)
   };
 }
 
@@ -91,10 +89,12 @@ export async function lookupNetworkClues(fetcher: typeof fetch = fetch): Promise
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 4500);
   try {
-    const response = await fetcher('https://api.my-ip.io/v2/ip.json', {
+    // API:et skickar bara fälten vi behöver; aldrig IP eller koordinater i JSON.
+    const response = await fetcher(
+      'https://ipwho.is/?fields=success,country_code,city,region,connection.isp,connection.org', {
       method: 'GET', credentials: 'omit', cache: 'no-store',
       referrerPolicy: 'no-referrer', signal: controller.signal
-    });
+      });
     if (!response.ok) return null;
     return parseNetworkClues(await response.json());
   } catch {
