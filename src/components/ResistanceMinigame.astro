@@ -728,6 +728,13 @@
     if (document.readyState === 'complete') launch();
     else window.addEventListener('load', launch, { once: true });
   }
+  // En återställd sida ur bfcache får aldrig fortsätta spelet där det
+  // avbröts. Cookien bestämmer om RÄDDA DOM ska visas igen.
+  window.addEventListener('pageshow', event => {
+    if (event.persisted && (active || hasMinigameInvitationCookie(document.cookie))) {
+      location.reload();
+    }
+  });
   document.addEventListener('visibilitychange', () => {
     if (!active || ending) return;
     if (document.hidden) {
