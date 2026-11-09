@@ -28,7 +28,6 @@
       <feColorMatrix type="saturate" values="0"/>
     </filter>
   </defs>
-  <rect width="464" height="284" fill="#160c11"/>
   <g clip-path="url(#outline)">
     <rect width="464" height="284" fill="url(#sclera)"/>
     <circle cx="232" cy="142" r="116" fill="url(#iris)"/>

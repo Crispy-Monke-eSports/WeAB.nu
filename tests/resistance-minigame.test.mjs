@@ -89,6 +89,24 @@ test('slutsekvensen sätter tyst cookieläge och återvänder hem', () => {
   assert.match(source('src/data/spiritVoice.json'), /WeKill sköter produktionen, WeSort fördelar resurserna och WeBox tar hand om lagret/);
 });
 
+test('RÄDDA DOM förfasen har ojämna analoga bildbrott utan att blockera länkar eller minskad rörelse', () => {
+  const game = source('src/components/ResistanceMinigame.astro');
+  const eye = source('public/images/arg-eye-open.svg');
+  const layout = source('src/layouts/BaseLayout.astro');
+  assert.match(game, /data-save-call-signal aria-hidden="true"/);
+  assert.match(game, /\.save-call-signal \{[\s\S]*?pointer-events: none/);
+  assert.match(game, /function invitationFault\(\)/);
+  assert.match(game, /950 \+ Math\.random\(\) \* 1_850/);
+  assert.match(game, /save-call-eye--fault/);
+  assert.match(game, /save-call-text--fault/);
+  assert.match(game, /if \(document\.hidden\) stopInvitationFaults\(\)/);
+  assert.match(game, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(game, /function startFromInvitation\(\): void \{[\s\S]*?stopInvitationFaults\(\)/);
+  assert.doesNotMatch(eye, /<rect width="464" height="284" fill="#160c11"\/>/);
+  assert.doesNotMatch(game, /setProperty\('background-color', '#160c11'/);
+  assert.match(layout, /img\[data-save-call-eye\] \{[\s\S]*?background: transparent !important/);
+});
+
 test('själens röst och brus fortsätter, med en andra låg röst nära bron', () => {
   const game = source('src/components/ResistanceMinigame.astro');
   const radio = source('src/components/SpiritTransmission.astro');
