@@ -83,13 +83,14 @@
     return text ? { kind: 'text', text } : null;
   }
 
-  // Fortfarande riktiga texter och bilder från WeAB:s publika sidor, men bara
-  // lätta referenser i minnet och färre parallella hämtningar på telefoner.
+  // Hämta endast vanliga koncernsidor. Tidningsarkivet och pressmeddelanden
+  // ska aldrig laddas i panikscenen, oavsett om besökaren använder mobil eller dator.
+  // Behåll verkliga bild- och textfragment från övriga publika WeAB-sidor.
   async function prepareWebsitePieces(): Promise<void> {
     const pages = compactGraphics
-      ? ['/', '/koncernen/', '/nyheter/', '/arena/']
-      : ['/', '/koncernen/', '/verksamheter/', '/press/',
-          '/nyheter/', '/arena/', '/bolagsstyrning/', '/kontakt/'];
+      ? ['/', '/koncernen/', '/verksamheter/', '/arena/']
+      : ['/', '/koncernen/', '/verksamheter/', '/arena/',
+          '/bolagsstyrning/', '/kontakt/'];
     const results = await Promise.allSettled(pages.map(async path => {
       const response = await fetch(path, { credentials: 'same-origin' });
       if (!response.ok) return [];
@@ -434,8 +435,14 @@
     }, websiteStartMs);
     // Kopiorna är endast bildfragment: inga länkar eller kontroller kan aktiveras.
     if (fragments) {
-      const localPieces = ['body > header', 'body > main h1', 'body > footer',
-        'body > aside', 'body > main p', 'body > main img', 'body > main a']
+      // Om minispelet startas från tidningen eller pressarkivet får heller
+      // inte den redan öppna artikelns innehåll återanvändas som fragment.
+      const editorialPage = /^\/(?:nyheter|press)(?:\/|$)/.test(location.pathname);
+      const localSelectors = editorialPage
+        ? ['body > header', 'body > footer']
+        : ['body > header', 'body > main h1', 'body > footer',
+            'body > aside', 'body > main p', 'body > main img', 'body > main a'];
+      const localPieces = localSelectors
         .flatMap(selector => [...document.querySelectorAll<HTMLElement>(selector)].slice(0, 5))
         .map(node => extractLeak(node, location.pathname))
         .filter((piece): piece is LeakPiece => piece !== null);

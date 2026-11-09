@@ -58,7 +58,13 @@ test('slutsekvensen sätter tyst cookieläge och återvänder hem', () => {
   assert.match(game, /panicTimer = window\.setTimeout\(panicBurst,/);
   assert.match(game, /prepareWebsitePieces\(\)/);
   assert.match(game, /image\.loading = 'lazy'/);
-  assert.match(game, /compactGraphics\s*\? \['\/', '\/koncernen\/', '\/nyheter\/', '\/arena\/'\]/);
+  const fetchSection = game.split('async function prepareWebsitePieces(): Promise<void> {')[1]
+    .split('function trackSignal(): void {')[0];
+  assert.match(fetchSection, /compactGraphics\s*\? \['\/', '\/koncernen\/', '\/verksamheter\/', '\/arena\/'\]/);
+  assert.match(fetchSection, /'\/bolagsstyrning\/', '\/kontakt\/'/);
+  assert.doesNotMatch(fetchSection, /'\/(?:nyheter|press)\/'/);
+  assert.match(game, /const editorialPage = \/\^\\\/\(\?:nyheter\|press\)\(\?:\\\/\|\$\)\//);
+  assert.match(game, /editorialPage\s*\? \['body > header', 'body > footer'\]/);
   assert.match(game, /if \(url\.origin !== location\.origin\) return null/);
   assert.match(game, /panicDurationMs = websiteStartMs \+ websiteMs \+ 650/);
   assert.match(game, /text: minigameFailureWebsiteLine, ageMs: 0, durationMs: websiteMs/);
