@@ -339,7 +339,9 @@
     // Ett enda kvarvarande lager även under tusentals störningar.
     // Intrångslagret kan döljas när fasen är klar; efterbilden ligger på sidan.
     const residueParent = quarantine ? parent : document.body;
-    if (!residue || residue.parentElement !== residueParent) {
+    // Utanför minispelet ska varje ny puls fortfarande få en egen efterbild.
+    // Under paniken återanvänds den för att inte bygga upp mobila GPU-lager.
+    if (!inPanic || !residue || residue.parentElement !== residueParent) {
       residue?.remove();
       residue = document.createElement('span');
       residue.className = 'weab-analog-residue' +
