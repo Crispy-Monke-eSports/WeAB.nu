@@ -25,7 +25,7 @@ test('en järndörr följs av rak cellgång och en sidobro till det vita rummet'
   assert.match(game, /x >= 17 && x <= 19 && y >= 2 && y <= 8/);
   assert.match(game, /\.save-game__frame \{ position: absolute; inset: 0; width: 100%; height: 100%; \}/);
   assert.match(game, /save-game__sr-only/);
-  assert.match(game, /spiritVoice\[text\]\?\.durationMs/);
+  assert.match(game, /spiritVoice\['RÄDDA DOM, RÄDDA DOM'\]/);
   assert.match(game, /document\.addEventListener\('visibilitychange'/);
   assert.match(game, /@media \(prefers-reduced-motion: reduce\)/);
 });
@@ -69,8 +69,12 @@ test('slutsekvensen sätter tyst cookieläge och återvänder hem', () => {
 test('själens röst och brus fortsätter, med en andra låg röst nära bron', () => {
   const game = source('src/components/ResistanceMinigame.astro');
   const radio = source('src/components/SpiritTransmission.astro');
-  assert.match(game, /function repeatVoice\(\)/);
-  assert.match(game, /window\.dispatchEvent\(new Event\('weab:voice-stop'\)\);\s*window\.dispatchEvent\(new CustomEvent\('weab:voice-speak'/);
+  assert.match(game, /function startMainVoice\(\)/);
+  assert.match(game, /mainVoice = new Audio\('\/audio\/spirit\/' \+ entry\.file\)/);
+  assert.match(game, /mainVoice\.loop = true/);
+  assert.match(game, /function unlockAudio\(\)/);
+  assert.match(game, /audioUnlocked = true/);
+  assert.match(game, /weab:spirit-sustain/);
   assert.match(game, /spiritSignal\(true\)/);
   assert.match(game, /detail: \{ active, strength: 'harsh' \}/);
   assert.match(game, /backgroundVoice\.loop = true/);
@@ -87,12 +91,27 @@ test('själens röst och brus fortsätter, med en andra låg röst nära bron', 
   assert.match(game, /function proximityToWhiteRoom\(\): number/);
   assert.match(game, /\.35 \+ Math\.max\(0, \(12 - y\) \/ 10\) \* \.45/);
   assert.match(game, /const grain = \(Math\.random\(\) - \.5\) \* \(18 \+ proximity \* 15\)/);
-  assert.match(game, /heading\.style\.setProperty\('--text-signal'/);
-  assert.match(game, /canvas!\.getBoundingClientRect\(\)\.height \/ canvas!\.height/);
+  assert.match(game, /modal\.style\.setProperty\('--text-signal', String\(signal\)\)/);
+  assert.match(game, /const rasterRow = canvas\.getBoundingClientRect\(\)\.height \/ canvas\.height/);
   assert.match(game, /--text-raster-offset/);
   assert.match(game, /mask-size: 100% calc\(var\(--raster-row\) \* 5\)/);
   assert.match(game, /--text-drift/);
   assert.match(game, /window\.clearTimeout\(analogTimer\)/);
+  assert.match(game, /save-game__glyph/);
+  assert.match(game, /button\.style\.setProperty\('--text-raster-offset', offsetFor\(button\)\)/);
+  assert.match(game, /\.save-game__glyph \{[\s\S]*translateX\(var\(--text-drift, 0px\)\)/);
+});
+
+test('korridoren hålls som gång av svarta vägglinjer med schackgolv ända ut', () => {
+  const game = source('src/components/ResistanceMinigame.astro');
+  assert.match(game, /if \(nextX >= 5 && nextX <= 15 && nextY >= 3 && nextY <= 32\)/);
+  assert.match(game, /stage === 'corridor' && \(col === 4 \|\| col === 16\)/);
+  assert.match(game, /pixel\(px, py, 16, 16, '#050607'\)/);
+  assert.match(game, /pixel\(0, doorY, 336, 16, '#163a3b'\)/);
+  assert.match(game, /for \(let col = 0; col <= 20; col\+\+\)/);
+  assert.match(game, /if \(col !== 10\) stone\(col \* 16, doorY, col, 2, true\)/);
+  assert.match(game, /pixel\(4 \* 16 \+ 6, py \+ 4, 3, 8, '#595540'\)/);
+  assert.match(game, /pixel\(16 \* 16 \+ 6, py \+ 4, 3, 8, '#595540'\)/);
 });
 
 test('testadressen startar även i produktion, trots cookie och utan slumpad ARG-kö', () => {

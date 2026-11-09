@@ -10,8 +10,8 @@
     </div>
     <p class="save-game__sr-only" data-save-instruction aria-live="polite">Gå mot järndörren. Piltangenter eller WASD.</p>
     <div class="save-game__controls" aria-label="Rörelsekontroller">
-      <button type="button" data-step="up" aria-label="Gå upp">↑</button>
-      <div><button type="button" data-step="left" aria-label="Gå vänster">←</button><button type="button" data-step="down" aria-label="Gå ned">↓</button><button type="button" data-step="right" aria-label="Gå höger">→</button></div>
+      <button type="button" data-step="up" aria-label="Gå upp"><span class="save-game__glyph" aria-hidden="true">↑</span></button>
+      <div><button type="button" data-step="left" aria-label="Gå vänster"><span class="save-game__glyph" aria-hidden="true">←</span></button><button type="button" data-step="down" aria-label="Gå ned"><span class="save-game__glyph" aria-hidden="true">↓</span></button><button type="button" data-step="right" aria-label="Gå höger"><span class="save-game__glyph" aria-hidden="true">→</span></button></div>
     </div>
   </div>
   <div class="save-game__fragments" data-save-fragments aria-hidden="true"></div>
@@ -46,9 +46,10 @@
   let previousInert: boolean[] = [];
   let lastMove = 0;
   let moveTimer = 0;
-  let voiceTimer = 0;
   let fragmentTimer = 0;
+  let mainVoice: HTMLAudioElement | null = null;
   let backgroundVoice: HTMLAudioElement | null = null;
+  let audioUnlocked = false;
   let trackingTimer = 0;
   let trackingFadeTimer = 0;
   let analogTimer = 0;
@@ -124,17 +125,34 @@
     }));
   }
 
-  function repeatVoice(): void {
-    if (!active || ending || document.hidden) return;
-    const text = 'RÄDDA DOM, RÄDDA DOM';
-    const durationMs = spiritVoice[text]?.durationMs ?? 2_000;
-    // Ljudmotorn deduplicerar identiska röstförfrågningar tills den stoppas.
-    // Ett riktigt loopvarv måste därför först frigöra föregående uppläsning.
-    window.dispatchEvent(new Event('weab:voice-stop'));
-    window.dispatchEvent(new CustomEvent('weab:voice-speak', {
-      detail: { text, ageMs: 0, durationMs, profile: 'desperate' }
-    }));
-    voiceTimer = window.setTimeout(repeatVoice, durationMs + 300);
+  function startMainVoice(): void {
+    if (mainVoice || document.hidden) return;
+    const entry = spiritVoice['RÄDDA DOM, RÄDDA DOM'];
+    if (!entry?.file) return;
+    mainVoice = new Audio('/audio/spirit/' + entry.file);
+    mainVoice.loop = true;
+    mainVoice.volume = 1;
+    void mainVoice.play().catch(() => { /* iOS: låses upp vid första gesten. */ });
+  }
+
+  function stopMainVoice(): void {
+    mainVoice?.pause();
+    if (mainVoice) mainVoice.currentTime = 0;
+    mainVoice = null;
+  }
+
+  function unlockAudio(): void {
+    if (document.hidden) return;
+    // iOS kräver en användargest innan ljud får starta. Första rörelsen låser
+    // upp röstloopen och återväcker det befintliga radiobruset.
+    if (mainVoice) void mainVoice.play().catch(() => {});
+    if (backgroundVoice) void backgroundVoice.play().catch(() => {});
+    if (!audioUnlocked) {
+      audioUnlocked = true;
+      window.dispatchEvent(new CustomEvent('weab:spirit-sustain', {
+        detail: { strength: 'harsh', durationMs: 1_500 }
+      }));
+    }
   }
 
   function startBackgroundVoice(): void {
@@ -220,7 +238,7 @@
       for (let col = 0; col < 21; col++) {
         const worldY = row + cameraY;
         const floor = stage === 'corridor'
-          ? col >= 7 && col <= 13 && worldY >= 3 && worldY <= 32
+          ? worldY >= 3 && worldY <= 32
           : roomFloor(col, row);
         const px = col * 16;
         const py = row * 16;
@@ -228,6 +246,11 @@
           const white = stage === 'rooms' && col >= 17 && col <= 19 && row >= 2 && row <= 8;
           if (white) pixel(px, py, 16, 16, '#d7d7cd');
           else stone(px, py, col, worldY);
+          // Svarta vägglinjer i första korridoren, medan schackgolvet fortsätter
+          // ut mot kanterna. Så läses den som en gång, inte som en enda stor sal.
+          if (stage === 'corridor' && (col === 4 || col === 16)) {
+            pixel(px, py, 16, 16, '#050607');
+          }
         } else if (stage === 'rooms' && col >= 1 && col <= 19 && row >= 1 && row <= 13) {
           const teal = (col >= 13 && col <= 16 && row === 3) ||
             ((col === 7 || col === 13) && row >= 3 && row <= 10) ||
@@ -243,8 +266,8 @@
     if (stage === 'corridor') {
       const doorY = (2 - cameraY) * 16;
       if (doorY > -16 && doorY < 240) {
-        pixel(7 * 16, doorY, 7 * 16, 16, '#163a3b');
-        for (let col = 7; col <= 13; col++) {
+        pixel(0, doorY, 336, 16, '#163a3b');
+        for (let col = 0; col <= 20; col++) {
           if (col !== 10) stone(col * 16, doorY, col, 2, true);
         }
         if (doorOpen) {
@@ -256,8 +279,8 @@
       for (let row = 3; row < 33; row += 5) {
         const py = (row - cameraY) * 16;
         if (py < 0 || py > 240) continue;
-        pixel(6 * 16 + 8, py + 4, 3, 8, '#595540');
-        pixel(14 * 16 + 5, py + 4, 3, 8, '#595540');
+        pixel(4 * 16 + 6, py + 4, 3, 8, '#595540');
+        pixel(16 * 16 + 6, py + 4, 3, 8, '#595540');
       }
     } else {
       // Två celler på vardera sidan av den raka gången, direkt efter dörren.
@@ -337,18 +360,25 @@
     draw();
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const proximity = proximityToWhiteRoom();
-    if (heading) {
-      // Textens mask använder CANVASENS radavstånd och fas, inte egna CSS-pixlar.
-      // Båda synliga textstrecken hamnar därmed i samma två färgrader som rummet.
-      const rasterRow = canvas!.getBoundingClientRect().height / canvas!.height;
+    if (heading && canvas && modal) {
+      // Masken använder CANVASENS radavstånd och fas, inte egna CSS-pixlar.
+      // Rubrik och pilar hamnar därmed i samma två färgrader som rummet.
+      // Signalen delas över hela skärmen; varje element får bara sin egen fas.
+      const rasterRow = canvas.getBoundingClientRect().height / canvas.height;
       const bandHeight = rasterRow * 5;
-      const headingTop = heading.getBoundingClientRect().top - canvas!.getBoundingClientRect().top;
-      heading.style.setProperty('--raster-row', `${rasterRow}px`);
-      heading.style.setProperty('--text-raster-offset', `${-(headingTop % bandHeight)}px`);
-      heading.style.setProperty('--text-signal', String(.84 - proximity * .07 +
-        Math.random() * (.16 + proximity * .08)));
-      heading.style.setProperty('--text-drift', reduced || Math.random() > .18 + proximity * .27
-        ? '0px' : `${Math.random() < .5 ? -1 : 1}px`);
+      const canvasTop = canvas.getBoundingClientRect().top;
+      const signal = .84 - proximity * .07 + Math.random() * (.16 + proximity * .08);
+      const drift = reduced || Math.random() > .18 + proximity * .27
+        ? '0px' : `${Math.random() < .5 ? -1 : 1}px`;
+      modal.style.setProperty('--raster-row', `${rasterRow}px`);
+      modal.style.setProperty('--text-signal', String(signal));
+      modal.style.setProperty('--text-drift', drift);
+      const offsetFor = (element: HTMLElement) =>
+        `${-((element.getBoundingClientRect().top - canvasTop) % bandHeight)}px`;
+      heading.style.setProperty('--text-raster-offset', offsetFor(heading));
+      modal.querySelectorAll<HTMLElement>('.save-game button').forEach(button => {
+        button.style.setProperty('--text-raster-offset', offsetFor(button));
+      });
     }
     analogTimer = window.setTimeout(renderSignal,
       (reduced ? 380 : 115 - proximity * 25) +
@@ -358,7 +388,7 @@
   function endGame(): void {
     if (ending || !modal) return;
     ending = true;
-    window.clearTimeout(voiceTimer);
+    stopMainVoice();
     stopBackgroundVoice();
     window.dispatchEvent(new Event('weab:voice-stop'));
     modal.classList.add('save-game--panic');
@@ -484,7 +514,7 @@
     if (stage === 'corridor') {
       const nextX = x + dx;
       const nextY = y + dy;
-      if (nextX >= 7 && nextX <= 13 && nextY >= 3 && nextY <= 32) {
+      if (nextX >= 5 && nextX <= 15 && nextY >= 3 && nextY <= 32) {
         x = nextX;
         y = nextY;
       } else if (nextY === 2 && x === 10 && dx === 0) {
@@ -510,6 +540,7 @@
 
   function keydown(event: KeyboardEvent): void {
     if (!active || !keys[event.key]) return;
+    unlockAudio();
     event.preventDefault();
     if (event.repeat && performance.now() - lastMove < 85) return;
     lastMove = performance.now();
@@ -530,7 +561,7 @@
     spiritSignal(true);
     void prepareWebsitePieces();
     trackSignal();
-    repeatVoice();
+    startMainVoice();
   });
   // Uttrycklig testadress även i produktion: samma spel och utgång utan väntan.
   if (new URLSearchParams(location.search).get('previewMinigame') === '1') {
@@ -541,18 +572,16 @@
   document.addEventListener('visibilitychange', () => {
     if (!active || ending) return;
     if (document.hidden) {
-      window.clearTimeout(voiceTimer);
       window.clearTimeout(trackingTimer);
       window.clearTimeout(trackingFadeTimer);
       window.clearTimeout(analogTimer);
       if (tracking) tracking.style.opacity = '0';
-      window.dispatchEvent(new Event('weab:voice-stop'));
+      mainVoice?.pause();
       backgroundVoice?.pause();
     } else {
       renderSignal();
       trackSignal();
-      repeatVoice();
-      if (backgroundVoice) void backgroundVoice.play().catch(() => {});
+      unlockAudio();
     }
   });
   document.addEventListener('keydown', keydown);
@@ -563,6 +592,7 @@
     button.addEventListener('pointerdown', event => {
       event.preventDefault();
       button.setPointerCapture(event.pointerId);
+      unlockAudio();
       step(...direction);
       stop();
       moveTimer = window.setInterval(() => step(...direction), 105);
@@ -577,12 +607,12 @@
   // Sidan lämnas efter avslut; återställ vid historiknavigering i samma dokument.
   window.addEventListener('pagehide', () => {
     window.clearInterval(moveTimer);
-    window.clearTimeout(voiceTimer);
     window.clearTimeout(fragmentTimer);
     window.clearTimeout(trackingTimer);
     window.clearTimeout(trackingFadeTimer);
     window.clearTimeout(analogTimer);
     window.clearTimeout(panicTimer);
+    stopMainVoice();
     stopBackgroundVoice();
     spiritSignal(false);
     window.dispatchEvent(new Event('weab:voice-stop'));
@@ -732,6 +762,31 @@
     font: 24px/1 ui-monospace, monospace;
     touch-action: none;
     cursor: pointer;
+    /* Samma bildrörsrader som spelrutan och rubriken. Mask och ljusstyrka
+       påverkar bara renderingen, inte knappens klick-/pekyta. */
+    filter: brightness(var(--text-signal, 1));
+    -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0 var(--raster-row),
+      #000 var(--raster-row) calc(var(--raster-row) * 2),
+      transparent calc(var(--raster-row) * 2) calc(var(--raster-row) * 3),
+      #000 calc(var(--raster-row) * 3) calc(var(--raster-row) * 4),
+      transparent calc(var(--raster-row) * 4) 100%);
+    mask-image: linear-gradient(to bottom,
+      transparent 0 var(--raster-row),
+      #000 var(--raster-row) calc(var(--raster-row) * 2),
+      transparent calc(var(--raster-row) * 2) calc(var(--raster-row) * 3),
+      #000 calc(var(--raster-row) * 3) calc(var(--raster-row) * 4),
+      transparent calc(var(--raster-row) * 4) 100%);
+    -webkit-mask-size: 100% calc(var(--raster-row) * 5);
+    mask-size: 100% calc(var(--raster-row) * 5);
+    -webkit-mask-position: 0 var(--text-raster-offset, 0px);
+    mask-position: 0 var(--text-raster-offset, 0px);
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
+  }
+  .save-game__glyph {
+    display: inline-block;
+    transform: translateX(var(--text-drift, 0px));
   }
   .save-game button:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
   .save-game button:active { background: #444159; }
