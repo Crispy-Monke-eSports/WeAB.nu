@@ -204,6 +204,15 @@ test('återställningsadressen börjar med RÄDDA DOM och skriver över varje ti
   assert.match(layout, /root\.classList\.toggle\('weab-save-call', !playing\)/);
 });
 
+test('previewFullscreen visar helskärmsfasen direkt utan slumpkö eller utvecklarspärr', () => {
+  const controller = source('src/components/ResistanceInterference.astro');
+  assert.match(controller, /const fullscreenPreview = params\.get\('previewFullscreen'\) === '1'/);
+  assert.match(controller, /\|\| fullscreenPreview\)/);
+  assert.match(controller, /if \(fullscreenPreview\) \{/);
+  assert.match(controller, /window\.setTimeout\(\(\) => runFullscreen\(\), 1_000\)/);
+  assert.doesNotMatch(controller, /import\.meta\.env\.DEV && params\.get\('previewFullscreen'\)/);
+});
+
 test('RESULTAT.txt är förgenererad med Base64 i åttateckensbitar mellan verkliga WeLiveLaughLove-meningar', () => {
   const lines = source('public/RESULTAT.txt').split('\n').filter(Boolean);
   const companyPage = source('src/data/companies.ts') + source('src/data/companyEditorial.ts') +

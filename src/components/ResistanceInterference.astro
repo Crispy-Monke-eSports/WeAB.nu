@@ -64,6 +64,7 @@
     const morsePreview = import.meta.env.DEV && params.get('previewMorse') === '1';
     const minigamePreview = params.get('previewMinigame') === '1' ||
       params.get('█̶̸') === '1';
+    const fullscreenPreview = params.get('previewFullscreen') === '1';
     const previousRaw = storageRead(sessionStorage, resistanceSignal.sessionKey);
     let previous: unknown = null;
     try { previous = previousRaw ? JSON.parse(previousRaw) : null; } catch { /* Nollställ korrupt sessionsdata. */ }
@@ -73,7 +74,7 @@
     // Fristående 404-besök startar inte ett nytt intrång. På koordinat-404
     // fortsätter däremot schemat efter en tidigare omdirigering.
     const is404 = document.querySelector('.not-found') !== null;
-    if ((!is404 || currentSchedule || preview) && !morsePreview && !minigamePreview) {
+    if ((!is404 || currentSchedule || preview || fullscreenPreview) && !morsePreview && !minigamePreview) {
       let schedule: SignalSchedule = currentSchedule ||
         createSignalSchedule(Math.random, targetFromCookie);
       if (preview) schedule = { ...createSignalSchedule(Math.random, schedule.target), nextAtMs: 1_000 };
@@ -270,9 +271,14 @@
         }
       }
 
-      saveSchedule();
-      let previousTick = performance.now();
-      const intervalId = window.setInterval(() => {
+      let intervalId = 0;
+      if (fullscreenPreview) {
+        // Testlänk: visa helskärmsfasen direkt, utan slumpkö eller intervall.
+        window.setTimeout(() => runFullscreen(), 1_000);
+      } else {
+        saveSchedule();
+        let previousTick = performance.now();
+        intervalId = window.setInterval(() => {
         const now = performance.now();
         const elapsed = Math.max(0, Math.min(now - previousTick, 1_200));
         previousTick = now;
@@ -306,7 +312,8 @@
         } else {
           saveSchedule();
         }
-      }, 500);
+        }, 500);
+      }
     }
   }
 </script>
