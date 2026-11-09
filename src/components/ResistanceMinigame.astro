@@ -588,6 +588,7 @@
           slice.inert = true;
           fragments.appendChild(slice);
         }
+        slice.classList.toggle('save-game__fragment--image', source.kind === 'image');
         const copy = source.kind === 'image'
           ? document.createElement('img') : document.createElement('p');
         if (source.kind === 'image') {
@@ -992,6 +993,20 @@
     overflow: hidden;
     pointer-events: none;
   }
+  .save-game--panic .save-game__fragments::after {
+    /* Ett enda skärmfast raster över alla läckor, inte ett filter/lager per bild.
+       Bilderna förblir igenkännbara medan texten hör till samma videosignal. */
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom,
+      transparent 0 calc(var(--raster-row, 3px) * 2),
+      rgb(3 9 17 / .28) calc(var(--raster-row, 3px) * 2) calc(var(--raster-row, 3px) * 3),
+      transparent calc(var(--raster-row, 3px) * 3) calc(var(--raster-row, 3px) * 5));
+    opacity: .7;
+  }
   :global(.save-game__fragment) {
     position: absolute;
     overflow: hidden;
@@ -1006,27 +1021,41 @@
     min-width: min(600px, 100vw);
     margin: 0 !important;
   }
+  :global(.save-game__fragment--image) {
+    /* Fotot hör till samma raster men bevarar detaljerna i anläggningen. */
+    background: #090910;
+    filter: contrast(1.15) saturate(.85);
+  }
   :global(.save-game__fragment img) {
     width: min(600px, 100vw);
     max-width: min(600px, 100vw);
     max-height: 60vh;
     min-width: 160px;
     object-fit: cover;
+    image-rendering: pixelated;
   }
   :global(.save-game__fragment p) {
     max-height: 11em;
     padding: 8px;
     overflow: hidden;
     overflow-wrap: anywhere;
-    font: 700 clamp(13px, 2.4vw, 23px)/1.5 system-ui, sans-serif;
+    font: 400 clamp(10px, 1.35vw, 16px)/1.75 'Press Start 2P', ui-monospace, monospace;
+    color: #e3e3dd;
+    text-align: left;
+    text-shadow: 1px 0 #6d3c49, -1px 0 #344158;
   }
   @media (max-width: 760px), (pointer: coarse) {
-    :global(.save-game__fragment) {
+    :global(.save-game__fragment),
+    :global(.save-game__fragment--image) {
       /* Behåll bild/text, klipp och skakningar, men undvik dyr GPU-blandning
          och kontrastfilter på varje separat transparent mobillager. */
       mix-blend-mode: normal;
       filter: none;
       contain: paint;
+    }
+    :global(.save-game__fragment p) {
+      font-size: 10px;
+      line-height: 1.8;
     }
   }
   :global(.save-game__fragment--suppressed) {

@@ -125,6 +125,17 @@ test('själens röst och brus fortsätter, med en andra låg röst nära bron', 
   assert.match(game, /\.save-game__glyph \{[\s\S]*translateX\(var\(--text-drift, 0px\)\)/);
 });
 
+test('panikläckor använder spelets Atari-typografi och ett gemensamt mobilvänligt raster', () => {
+  const game = source('src/components/ResistanceMinigame.astro');
+  assert.match(game, /slice\.classList\.toggle\('save-game__fragment--image', source\.kind === 'image'\)/);
+  assert.match(game, /\.save-game--panic \.save-game__fragments::after \{/);
+  assert.match(game, /font: 400 clamp\(10px, 1\.35vw, 16px\)\/1\.75 'Press Start 2P'/);
+  assert.match(game, /:global\(\.save-game__fragment img\) \{[\s\S]*?image-rendering: pixelated/);
+  assert.match(game, /:global\(\.save-game__fragment--image\) \{[\s\S]*?filter: contrast\(1\.15\) saturate\(\.85\)/);
+  assert.match(game, /@media \(max-width: 760px\), \(pointer: coarse\) \{[\s\S]*?:global\(\.save-game__fragment--image\) \{[\s\S]*?filter: none/);
+  assert.doesNotMatch(game, /createElement\('canvas'\)/);
+});
+
 test('korridoren hålls som gång av svarta vägglinjer med schackgolv ända ut', () => {
   const game = source('src/components/ResistanceMinigame.astro');
   assert.match(game, /if \(nextX >= 5 && nextX <= 15 && nextY >= 3 && nextY <= 32\)/);
