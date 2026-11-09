@@ -215,6 +215,8 @@ test('inbjudningscookien försvinner endast efter klarat spel och avslutad WeAB-
   assert.match(layout, /if \(invited\) \{/);
   assert.match(layout, /classList\.toggle\('weab-save-call', !playing\)/);
   assert.match(game, /!hasMinigameInvitationCookie\(document\.cookie\)/);
+  assert.match(game, /window\.addEventListener\('pageshow', event => \{/);
+  assert.match(game, /event\.persisted && \(active \|\| hasMinigameInvitationCookie\(document\.cookie\)\)/);
   assert.match(finalStep, /window\.setTimeout\(\(\) => \{/);
   assert.match(finalStep, /document\.cookie = clearMinigameInvitationCookie/);
   assert.match(finalStep, /document\.cookie = createQuietCookie/);
