@@ -144,6 +144,14 @@
     if (!invitationActive || !modal || !ctx) return;
     invitationActive = false;
     window.clearTimeout(invitationBurstTimer);
+    // Lämna inbjudningens fortlöpande störningar när spelets egen, lättare
+    // signalmotor tar över. Annars fortsätter en extra oändlig glitch-loop.
+    window.dispatchEvent(new CustomEvent('weab:spirit-typing', {
+      detail: { active: false, strength: 'harsh' }
+    }));
+    window.dispatchEvent(new CustomEvent('weab:spirit-presence', {
+      detail: { active: false }
+    }));
     // Cookien behålls även i spelet: omladdning ska återgå till RÄDDA DOM.
     document.documentElement.classList.remove('weab-save-call', 'weab-save-call-ready');
     window.dispatchEvent(new Event('weab:save-game-start'));

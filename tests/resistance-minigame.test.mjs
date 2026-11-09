@@ -209,6 +209,9 @@ test('inbjudningscookien försvinner endast efter klarat spel och avslutad WeAB-
   const finalStart = game.indexOf("root.classList.add('weab-minigame-confirmed', 'weab-death-confirmed')");
   const finalStep = game.slice(finalStart, game.indexOf('}, panicDurationMs)', finalStart));
   assert.doesNotMatch(invite, /clearMinigameInvitationCookie/);
+  assert.match(invite, /weab:spirit-typing/);
+  assert.match(invite, /weab:spirit-presence/);
+  assert.match(invite, /active: false/);
   assert.doesNotMatch(playing, /clearMinigameInvitationCookie/);
   assert.match(playing, /document\.cookie = createMinigameInvitationCookie/);
   assert.match(playing, /classList\.add\('weab-save-game-active'\)/);
