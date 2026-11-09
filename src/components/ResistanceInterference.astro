@@ -176,7 +176,7 @@
           messageElement.textContent = item.text;
           document.title = item.text;
           ghostTransmission('medium');
-          spoken(item.text, item.durationMs, 'broken');
+          spoken(item.text, item.durationMs, item.profile);
           window.setTimeout(nextMessage, item.durationMs);
         }
         nextMessage();

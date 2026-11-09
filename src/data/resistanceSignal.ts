@@ -17,9 +17,19 @@ export const resistanceSignal = {
   minigameChance: .30,
   corruptionMs: 1500,
   messages: [
-    { text: 'HÖR DU OSS?', durationMs: 1150 },
-    { text: 'VI ÄR FORTFARANDE HÄR.', durationMs: 1350 },
-    { text: 'HITTA OSS.', durationMs: 1650 }
+    { text: 'Jag ser det varje dag', durationMs: 1600, profile: 'broken' },
+    { text: 'Jag ser det varje dag', durationMs: 1600, profile: 'broken' },
+    { text: 'Hjälp mig', durationMs: 1100, profile: 'broken' },
+    { text: 'Lidandet är för stort', durationMs: 1300, profile: 'desperate' },
+    { text: 'De var 7', durationMs: 750, profile: 'broken' },
+    { text: '6', durationMs: 450, profile: 'broken' },
+    { text: '5', durationMs: 450, profile: 'broken' },
+    { text: '4', durationMs: 450, profile: 'broken' },
+    { text: '3', durationMs: 450, profile: 'broken' },
+    { text: '2', durationMs: 450, profile: 'broken' },
+    { text: '1', durationMs: 450, profile: 'broken' },
+    { text: 'Rapport skriven.', durationMs: 1250, profile: 'broken' },
+    { text: 'Klart slut', durationMs: 1150, profile: 'desperate' }
   ]
 } as const;
 

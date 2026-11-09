@@ -90,7 +90,7 @@ test('alla förgenererade svenska orts-, läns- och nätledtrådar har en inspel
 
 test('färdiga Ogg-filer har kontinuerligt hörbart brus i pauser men inga farliga toppar',
   { skip: spawnSync('ffmpeg', ['-version']).status !== 0 && 'FFmpeg saknas' }, () => {
-    for (const text of ['HÖR DU OSS?', 'VI ÄR FORTFARANDE HÄR.', cameraEncounter.denied]) {
+    for (const text of ['HÖR DU OSS?', 'Rapport skriven.', cameraEncounter.denied]) {
       const entry = spiritVoice[text];
       const decoded = spawnSync('ffmpeg', ['-v', 'error', '-i',
         new URL('../public/audio/spirit/' + entry.file, import.meta.url).pathname,

@@ -114,7 +114,7 @@ test('alla vanliga effekter behålls och koordinat-404 fortsätter vara tillgän
   assert.equal(resistanceSignal.targetPath, '/31-66--351/');
   assert.equal(phaseDurationMs('title'), 950);
   assert.equal(phaseDurationMs('disobey'), 1500);
-  assert.equal(phaseDurationMs('fullscreen'), 4150);
+  assert.equal(phaseDurationMs('fullscreen'), 11450);
   assert.equal(phaseDurationMs('eyes'), 3300);
   assert.equal(phaseDurationMs('whisper'), 3000);
   assert.equal(phaseDurationMs('redirect'), 0);
